@@ -36,12 +36,12 @@ RFEP: els pilots 35529/35537 i la competició 3575. FECAPA: pilot 152027 i compe
 
 Gols i assistències són valors publicats per acta, sense atribuir automàticament gols administratius com a confirmats. Incidències oficials resten independents dels operadors. No s'apliquen sancions automàtiques ni s'acumulen entre federacions sense identitat/normativa verificades. La plantilla per a partits futurs pot no estar publicada. Colors d'equipació són provisionals.
 
-L'avís legal RFEP https://fep.es/aviso-legal restringeix reutilització/explotació i no dona llicència oberta; conté una referència aliena que cal aclarir. No s'ha verificat el permís general FECAPA. Consulta programada de sis hores preparada, **inactiva** fins a aclarir autorització. Importació iniciada per l'operador: memòria cau de sis hores; no extraccions massives. No es publiquen les plantilles en obert.
+L'avís legal RFEP https://fep.es/aviso-legal restringeix reutilització/explotació i no dona llicència oberta; conté una referència aliena que cal aclarir. No s'ha verificat el permís general FECAPA. SQL de consulta programada de sis hores preparat al repositori, **sense cap tasca activa desplegada** fins a aclarir autorització. Importació iniciada per l'operador: memòria cau de sis hores; no extraccions massives. No es publiquen les plantilles en obert.
 
 ## Validació
 
 Importacions reals des d'Edge Function verificades per registre d'execució per als tres pilots. Comprovació d'identificadors, nombre de jugadors, porters, escuts i marcador oficial. Proves automatitzades del lector, correccions, deduplicació, marcador i errors. Comprovacions RLS i persistència en transaccions de prova que es reverteixen.
 
-La prova visual autenticada amb dos dispositius no s'ha pogut completar: el navegador arriba a la pantalla de login. La persistència/revisió es valida al servidor i el recompte amb proves; no equival a afirmar que el flux visual complet de dos dispositius hagi passat.
+Prova visual autenticada: plantilles i escuts oficials carregats al Mode Avançat; confirmació de cinc titulars per equip; gol de prova conservat en reobrir el document i visible en una segona pestanya autenticada; Gol − rebut en directe a la segona pestanya. El marcador final es conserva com abans de la prova. L'historial conserva la confirmació de titulars i el parell Gol + / Gol − de comprovació. S'ha corregit un bloqueig dels controls després de la càrrega asíncrona i s'ha afegit una prova de regressió. Dues pestanyes del mateix navegador validen dues sessions de Realtime, però la prova amb dos dispositius físics encara és pendent.
 
 Advisors: la funció d'accés existent `pilot_claim_eduard_access` és SECURITY DEFINER; la protecció contra contrasenyes filtrades està desactivada i una taula prèvia d'importació no té polítiques. `pg_net` genera avís de localització a public i no és relocatable. No s'han alterat aquestes configuracions sensibles.
