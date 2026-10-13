@@ -1,0 +1,4 @@
+node_modules/
+tests/parser.generated.mjs
+*.local
+.env*
