@@ -35,15 +35,18 @@ s.running=false;s.timeoutRunning=false;last=performance.now();}
  async function flush(){if(!uid||loading)return;const active=match;for(const row of [...pending]){const r=await db.from('pilot_events').insert(row);if(r.error&&r.error.code!=='23505'){status.textContent='Anotació pendent de desar: '+r.error.message;break;}if(active!==match)return;pending=pending.filter(x=>x.id!==row.id);preservePending();}await refreshEvents();}
  function rowFor(e){return {id:crypto.randomUUID(),match_id:match,user_id:uid,event_type:kinds[e.kind]||'note',team:['home','away'].includes(e.side)?e.side:'none',delta:e.kind==='gol_resta'?-1:1,match_second:Math.floor(e.sec),player_label:person(e.actor)?.name||null,details:e.kind,payload:{kind:e.kind,actor:e.actor,details:e.details,half:e.half}};}
  log=function(kind,side,actor,details={}){if(loading||!uid||(s.finished&&kind!=='partit_finalitzat'))return;if(role!=='operator'&&['gol','falta','blava','vermella','canvi','entrada','titulars_confirmats','clock'].includes(kind))return;originalLog(kind,side,actor,details);const e=s.events.at(-1),row=rowFor(e);e._remoteId=row.id;pending.push(row);preservePending();flush().catch(e=>status.textContent=e.message);};
- async function correctionEvent(index,replacement){const e=s.events[index];if(!e?._remoteId||role!=='operator')return;const row={...rowFor({kind:'correction',side:e.side,actor:e.actor,sec:s.sec,half:s.half,details:{previous:e}}),event_type:'correction',related_event_id:e._remoteId};const batch=[row];if(replacement)batch.push(rowFor(replacement));const result=await db.from('pilot_events').insert(batch);if(result.error){status.textContent=result.error.message;return;}await refreshEvents();
-  if(!replacement&&e.kind==='blava'){
+ async function correctionEvent(index,replacement){const e=s.events[index];if(!e?._remoteId||role!=='operator')return;const row={...rowFor({kind:'correction',side:e.side,actor:e.actor,sec:s.sec,half:s.half,details:{previous:e}}),event_type:'correction',related_event_id:e._remoteId};const batch=[row];
+  const linkedBlue=!replacement&&e.kind==='groga'?s.events.find(x=>x.kind==='blava'&&x.actor===e.actor&&x.details?.automatic&&x.details?.originYellowId===e._remoteId):null;
+  if(linkedBlue?._remoteId)batch.push({...rowFor({kind:'correction',side:linkedBlue.side,actor:linkedBlue.actor,sec:s.sec,half:s.half,details:{previous:linkedBlue}}),event_type:'correction',related_event_id:linkedBlue._remoteId});
+  if(replacement)batch.push(rowFor(replacement));const result=await db.from('pilot_events').insert(batch);if(result.error){status.textContent=result.error.message;return;}await refreshEvents();
+  if(!replacement&&(e.kind==='blava'||linkedBlue)){
    const p=person(e.actor);
    if(p&&'blueRemaining' in p){
     const stillActive=s.events.some(x=>x.kind==='blava'&&x.actor===p.id);
     if(!stillActive){
      p.blueRemaining=0;
      s.returnPending=s.returnPending.filter(id=>id!==p.id);
-     if(e.details?.wasOn===true&&!p.red&&s.players.filter(x=>x.side===p.side&&x.on).length<5)p.on=true;
+     if((e.details?.wasOn===true||linkedBlue?.details?.wasOn===true)&&!p.red&&s.players.filter(x=>x.side===p.side&&x.on).length<5)p.on=true;
     }
    }
    baseRender();
