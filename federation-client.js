@@ -25,7 +25,20 @@ s.running=false;s.timeoutRunning=false;last=performance.now();}
  async function flush(){if(!uid||loading)return;const active=match;for(const row of [...pending]){const r=await db.from('pilot_events').insert(row);if(r.error&&r.error.code!=='23505'){status.textContent='Anotació pendent de desar: '+r.error.message;break;}if(active!==match)return;pending=pending.filter(x=>x.id!==row.id);preservePending();}await refreshEvents();}
  function rowFor(e){return {id:crypto.randomUUID(),match_id:match,user_id:uid,event_type:kinds[e.kind]||'note',team:['home','away'].includes(e.side)?e.side:'none',delta:e.kind==='gol_resta'?-1:1,match_second:Math.floor(e.sec),player_label:person(e.actor)?.name||null,details:e.kind,payload:{kind:e.kind,actor:e.actor,details:e.details,half:e.half}};}
  log=function(kind,side,actor,details={}){if(loading||!uid||(s.finished&&kind!=='partit_finalitzat'))return;if(role!=='operator'&&['gol','falta','blava','vermella','canvi','entrada','titulars_confirmats','clock'].includes(kind))return;originalLog(kind,side,actor,details);const e=s.events.at(-1),row=rowFor(e);e._remoteId=row.id;pending.push(row);preservePending();flush().catch(e=>status.textContent=e.message);};
- async function correctionEvent(index,replacement){const e=s.events[index];if(!e?._remoteId||role!=='operator')return;const row={...rowFor({kind:'correction',side:e.side,actor:e.actor,sec:s.sec,half:s.half,details:{previous:e}}),event_type:'correction',related_event_id:e._remoteId};const batch=[row];if(replacement)batch.push(rowFor(replacement));const result=await db.from('pilot_events').insert(batch);if(result.error){status.textContent=result.error.message;return;}await refreshEvents();changed=true;saveState();}
+ async function correctionEvent(index,replacement){const e=s.events[index];if(!e?._remoteId||role!=='operator')return;const row={...rowFor({kind:'correction',side:e.side,actor:e.actor,sec:s.sec,half:s.half,details:{previous:e}}),event_type:'correction',related_event_id:e._remoteId};const batch=[row];if(replacement)batch.push(rowFor(replacement));const result=await db.from('pilot_events').insert(batch);if(result.error){status.textContent=result.error.message;return;}await refreshEvents();
+  if(!replacement&&e.kind==='blava'){
+   const p=person(e.actor);
+   if(p&&'blueRemaining' in p){
+    const stillActive=s.events.some(x=>x.kind==='blava'&&x.actor===p.id);
+    if(!stillActive){
+     p.blueRemaining=0;
+     s.returnPending=s.returnPending.filter(id=>id!==p.id);
+     if(e.details?.wasOn===true&&!p.red&&s.players.filter(x=>x.side===p.side&&x.on).length<5)p.on=true;
+    }
+   }
+   baseRender();
+  }
+  changed=true;saveState();}
  removeEvent=function(i){if(role!=='operator')return;if(confirm('Anul·lar aquesta anotació? La correcció quedarà desada.'))correctionEvent(i,null);};
  saveEventEdit=function(i,side,actor,details){const old=s.events[i];if(!old||s.finished)return;correctionEvent(i,{...old,side,actor,details:details||{...old.details,corregit:true}});};
  async function loadFederation(){const [a,b]=await Promise.all([db.from('federation_match_sources').select('*').eq('match_id',match).maybeSingle(),db.from('pilot_players').select('*').eq('match_id',match).eq('federation_active',true).order('dorsal')]);if(a.error||b.error)throw a.error||b.error;source=a.data;
