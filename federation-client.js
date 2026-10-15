@@ -52,6 +52,15 @@ s.running=false;s.timeoutRunning=false;last=performance.now();}
    baseRender();
   }
   changed=true;saveState();}
+ // In federation mode, decrementing a team foul must cancel the persisted event,
+ // not merely splice the local list (which refreshEvents would restore).
+ teamFoulMinus=function(side){
+  if(role!=='operator'||loading||s.finished||!s.startersConfirmed||$('profile').value!=='main')return;
+  const index=s.events.findLastIndex(e=>e.kind==='falta'&&e.side===side);
+  if(index<0)return;
+  if(!confirm('Anul·lar la darrera falta d’equip de '+sideName(side)+'? La correcció quedarà registrada.'))return;
+  correctionEvent(index,null);
+ };
  removeEvent=function(i){if(role!=='operator')return;if(confirm('Anul·lar aquesta anotació? La correcció quedarà desada.'))correctionEvent(i,null);};
  saveEventEdit=function(i,side,actor,details){const old=s.events[i];if(!old||s.finished)return;correctionEvent(i,{...old,side,actor,details:details||{...old.details,corregit:true}});};
  async function loadFederation(){const [a,b]=await Promise.all([db.from('federation_match_sources').select('*').eq('match_id',match).maybeSingle(),db.from('pilot_players').select('*').eq('match_id',match).eq('federation_active',true).order('dorsal')]);if(a.error||b.error)throw a.error||b.error;source=a.data;
