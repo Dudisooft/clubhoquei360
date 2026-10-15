@@ -1,0 +1,112 @@
+[
+  {
+    "federation": "FECAPA",
+    "id": "4858",
+    "name": "FRIT RAVICH LLIGA CATALANA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4774",
+    "name": "NACIONAL CATALANA MASCULINA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4779",
+    "name": "SEGONA CATALANA MASCULINA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4781",
+    "name": "TERCERA CATALANA MASCULINA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4782",
+    "name": "JÚNIOR OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4784",
+    "name": "JUVENIL OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4785",
+    "name": "JUVENIL PLATA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4786",
+    "name": "INFANTIL OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4787",
+    "name": "INFANTIL PLATA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4789",
+    "name": "ALEVÍ OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4790",
+    "name": "ALEVÍ PLATA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4802",
+    "name": "FEM 15 OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4804",
+    "name": "FEM 13 OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4806",
+    "name": "FEM 11 OR"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4810",
+    "name": "BENJAMÍ OR BARCELONA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4811",
+    "name": "BENJAMÍ PLATA BARCELONA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4813",
+    "name": "PREBENJAMI OR BARCELONA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4814",
+    "name": "PREBENJAMI PLATA BARCELONA"
+  },
+  {
+    "federation": "FECAPA",
+    "id": "4816",
+    "name": "PREBENJAMI INICIACIO BARCELONA"
+  },
+  {
+    "federation": "RFEP",
+    "id": "3592",
+    "name": "SUPERCOPA DE ESPAÑA MASCULINA"
+  },
+  {
+    "federation": "RFEP",
+    "id": "3568",
+    "name": "OK LIGA MASCULINA"
+  },
+  {
+    "federation": "RFEP",
+    "id": "3575",
+    "name": "OK LIGA PLATA SUR"
+  }
+]

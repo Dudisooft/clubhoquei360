@@ -4,3 +4,5 @@ tests/parser.generated.mjs
 .env*
 
 tests/fem15-generated/
+
+tests/ihc-generated/
