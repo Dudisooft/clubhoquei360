@@ -1,5 +1,6 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.95.3';
 import { parseMatch,parseCalendar,parseStandings } from './parser.ts';
+import { syncFem15 } from './fem15.ts';
 const cors={'Access-Control-Allow-Origin':'https://dudisooft.github.io','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'POST,OPTIONS'};
 const json=(data:any,status=200)=>new Response(JSON.stringify(data),{status,headers:{...cors,'Content-Type':'application/json'}});
 Deno.serve(async(req)=>{
@@ -10,6 +11,12 @@ Deno.serve(async(req)=>{
   if(scheduler){const r=await db.rpc('federation_scheduler_authorized',{p_token:scheduler});if(r.error)throw r.error;scheduled=r.data===true;}
   if(!scheduled){const token=req.headers.get('Authorization')?.replace(/^Bearer /,'')||'';const r=await db.auth.getUser(token);user=r.data.user;if(!user)return json({error:'Authentication required'},401);}
   const body=await req.json();
+  if(body.action==='sync-team'){
+   if((body.team_id&&body.team_id!=='12419')||(body.competition_id&&body.competition_id!=='4802')||(body.federation&&body.federation!=='FECAPA'))return json({error:'Unconfigured team scope'},400);
+   if(!scheduled){const member=await db.from('pilot_members').select('match_id').eq('user_id',user.id).eq('role','operator').limit(1);if(member.error)throw member.error;if(!member.data?.length)return json({error:'Existing operator access required'},403);}
+   return json(await syncFem15(db,{actor:user?.id||null,force:scheduled&&body.probe===true}));
+  }
+
   if(!scheduled&&body.action==='prepare'){
    const prepared=await db.rpc('federation_prepare_match',{p_reference:body.match_id,p_external:body.external_match_id,p_user:user.id});if(prepared.error)return json({error:prepared.error.message},400);body.match_id=prepared.data;
   }
@@ -21,6 +28,10 @@ Deno.serve(async(req)=>{
   }
   const targets=await q.limit(10);if(targets.error)throw targets.error;const results=[];
   for(const source of targets.data||[]){
+   if(source.federation==='FECAPA'&&source.competition_id==='4802'){
+    results.push({match_id:source.match_id,...await syncFem15(db,{actor:user?.id||null,force:scheduled&&body.probe===true})});continue;
+   }
+
    if(!/^[1-9]\d*$/.test(source.federation_match_id||'')||!/^\d+$/.test(source.competition_id||'')){results.push({match_id:source.match_id,error:'Unverified identifiers'});continue;}
    const claim=await db.rpc('federation_claim_sync',{p_match:source.match_id,p_force:scheduled&&body.probe===true});if(claim.error)throw claim.error;if(!claim.data){results.push({match_id:source.match_id,status:'cached'});continue;}
    const fed=source.federation.toLowerCase();const url=`https://www.server2.sidgad.es/${fed}/${fed}_gr_${source.federation_match_id}_1.php`;

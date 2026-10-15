@@ -2,3 +2,5 @@ node_modules/
 tests/parser.generated.mjs
 *.local
 .env*
+
+tests/fem15-generated/
