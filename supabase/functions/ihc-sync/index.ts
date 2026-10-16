@@ -14,7 +14,7 @@ Deno.serve(async(req)=>{
   if(body.action==='discover'){const found=[];for(const fed of ['FECAPA','RFEP'] as const)found.push(...discover(await get(fed,`${fed.toLowerCase()}_ls_1.php`,{temp:'41'}),fed));return json({competitions:found,unconfigured:found.filter(c=>!manifest.some(m=>m.id===c.id&&m.federation===c.federation))});}
   let config:any;
   if(body.action==='next'){
-   const latest=await db.from('federation_import_runs').select('external_resource_id,finished_at').eq('resource_type','competition').eq('status','success').order('finished_at',{ascending:false}).limit(1);if(latest.error)throw latest.error;
+   const latest=await db.from('federation_import_runs').select('external_resource_id,finished_at').eq('resource_type','competition').in('status',['success','partial','failed']).order('finished_at',{ascending:false}).limit(1);if(latest.error)throw latest.error;
    const queue=manifest;const key=latest.data?.[0]?.external_resource_id;const i=queue.findIndex(c=>c.federation+':'+c.id===key);config=queue[(i+1)%queue.length];
   }else config=manifest.find(c=>c.id===body.competition_id&&c.federation===body.federation);
   if(!config)return json({error:'Unconfigured official competition'},400);
