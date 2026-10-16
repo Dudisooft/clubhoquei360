@@ -1,0 +1,8 @@
+import{parseOfficialReport}from'./reports.ts';
+export async function syncOfficialReports(db:any,data:any,get:any,cache:Map<string,string>){
+ const current=await db.from('federation_matches').select('id,external_match_id,home_team,away_team,home_score,away_score,raw_data').contains('raw_data',{source_url:data.source_url});if(current.error)throw current.error;
+ const targets=(current.data||[]).filter((m:any)=>m.external_match_id).filter((m:any)=>!m.raw_data?.report_data||m.raw_data?.report_data?.score_discrepancy||Date.now()-Date.parse(m.raw_data?.report_fetched_at||0)>7*86400000).sort((a:any,b:any)=>Date.parse(a.raw_data?.report_fetched_at||0)-Date.parse(b.raw_data?.report_fetched_at||0));
+ const budget=targets.slice(0,12),queue=[...budget];const results:any[]=[];
+ const worker=async()=>{while(queue.length){const m=queue.shift();try{let html=cache.get(m.external_match_id);if(!html)html=await get(data.federation,`${data.federation.toLowerCase()}_gr_${m.external_match_id}_1.php`,{idm:'1',idc:m.raw_data.group_id,idp:m.external_match_id,tab:'tab_ficha_resumen'});const report=parseOfficialReport(html,{...m,federation:data.federation,source_url:data.source_url,home_team_id:m.raw_data.home_team_id,away_team_id:m.raw_data.away_team_id});const r=await db.rpc('federation_commit_official_report',{p_match:m.id,p_report:report});if(r.error)throw r.error;results.push({match_id:m.id,status:'success',...r.data})}catch(e){results.push({match_id:m.id,status:'failed',error:String(e.message||e).slice(0,200)})}}};
+ await Promise.all([worker(),worker()]);return{processed:results.length,pending:Math.max(0,targets.length-budget.length),errors:results.filter(r=>r.status==='failed'),results};
+}

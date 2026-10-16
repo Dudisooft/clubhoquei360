@@ -1,4 +1,4 @@
--- One competition per hour: 21 competition refreshes per cycle; FEM15 retains its existing importer.
+-- One competition per hour: 22 competition refreshes per cycle; FEM15 delegates to its existing importer.
 select cron.schedule('ihc-federation-hourly','17 * * * *',$job$
  select net.http_post(
   url:='https://oevprbchlhyglhvopnvy.supabase.co/functions/v1/ihc-sync',

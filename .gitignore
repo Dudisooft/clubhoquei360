@@ -6,3 +6,5 @@ tests/parser.generated.mjs
 tests/fem15-generated/
 
 tests/ihc-generated/
+
+tests/report-generated/
