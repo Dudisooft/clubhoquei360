@@ -2,7 +2,7 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "58 Node i 13 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend i accés de registre propi fusionats i publicats a Pages. Recorregut Auth/Realtime real pendent de validació del responsable.",
+  "scope": "59 Node i 13 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend i accés de registre propi fusionats i publicats a Pages. Recorregut Auth/Realtime real pendent de validació del responsable.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/statistics-admin-validation",
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/2",
@@ -17,12 +17,13 @@
       "playwright install",
       "npm run test:browser"
     ],
-    "head": "7745628f9e4b5ad32c93125e8486945ac1fae09e"
+    "head": "7745628f9e4b5ad32c93125e8486945ac1fae09e",
+    "scope": "Frontend release before strict-session-revision follow-up: 58 Node and 13 Chromium"
   },
-  "nodeTests": 58,
+  "nodeTests": 59,
   "browser": {
-    "startTime": "2026-10-17T13:21:15.263Z",
-    "duration": 33553.091,
+    "startTime": "2026-10-17T13:31:48.077Z",
+    "duration": 34079.666,
     "expected": 13,
     "skipped": 0,
     "unexpected": 0,
@@ -159,7 +160,17 @@
       "directBrowserSmokeExecuted": false,
       "directBrowserBlocker": "Pages host inaccessible in web tool and outside executor network allowlist"
     },
-    "newSecurityAdvisorFindings": 0
+    "newSecurityAdvisorFindings": 0,
+    "additionalMigrations": [
+      {
+        "version": "20261017133038",
+        "name": "require_session_revision",
+        "sourceFile": "supabase/migrations/20261017133038_require_session_revision.sql",
+        "sourceSha256": "7785df5ea7c1a1f3db3d2f529a85fee6a38e7636f19554e51d81e2dc08fff6cc",
+        "productionRollbackSmoke": "PASS, including null revision rejection",
+        "persistentTestWrites": 0
+      }
+    ]
   },
   "initialCodeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
   "adminValidation": {
@@ -171,6 +182,16 @@
     "leaseHours": 8,
     "externalPilotAccounts": "deferred by project owner until own validation"
   },
-  "codeCommit": "7745628f9e4b5ad32c93125e8486945ac1fae09e",
-  "releaseRecordBranch": "docs/statistics-release-status"
+  "releaseRecordBranch": "docs/statistics-release-status",
+  "frontendCodeCommit": "7745628f9e4b5ad32c93125e8486945ac1fae09e",
+  "latestChecks": "https://github.com/Dudisooft/clubhoquei360/pull/3/checks",
+  "sessionRevisionRegression": {
+    "beforeFix": "Executed: failed with Missing expected rejection",
+    "afterFix": "59/59 Node, 13/13 Chromium; production SQL rollback PASS",
+    "invalidExpectedRevisions": [
+      null,
+      -1
+    ],
+    "sqlstate": "22023"
+  }
 }

@@ -103,3 +103,10 @@ test('every analytics table has RLS and no stats command is executable by anonym
 });
 
 test('a manual observation cannot claim official-reference provenance without a real source',async()=>{await assert.rejects(write(db,'principal',event({origin:'official_reference'})),/check constraint/);});
+
+test('nullable session revisions cannot bypass concurrency protection',async()=>{
+ if(!(await asOwner(db,'select 1 from stats_sessions where match_id=$1 and user_id=$2',[ID.match,ID.principal])).rows.length)await asUser(db,'principal','select public.stats_save_session($1,$2::jsonb,0)',[ID.match,JSON.stringify({period:1,ms:1000,mode:'video'})]);
+ const before=(await asOwner(db,'select state,revision from stats_sessions where match_id=$1 and user_id=$2',[ID.match,ID.principal])).rows;
+ for(const revision of [null,-1])await assert.rejects(asUser(db,'principal','select public.stats_save_session($1,$2::jsonb,$3::int)',[ID.match,JSON.stringify({period:1,ms:999000,mode:'video'}),revision]),/Expected session revision required/);
+ assert.deepEqual((await asOwner(db,'select state,revision from stats_sessions where match_id=$1 and user_id=$2',[ID.match,ID.principal])).rows,before);
+});

@@ -41,10 +41,12 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 14. PR #1 fusionada amb CI correcta al HEAD. Pages existent ha construït i desplegat el SHA de fusió; logs amb URL d’entorn i «Reported success!». No repetir la migració.
 15. Accés directe «Activa el meu registre (8 h)»: compte actual, només partit seleccionat, principal existent conservat fins a revocació explícita. Verificat en navegador amb gestor autoritzat, persistència de l’assignació, acció pròpia i registre oficial intacte; CI correcta i ajust publicat amb Pages 39036449169. No s’han creat assignacions personals a producció automàticament: l’usuari l’activa amb el botó.
 
+16. Reforç de concurrència instal·lat: `20261017133038_require_session_revision`. La RPC rebutja revisions de sessió nul·les/negatives; regressió reproduïda abans del canvi i Node 59/59 després. Smoke SQL real PASS, tot revertit, empremtes oficials iguals i cap avís nou de seguretat. El frontend publicat no canvia. El codi i la verificació d’aquest reforç són a la PR #3 i al HEAD de `docs/statistics-release-status`; comprovar-ne l’estat remot en reprendre.
+
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
-- Suite Node actual: **58/58 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Suite Node actual: **59/59 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
 - Chromium: **13/13 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 21 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
@@ -63,7 +65,8 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Canvis de mode/període podien perdre la selecció en pausar; corregit.
 - Risc de perdre l’interval de possessió obert en una interrupció; còpia local amb UUID estable i prova de recuperació.
 - Errors inicials del transport de proves i una lectura transitòria del rellotge pausat: corregits. No hi ha fallades conegudes en les proves actuals.
-- La prova nova de registre propi necessitava assignacions al snapshot local i restaurar el principal fictici entre casos; helper de proves corregit i suite completa 13/13 correcta.
+- La prova nova de registre propi necessitava assignacions al snapshot local i restaurar el principal fictici entre casos; helper corregit. La prova de redirecció podia acabar abans de la càrrega de dades i tallar el transport de prova; ara espera la connexió completa.
+- La revisió de sessió nul·la podia eludir CAS: regressió confirmada abans del canvi, guard explícit al servidor i prova al PostgreSQL real després del reforç.
 
 ## Pendents per prioritat
 
@@ -88,7 +91,7 @@ Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi
 
 - Integració: `avancat.html`, `federation-client.js`, `estadistiques.html`, `dashboard.html`, `base.html`, `historial.html`.
 - Components: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`.
-- Dades: migració SQL indicada.
+- Dades: migració inicial indicada i `supabase/migrations/20261017133038_require_session_revision.sql` (ja aplicada). No reaplicar-ne cap.
 - Verificació: `tests/stats-{model,database,store}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
 - Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`), evidència JSON (`docs/statistics-verification.json`), posada en servei (`docs/statistics-deployment.md`) i aquest registre. Verificació operativa: `scripts/verify-production-statistics.sql` (BEGIN/ROLLBACK).
 
