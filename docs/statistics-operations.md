@@ -17,11 +17,21 @@ Ordre de publicació i comprovació:
 
 La compilació `npm run build` deixa un artefacte estàtic a `work/site`: no inclou tests, SQL, node_modules ni credencials. El workflow de la branca només comprova; no desplega.
 
+## Validació prèvia del superadministrador
+
+Decisió del responsable del projecte: primer comprovar el mòdul amb el compte de superadministrador existent. Els comptes d’Oriol Codinach i Ventu encara no estan creats; es prepararan quan el responsable ho demani després de la validació. No cal aportar UUID externs per començar aquesta comprovació.
+
+1. Iniciar sessió al dashboard amb el compte propi i obrir Centre de partit → Estadístic.
+2. Seleccionar el partit a comprovar. Si encara no hi ha principal, prémer **Activa el meu registre (8 h)**. Es desa una assignació al compte actual, per aquell partit, amb caducitat de vuit hores. No crea cap compte. El servidor valida l’autoritat del gestor.
+3. Iniciar/pausar el rellotge d’anàlisi, registrar accions d’equip i individuals, corregir, anul·lar, recarregar i consultar informes. Les accions introduïdes es conserven com a observacions del partit: anul·lar les que només s’hagin fet per provar el funcionament.
+4. A Operadors es pot consultar i revocar l’assignació pròpia. Un principal existent no es reemplaça automàticament; cal revisar-lo i, si correspon, revocar-lo explícitament.
+5. Quan el responsable confirmi la validació, preparar els comptes temporals i les assignacions concretes del pilot següent. La creació d’accessos externs queda ajornada expressament.
+
 ## Pilot real FEM15, temporada 2026/27
 
 Identitat federativa prèviament documentada: FECAPA, competició `4802`, equip `12419`, temporada SIDGAD `41`, grup `5010`. Cal seleccionar el partit ja importat i no crear-lo de nou a mà. L’actualització federativa conserva la procedència i no reescriu la capa analítica.
 
-Oriol Codinach és el provador previst i Ventu és l’entrenador receptor. **No s’han creat comptes, credencials ni permisos a nom seu.** Cal confirmar els UUID dels seus comptes existents abans d’assignar accés real. No s’han utilitzat noms de menors reals en les proves de desenvolupament.
+Oriol Codinach és el provador previst i Ventu és l’entrenador receptor. **No s’han creat comptes, credencials ni permisos a nom seu.** Segons la nova decisió del responsable, aquests comptes encara no existeixen i es crearan després de la seva validació com a superadministrador. Quan existeixin, cal confirmar-ne els UUID abans d’assignar accés real. No s’han utilitzat noms de menors reals en les proves de desenvolupament.
 
 Procediment per al responsable autoritzat:
 

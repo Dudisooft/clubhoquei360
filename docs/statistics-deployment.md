@@ -24,7 +24,7 @@ Proves HTTP reals amb la clau pública de l’aplicació:
 | RPC anònima `stats_access` | HTTP 401, PostgreSQL 42501 |
 | Lectura amb `Accept-Profile: app_private` | HTTP 406, PGRST106: esquema no exposat |
 
-Recomptes i empremtes de les files oficials iguals abans/després de la migració:
+Recomptes i empremtes de les files oficials iguals abans/després de la migració i de la prova transaccional:
 
 | Taula | Files | MD5 del conjunt ordenat |
 | --- | ---: | --- |
@@ -38,10 +38,20 @@ L’assessor de seguretat no identifica incidències noves d’estadístiques. C
 
 ## Publicació
 
-En curs: checkpoint SQL verificat; falta fusionar la PR #1 i comprovar la construcció/publicació Pages existent de `main`. La CI del codi de la PR és correcta: [39018839361](https://github.com/Dudisooft/clubhoquei360/actions/runs/39018839361).
+**PUBLICAT.** [PR #1 fusionada](https://github.com/Dudisooft/clubhoquei360/pull/1) amb CI correcta al HEAD `f119d1d36ad6b8b9d31dcbab76aaceb096a9f419`: [39035723731](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731), 58 proves Node i 12 Chromium.
+
+Commit de fusió a `main`: [`5e1ce5e`](https://github.com/Dudisooft/clubhoquei360/commit/5e1ce5efdc9624ecd6edd5ab53194098c77d1f85). [Pages 39035824360](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360) completat amb **success**: build/Jekyll, càrrega de l’artefacte, deploy i report-build-status correctes. Logs: font `/github/workspace/.`; deployment creat per aquest SHA; «Reported success!» a les 13:16:16 UTC; URL d’entorn [ClubHoquei360](https://dudisooft.github.io/clubhoquei360/). No s’ha modificat la configuració existent de Pages.
+
+Aquest estat acredita la instal·lació de base i el desplegament confirmat per GitHub. El recorregut autenticat de producció continua pendent; no es dedueix del resultat del workflow.
 
 L’eina web no pot obrir l’URL Pages i la política de xarxa de l’executor no permet aquell host. No s’ha executat una prova visual del lloc publicat. No s’ha intentat evitar aquesta restricció.
 
 ## Pendents de prova real
 
-Confirmar UUID i partits autoritzats d’Oriol Codinach/Ventu, designar principal i fer el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. No hi ha cap compte o permís personal creat per aquest desplegament. Procediment a [statistics-operations.md](statistics-operations.md).
+El responsable ha indicat que els comptes d’Oriol Codinach/Ventu encara no existeixen i que es crearan després de la seva validació com a superadministrador. Primer: comprovar amb el compte propi i una assignació limitada al partit; després, quan es demani, preparar el pilot extern. Encara falta el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. Procediment a [statistics-operations.md](statistics-operations.md).
+
+## Ajust de validació pròpia del superadministrador
+
+Decisió posterior del responsable: comprovar primer el mòdul amb el seu compte; ajornar la creació dels comptes d’Oriol/Ventu. S’ha implementat «Activa el meu registre (8 h)» amb la mateixa RPC protegida, compte actual, abast de partit i caducitat explícita. Un principal actiu impedeix l’activació fins a la seva revocació expressa. No canvia la migració instal·lada.
+
+Verificació local: 13/13 casos Chromium, inclòs el gestor sense assignació prèvia, revocació explícita del principal anterior, nova assignació de vuit hores, registre d’acció, recàrrega, mateix recompte de comptes Auth i registre oficial intacte. Pendent CI i publicació de l’ajust des de `feat/statistics-admin-validation`.

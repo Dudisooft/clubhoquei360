@@ -6,6 +6,7 @@ Aplicació interna de gestió esportiva d’hoquei patins, en català, amb front
 - [Auditoria del mòdul d’estadístiques](docs/statistics-audit.md)
 - [Operació, recuperació i pilot FEM15](docs/statistics-operations.md)
 - [Informe de lliurament i estat de verificació](docs/statistics-delivery.md)
+- [Posada en servei i verificacions de producció](docs/statistics-deployment.md)
 
 ```sh
 npm ci
