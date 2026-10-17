@@ -4,8 +4,7 @@
   "timezone": "Europe/Madrid",
   "scope": "58 Node i 12 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend fusionat i Pages confirmat per GitHub. Recorregut Auth/Realtime real pendent.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
-  "branch": "feat/match-statistics-2026-27",
-  "codeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
+  "branch": "feat/statistics-admin-validation",
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/1",
   "ci": {
     "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731",
@@ -22,9 +21,9 @@
   },
   "nodeTests": 58,
   "browser": {
-    "startTime": "2026-10-17T08:46:42.232Z",
-    "duration": 29448.409,
-    "expected": 12,
+    "startTime": "2026-10-17T13:21:15.263Z",
+    "duration": 33553.091,
+    "expected": 13,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
@@ -56,6 +55,10 @@
     },
     {
       "name": "explicit login form restores access without embedding credentials",
+      "passed": true
+    },
+    {
+      "name": "club manager activates own match registration for eight hours without creating another account",
       "passed": true
     },
     {
@@ -157,5 +160,15 @@
       "directBrowserBlocker": "Pages host inaccessible in web tool and outside executor network allowlist"
     },
     "newSecurityAdvisorFindings": 0
+  },
+  "initialCodeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
+  "adminValidation": {
+    "status": "Verified locally; CI and deployment pending",
+    "browserCases": 13,
+    "entry": "Activa el meu registre (8 h)",
+    "existingAccountOnly": true,
+    "scope": "selected match",
+    "leaseHours": 8,
+    "externalPilotAccounts": "deferred by project owner until own validation"
   }
 }

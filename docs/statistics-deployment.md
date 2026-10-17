@@ -48,4 +48,10 @@ L’eina web no pot obrir l’URL Pages i la política de xarxa de l’executor 
 
 ## Pendents de prova real
 
-Confirmar UUID i partits autoritzats d’Oriol Codinach/Ventu, designar principal i fer el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. No hi ha cap compte o permís personal creat per aquest desplegament. Procediment a [statistics-operations.md](statistics-operations.md).
+El responsable ha indicat que els comptes d’Oriol Codinach/Ventu encara no existeixen i que es crearan després de la seva validació com a superadministrador. Primer: comprovar amb el compte propi i una assignació limitada al partit; després, quan es demani, preparar el pilot extern. Encara falta el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. Procediment a [statistics-operations.md](statistics-operations.md).
+
+## Ajust de validació pròpia del superadministrador
+
+Decisió posterior del responsable: comprovar primer el mòdul amb el seu compte; ajornar la creació dels comptes d’Oriol/Ventu. S’ha implementat «Activa el meu registre (8 h)» amb la mateixa RPC protegida, compte actual, abast de partit i caducitat explícita. Un principal actiu impedeix l’activació fins a la seva revocació expressa. No canvia la migració instal·lada.
+
+Verificació local: 13/13 casos Chromium, inclòs el gestor sense assignació prèvia, revocació explícita del principal anterior, nova assignació de vuit hores, registre d’acció, recàrrega, mateix recompte de comptes Auth i registre oficial intacte. Pendent CI i publicació de l’ajust des de `feat/statistics-admin-validation`.

@@ -4,12 +4,12 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; PR #1 fusionada i publicació Pages confirmada per GitHub. Pendent el pilot amb comptes reals i el recorregut autenticat complet.** Detall: [statistics-deployment.md](statistics-deployment.md).
+Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; PR #1 fusionada i publicació Pages confirmada per GitHub. El responsable ha ajornat els comptes temporals fins a validar-ho amb el seu superadministrador. Accés directe de registre propi amb assignació de vuit hores implementat i verificat localment; pendent CI i publicació d’aquest ajust.** Detall: [statistics-deployment.md](statistics-deployment.md).
 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Branca del registre final de desplegament: `docs/statistics-deployment-record`.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
@@ -38,13 +38,14 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 11. Controls i rellotge oficials bloquejats fora del perfil principal; el rellotge oficial flotant ja no tapa l’anàlisi. Comprovació visual de mòbil/tauleta/escriptori.
 12. Guia de posada en servei i pilot real: `docs/statistics-operations.md`. CI de verificació sense desplegament; scripts de comprovació i artefacte estàtic per Pages.
 13. Instal·lació real autoritzada: 29 contexts verificats (24 FEM15), RLS/privilegis, API anònima denegada, esquema privat no exposat i publicació SQL de Realtime. Prova transaccional real de comandos/permisos, revertida íntegrament. Cap dada oficial alterada ni compte/assignació personal creat. Script reproduïble: `scripts/verify-production-statistics.sql`.
-14. PR #1 fusionada amb CI correcta al HEAD. Pages existent ha construït i desplegat el SHA de fusió; logs amb URL d’entorn i «Reported success!». No repetir la migració ni el desplegament del mòdul.
+14. PR #1 fusionada amb CI correcta al HEAD. Pages existent ha construït i desplegat el SHA de fusió; logs amb URL d’entorn i «Reported success!». No repetir la migració.
+15. Accés directe «Activa el meu registre (8 h)»: compte actual, només partit seleccionat, principal existent conservat fins a revocació explícita. Verificat en navegador amb gestor autoritzat, persistència de l’assignació, acció pròpia i registre oficial intacte; pendent CI i desplegament d’aquest ajust.
 
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
 - Suite Node actual: **58/58 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
-- Chromium: **12/12 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
+- Chromium: **13/13 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 21 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
 - `npm run build`: artefacte estàtic correcte a `work/site`, sense tests/SQL/node_modules/credencials.
@@ -62,14 +63,16 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Canvis de mode/període podien perdre la selecció en pausar; corregit.
 - Risc de perdre l’interval de possessió obert en una interrupció; còpia local amb UUID estable i prova de recuperació.
 - Errors inicials del transport de proves i una lectura transitòria del rellotge pausat: corregits. No hi ha fallades conegudes en les proves actuals.
+- La prova nova de registre propi necessitava assignacions al snapshot local i restaurar el principal fictici entre casos; helper de proves corregit i suite completa 13/13 correcta.
 
 ## Pendents per prioritat
 
 No queda cap bloc de desenvolupament o prova local obert. PR #1 fusionada, migració instal·lada i Pages publicat; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
 
-1. Confirmar UUID reals d’Oriol Codinach i Ventu, partit FEM15 autoritzat i data de caducitat. La pregunta de dades està formulada a la conversa; no pressuposar resposta. Assignar accés temporal a comptes verificats, sense rols generals innecessaris, i revocar en acabar.
-2. Executar prova autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Cal una sessió real i entorn accessible per completar-la.
-3. Desar/fusionar el registre documental final del desplegament si encara és una branca/PR oberta; no reexecutar migració ni repetir les suites de codi intacte.
+1. Ajust de registre propi ja verificat localment (13/13 Chromium, estàtica i build); desar checkpoint, PR i publicar amb CI correcta. No tornar a aplicar la migració, que no canvia.
+2. Validació del responsable amb el seu superadministrador, amb el recorregut de `docs/statistics-operations.md`. El nou accés directe evita copiar UUID o crear comptes externs.
+3. Prova autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Cal sessió real i entorn accessible.
+4. Només quan el responsable ho demani després de validar: crear comptes temporals i confirmar UUID, partit FEM15 i caducitat per al pilot. Els comptes d’Oriol/Ventu encara no existeixen i estan ajornats expressament. No tornar a demanar aquestes dades com a bloqueig de la validació pròpia.
 
 Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
 

@@ -31,6 +31,7 @@ Implementat:
 - Informes globals, individuals i comparatives/evolució entre partits accessibles. Dades absents diferents de zero, cobertura explícita, percentatges només amb denominadors coherents. CSV UTF-8 protegit contra fórmules i JSON d’auditoria.
 - Formulari de login del dashboard, versió fixada de supabase-js, protecció dels controls oficials fora del perfil principal i ruta antiga d’estadístiques preservada amb redirecció.
 - Protocol persistent de continuïtat i punts de recuperació a Git.
+- Accés directe del gestor/superadministrador per activar el registre amb el compte actual durant vuit hores, només en el partit seleccionat i amb permisos validats al servidor. No substitueix un principal existent automàticament; nou ajust pendent de publicació en aquest checkpoint.
 
 Fitxers principals modificats: `avancat.html`, `federation-client.js`, `estadistiques.html`, `dashboard.html`, `base.html`, `historial.html`, `README.md`, `package.json`, `package-lock.json`, `.gitignore` i la prova d’interfície existent.
 
@@ -42,7 +43,7 @@ Les importacions FECAPA/RFEP es conserven. Només es reutilitzen identificadors 
 
 ## C. Proves
 
-Resultats locals: **58 proves Node i 12 casos Chromium**. Resultat consolidat correcte en local i en la CI de GitHub del HEAD fusionat ([39035723731](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731)). [Evidències reproduïbles i casos executats](statistics-verification.json). Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
+Resultats locals: **58 proves Node i 13 casos Chromium**. El tretzè comprova el registre propi del gestor, després de la decisió d’ajornar els comptes externs; aquest ajust està verificat localment i pendent de CI/publicació en aquest checkpoint. Resultat consolidat correcte en local i en la CI de GitHub del HEAD fusionat ([39035723731](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731)). [Evidències reproduïbles i casos executats](statistics-verification.json). Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
 
 | Requisit | Evidència executada |
 | --- | --- |
@@ -87,7 +88,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Auth i Realtime reals del nou mòdul | IMPLEMENTADA PENDENT DE PROVES | Infraestructura instal·lada; falta sessió Auth i entrega WebSocket reals |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy correctes del SHA fusionat; smoke autenticat pendent |
-| Pilot amb Oriol Codinach i Ventu | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | UUID, accessos i disponibilitat reals per confirmar |
+| Pilot amb Oriol Codinach i Ventu | PENDENT | Ajornat pel responsable fins que validi el mòdul amb el seu superadministrador |
 | Cronologia/plantilla que la federació no publica | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | No s’inventa informació |
 | Notes tàctiques compartides | PARCIALMENT IMPLEMENTADA | Funció prèvia local; fora d’aquest lliurament estadístic |
 | Sincronització automàtica de vídeo | PENDENT | Opcional; l’anàlisi manual ja està implementada |
@@ -108,7 +109,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 
 ## F. Pendents necessaris
 
-1. Confirmar comptes/UUID, partit FEM15 autoritzat i caducitat de la prova per al provador i l’entrenador receptor; assignar els accessos mínims corresponents.
+1. Validació del responsable amb el compte propi de superadministrador; instruccions a [la guia d’operació](statistics-operations.md). Els comptes temporals encara no existeixen i queden ajornats per decisió seva. Quan els demani, preparar els comptes i assignacions amb partit i caducitat confirmats.
 2. Prova de fum autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics; verificar consulta i revocació. El recorregut i la recuperació ja estan provats localment; la manca de sessió real no es presenta com a prova superada.
 
 No cal introduir cap servei nou de pagament, ni repetir la importació federativa o l’auditoria inicial per completar aquests passos. La represa de desenvolupament es fa amb **CONTINUA CLUBHOQUEI360**, llegint primer el registre persistent.
