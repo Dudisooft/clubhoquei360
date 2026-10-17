@@ -2,7 +2,7 @@
 
 17/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
-**Resultat:** mòdul integrat i verificat en desenvolupament. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1 i #2 fusionades a `main` (últim canvi d’aplicació: `960837e`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
+**Resultat:** mòdul integrat i verificat en desenvolupament. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (codi publicat: `5baee53`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
 
 ## A. Auditoria inicial
 
@@ -78,7 +78,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Funcionalitat | Classificació | Límit |
 | --- | --- | --- |
 | Panell integrat, dispositius i dues vies d’entrada | OPERATIVA I VERIFICADA | Entorn local |
-| Activació de registre propi del gestor/superadministrador | OPERATIVA I VERIFICADA | Gestor autoritzat en Chromium; publicat amb PR #2, validació pròpia del responsable pendent |
+| Activació de registre propi del gestor/superadministrador | OPERATIVA I VERIFICADA | Chromium i assignació real del superadministrador desada/auditada el 17/10/2026 a les 14:38:27 UTC |
 | Registre, correcció, desfer, auditoria i agregats | OPERATIVA I VERIFICADA | Entorn local |
 | Persistència, recuperació i reintents | OPERATIVA I VERIFICADA | Entorn local; cal xarxa per validar permisos |
 | Cronòmetre analític i possessió | OPERATIVA I VERIFICADA | Manual; no sincronització automàtica amb vídeo |
@@ -86,7 +86,9 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Multioperador amb dades compartides | OPERATIVA I VERIFICADA | Clients locals sobre la mateixa base de dades |
 | Informes, comparatives/evolució i exportacions | OPERATIVA I VERIFICADA | Mostres observades, identitats explícites |
 | Protecció del registre oficial i fonts | OPERATIVA I VERIFICADA | Proves locals i empremtes abans/després de la instal·lació real |
-| Auth i Realtime reals del nou mòdul | IMPLEMENTADA PENDENT DE PROVES | Infraestructura instal·lada; falta sessió Auth i entrega WebSocket reals |
+| Consulta autenticada i activació pròpia reals | OPERATIVA I VERIFICADA | Logs reals HTTP 200 i assignació persistent/auditada; sense prova visual directa |
+| Registre i recuperació sota Auth real | IMPLEMENTADA PENDENT DE PROVES | Zero observacions/sessions a la consulta de les 14:40:18 UTC |
+| Realtime entre dispositius físics | IMPLEMENTADA PENDENT DE PROVES | Falta verificar entrega WebSocket; les lectures HTTP no l’acrediten |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy correctes del SHA fusionat; smoke autenticat pendent |
 | Pilot amb Oriol Codinach i Ventu | PENDENT | Ajornat pel responsable fins que validi el mòdul amb el seu superadministrador |
@@ -111,9 +113,11 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 - Reforç de concurrència i registre final: [PR #3](https://github.com/Dudisooft/clubhoquei360/pull/3). Migració 20261017133038 aplicada; regressió i smoke real superats.
 - Detall del desplegament, límits de prova i avisos previs: [statistics-deployment.md](statistics-deployment.md).
 
+Verificació real posterior al desplegament: [snapshot de consulta/assignació](statistics-live-verification.json). Auth, accés i alta de principal HTTP 200; falta completar el registre i la recuperació amb el responsable.
+
 ## F. Pendents necessaris
 
-1. Validació del responsable amb el compte propi de superadministrador; instruccions a [la guia d’operació](statistics-operations.md). Els comptes temporals encara no existeixen i queden ajornats per decisió seva. Quan els demani, preparar els comptes i assignacions amb partit i caducitat confirmats.
+1. Completar registre, desament i recuperació amb el compte propi de superadministrador, ja activat temporalment; instruccions a [la guia d’operació](statistics-operations.md). Els comptes temporals encara no existeixen i queden ajornats per decisió seva. Quan els demani, preparar els comptes i assignacions amb partit i caducitat confirmats.
 2. Prova de fum autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics; verificar consulta i revocació. El recorregut i la recuperació ja estan provats localment; la manca de sessió real no es presenta com a prova superada.
 
 No cal introduir cap servei nou de pagament, ni repetir la importació federativa o l’auditoria inicial per completar aquests passos. La represa de desenvolupament es fa amb **CONTINUA CLUBHOQUEI360**, llegint primer el registre persistent.

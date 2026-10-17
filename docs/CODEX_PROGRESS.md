@@ -4,12 +4,14 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; PR #1 fusionada i publicació Pages confirmada per GitHub. El responsable ha ajornat els comptes temporals fins a validar-ho amb el seu superadministrador. Accés directe de registre propi amb assignació de vuit hores verificat localment, en CI i publicat a Pages. **Només resten la validació real del responsable i el pilot posterior quan el demani.**** Detall: [statistics-deployment.md](statistics-deployment.md).
+Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Codi instal·lat i publicat; 59 proves Node i 13 Chromium verificades. Activació amb el compte real del superadministrador confirmada parcialment a producció.** Els comptes temporals continuen ajornats per decisió del responsable.
+
+La represa ha comprovat una assignació pròpia de principal creada a les 14:38:27 UTC, amb caducitat de vuit hores, i peticions reals d’Auth/consulta/activació HTTP 200. A les 14:40:18 UTC encara hi havia zero sessions d’anàlisi i zero observacions. La següent tasca és comprovar registre i desament, no tornar a activar aquella assignació mentre sigui vigent. Evidència sense credencials ni UUID personals: [statistics-live-verification.json](statistics-live-verification.json). Desplegament: [statistics-deployment.md](statistics-deployment.md).
 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca d’aquest registre final: `docs/statistics-release-status`.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la comprovació real: `docs/statistics-live-checkpoint`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
@@ -17,11 +19,10 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 - Checkpoint 2 publicat i recuperable: `67958a35b0d2748fb2692d2c1c807a3371569b3e` — integració, permisos i sessions recuperables.
 - Checkpoint 3 publicat i verificat per CI: `ac8ad5ee754443804b1cdff3acbe434778877bc5` — aïllament de cues entre partits, paginació estable, RLS/anon i informe A–F.
 - Checkpoint inicial de codi verificat localment i per CI: `a0145fadf8be158cbe1b47707161c3803121616a` — procedència oficial vinculada a font real, visibilitat del login i pilot amb set participants ficticis per equip.
-- El checkpoint documental final només actualitza aquests informes i les evidències; `git log -1` identifica el commit que els conté.
-- PR #1 fusionada: https://github.com/Dudisooft/clubhoquei360/pull/1. Commit a `main`: `5e1ce5efdc9624ecd6edd5ab53194098c77d1f85`.
-- CI del codi final: https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522 — **success**, totes les etapes correctes, inclòs Chromium (58 Node + 12 navegador).
-- Migració instal·lada a Supabase: `20261017130942_match_statistics`; font local `20261017005241_match_statistics.sql` sense canvis. Frontend publicat: https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360 — **success**, build i deploy de `5e1ce5e`.
-- Últim checkpoint operatiu verificat: `f119d1d36ad6b8b9d31dcbab76aaceb096a9f419`, recuperable remotament; CI https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731 — **success**. Últim commit de codi verificat: `7745628f9e4b5ad32c93125e8486945ac1fae09e`, [CI 39036356807](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807), 58 Node i 13 Chromium. Últim commit amb canvis d’aplicació verificat per Pages: `960837efae194663f40f97325a5f2eef68b6453c`, [Pages 39036449169](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036449169), **success**, PR #2 fusionada. El commit del registre final s’identifica amb `git log -1` a la branca documental.
+- Últim commit de codi verificat: `4aee0c0997e8dac359411da170856410e8158eb4`, [CI 39037080177](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037080177), **59 Node i 13 Chromium correctes**.
+- PR #1, #2 i #3 fusionades. Commit de publicació del codi: `5baee53cacc590c9cd18caef1f3d7464b6aae99f`, [Pages 39037185964](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037185964), **success**.
+- Migracions instal·lades: `20261017130942_match_statistics` (font local `20261017005241_match_statistics.sql`) i `20261017133038_require_session_revision`. No reaplicar-les.
+- Aquest checkpoint només actualitza documents; l’aplicació i la base de dades conserven el codi verificat anterior. `git log -1` identifica el commit documental. Les comprovacions pertinents són JSON, enllaços i diff; les suites de runtime continuen vàlides.
 
 ## Completat i verificat
 
@@ -42,6 +43,8 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 15. Accés directe «Activa el meu registre (8 h)»: compte actual, només partit seleccionat, principal existent conservat fins a revocació explícita. Verificat en navegador amb gestor autoritzat, persistència de l’assignació, acció pròpia i registre oficial intacte; CI correcta i ajust publicat amb Pages 39036449169. No s’han creat assignacions personals a producció automàticament: l’usuari l’activa amb el botó.
 
 16. Reforç de concurrència instal·lat: `20261017133038_require_session_revision`. La RPC rebutja revisions de sessió nul·les/negatives; regressió reproduïda abans del canvi i Node 59/59 després. Smoke SQL real PASS, tot revertit, empremtes oficials iguals i cap avís nou de seguretat. El frontend publicat no canvia. El codi i la verificació d’aquest reforç són a la PR #3 i al HEAD de `docs/statistics-release-status`; comprovar-ne l’estat remot en reprendre.
+
+17. Activitat real del superadministrador observada en lectura: Auth/consulta/assignació HTTP 200, principal propi durant vuit hores desat i auditat. No s’han registrat observacions ni sessions des d’aquesta continuació, ni s’han creat comptes. Snapshot i límits a `docs/statistics-live-verification.json`.
 
 ## Proves executades i resultats
 
@@ -70,9 +73,9 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-No queda cap bloc de desenvolupament o prova local obert. PR #1 i #2 fusionades, migració instal·lada i Pages publicat, inclòs l’accés de registre propi; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
+No queda cap bloc de desenvolupament o prova local obert. PR #1, #2 i #3 fusionades, migracions instal·lades i Pages publicat, inclòs l’accés de registre propi; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
 
-1. Validació del responsable amb el seu superadministrador: dashboard → Centre de partit → Estadístic → seleccionar partit → **Activa el meu registre (8 h)**. La guia completa és a `docs/statistics-operations.md`. Les accions es desen al partit; anul·lar les introduïdes només per provar. El botó no reemplaça un principal actiu.
+1. Continuar la validació del responsable al partit ja activat «Revisió vídeo · Alcobendas – Simar Igualada» (`408787db-310f-42dd-90e6-16ee2cf971a5`): panell Registre → Inicia anàlisi → acció observada → pausa i Desa sessió → recàrrega. Confirmar conservació, corregir i anul·lar les observacions fetes només per provar. L’assignació observada caduca el 17/10/2026 a les 22:38:26 UTC; comprovar vigència abans d’instruir una activació nova. Si el panell no apareix, cal el pas i el missatge de la pantalla. Pregunta de funcionament formulada al responsable, pendent de resposta.
 2. Completar el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Aquest límit no invalida les proves SQL/HTTP reals ni el desplegament confirmat per GitHub.
 3. Només quan el responsable ho demani després de validar: crear comptes temporals i confirmar UUID, partit FEM15 i caducitat per al pilot. Els comptes d’Oriol/Ventu encara no existeixen i estan ajornats expressament. No tornar a demanar aquestes dades com a bloqueig de la validació pròpia.
 
@@ -81,7 +84,7 @@ Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi
 ## Dependències i límits
 
 - Esquema inicial complet de Supabase no versionat; la migració assumeix l’esquema real auditat i les funcions `app_private.has_club_role`, `has_team_role`, `is_platform_superadmin` existents. No executar SQL històrics com si fossin migracions des de zero.
-- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth.
+- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth. La comprovació posterior de logs sí observa Auth/consulta/activació reals HTTP 200; falta el recorregut de registre i recuperació complet.
 - Portals federatius i Pages no accessibles amb l’eina web en aquesta execució; no es declara revalidació de fonts ni test visual de producció. GitHub sí confirma el desplegament; la Data API real s’ha comprovat per HTTP i PostgreSQL.
 - Vídeo manual, sense sincronització automàtica; no hi ha app completa en fred sense xarxa. Les cues locals són recuperació d’escriptures, no un sistema d’autorització offline.
 - Claus del prototip conservades; no hi ha importació automàtica d’estadístiques antigues per manca d’identificadors fiables.
@@ -102,7 +105,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar una activació ja confirmada.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.
