@@ -2,12 +2,12 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "58 Node i 12 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend fusionat i Pages confirmat per GitHub. Recorregut Auth/Realtime real pendent.",
+  "scope": "58 Node i 13 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend i accés de registre propi fusionats i publicats a Pages. Recorregut Auth/Realtime real pendent de validació del responsable.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/statistics-admin-validation",
-  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/1",
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/2",
   "ci": {
-    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807",
     "conclusion": "success",
     "verifiedSteps": [
       "npm ci",
@@ -17,7 +17,7 @@
       "playwright install",
       "npm run test:browser"
     ],
-    "head": "f119d1d36ad6b8b9d31dcbab76aaceb096a9f419"
+    "head": "7745628f9e4b5ad32c93125e8486945ac1fae09e"
   },
   "nodeTests": 58,
   "browser": {
@@ -144,10 +144,10 @@
     ],
     "frontendPublished": true,
     "realAuthRealtimeSmokeExecuted": false,
-    "mergeCommit": "5e1ce5efdc9624ecd6edd5ab53194098c77d1f85",
+    "mergeCommit": "960837efae194663f40f97325a5f2eef68b6453c",
     "pages": {
-      "run": 39035824360,
-      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360",
+      "run": 39036449169,
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39036449169",
       "conclusion": "success",
       "steps": [
         "build/Jekyll",
@@ -163,12 +163,14 @@
   },
   "initialCodeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
   "adminValidation": {
-    "status": "Verified locally; CI and deployment pending",
+    "status": "Published; real owner validation pending",
     "browserCases": 13,
     "entry": "Activa el meu registre (8 h)",
     "existingAccountOnly": true,
     "scope": "selected match",
     "leaseHours": 8,
     "externalPilotAccounts": "deferred by project owner until own validation"
-  }
+  },
+  "codeCommit": "7745628f9e4b5ad32c93125e8486945ac1fae09e",
+  "releaseRecordBranch": "docs/statistics-release-status"
 }
