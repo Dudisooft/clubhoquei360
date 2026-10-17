@@ -5,7 +5,7 @@ export class StatsStore {
   key(suffix='outbox'){return `ch360-stats-v2:${this.uid}:${this.match}:${suffix}`;}
   remember(){this.storage.setItem(this.key(),JSON.stringify(this.pending));}
   async all(table,columns='*',configure=q=>q){
-    const out=[];for(let offset=0;;offset+=500){const r=await configure(this.db.from(table).select(columns)).order(({stats_event_audit:'mutation_id',stats_matches:'match_id',stats_coverage:'match_id',stats_sessions:'match_id',federation_match_sources:'match_id',pilot_operator_state:'match_id'})[table]||'id').range(offset,offset+499);if(r.error)throw r.error;out.push(...r.data);if(r.data.length<500)return out;}
+    const out=[];for(let offset=0;;offset+=500){let query=configure(this.db.from(table).select(columns)).order(({stats_event_audit:'mutation_id',stats_matches:'match_id',stats_coverage:'match_id',stats_sessions:'match_id',federation_match_sources:'match_id',pilot_operator_state:'match_id'})[table]||'id');if(table==='stats_coverage')query=query.order('side').order('category');if(table==='stats_sessions')query=query.order('user_id');const r=await query.range(offset,offset+499);if(r.error)throw r.error;out.push(...r.data);if(r.data.length<500)return out;}
   }
   async open(match,uid){
     this.generation++;this.match=match;this.uid=uid;this.pending=JSON.parse(this.storage.getItem(this.key())||'[]');this.events=[];this.session=null;this.access={read:false,manage:false};
@@ -33,7 +33,7 @@ export class StatsStore {
     this.onChange();return this.flush();
   }
   async flush(){
-    if(this.flushing)return this.flushing;
+    if(this.flushing){await this.flushing;if(this.pending.length&&!this.pending[0].blocked)return this.flush();return;}
     const generation=this.generation;
     this.flushing=(async()=>{
       while(this.pending.length&&generation===this.generation){

@@ -14,7 +14,8 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
 - Checkpoint 1 publicat i recuperable: `d64ca9483fd25d4672d4532830acbe9b71dc473c` — model i persistència verificats, 20 proves noves correctes.
-- Checkpoint 2: aquest document acompanya el bloc integrat verificat; consultar `git log --oneline -5` per al SHA que el conté. El següent checkpoint registrarà el SHA concret.
+- Checkpoint 2 publicat i recuperable: `67958a35b0d2748fb2692d2c1c807a3371569b3e` — integració, permisos i sessions recuperables.
+- Checkpoint 3: aïllament de peticions en curs entre partits, ordre estable de paginació, comprovació de RLS/anon i informe de lliurament; aquest document acompanya el bloc verificat.
 - No s’ha fusionat, desplegat ni aplicat la migració a Supabase de producció.
 
 ## Completat i verificat
@@ -35,8 +36,8 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
-- Suite Node actual: **55/55 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
-- Chromium: **10/10 casos complets correctes**; dues proves addicionals de recuperació de possessió i conflicte de rellotge entre dispositius **2/2 correctes**. Pendent només consolidar una execució de la suite completa de 12 al checkpoint final.
+- Suite Node actual: **57/57 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Chromium: **12/12 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 21 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
 - `npm run build`: artefacte estàtic correcte a `work/site`, sense tests/SQL/node_modules/credencials.
@@ -57,9 +58,9 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-1. Consolidar la suite Chromium de 12 casos i comprovar-ne el resultat. No repetir auditoria ni proves intactes fora del necessari per al lliurament.
-2. Publicar checkpoint 2 i comprovar-ne recuperació amb Git; crear PR amb el resultat final i observar CI.
-3. Entregar informe estructurat A–F i còpia user-facing amb evidències/commits/PR verificats. Actualitzar aquest document amb SHA/PR/CI.
+1. Publicar checkpoint 3, crear PR amb el resultat final i observar CI. No repetir auditoria ni suites locals intactes.
+2. Entregar informe estructurat A–F (`docs/statistics-delivery.md`) i còpia user-facing amb evidències/commits/PR verificats.
+3. Actualitzar aquest document amb SHA/PR/CI finals.
 4. **Després d’autorització de publicació:** aplicar la migració, publicar a Pages i executar prova autenticada amb Auth/Realtime reals i dos dispositius. Ordre i reversió a `docs/statistics-operations.md`.
 5. Confirmar UUID reals d’Oriol Codinach i Ventu i permisos exactes del partit FEM15. Crear només assignacions temporals per a comptes ja verificats, sense rols generals innecessaris.
 
@@ -78,7 +79,7 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Components: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`.
 - Dades: migració SQL indicada.
 - Verificació: `tests/stats-{model,database,store}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
-- Documents: auditoria, operació/pilot i aquest registre.
+- Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`) i aquest registre.
 
 ## Represa exacta
 

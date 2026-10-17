@@ -19,3 +19,8 @@ test('full local storage stops registration before sending an unsafe nonrecovera
  let calls=0;const s=store({rpc:async()=>{calls++;}},{getItem:()=>null,setItem:()=>{throw Error('QuotaExceeded');}});assert.throws(()=>s.enqueue(event()),/conservar la cua/);assert.equal(calls,0);assert.equal(s.pending.length,0);
 });
 test('a second user and match have isolated recovery keys',()=>{const local=storage(),s=store({},local);s.pending=[{event:event(),expected:0}];s.remember();const key=s.key();s.uid=ID.external;assert.notEqual(s.key(),key);assert.equal(local.getItem(s.key()),null);s.uid=ID.principal;s.match=ID.otherMatch;assert.equal(local.getItem(s.key()),null);});
+test('an in-flight ACK cannot leak across matches and the new match outbox flushes afterwards',async()=>{
+ let release,calls=0;const gate=new Promise(r=>release=r),local=storage();const s=store({rpc:async(name,args)=>{calls++;if(calls===1)await gate;return {data:{...args.p_event,revision:1,operator_id:ID.principal}};}},local);
+ const first=event();const initial=s.enqueue(first);const oldKey=s.key();s.generation++;s.match=ID.otherMatch;s.pending=[];s.events=[];const second=event({match_id:ID.otherMatch});const next=s.enqueue(second);release();await Promise.all([initial,next]);
+ assert.equal(s.events.length,1);assert.equal(s.events[0].match_id,ID.otherMatch);assert.equal(s.pending.length,0);assert.ok(local.getItem(oldKey).includes(first.id));
+});

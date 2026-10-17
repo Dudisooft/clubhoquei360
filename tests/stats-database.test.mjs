@@ -97,3 +97,7 @@ test('future verified federation import creates context by IDs and leaves all ma
 test('only one active principal can be appointed, through club management',async()=>{
  await assert.rejects(asUser(db,'manager','select public.stats_grant($1::jsonb)',[JSON.stringify({match_id:ID.match,user_id:ID.secondary,role:'primary',categories:[],sides:['home'],expires_at:'2099-01-01'})]),/active principal/);
 });
+test('every analytics table has RLS and no stats command is executable by anonymous callers',async()=>{
+ const tables=await asOwner(db,"select relname,relrowsecurity from pg_class where relnamespace='public'::regnamespace and relkind='r' and relname like 'stats_%'");assert.equal(tables.rows.length,8);assert.ok(tables.rows.every(r=>r.relrowsecurity));
+ const exposed=await asOwner(db,"select p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('public','app_private') and p.proname like 'stats_%' and has_function_privilege('anon',p.oid,'execute')");assert.equal(exposed.rows.length,0);
+});
