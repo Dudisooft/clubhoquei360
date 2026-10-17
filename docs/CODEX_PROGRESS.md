@@ -4,24 +4,24 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; PR #1 fusionada i publicació Pages confirmada per GitHub. El responsable ha ajornat els comptes temporals fins a validar-ho amb el seu superadministrador. Accés directe de registre propi amb assignació de vuit hores implementat i verificat localment; pendent CI i publicació d’aquest ajust.** Detall: [statistics-deployment.md](statistics-deployment.md).
+Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; PR #1 fusionada i publicació Pages confirmada per GitHub. El responsable ha ajornat els comptes temporals fins a validar-ho amb el seu superadministrador. Accés directe de registre propi amb assignació de vuit hores verificat localment, en CI i publicat a Pages. **Només resten la validació real del responsable i el pilot posterior quan el demani.**** Detall: [statistics-deployment.md](statistics-deployment.md).
 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation`.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca d’aquest registre final: `docs/statistics-release-status`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
 - Checkpoint 1 publicat i recuperable: `d64ca9483fd25d4672d4532830acbe9b71dc473c` — model i persistència verificats, 20 proves noves correctes.
 - Checkpoint 2 publicat i recuperable: `67958a35b0d2748fb2692d2c1c807a3371569b3e` — integració, permisos i sessions recuperables.
 - Checkpoint 3 publicat i verificat per CI: `ac8ad5ee754443804b1cdff3acbe434778877bc5` — aïllament de cues entre partits, paginació estable, RLS/anon i informe A–F.
-- Últim commit de codi verificat localment i per CI: `a0145fadf8be158cbe1b47707161c3803121616a` — procedència oficial vinculada a font real, visibilitat del login i pilot amb set participants ficticis per equip.
+- Checkpoint inicial de codi verificat localment i per CI: `a0145fadf8be158cbe1b47707161c3803121616a` — procedència oficial vinculada a font real, visibilitat del login i pilot amb set participants ficticis per equip.
 - El checkpoint documental final només actualitza aquests informes i les evidències; `git log -1` identifica el commit que els conté.
 - PR #1 fusionada: https://github.com/Dudisooft/clubhoquei360/pull/1. Commit a `main`: `5e1ce5efdc9624ecd6edd5ab53194098c77d1f85`.
 - CI del codi final: https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522 — **success**, totes les etapes correctes, inclòs Chromium (58 Node + 12 navegador).
 - Migració instal·lada a Supabase: `20261017130942_match_statistics`; font local `20261017005241_match_statistics.sql` sense canvis. Frontend publicat: https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360 — **success**, build i deploy de `5e1ce5e`.
-- Últim checkpoint operatiu verificat: `f119d1d36ad6b8b9d31dcbab76aaceb096a9f419`, recuperable remotament; CI https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731 — **success**. Últim commit amb canvis d’aplicació verificat per Pages: `5e1ce5e`. El commit del registre final s’identifica amb `git log -1` a la branca documental.
+- Últim checkpoint operatiu verificat: `f119d1d36ad6b8b9d31dcbab76aaceb096a9f419`, recuperable remotament; CI https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731 — **success**. Últim commit de codi verificat: `7745628f9e4b5ad32c93125e8486945ac1fae09e`, [CI 39036356807](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807), 58 Node i 13 Chromium. Últim commit amb canvis d’aplicació verificat per Pages: `960837efae194663f40f97325a5f2eef68b6453c`, [Pages 39036449169](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036449169), **success**, PR #2 fusionada. El commit del registre final s’identifica amb `git log -1` a la branca documental.
 
 ## Completat i verificat
 
@@ -39,12 +39,14 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 12. Guia de posada en servei i pilot real: `docs/statistics-operations.md`. CI de verificació sense desplegament; scripts de comprovació i artefacte estàtic per Pages.
 13. Instal·lació real autoritzada: 29 contexts verificats (24 FEM15), RLS/privilegis, API anònima denegada, esquema privat no exposat i publicació SQL de Realtime. Prova transaccional real de comandos/permisos, revertida íntegrament. Cap dada oficial alterada ni compte/assignació personal creat. Script reproduïble: `scripts/verify-production-statistics.sql`.
 14. PR #1 fusionada amb CI correcta al HEAD. Pages existent ha construït i desplegat el SHA de fusió; logs amb URL d’entorn i «Reported success!». No repetir la migració.
-15. Accés directe «Activa el meu registre (8 h)»: compte actual, només partit seleccionat, principal existent conservat fins a revocació explícita. Verificat en navegador amb gestor autoritzat, persistència de l’assignació, acció pròpia i registre oficial intacte; pendent CI i desplegament d’aquest ajust.
+15. Accés directe «Activa el meu registre (8 h)»: compte actual, només partit seleccionat, principal existent conservat fins a revocació explícita. Verificat en navegador amb gestor autoritzat, persistència de l’assignació, acció pròpia i registre oficial intacte; CI correcta i ajust publicat amb Pages 39036449169. No s’han creat assignacions personals a producció automàticament: l’usuari l’activa amb el botó.
+
+16. Reforç de concurrència instal·lat: `20261017133038_require_session_revision`. La RPC rebutja revisions de sessió nul·les/negatives; regressió reproduïda abans del canvi i Node 59/59 després. Smoke SQL real PASS, tot revertit, empremtes oficials iguals i cap avís nou de seguretat. El frontend publicat no canvia. El codi i la verificació d’aquest reforç són a la PR #3 i al HEAD de `docs/statistics-release-status`; comprovar-ne l’estat remot en reprendre.
 
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
-- Suite Node actual: **58/58 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Suite Node actual: **59/59 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
 - Chromium: **13/13 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 21 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
@@ -63,16 +65,16 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Canvis de mode/període podien perdre la selecció en pausar; corregit.
 - Risc de perdre l’interval de possessió obert en una interrupció; còpia local amb UUID estable i prova de recuperació.
 - Errors inicials del transport de proves i una lectura transitòria del rellotge pausat: corregits. No hi ha fallades conegudes en les proves actuals.
-- La prova nova de registre propi necessitava assignacions al snapshot local i restaurar el principal fictici entre casos; helper de proves corregit i suite completa 13/13 correcta.
+- La prova nova de registre propi necessitava assignacions al snapshot local i restaurar el principal fictici entre casos; helper corregit. La prova de redirecció podia acabar abans de la càrrega de dades i tallar el transport de prova; ara espera la connexió completa.
+- La revisió de sessió nul·la podia eludir CAS: regressió confirmada abans del canvi, guard explícit al servidor i prova al PostgreSQL real després del reforç.
 
 ## Pendents per prioritat
 
-No queda cap bloc de desenvolupament o prova local obert. PR #1 fusionada, migració instal·lada i Pages publicat; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
+No queda cap bloc de desenvolupament o prova local obert. PR #1 i #2 fusionades, migració instal·lada i Pages publicat, inclòs l’accés de registre propi; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
 
-1. Ajust de registre propi ja verificat localment (13/13 Chromium, estàtica i build); desar checkpoint, PR i publicar amb CI correcta. No tornar a aplicar la migració, que no canvia.
-2. Validació del responsable amb el seu superadministrador, amb el recorregut de `docs/statistics-operations.md`. El nou accés directe evita copiar UUID o crear comptes externs.
-3. Prova autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Cal sessió real i entorn accessible.
-4. Només quan el responsable ho demani després de validar: crear comptes temporals i confirmar UUID, partit FEM15 i caducitat per al pilot. Els comptes d’Oriol/Ventu encara no existeixen i estan ajornats expressament. No tornar a demanar aquestes dades com a bloqueig de la validació pròpia.
+1. Validació del responsable amb el seu superadministrador: dashboard → Centre de partit → Estadístic → seleccionar partit → **Activa el meu registre (8 h)**. La guia completa és a `docs/statistics-operations.md`. Les accions es desen al partit; anul·lar les introduïdes només per provar. El botó no reemplaça un principal actiu.
+2. Completar el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Aquest límit no invalida les proves SQL/HTTP reals ni el desplegament confirmat per GitHub.
+3. Només quan el responsable ho demani després de validar: crear comptes temporals i confirmar UUID, partit FEM15 i caducitat per al pilot. Els comptes d’Oriol/Ventu encara no existeixen i estan ajornats expressament. No tornar a demanar aquestes dades com a bloqueig de la validació pròpia.
 
 Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
 
@@ -89,7 +91,7 @@ Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi
 
 - Integració: `avancat.html`, `federation-client.js`, `estadistiques.html`, `dashboard.html`, `base.html`, `historial.html`.
 - Components: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`.
-- Dades: migració SQL indicada.
+- Dades: migració inicial indicada i `supabase/migrations/20261017133038_require_session_revision.sql` (ja aplicada). No reaplicar-ne cap.
 - Verificació: `tests/stats-{model,database,store}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
 - Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`), evidència JSON (`docs/statistics-verification.json`), posada en servei (`docs/statistics-deployment.md`) i aquest registre. Verificació operativa: `scripts/verify-production-statistics.sql` (BEGIN/ROLLBACK).
 

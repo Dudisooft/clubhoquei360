@@ -52,6 +52,9 @@ begin
  if not denied then raise exception 'Audit DELETE allowed';end if;
  session:=public.stats_save_session(mid,'{"period":2,"ms":123000,"mode":"video","running":true}'::jsonb,0);
  if session.state ? 'running' or (session.state->>'ms')::int<>123000 then raise exception 'Paused session recovery failed';end if;
+ denied:=false;begin perform public.stats_save_session(mid,'{"period":2,"ms":124000,"mode":"video"}'::jsonb,null);
+ exception when invalid_parameter_value then denied:=true;end;
+ if not denied then raise exception 'Null session revision bypassed concurrency protection';end if;
  denied:=false;begin perform public.stats_save_session(mid,'{"period":2,"ms":124000,"mode":"video"}'::jsonb,0);
  exception when serialization_failure then denied:=true;end;
  if not denied then raise exception 'Stale session revision accepted';end if;
