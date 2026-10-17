@@ -2,7 +2,7 @@
 -- Private command functions deliberately own writes: this permits atomic CAS,
 -- idempotency and an immutable audit without granting clients direct DML.
 create schema if not exists app_private;
-revoke all on schema app_private from public;
+revoke create on schema app_private from public;
 grant usage on schema app_private to authenticated;
 
 create table public.stats_matches (
@@ -170,6 +170,7 @@ declare uid uuid:=auth.uid();mid uuid:=(p_grant->>'match_id')::uuid;result publi
  select array_agg(value) into cats from jsonb_array_elements_text(coalesce(p_grant->'categories','[]'));select array_agg(value) into sides_list from jsonb_array_elements_text(coalesce(p_grant->'sides','[]'));select array_agg(value::uuid) into players from jsonb_array_elements_text(coalesce(p_grant->'player_ids','[]'));
  cats:=coalesce(cats,'{}');sides_list:=coalesce(sides_list,'{}');players:=coalesce(players,'{}');
  if role_label='primary' and not app_private.stats_club_manager(mid) then raise exception 'Only club management can appoint a principal';end if;
+ if role_label='primary' and exists(select 1 from public.stats_assignments a where a.match_id=mid and a.role='primary' and a.revoked_at is null and a.expires_at>now() and a.id is distinct from nullif(p_grant->>'id','')::uuid) then raise exception 'Revoke the active principal before appointing another';end if;
  if expiry is null or expiry<=now() then raise exception 'Future expiry required';end if;
  if exists(select 1 from unnest(cats) c where not exists(select 1 from public.stats_actions a where a.category=c)) then raise exception 'Unknown category';end if;
  if exists(select 1 from unnest(players) p where not exists(select 1 from public.pilot_players x where x.id=p and x.match_id=mid and x.team=any(sides_list))) then raise exception 'Player scope mismatch';end if;
@@ -216,6 +217,25 @@ insert into public.stats_matches(match_id,club_id,season_id,home_team_id,away_te
  join public.teams t on t.id=e.club_team_id and t.club_id=c.club_id and t.season_id=c.season_id
  where s.import_status='verified' and (e.raw_data->>'season_id'=s.season_id or (s.season_id='41' and season.label in('2026/27','2026/2027')))
  group by s.match_id,c.club_id,c.season_id,s.official_data on conflict(match_id) do nothing;
+
+-- Future federation refreshes can add a context after an identity becomes
+-- verified. This trigger never edits an existing context, observation or grant.
+create function app_private.stats_context_from_source() returns trigger language plpgsql security definer set search_path='' as $$ begin
+ if new.import_status='verified' then
+  insert into public.stats_matches(match_id,club_id,season_id,home_team_id,away_team_id,home_external_team_id,away_external_team_id)
+  select new.match_id,c.club_id,c.season_id,
+   max(e.club_team_id::text) filter(where e.external_team_id=new.official_data->>'home_team_id')::uuid,
+   max(e.club_team_id::text) filter(where e.external_team_id=new.official_data->>'away_team_id')::uuid,
+   new.official_data->>'home_team_id',new.official_data->>'away_team_id'
+  from public.federation_competitions c join public.seasons s on s.id=c.season_id
+  join public.federation_team_entries e on e.competition_id=c.id and e.external_team_id in(new.official_data->>'home_team_id',new.official_data->>'away_team_id')
+  join public.teams t on t.id=e.club_team_id and t.club_id=c.club_id and t.season_id=c.season_id
+  where c.federation=new.federation and c.external_competition_id=new.competition_id and (e.raw_data->>'season_id'=new.season_id or (new.season_id='41' and s.label in('2026/27','2026/2027')))
+  group by c.club_id,c.season_id on conflict(match_id) do nothing;
+ end if;return new;
+end $$;
+revoke all on function app_private.stats_context_from_source() from public,anon,authenticated;
+create trigger stats_context_after_verified_source after insert or update of official_data,import_status on public.federation_match_sources for each row execute function app_private.stats_context_from_source();
 
 -- Newly prepared/imported matches can be registered by verified club managers;
 -- this does not create membership or change the source tables.

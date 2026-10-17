@@ -4,75 +4,90 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Completar el mòdul d’estadístiques integrat al Centre de partit per registrar, conservar, corregir i consultar observacions reals amb permisos de dades i sense duplicar l’acta operativa. Temporada de referència 2026/27. Fase actual: desenvolupament; primer bloc de model/persistència verificat localment, integració d’interfície en curs.
+Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament i pilot local verificats. Fase actual: comprovacions finals, documentació de lliurament i PR.** No s’ha publicat a producció.
 
-## Estat real de Git
+## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
 - Branca: `feat/match-statistics-2026-27`.
-- Checkout aïllat d’aquesta execució: `/workspace/work/clubhoquei360-stats`.
-- Checkout inicial de l’usuari: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
-- Base remota verificada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
-- Últim commit funcional verificat: es registrarà després del primer checkpoint; aquest document es versiona amb el bloc. `git log --oneline -5` és l’autoritat per al HEAD que el conté.
-- No s’ha fusionat ni desplegat cap canvi. No s’ha aplicat la migració a Supabase de producció.
+- Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
+- Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
+- Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
+- Checkpoint 1 publicat i recuperable: `d64ca9483fd25d4672d4532830acbe9b71dc473c` — model i persistència verificats, 20 proves noves correctes.
+- Checkpoint 2: aquest document acompanya el bloc integrat verificat; consultar `git log --oneline -5` per al SHA que el conté. El següent checkpoint registrarà el SHA concret.
+- No s’ha fusionat, desplegat ni aplicat la migració a Supabase de producció.
 
 ## Completat i verificat
 
-1. Inventari complet del repositori i auditoria dels components, dependències, navegació, persistència, permisos, fonts federatives i publicació: `docs/statistics-audit.md`. No tornar a fer-la si el HEAD base no ha canviat.
-2. Contrast de metadades reals de Supabase (taules, columnes, restriccions, polítiques, rols). Infraestructura compartida existent confirmada; estadística anterior exclusivament local confirmada.
-3. Branca i worktree de desenvolupament independents.
-4. Model canònic d’accions, agregats, referències oficials, CSV i cronòmetre manual amb possessió mesurada: `stats-model.js`, `stats-clock.js`.
-5. Migració additiva `supabase/migrations/20261017005241_match_statistics.sql`: taules analítiques, RLS, assignacions amb caducitat/revocació/abast, revisions, idempotència, auditoria immutable, sessió amb CAS, intervals sense solapaments. Generada amb Supabase CLI 2.121.0.
-6. Proves PostgreSQL reals locals via PGlite amb identitats de prova fictícies, sense comptes personals ni credencials: `tests/helpers/stats-db.mjs`, `tests/stats-database.test.mjs`.
-7. Proves del model i cronòmetre: `tests/stats-model.test.mjs`.
+1. Auditoria completa i contrast de metadades reals de Supabase: `docs/statistics-audit.md`. No repetir-la si no canvia la base.
+2. Model canònic d’accions/resultats, agregats, referències oficials, exportacions i cronòmetre manual separat amb possessió mesurada.
+3. Migració additiva `supabase/migrations/20261017005241_match_statistics.sql`: RLS, assignacions temporals/revocables per partit/categoria/costat/jugador, principal únic, revisions optimistes, mutacions idempotents, auditoria immutable i sessió recuperable.
+4. Contexts de partit per identificadors federatius verificats; trigger per a imports futurs sense reescriure dades analítiques ni permisos.
+5. Panell dins del Centre de partit, sense iframe: equip sense jugador previ, jugador→acció i acció→jugador sobre els mateixos esdeveniments. Correccions, anul·lació, recuperació d’anul·lades, revisió de canvis i validació.
+6. Informes d’equip, individuals, comparatives/evolució per UUID/codi federatiu, cobertura explícita, denominadors vàlids, CSV UTF-8 i JSON d’auditoria.
+7. Persistència Supabase preparada, outbox local per usuari/partit, reintents sense duplicats, còpia del rellotge i recuperació d’interval de possessió obert amb identitat estable.
+8. Accés d’operadors externs sense `pilot_members`; entrenador/coordinador segons equip; delegat sense accés avançat automàtic. No es creen comptes personals ni credencials.
+9. Formulari de login restaurat al dashboard, client públic compartit i supabase-js fixat a 2.95.3.
+10. Ruta antiga `estadistiques.html` preservada amb redirecció al partit. Claus locals del prototip conservades, sense migracions per nom/dorsal.
+11. Controls i rellotge oficials bloquejats fora del perfil principal; el rellotge oficial flotant ja no tapa l’anàlisi. Comprovació visual de mòbil/tauleta/escriptori.
+12. Guia de posada en servei i pilot real: `docs/statistics-operations.md`. CI de verificació sense desplegament; scripts de comprovació i artefacte estàtic per Pages.
 
-## Proves executades
+## Proves executades i resultats
 
-- Base original: `npm test`, 27/27 correctes. No hi havia fonts temporals per a les proves opcionals d’actes reals; no es compten com a executades.
-- Bloc de dades/model: `node --test tests/stats-model.test.mjs tests/stats-database.test.mjs`, 20/20 correctes.
-- `node --check stats-model.js`, `stats-clock.js`, `stats-ui.js`: sintaxi correcta. La sintaxi no acredita el funcionament de la UI.
-- Les proves inclouen: correccions/auditoria, idempotència, revisions obsoletes, permisos entrenador/delegat/aliè, operador temporal limitat, caducitat, revocació, prohibició d’escriure dades oficials, incompatibilitat d’assignacions, identitats de jugadors i porters, possessió/solapaments, sessió recuperable, integritat del cronòmetre oficial i accés anònim rebutjat.
+- Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
+- Suite Node actual: **55/55 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Chromium: **10/10 casos complets correctes**; dues proves addicionals de recuperació de possessió i conflicte de rellotge entre dispositius **2/2 correctes**. Pendent només consolidar una execució de la suite completa de 12 al checkpoint final.
+- Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
+- `npm run check`: 21 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
+- `npm run build`: artefacte estàtic correcte a `work/site`, sense tests/SQL/node_modules/credencials.
+- `npm audit --omit=dev`: zero vulnerabilitats comunicades.
+- `git diff --check`: sense errors.
 
-## En curs, encara NO verificat funcionalment
+El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identitats fictícies i una base PostgreSQL real local, amb les mateixes polítiques i funcions. La prova multioperador registra i consulta dades compartides persistents, però **no acredita Realtime/Auth de producció ni dos dispositius físics**. No atribuir aquestes proves a una sessió real d’Oriol/Ventu.
 
-- `stats-store.js`: cua local identificada per usuari/partit i sincronització Supabase.
-- `stats-ui.js`, `stats.css`: panell integrable, dues vies d’entrada, informes, correccions, assignacions i vídeo opcional. Encara no està connectat a `avancat.html` ni `federation-client.js`.
-- Aquests fitxers es mantenen al worktree i es documenten aquí; no s’inclouen en el primer commit funcional fins que les seves proves siguin satisfactòries.
+## Errors detectats i resolts
+
+- El prototip anterior no tenia persistència ni permisos compartits; reemplaçat per la capa integrada.
+- El dashboard no permetia iniciar sessió; formulari restaurat.
+- Superposició del rellotge oficial sobre la UI analítica i controls oficials accessibles visualment; corregit i comprovat.
+- Una URL de partit no autoritzat podia seleccionar silenciosament un altre partit accessible; ara mostra rebuig explícit.
+- Canvis de mode/període podien perdre la selecció en pausar; corregit.
+- Risc de perdre l’interval de possessió obert en una interrupció; còpia local amb UUID estable i prova de recuperació.
+- Errors inicials del transport de proves i una lectura transitòria del rellotge pausat: corregits. No hi ha fallades conegudes en les proves actuals.
 
 ## Pendents per prioritat
 
-1. Connectar el panell al Centre de partit; substituir l’iframe local; conservar la ruta `estadistiques.html` amb redirecció. Retirar només les crides obsoletes verificades. Corregir canvis de mode/període que poden perdre el valor seleccionat en pausar.
-2. Adaptar `federation-client.js` per a usuaris autoritzats via anàlisi sense afegir-los a `pilot_members`. Restaurar formulari d’accés a dashboard (ara no hi ha pantalla d’inici de sessió).
-3. Provar outbox/reconnexió/conflictes/canvi de partit i polir la UI. Comprovar ordenació estable de la paginació per taula i preservació dels formularis durant refresh.
-4. Implementar proves Playwright en Chromium amb API local sobre el mateix PostgreSQL de prova; executar els 20 casos de l’encàrrec, amb mòbil/tauleta/escriptori i errors de consola. Identificar el pilot FEM15 com a fictici.
-5. Revisar seguretat de migració, contextos de partit nous, procedència, resultats absents, percentatges, conflictes i restauració. No aplicar res a producció durant aquesta fase.
-6. Afegir CI/validació estàtica i documentació de posada en servei/pilot FEM15. Executar suite completa i revisar diff.
-7. Commit de cada bloc complet, publicar la branca i preparar PR si el connector ho permet. No fusionar/desplegar sense autorització.
-8. Informe final A–F amb estat honest, proves executades, commits/PR, dependències i límits.
+1. Consolidar la suite Chromium de 12 casos i comprovar-ne el resultat. No repetir auditoria ni proves intactes fora del necessari per al lliurament.
+2. Publicar checkpoint 2 i comprovar-ne recuperació amb Git; crear PR amb el resultat final i observar CI.
+3. Entregar informe estructurat A–F i còpia user-facing amb evidències/commits/PR verificats. Actualitzar aquest document amb SHA/PR/CI.
+4. **Després d’autorització de publicació:** aplicar la migració, publicar a Pages i executar prova autenticada amb Auth/Realtime reals i dos dispositius. Ordre i reversió a `docs/statistics-operations.md`.
+5. Confirmar UUID reals d’Oriol Codinach i Ventu i permisos exactes del partit FEM15. Crear només assignacions temporals per a comptes ja verificats, sense rols generals innecessaris.
 
-## Errors, dependències i bloquejos coneguts
+## Dependències i límits
 
-- El lloc actual no ofereix formulari d’autenticació després de substituir l’index per dashboard. Cal corregir-ho per a l’accés real.
-- Falta l’esquema inicial complet de Supabase al repositori. La migració nova assumeix l’esquema existent auditat; el bootstrap de prova recrea només les dependències necessàries.
-- La migració encara no està instal·lada al servidor: el nou mòdul no és operatiu en producció fins que es publiqui i es verifiqui en l’entorn autoritzat.
-- No s’han confirmat UUID reals d’Oriol Codinach ni Ventu. No crear comptes ficticis personals, ni concedir rols de club; documentar l’assignació temporal del pilot per a identitats existents verificades.
-- L’eina web no ha pogut obrir Pages ni els portals federatius; la xarxa de l’executor no els inclou a la política actual. No afirmar revalidació federativa o prova visual de producció que no s’hagi fet.
-- No hi ha sincronització automàtica amb el vídeo. El rellotge analític és manual i separat de l’oficial, tal com permet l’encàrrec.
+- Esquema inicial complet de Supabase no versionat; la migració assumeix l’esquema real auditat i les funcions `app_private.has_club_role`, `has_team_role`, `is_platform_superadmin` existents. No executar SQL històrics com si fossin migracions des de zero.
+- Migració i frontend encara no instal·lats en producció. Cap comprovació local acredita que el lloc publicat ja disposi del mòdul.
+- Portals federatius i Pages no accessibles amb l’eina web en aquesta execució; no es declara revalidació de fonts ni test visual de producció.
+- Vídeo manual, sense sincronització automàtica; no hi ha app completa en fred sense xarxa. Les cues locals són recuperació d’escriptures, no un sistema d’autorització offline.
+- Claus del prototip conservades; no hi ha importació automàtica d’estadístiques antigues per manca d’identificadors fiables.
+- Dos registres esportius introduïts expressament com a accions diferents no es col·lapsen només pel temps. Hi ha avisos de possible duplicat, referències estables, identitat de mutacions i assignacions sense solapament.
 
-## Fitxers modificats / nous
+## Fitxers modificats i nous
 
-Versionats al primer bloc: aquest document, `docs/statistics-audit.md`, `package.json`, `package-lock.json`, `.gitignore`, `stats-model.js`, `stats-clock.js`, migració SQL, proves de model i base de dades, helper PostgreSQL.
-
-En curs al worktree: `stats-store.js`, `stats-ui.js`, `stats.css`. Els següents checkpoints actualitzaran aquesta llista amb la integració real.
+- Integració: `avancat.html`, `federation-client.js`, `estadistiques.html`, `dashboard.html`, `base.html`, `historial.html`.
+- Components: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`.
+- Dades: migració SQL indicada.
+- Verificació: `tests/stats-{model,database,store}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
+- Documents: auditoria, operació/pilot i aquest registre.
 
 ## Represa exacta
 
-Quan es rebi **CONTINUA CLUBHOQUEI360**:
+En rebre **CONTINUA CLUBHOQUEI360**:
 
 1. Llegir aquest document i les instruccions locals aplicables.
-2. Executar `git status --short --branch` i `git log --oneline -5` al checkout de la branca indicada (o descarregar aquesta branca si és una sessió nova).
-3. Verificar que els commits documentats i els fitxers en curs hi són. No repetir auditoria ni proves del bloc intacte; repetir proves només si canvien aquests fitxers o apareixen errors.
-4. Continuar per la primera tasca pendent anterior i treballar autònomament.
-5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar recuperació amb `git show` i, si hi ha accés, pujar la branca.
+2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
+3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
+4. Continuar per la primera tasca pendent, autònomament.
+5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
-La renovació de crèdits no inicia cap execució automàtica. La continuació requereix que l’usuari enviï la instrucció indicada. No s’ha creat cap automatització.
+La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.

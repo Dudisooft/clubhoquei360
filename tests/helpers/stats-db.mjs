@@ -23,6 +23,8 @@ export async function createDatabase(){
  create table public.federation_team_entries(id uuid primary key,club_team_id uuid,competition_id uuid,external_team_id text,raw_data jsonb);
  `);
  for(const table of ['pilot_matches','pilot_events','pilot_players','pilot_operator_state','federation_match_sources'])await db.exec(`alter table public.${table} enable row level security;grant select on public.${table} to authenticated;`);
+ for(const table of ['pilot_matches','pilot_events','pilot_players','pilot_operator_state','federation_match_sources'])await db.exec(`create policy legacy_member_read on public.${table} for select to authenticated using(exists(select 1 from public.pilot_members m where m.user_id=auth.uid() and m.match_id=${table==='pilot_matches'?table+'.id':table+'.match_id'}));`);
+ await db.exec('alter table pilot_members enable row level security;create policy legacy_members_self on pilot_members for select to authenticated using(user_id=auth.uid());');
  await db.exec(`create policy legacy_official_operator on public.pilot_events for insert to authenticated with check(exists(select 1 from public.pilot_members m where m.user_id=auth.uid() and m.match_id=pilot_events.match_id and m.role='operator'));grant insert on public.pilot_events to authenticated;grant select on public.pilot_members to authenticated;`);
  for(const user of ['principal','external','coach','delegate','alien','manager','secondary'])await db.query('insert into auth.users values ($1)',[ID[user]]);
  await db.query('insert into public.clubs values ($1,$2)',[ID.club,'Club de prova fictici']);
