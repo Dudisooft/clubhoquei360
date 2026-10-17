@@ -8,7 +8,7 @@
 
 Frontend estàtic HTML/CSS/JavaScript, sense framework ni compilació necessària de runtime. Navegació multipàgina relativa: dashboard, Centre de partit (`avancat.html`), Base i Historial. Supabase real existent: Auth, RLS, PostgreSQL, Realtime i Edge Functions federatives. El catàleg normalitzat inclou clubs, temporades, equips, identitats, plantilles, calendaris i actes; l’operació de partit usa `pilot_matches`, `pilot_players`, `pilot_events` i `pilot_operator_state`.
 
-L’auditoria ha contrastat el HEAD remot, tots els fitxers del repositori i metadades reals de Supabase. En la consulta inicial hi havia 31 partits operatius, 153 participants, 342 incidències i sis estats. Aquestes xifres són un inventari del moment de consulta, no dades creades per a les proves. Les 27 proves inicials passaven.
+L’auditoria ha contrastat el HEAD remot, tots els fitxers del repositori i metadades reals de Supabase. En la consulta inicial hi havia 31 partits operatius, 153 participants, 342 incidències i sis estats. Aquestes xifres són un inventari del moment de consulta, no dades creades per a les proves. Les 27 proves inicials passaven. El pilot local utilitza set participants ficticis per equip, sense noms de menors reals.
 
 El buit principal era el panell d’estadístiques: un iframe localStorage amb noms de partit/operador/dorsal lliures, sense sincronització, permisos de servidor ni identitats fiables. Hi havia codi estadístic ocult duplicat, notes d’entrenador locals i una pàgina d’entrada que ja no oferia login. La documentació antiga sobre cron federatiu contradeia documents recents: s’ha conservat l’estat existent sense alterar programacions.
 
@@ -42,7 +42,7 @@ Les importacions FECAPA/RFEP es conserven. Només es reutilitzen identificadors 
 
 ## C. Proves
 
-Resultats locals: **57 proves Node i 12 casos Chromium**. L’informe final i el registre de progrés recullen el resultat consolidat de l’execució de lliurament. Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
+Resultats locals: **58 proves Node i 12 casos Chromium**. L’informe final i el registre de progrés recullen el resultat consolidat de l’execució de lliurament. Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
 
 | Requisit | Evidència executada |
 | --- | --- |
@@ -95,7 +95,9 @@ Els estats «operativa i verificada» d’aquesta taula es refereixen a **la bra
 - Branca: [`feat/match-statistics-2026-27`](https://github.com/Dudisooft/clubhoquei360/tree/feat/match-statistics-2026-27).
 - Checkpoint 1: [`d64ca94`](https://github.com/Dudisooft/clubhoquei360/commit/d64ca9483fd25d4672d4532830acbe9b71dc473c), model/persistència verificats.
 - Checkpoint 2: [`67958a3`](https://github.com/Dudisooft/clubhoquei360/commit/67958a35b0d2748fb2692d2c1c807a3371569b3e), integració i sessions recuperables.
-- Commits finals, PR i estat CI: consultar [CODEX_PROGRESS.md](CODEX_PROGRESS.md), actualitzat després de preparar el lliurament.
+- PR oberta: [#1 · Estadístiques de partit amb permisos i sessions recuperables](https://github.com/Dudisooft/clubhoquei360/pull/1).
+- Checkpoint 3: [`ac8ad5e`](https://github.com/Dudisooft/clubhoquei360/commit/ac8ad5ee754443804b1cdff3acbe434778877bc5), aïllament de cues, RLS i lliurament; [CI correcta](https://github.com/Dudisooft/clubhoquei360/actions/runs/39018424281).
+- Commits finals i estat CI més recent: consultar [CODEX_PROGRESS.md](CODEX_PROGRESS.md), actualitzat després de preparar el lliurament.
 - Desplegament: **no fusionat, no desplegat; migració de producció no aplicada**. `main` conservada a la base auditada en la verificació remota.
 
 ## F. Pendents necessaris

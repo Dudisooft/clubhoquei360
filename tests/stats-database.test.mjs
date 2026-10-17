@@ -101,3 +101,5 @@ test('every analytics table has RLS and no stats command is executable by anonym
  const tables=await asOwner(db,"select relname,relrowsecurity from pg_class where relnamespace='public'::regnamespace and relkind='r' and relname like 'stats_%'");assert.equal(tables.rows.length,8);assert.ok(tables.rows.every(r=>r.relrowsecurity));
  const exposed=await asOwner(db,"select p.proname from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('public','app_private') and p.proname like 'stats_%' and has_function_privilege('anon',p.oid,'execute')");assert.equal(exposed.rows.length,0);
 });
+
+test('a manual observation cannot claim official-reference provenance without a real source',async()=>{await assert.rejects(write(db,'principal',event({origin:'official_reference'})),/check constraint/);});

@@ -35,7 +35,8 @@ create table public.stats_events (
  validation text not null check(validation in('recorded','validated','void')),revision int not null default 1,
  source_event_id uuid references public.pilot_events(id),note text not null default '' check(length(note)<=500),
  check((action='possession' and duration_ms is not null and duration_ms>0 and duration_ms<=match_ms and player_id is null) or (action<>'possession' and duration_ms is null and side<>'disputed')),
- check(assist_player_id is null or (action='goal' and assist_player_id is distinct from player_id))
+ check(assist_player_id is null or (action='goal' and assist_player_id is distinct from player_id)),
+ check((origin='official_reference')=(source_event_id is not null))
 );
 create unique index stats_events_source_once on public.stats_events(match_id,source_event_id) where source_event_id is not null;
 create index stats_events_timeline_idx on public.stats_events(match_id,period,match_ms);

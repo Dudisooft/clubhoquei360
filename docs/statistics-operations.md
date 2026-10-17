@@ -80,6 +80,6 @@ npx playwright install chromium
 PLAYWRIGHT_BUNDLED=1 npm run test:browser
 ```
 
-El servidor de proves només escolta a `127.0.0.1`; ofereix un transport local sobre PostgreSQL/PGlite amb RLS. Les identitats i els partits s’etiqueten com a ficticis. El transport de proves d’Auth i WebSocket no acredita l’Auth ni Realtime de producció. La prova de diversos operadors sí que escriu/consulta una base de dades compartida real local, amb les mateixes funcions SQL i polítiques; no usa un array compartit com a substitut de persistència.
+El servidor de proves només escolta a `127.0.0.1`; ofereix un transport local sobre PostgreSQL/PGlite amb RLS. Les identitats i els partits s’etiqueten com a ficticis; el pilot local té set participants per equip, amb una portera i sis jugadores de pista fictícies. El transport de proves d’Auth i WebSocket no acredita l’Auth ni Realtime de producció. La prova de diversos operadors sí que escriu/consulta una base de dades compartida real local, amb les mateixes funcions SQL i polítiques; no usa un array compartit com a substitut de persistència.
 
 La continuïtat del desenvolupament és a [CODEX_PROGRESS.md](CODEX_PROGRESS.md). L’ordre de represa és **CONTINUA CLUBHOQUEI360**.
