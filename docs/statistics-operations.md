@@ -1,13 +1,13 @@
 # Estadístiques del Centre de partit · operació i pilot FEM15
 
-## Posada en servei pendent d’autorització
+## Posada en servei autoritzada
 
-La branca conté la implementació i una migració additiva verificada en PostgreSQL local. No s’ha modificat Supabase de producció ni s’ha publicat a Pages. No es requereix cap servei nou ni de pagament.
+La posada en servei està autoritzada per l’ordre «Endavant». La migració additiva ja està aplicada i verificada al PostgreSQL de producció; no tornar-la a executar. L’estat de fusió i Pages consta a [statistics-deployment.md](statistics-deployment.md). No es requereix cap servei nou ni de pagament.
 
-Ordre de publicació quan estigui autoritzada:
+Ordre de publicació i comprovació:
 
-1. Revisar i fusionar la PR només amb comprovacions satisfactòries. La configuració Pages actual no està versionada: confirmar que la font continua sent `main` i l’arrel del repositori.
-2. Aplicar **només** `supabase/migrations/20261017005241_match_statistics.sql` al projecte existent, amb l’eina de migracions autoritzada. Els SQL històrics de l’arrel de `supabase/` no són una seqüència de migracions des de zero: no tornar-los a executar.
+1. Revisar la PR amb comprovacions satisfactòries i el flux Pages existent de `main`. Aplicar i verificar la base de dades abans de fusionar el frontend per evitar publicar una interfície sense infraestructura.
+2. En una instal·lació nova compatible, aplicar **només** `supabase/migrations/20261017005241_match_statistics.sql` al projecte existent, amb l’eina de migracions autoritzada. En aquest projecte ja consta com `20261017130942_match_statistics`. Els SQL històrics de l’arrel de `supabase/` no són una seqüència de migracions des de zero: no tornar-los a executar.
 3. Comprovar que `app_private` continua fora dels esquemes exposats de la Data API i que les polítiques de les taules noves són actives. Les RPC públiques són invoker; els comandos privats definer fan comprovacions explícites d’identitat/abast per mantenir escriptura atòmica, revisions i auditoria sense DML directe del client.
 4. Comprovar la lectura amb usuari autoritzat i el rebuig amb anon/delegat/usuari aliè. Cap rol de `pilot_members` dona accés avançat automàticament.
 5. Comprovar contexts `stats_matches` i correspondència exacta d’equip/temporada/identificador federatiu. El bootstrap usa els identificadors existents; no uneix per nom. Un trigger pot afegir contexts de fonts noves verificades, sense modificar els anteriors, observacions o permisos.

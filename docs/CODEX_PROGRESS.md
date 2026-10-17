@@ -4,7 +4,7 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. Informe i PR lliurats; només resta la posada en servei autoritzada i la prova real.** No s’ha publicat a producció.
+Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. L’usuari ha autoritzat la posada en servei amb «Endavant». Migració aplicada i verificada al PostgreSQL de producció; fusió i Pages en curs.** Detall: [statistics-deployment.md](statistics-deployment.md).
 
 ## Estat real de Git i punts de recuperació
 
@@ -20,7 +20,7 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 - El checkpoint documental final només actualitza aquests informes i les evidències; `git log -1` identifica el commit que els conté.
 - PR oberta: https://github.com/Dudisooft/clubhoquei360/pull/1 (sense fusionar).
 - CI del codi final: https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522 — **success**, totes les etapes correctes, inclòs Chromium (58 Node + 12 navegador).
-- No s’ha fusionat, desplegat ni aplicat la migració a Supabase de producció.
+- Migració instal·lada a Supabase: `20261017130942_match_statistics`; font local `20261017005241_match_statistics.sql` sense canvis. Fusió i frontend encara pendents en aquest checkpoint.
 
 ## Completat i verificat
 
@@ -36,6 +36,7 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 10. Ruta antiga `estadistiques.html` preservada amb redirecció al partit. Claus locals del prototip conservades, sense migracions per nom/dorsal.
 11. Controls i rellotge oficials bloquejats fora del perfil principal; el rellotge oficial flotant ja no tapa l’anàlisi. Comprovació visual de mòbil/tauleta/escriptori.
 12. Guia de posada en servei i pilot real: `docs/statistics-operations.md`. CI de verificació sense desplegament; scripts de comprovació i artefacte estàtic per Pages.
+13. Instal·lació real autoritzada: 29 contexts verificats (24 FEM15), RLS/privilegis, API anònima denegada, esquema privat no exposat i publicació SQL de Realtime. Prova transaccional real de comandos/permisos, revertida íntegrament. Cap dada oficial alterada ni compte/assignació personal creat. Script reproduïble: `scripts/verify-production-statistics.sql`.
 
 ## Proves executades i resultats
 
@@ -64,7 +65,7 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 No queda cap bloc de desenvolupament o prova local obert. PR #1 preparada i CI del codi final correcta; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
 
-1. **Només després d’autorització de publicació:** aplicar la migració i publicar a Pages en l’ordre de `docs/statistics-operations.md`. No fusionar/desplegar per una simple ordre de represa.
+1. **Publicació ja autoritzada amb «Endavant»:** desar aquest checkpoint, comprovar CI del nou HEAD documental, fusionar PR #1 i verificar el workflow Pages del commit resultant. No tornar a aplicar la migració instal·lada. Actualitzar informe i evidències amb el resultat real.
 2. Executar prova autenticada amb Supabase Auth/Realtime reals i dos dispositius físics després de la instal·lació autoritzada.
 3. Confirmar UUID reals d’Oriol Codinach i Ventu i partits FEM15 autoritzats. Assignar accés temporal a comptes verificats, sense rols generals innecessaris, i revocar en acabar.
 
@@ -73,7 +74,7 @@ Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi
 ## Dependències i límits
 
 - Esquema inicial complet de Supabase no versionat; la migració assumeix l’esquema real auditat i les funcions `app_private.has_club_role`, `has_team_role`, `is_platform_superadmin` existents. No executar SQL històrics com si fossin migracions des de zero.
-- Migració i frontend encara no instal·lats en producció. Cap comprovació local acredita que el lloc publicat ja disposi del mòdul.
+- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend pendent de fusió en aquest checkpoint. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth.
 - Portals federatius i Pages no accessibles amb l’eina web en aquesta execució; no es declara revalidació de fonts ni test visual de producció.
 - Vídeo manual, sense sincronització automàtica; no hi ha app completa en fred sense xarxa. Les cues locals són recuperació d’escriptures, no un sistema d’autorització offline.
 - Claus del prototip conservades; no hi ha importació automàtica d’estadístiques antigues per manca d’identificadors fiables.

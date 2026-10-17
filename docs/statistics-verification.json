@@ -2,7 +2,7 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "PostgreSQL/PGlite real local i transport Auth/PostgREST/WebSocket de prova; dades fictícies. Producció no desplegada.",
+  "scope": "58 Node i 12 Chromium amb dades fictícies locals; addicionalment, migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend pendent de fusió en aquest checkpoint.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/match-statistics-2026-27",
   "codeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
@@ -101,6 +101,44 @@
     "critical": 0,
     "total": 0
   },
-  "productionChangesApplied": false,
-  "realPilotAccountsProvisioned": false
+  "productionChangesApplied": true,
+  "realPilotAccountsProvisioned": false,
+  "deployment": {
+    "authorizedBy": "Endavant, després del lliurament de PR #1",
+    "migrationVersion": "20261017130942",
+    "migrationName": "match_statistics",
+    "sourceFile": "supabase/migrations/20261017005241_match_statistics.sql",
+    "sourceSha256": "5c5ff1cfda8a83c5f81abc57e680e5417249e2021337c87a864349b85c29d9a1",
+    "rlsTables": 8,
+    "publicInvokerRpcs": 7,
+    "contexts": 29,
+    "fem15Contexts": 24,
+    "sqlSmoke": "PASS; scripts/verify-production-statistics.sql, all writes rolled back",
+    "testAccountsCreated": 0,
+    "persistentTestEvents": 0,
+    "persistentAssignments": 0,
+    "officialRowsUnchanged": true,
+    "apiChecks": [
+      {
+        "check": "anon_stats_read",
+        "status": 401,
+        "code": "42501",
+        "message": "permission denied for table stats_events"
+      },
+      {
+        "check": "anon_stats_rpc",
+        "status": 401,
+        "code": "42501",
+        "message": "permission denied for function stats_access"
+      },
+      {
+        "check": "private_schema_not_exposed",
+        "status": 406,
+        "code": "PGRST106",
+        "message": "Invalid schema: app_private"
+      }
+    ],
+    "frontendPublished": false,
+    "realAuthRealtimeSmokeExecuted": false
+  }
 }

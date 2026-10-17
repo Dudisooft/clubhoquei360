@@ -2,7 +2,7 @@
 
 17/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
-**Resultat:** mòdul integrat i verificat en desenvolupament, amb persistència compartida i permisos de dades provats en PostgreSQL local. La branca principal, Supabase de producció i l’aplicació publicada es mantenen sense canvis d’aquest encàrrec. La posada en servei real requereix aplicar la migració i publicar amb autorització; no es presenta com a ja desplegada.
+**Resultat:** mòdul integrat i verificat en desenvolupament. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. Fusió i Pages en curs en aquest checkpoint; estat verificable a [statistics-deployment.md](statistics-deployment.md).
 
 ## A. Auditoria inicial
 
