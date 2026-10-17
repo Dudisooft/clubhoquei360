@@ -1,0 +1,61 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-17",
+  "kind": "Read-only observation of real production activity; no synthetic login or writes",
+  "applicationCodeCommit": "4aee0c0997e8dac359411da170856410e8158eb4",
+  "applicationReleaseCommit": "5baee53cacc590c9cd18caef1f3d7464b6aae99f",
+  "verifiedCi": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39037080177",
+  "verifiedPages": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39037185964",
+  "databaseSnapshot": {
+    "at": "2026-10-17T14:40:18.743107Z",
+    "contexts": 29,
+    "activeAssignments": 1,
+    "analysisSessions": 0,
+    "observations": 0
+  },
+  "observedAssignment": {
+    "matchId": "408787db-310f-42dd-90e6-16ee2cf971a5",
+    "matchTitle": "Revisió vídeo · Alcobendas – Simar Igualada",
+    "role": "primary",
+    "createdAt": "2026-10-17T14:38:27.415431Z",
+    "expiresAt": "2026-10-17T22:38:26.655Z",
+    "leaseHoursRounded": 8,
+    "holderIsExistingSuperadministrator": true,
+    "auditEntryExists": true
+  },
+  "httpLogQuery": {
+    "windowStart": "2026-10-17T14:35:00Z",
+    "windowEnd": "Supabase query execution time on 2026-10-17",
+    "successfulPaths": {
+      "/auth/v1/user": 200,
+      "/rest/v1/rpc/stats_access": 200,
+      "/rest/v1/rpc/stats_grant": 200,
+      "/rest/v1/stats_assignments": 200,
+      "/rest/v1/stats_events": 200,
+      "/rest/v1/stats_matches": 200,
+      "/rest/v1/stats_sessions": 200
+    },
+    "recordEventRequestObserved": false,
+    "saveAnalysisSessionRequestObserved": false,
+    "postgresSeveritiesObserved": [
+      "LOG"
+    ],
+    "postgresSqlstatesObserved": [
+      "00000"
+    ]
+  },
+  "verifiedScope": [
+    "authenticated session lookup",
+    "authorized match reads",
+    "eight-hour own primary assignment",
+    "assignment persistence and audit"
+  ],
+  "pendingScope": [
+    "real observation recording and correction",
+    "real analysis session save and recovery",
+    "Realtime delivery between physical devices",
+    "owner acceptance of displayed results"
+  ],
+  "externalAccounts": "Deferred by project owner until own validation; no accounts created in this continuation",
+  "continuationWritesToSportsData": 0
+}
