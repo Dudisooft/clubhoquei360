@@ -83,10 +83,14 @@ begin
  if (public.stats_access(mid)->>'read')::boolean or exists(select 1 from public.stats_events) then raise exception 'Expired assignment still reads';end if;
  perform set_config('role','none',true);
  update public.platform_admins set enabled=true where user_id=actor;
+ update public.stats_assignments set expires_at=now()+interval '1 hour' where id=assignment.id;
  perform set_config('role','authenticated',true);
  perform public.stats_revoke(assignment.id);
  perform set_config('role','none',true);
  update public.platform_admins set enabled=false where user_id=actor;
+ perform set_config('role','authenticated',true);
+ if (public.stats_access(mid)->>'read')::boolean or exists(select 1 from public.stats_events) then raise exception 'Revoked assignment still reads';end if;
+ perform set_config('role','none',true);
  insert into public.club_memberships(id,club_id,user_id,role,team_id) values(membership,club,actor,'coach',team);
  perform set_config('role','authenticated',true);
  if not (public.stats_access(mid)->>'read')::boolean or exists(select 1 from public.stats_matches where match_id=other_mid) then raise exception 'Team coach read scope failed';end if;

@@ -2,13 +2,13 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "58 Node i 12 Chromium amb dades fictícies locals; addicionalment, migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend pendent de fusió en aquest checkpoint.",
+  "scope": "58 Node i 12 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend fusionat i Pages confirmat per GitHub. Recorregut Auth/Realtime real pendent.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/match-statistics-2026-27",
   "codeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/1",
   "ci": {
-    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731",
     "conclusion": "success",
     "verifiedSteps": [
       "npm ci",
@@ -17,7 +17,8 @@
       "npm run build",
       "playwright install",
       "npm run test:browser"
-    ]
+    ],
+    "head": "f119d1d36ad6b8b9d31dcbab76aaceb096a9f419"
   },
   "nodeTests": 58,
   "browser": {
@@ -138,7 +139,23 @@
         "message": "Invalid schema: app_private"
       }
     ],
-    "frontendPublished": false,
-    "realAuthRealtimeSmokeExecuted": false
+    "frontendPublished": true,
+    "realAuthRealtimeSmokeExecuted": false,
+    "mergeCommit": "5e1ce5efdc9624ecd6edd5ab53194098c77d1f85",
+    "pages": {
+      "run": 39035824360,
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360",
+      "conclusion": "success",
+      "steps": [
+        "build/Jekyll",
+        "upload artifact",
+        "deploy",
+        "report-build-status"
+      ],
+      "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+      "directBrowserSmokeExecuted": false,
+      "directBrowserBlocker": "Pages host inaccessible in web tool and outside executor network allowlist"
+    },
+    "newSecurityAdvisorFindings": 0
   }
 }
