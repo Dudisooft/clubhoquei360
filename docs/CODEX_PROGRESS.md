@@ -4,7 +4,7 @@ Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament i pilot local verificats. Fase actual: comprovacions finals, documentació de lliurament i PR.** No s’ha publicat a producció.
+Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, corregir i consultar dades amb permisos de dades, sense duplicar el registre oficial. Temporada 2026/27. **Desenvolupament, pilot local i CI completats. Informe i PR lliurats; només resta la posada en servei autoritzada i la prova real.** No s’ha publicat a producció.
 
 ## Estat real de Git i punts de recuperació
 
@@ -16,9 +16,10 @@ Mòdul d’estadístiques integrat al Centre de partit: registrar, conservar, co
 - Checkpoint 1 publicat i recuperable: `d64ca9483fd25d4672d4532830acbe9b71dc473c` — model i persistència verificats, 20 proves noves correctes.
 - Checkpoint 2 publicat i recuperable: `67958a35b0d2748fb2692d2c1c807a3371569b3e` — integració, permisos i sessions recuperables.
 - Checkpoint 3 publicat i verificat per CI: `ac8ad5ee754443804b1cdff3acbe434778877bc5` — aïllament de cues entre partits, paginació estable, RLS/anon i informe A–F.
-- Checkpoint final de codi: procedència oficial obligatòriament vinculada a una font real, visibilitat del login i fixture FEM15 amb set participants ficticis per equip; aquest document acompanya el bloc verificat localment.
+- Últim commit de codi verificat localment i per CI: `a0145fadf8be158cbe1b47707161c3803121616a` — procedència oficial vinculada a font real, visibilitat del login i pilot amb set participants ficticis per equip.
+- El checkpoint documental final només actualitza aquests informes i les evidències; `git log -1` identifica el commit que els conté.
 - PR oberta: https://github.com/Dudisooft/clubhoquei360/pull/1 (sense fusionar).
-- CI verificada al checkpoint 3: https://github.com/Dudisooft/clubhoquei360/actions/runs/39018424281 — totes les etapes correctes, inclòs Chromium. Cal observar el nou run després del checkpoint final.
+- CI del codi final: https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522 — **success**, totes les etapes correctes, inclòs Chromium (58 Node + 12 navegador).
 - No s’ha fusionat, desplegat ni aplicat la migració a Supabase de producció.
 
 ## Completat i verificat
@@ -61,11 +62,13 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-1. Publicar el checkpoint final de codi i observar-ne CI; la PR #1 ja existeix. No repetir auditoria ni suites locals intactes.
-2. Entregar informe estructurat A–F (`docs/statistics-delivery.md`) i còpia user-facing amb evidències/commits/PR verificats.
-3. Actualitzar aquest document amb SHA/PR/CI finals.
-4. **Després d’autorització de publicació:** aplicar la migració, publicar a Pages i executar prova autenticada amb Auth/Realtime reals i dos dispositius. Ordre i reversió a `docs/statistics-operations.md`.
-5. Confirmar UUID reals d’Oriol Codinach i Ventu i permisos exactes del partit FEM15. Crear només assignacions temporals per a comptes ja verificats, sense rols generals innecessaris.
+No queda cap bloc de desenvolupament o prova local obert. PR #1 preparada i CI del codi final correcta; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
+
+1. **Només després d’autorització de publicació:** aplicar la migració i publicar a Pages en l’ordre de `docs/statistics-operations.md`. No fusionar/desplegar per una simple ordre de represa.
+2. Executar prova autenticada amb Supabase Auth/Realtime reals i dos dispositius físics després de la instal·lació autoritzada.
+3. Confirmar UUID reals d’Oriol Codinach i Ventu i partits FEM15 autoritzats. Assignar accés temporal a comptes verificats, sense rols generals innecessaris, i revocar en acabar.
+
+Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
 
 ## Dependències i límits
 
@@ -82,7 +85,7 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Components: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`.
 - Dades: migració SQL indicada.
 - Verificació: `tests/stats-{model,database,store}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
-- Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`) i aquest registre.
+- Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`), evidència JSON (`docs/statistics-verification.json`) i aquest registre.
 
 ## Represa exacta
 

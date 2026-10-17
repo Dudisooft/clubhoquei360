@@ -42,7 +42,7 @@ Les importacions FECAPA/RFEP es conserven. Només es reutilitzen identificadors 
 
 ## C. Proves
 
-Resultats locals: **58 proves Node i 12 casos Chromium**. L’informe final i el registre de progrés recullen el resultat consolidat de l’execució de lliurament. Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
+Resultats locals: **58 proves Node i 12 casos Chromium**. Resultat consolidat correcte en local i en la CI de GitHub del codi final. [Evidències reproduïbles i casos executats](statistics-verification.json). Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
 
 | Requisit | Evidència executada |
 | --- | --- |
@@ -97,7 +97,8 @@ Els estats «operativa i verificada» d’aquesta taula es refereixen a **la bra
 - Checkpoint 2: [`67958a3`](https://github.com/Dudisooft/clubhoquei360/commit/67958a35b0d2748fb2692d2c1c807a3371569b3e), integració i sessions recuperables.
 - PR oberta: [#1 · Estadístiques de partit amb permisos i sessions recuperables](https://github.com/Dudisooft/clubhoquei360/pull/1).
 - Checkpoint 3: [`ac8ad5e`](https://github.com/Dudisooft/clubhoquei360/commit/ac8ad5ee754443804b1cdff3acbe434778877bc5), aïllament de cues, RLS i lliurament; [CI correcta](https://github.com/Dudisooft/clubhoquei360/actions/runs/39018424281).
-- Commits finals i estat CI més recent: consultar [CODEX_PROGRESS.md](CODEX_PROGRESS.md), actualitzat després de preparar el lliurament.
+- Codi final: [`a0145fa`](https://github.com/Dudisooft/clubhoquei360/commit/a0145fadf8be158cbe1b47707161c3803121616a); [CI final correcta](https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522), 58 Node i 12 Chromium.
+- Registre de checkpoints i instrucció de represa: consultar [CODEX_PROGRESS.md](CODEX_PROGRESS.md), actualitzat després de preparar el lliurament.
 - Desplegament: **no fusionat, no desplegat; migració de producció no aplicada**. `main` conservada a la base auditada en la verificació remota.
 
 ## F. Pendents necessaris
