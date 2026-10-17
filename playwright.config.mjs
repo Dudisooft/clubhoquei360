@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'./tests/browser',workers:1,timeout:45000,reporter:[['list'],['json',{outputFile:'work/browser-results.json'}]],use:{baseURL:'http://127.0.0.1:4173',browserName:'chromium',launchOptions:{executablePath:process.env.PLAYWRIGHT_BUNDLED?undefined:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']},trace:'retain-on-failure'},webServer:{command:'node tests/helpers/stats-server.mjs',url:'http://127.0.0.1:4173/health',reuseExistingServer:false,timeout:30000}});

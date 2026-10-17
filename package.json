@@ -1,1 +1,20 @@
-{"private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs"},"devDependencies":{"linkedom":"0.18.12","typescript":"5.9.3"}}
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test tests/*.test.mjs",
+    "check": "node scripts/verify.mjs",
+    "build": "node scripts/build.mjs",
+    "test:browser": "playwright test"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.10",
+    "@playwright/test": "1.64.1",
+    "linkedom": "0.18.12",
+    "supabase": "2.121.0",
+    "typescript": "5.9.3"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.95.3"
+  }
+}

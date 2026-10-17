@@ -1,0 +1,144 @@
+{
+  "project": "ClubHoquei360",
+  "season": "2026/2027",
+  "timezone": "Europe/Madrid",
+  "scope": "58 Node i 12 Chromium amb dades fictícies locals; addicionalment, migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend pendent de fusió en aquest checkpoint.",
+  "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
+  "branch": "feat/match-statistics-2026-27",
+  "codeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/1",
+  "ci": {
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39018684522",
+    "conclusion": "success",
+    "verifiedSteps": [
+      "npm ci",
+      "npm run check",
+      "npm test",
+      "npm run build",
+      "playwright install",
+      "npm run test:browser"
+    ]
+  },
+  "nodeTests": 58,
+  "browser": {
+    "startTime": "2026-10-17T08:46:42.232Z",
+    "duration": 29448.409,
+    "expected": 12,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserCases": [
+    {
+      "name": "FEM15 fictici: clocks, both input paths, correction, undo, recovery, reports and official isolation",
+      "passed": true
+    },
+    {
+      "name": "responsive mòbil and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "responsive tauleta and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "responsive ordinador and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "legacy statistics URL preserves match and opens integrated module",
+      "passed": true
+    },
+    {
+      "name": "coach can consult, delegate has no automatic analysis access",
+      "passed": true
+    },
+    {
+      "name": "explicit login form restores access without embedding credentials",
+      "passed": true
+    },
+    {
+      "name": "temporary external operator and coach share actual persisted observations; other teams and revoked access are denied",
+      "passed": true
+    },
+    {
+      "name": "offline outbox survives reload and reconnect confirms one action",
+      "passed": true
+    },
+    {
+      "name": "possession, explicit zero coverage, evolution and exports use observed data",
+      "passed": true
+    },
+    {
+      "name": "an interrupted possession interval recovers once with paused analysis clock",
+      "passed": true
+    },
+    {
+      "name": "two devices cannot silently overwrite a shared operator clock; local copy can be recovered explicitly",
+      "passed": true
+    }
+  ],
+  "viewports": [
+    {
+      "width": 390,
+      "height": 844
+    },
+    {
+      "width": 820,
+      "height": 1180
+    },
+    {
+      "width": 1440,
+      "height": 1000
+    }
+  ],
+  "staticFilesChecked": 21,
+  "productionDependencyVulnerabilities": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "productionChangesApplied": true,
+  "realPilotAccountsProvisioned": false,
+  "deployment": {
+    "authorizedBy": "Endavant, després del lliurament de PR #1",
+    "migrationVersion": "20261017130942",
+    "migrationName": "match_statistics",
+    "sourceFile": "supabase/migrations/20261017005241_match_statistics.sql",
+    "sourceSha256": "5c5ff1cfda8a83c5f81abc57e680e5417249e2021337c87a864349b85c29d9a1",
+    "rlsTables": 8,
+    "publicInvokerRpcs": 7,
+    "contexts": 29,
+    "fem15Contexts": 24,
+    "sqlSmoke": "PASS; scripts/verify-production-statistics.sql, all writes rolled back",
+    "testAccountsCreated": 0,
+    "persistentTestEvents": 0,
+    "persistentAssignments": 0,
+    "officialRowsUnchanged": true,
+    "apiChecks": [
+      {
+        "check": "anon_stats_read",
+        "status": 401,
+        "code": "42501",
+        "message": "permission denied for table stats_events"
+      },
+      {
+        "check": "anon_stats_rpc",
+        "status": 401,
+        "code": "42501",
+        "message": "permission denied for function stats_access"
+      },
+      {
+        "check": "private_schema_not_exposed",
+        "status": 406,
+        "code": "PGRST106",
+        "message": "Invalid schema: app_private"
+      }
+    ],
+    "frontendPublished": false,
+    "realAuthRealtimeSmokeExecuted": false
+  }
+}

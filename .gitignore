@@ -8,3 +8,9 @@ tests/fem15-generated/
 tests/ihc-generated/
 
 tests/report-generated/
+
+# Local tooling and verification artifacts
+supabase/.temp/
+playwright-report/
+test-results/
+work/
