@@ -1,6 +1,6 @@
 # ClubHoquei360 · Informe de lliurament del mòdul d’estadístiques
 
-17/10/2026, Europe/Madrid. Temporada de referència 2026/27.
+Actualitzat el 20/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
 **Resultat:** mòdul integrat i verificat en desenvolupament. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (codi publicat: `5baee53`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
 
@@ -73,7 +73,7 @@ Límits de l’evidència: PostgreSQL/PGlite és real, amb RLS i funcions SQL, p
 
 ## D. Estat funcional
 
-Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i la base està instal·lada; encara falta el recorregut autenticat complet a Pages amb comptes reals.
+Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i la base està instal·lada. El 20/10/2026 s’ha confirmat la prova bàsica real amb el superadministrador (registre, desament i lectura posterior a la recàrrega); la verificació multiusuari/multidispositiu continua pendent.
 
 | Funcionalitat | Classificació | Límit |
 | --- | --- | --- |
@@ -87,11 +87,11 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Informes, comparatives/evolució i exportacions | OPERATIVA I VERIFICADA | Mostres observades, identitats explícites |
 | Protecció del registre oficial i fonts | OPERATIVA I VERIFICADA | Proves locals i empremtes abans/després de la instal·lació real |
 | Consulta autenticada i activació pròpia reals | OPERATIVA I VERIFICADA | Logs reals HTTP 200 i assignació persistent/auditada; sense prova visual directa |
-| Registre i recuperació sota Auth real | IMPLEMENTADA PENDENT DE PROVES | Zero observacions/sessions a la consulta de les 14:40:18 UTC |
+| Registre bàsic i recuperació sota Auth real | OPERATIVA I VERIFICADA | 20/10/2026: una acció/auditoria, sessió de vídeo revisió 7, lectura HTTP 200 posterior al desament i confirmació del responsable |
 | Realtime entre dispositius físics | IMPLEMENTADA PENDENT DE PROVES | Falta verificar entrega WebSocket; les lectures HTTP no l’acrediten |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
-| Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy correctes del SHA fusionat; smoke autenticat pendent |
-| Pilot amb Oriol Codinach i Ventu | PENDENT | Ajornat pel responsable fins que validi el mòdul amb el seu superadministrador |
+| Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
+| Pilot amb Oriol Codinach i Ventu | PENDENT | Validació bàsica pròpia completada; comptes i pilot extern pendents que el responsable els demani |
 | Cronologia/plantilla que la federació no publica | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | No s’inventa informació |
 | Notes tàctiques compartides | PARCIALMENT IMPLEMENTADA | Funció prèvia local; fora d’aquest lliurament estadístic |
 | Sincronització automàtica de vídeo | PENDENT | Opcional; l’anàlisi manual ja està implementada |
@@ -113,11 +113,11 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 - Reforç de concurrència i registre final: [PR #3](https://github.com/Dudisooft/clubhoquei360/pull/3). Migració 20261017133038 aplicada; regressió i smoke real superats.
 - Detall del desplegament, límits de prova i avisos previs: [statistics-deployment.md](statistics-deployment.md).
 
-Verificació real posterior al desplegament: [snapshot de consulta/assignació](statistics-live-verification.json). Auth, accés i alta de principal HTTP 200; falta completar el registre i la recuperació amb el responsable.
+Verificació real posterior al desplegament: [snapshot de consulta/assignació](statistics-live-verification.json). Auth, accés i alta de principal HTTP 200. La [verificació del 20/10](statistics-acceptance-20261020.json) afegeix registre real, sessió persistent i lectura posterior al desament, amb confirmació del responsable. No acredita entrega Realtime entre dispositius ni inspecció visual de l’agent.
 
 ## F. Pendents necessaris
 
-1. Completar registre, desament i recuperació amb el compte propi de superadministrador, ja activat temporalment; instruccions a [la guia d’operació](statistics-operations.md). Els comptes temporals encara no existeixen i queden ajornats per decisió seva. Quan els demani, preparar els comptes i assignacions amb partit i caducitat confirmats.
-2. Prova de fum autenticada a Pages amb Supabase Auth/Realtime reals i dos dispositius físics; verificar consulta i revocació. El recorregut i la recuperació ja estan provats localment; la manca de sessió real no es presenta com a prova superada.
+1. Verificar entrega Realtime entre dos dispositius físics i consulta/revocació amb un segon usuari autoritzat. La prova bàsica real del compte propi ja està completada.
+2. Preparar comptes i assignacions del pilot FEM15 quan el responsable ho demani, amb identitats, partit, abasts i caducitat confirmats. La creació dels comptes temporals continua ajornada; no bloqueja la validació pròpia ja superada.
 
 No cal introduir cap servei nou de pagament, ni repetir la importació federativa o l’auditoria inicial per completar aquests passos. La represa de desenvolupament es fa amb **CONTINUA CLUBHOQUEI360**, llegint primer el registre persistent.
