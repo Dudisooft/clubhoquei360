@@ -81,3 +81,9 @@ Finestra de logs 06:50:00–07:41:05.339158 UTC: un POST `stats_write_event` HTT
 L’agent només ha fet lectures: no ha creat, corregit ni anul·lat l’observació del responsable, ni ha tocat el registre oficial o creat comptes. No s’ha inspeccionat directament el navegador. La nova evidència no acredita encara registre individual, correcció/desfer reals o entrega Realtime entre dos dispositius; les proves locals i SQL anteriors conserven el seu abast.
 
 Checkpoint documental sobre `af702f4`; codi d’aplicació sense canvis respecte de la versió verificada (59 Node i 13 Chromium). Només es comproven JSON, enllaços i diff; no es repeteixen les suites ni les migracions. Comptes temporals ajornats fins que el responsable demani el pilot.
+
+## 20/10/2026 · Connexió compartida observable
+
+[PR #6](https://github.com/Dudisooft/clubhoquei360/pull/6), codi `b8cec59f08cca7cc57fec05f6ece3b6619145a3d`, [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**: 66 Node, 14 Chromium, check i build correctes. Fusió `c53406a9d1263d766de4e9163e6eb225666dc510`; [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success** amb build/deploy i URL d’entorn als logs. Cap migració ni compte nou. Evidència detallada: [statistics-live-status-verification.json](statistics-live-status-verification.json).
+
+L’estat visible diferencia la subscripció, les actualitzacions rebudes per notificació i el refresc HTTP. El tall de WebSocket s’ha provat localment; l’entrega real entre dispositius físics continua pendent segons el protocol d’operació. La prova bàsica real acceptada el 20/10 no es reobre.
