@@ -1,17 +1,19 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 17/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 20/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Codi instal·lat i publicat; 59 proves Node i 13 Chromium verificades. Activació amb el compte real del superadministrador confirmada parcialment a producció.** Els comptes temporals continuen ajornats per decisió del responsable.
+Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Codi instal·lat i publicat; 59 proves Node i 13 Chromium verificades. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
 
-La represa ha comprovat una assignació pròpia de principal creada a les 14:38:27 UTC, amb caducitat de vuit hores, i peticions reals d’Auth/consulta/activació HTTP 200. A les 14:40:18 UTC encara hi havia zero sessions d’anàlisi i zero observacions. La següent tasca és comprovar registre i desament, no tornar a activar aquella assignació mentre sigui vigent. Evidència sense credencials ni UUID personals: [statistics-live-verification.json](statistics-live-verification.json). Desplegament: [statistics-deployment.md](statistics-deployment.md).
+El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
+
+La verificació no inclou control visual del navegador per l’agent ni entrega Realtime entre dos dispositius físics. Les correccions, el registre individual i la resta de proves locals/SQL continuen vàlides amb el seu abast original; no s’han presentat com a nous passos reals executats pel responsable.
 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la comprovació real: `docs/statistics-live-checkpoint`.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Branca d’aquest checkpoint: `docs/statistics-real-session-verification`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
@@ -46,6 +48,8 @@ La represa ha comprovat una assignació pròpia de principal creada a les 14:38:
 
 17. Activitat real del superadministrador observada en lectura: Auth/consulta/assignació HTTP 200, principal propi durant vuit hores desat i auditat. No s’han registrat observacions ni sessions des d’aquesta continuació, ni s’han creat comptes. Snapshot i límits a `docs/statistics-live-verification.json`.
 
+18. Prova real bàsica completada el 20/10/2026 amb confirmació del responsable: esdeveniment i sessió persistents, lectura HTTP 200 després del desament, una sola observació/auditoria i comprovacions d’integritat sense anomalies. Captura sanejada a `docs/statistics-acceptance-20261020.json`. Cap escriptura de l’agent a producció.
+
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
@@ -58,6 +62,8 @@ La represa ha comprovat una assignació pròpia de principal creada a les 14:38:
 - `git diff --check`: sense errors.
 
 El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identitats fictícies i una base PostgreSQL real local, amb les mateixes polítiques i funcions. La prova multioperador registra i consulta dades compartides persistents, però **no acredita Realtime/Auth de producció ni dos dispositius físics**. No atribuir aquestes proves a una sessió real d’Oriol/Ventu.
+
+- Verificació real del 20/10/2026: una acció i una sessió persistents; POST/GET HTTP 200; zero discrepàncies de dades/auditoria i zero errors als logs de la finestra consultada. Confirmació humana del recorregut bàsic. No s’han repetit suites vàlides ni migracions.
 
 ## Errors detectats i resolts
 
@@ -75,16 +81,16 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 No queda cap bloc de desenvolupament o prova local obert. PR #1, #2 i #3 fusionades, migracions instal·lades i Pages publicat, inclòs l’accés de registre propi; `docs/statistics-delivery.md` conté l’informe A–F i `docs/statistics-verification.json` les evidències de verificació.
 
-1. Continuar la validació del responsable al partit ja activat «Revisió vídeo · Alcobendas – Simar Igualada» (`408787db-310f-42dd-90e6-16ee2cf971a5`): panell Registre → Inicia anàlisi → acció observada → pausa i Desa sessió → recàrrega. Confirmar conservació, corregir i anul·lar les observacions fetes només per provar. L’assignació observada caduca el 17/10/2026 a les 22:38:26 UTC; comprovar vigència abans d’instruir una activació nova. Si el panell no apareix, cal el pas i el missatge de la pantalla. Pregunta de funcionament formulada al responsable, pendent de resposta.
-2. Completar el recorregut autenticat amb Supabase Auth/Realtime reals i dos dispositius físics. La xarxa actual impedeix obrir Pages directament; no evitar la restricció. Aquest límit no invalida les proves SQL/HTTP reals ni el desplegament confirmat per GitHub.
-3. Només quan el responsable ho demani després de validar: crear comptes temporals i confirmar UUID, partit FEM15 i caducitat per al pilot. Els comptes d’Oriol/Ventu encara no existeixen i estan ajornats expressament. No tornar a demanar aquestes dades com a bloqueig de la validació pròpia.
+1. Verificar Realtime en dos dispositius físics amb comptes autoritzats quan estiguin disponibles. La prova bàsica del superadministrador ja està completada; no tornar a demanar-li el mateix recorregut ni confondre lectures HTTP amb entrega WebSocket.
+2. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
+3. Si es vol ampliar l’evidència real, comprovar registre individual, correcció/desfer i consulta per un segon usuari amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
 
 Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
 
 ## Dependències i límits
 
 - Esquema inicial complet de Supabase no versionat; la migració assumeix l’esquema real auditat i les funcions `app_private.has_club_role`, `has_team_role`, `is_platform_superadmin` existents. No executar SQL històrics com si fossin migracions des de zero.
-- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth. La comprovació posterior de logs sí observa Auth/consulta/activació reals HTTP 200; falta el recorregut de registre i recuperació complet.
+- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth. Les comprovacions posteriors observen Auth/consulta/activació i registre/desament/lectura reals HTTP 200, amb confirmació del recorregut bàsic pel responsable. Realtime entre dispositius continua pendent.
 - Portals federatius i Pages no accessibles amb l’eina web en aquesta execució; no es declara revalidació de fonts ni test visual de producció. GitHub sí confirma el desplegament; la Data API real s’ha comprovat per HTTP i PostgreSQL.
 - Vídeo manual, sense sincronització automàtica; no hi ha app completa en fred sense xarxa. Les cues locals són recuperació d’escriptures, no un sistema d’autorització offline.
 - Claus del prototip conservades; no hi ha importació automàtica d’estadístiques antigues per manca d’identificadors fiables.
@@ -105,7 +111,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar una activació ja confirmada.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa aquell pendent; una nova ordre de represa no el reobre.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.

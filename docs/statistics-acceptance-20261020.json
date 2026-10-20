@@ -1,0 +1,75 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-20",
+  "kind": "Production acceptance verification after project owner reported completion",
+  "scope": "Basic team event recording and video analysis session persistence; sanitized evidence, no player/user identifiers or source video URLs",
+  "applicationCodeCommit": "4aee0c0997e8dac359411da170856410e8158eb4",
+  "repositoryBase": "af702f4d9d789f2758a4e8c16c59cb36dc11ceb0",
+  "databaseSnapshotAt": "2026-10-20T07:41:05.339158Z",
+  "persisted": {
+    "events": 1,
+    "eventAction": "pass_complete",
+    "eventValidation": "recorded",
+    "eventRevision": 1,
+    "auditEntries": 1,
+    "analysisSessions": 1,
+    "sessionRevision": 7,
+    "sessionMode": "video",
+    "sessionPeriod": 1,
+    "sessionMs": 19202,
+    "runningFieldPresent": false
+  },
+  "integrity": {
+    "eventIdentityMismatches": 0,
+    "auditMismatches": 0,
+    "revisionGaps": 0,
+    "passes": 1,
+    "completedPasses": 1,
+    "individualActionsObserved": 0,
+    "manualVideoObservations": 1,
+    "sessionStateValid": true
+  },
+  "httpWindow": {
+    "start": "2026-10-20T06:50:00Z",
+    "end": "2026-10-20T07:41:05.339158Z"
+  },
+  "httpEvidence": {
+    "authenticatedUserStatus": 200,
+    "recordEvent": {
+      "posts": 1,
+      "status": 200,
+      "at": "2026-10-20T07:04:18.635Z"
+    },
+    "saveSession": {
+      "posts": 7,
+      "status": 200,
+      "lastAt": "2026-10-20T07:04:32.149Z"
+    },
+    "readSessionAfterSave": {
+      "status": 200,
+      "at": "2026-10-20T07:05:10.621Z"
+    }
+  },
+  "errorsInWindow": {
+    "statisticsPostgresErrors": 0,
+    "realtimeErrorLogs": 0
+  },
+  "confirmed": [
+    "real event persisted with one audit entry",
+    "real analysis session persisted",
+    "successful session read after save",
+    "owner reported completing requested pause/save/reload walkthrough",
+    "database identity and audit coherence"
+  ],
+  "notClaimed": [
+    "direct visual browser inspection by agent",
+    "real individual event/correction/undo walkthrough",
+    "lost-ack retry in this real walkthrough",
+    "Realtime delivery between physical devices",
+    "a new before/after official-record comparison for the owner walkthrough"
+  ],
+  "assistantProductionWrites": 0,
+  "externalAccountsCreated": 0,
+  "externalPilotStatus": "Await explicit owner request and verified participant accounts; previous postponement preserved",
+  "previousEvidence": "statistics-live-verification.json"
+}
