@@ -2,7 +2,7 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "59 Node i 13 Chromium amb dades fictícies locals; migració i smoke SQL transaccional executats al PostgreSQL de producció. Frontend i accés de registre propi fusionats i publicats a Pages. Recorregut Auth/Realtime real pendent de validació del responsable.",
+  "scope": "Registre històric de la verificació inicial i del reforç CAS: 59 Node i 13 Chromium locals. La prova bàsica sota Auth real està confirmada a statistics-acceptance-20261020.json. Realtime físic continua pendent; el bloc posterior de connexió es registra separadament.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/statistics-admin-validation",
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/2",
@@ -174,7 +174,7 @@
   },
   "initialCodeCommit": "a0145fadf8be158cbe1b47707161c3803121616a",
   "adminValidation": {
-    "status": "Published; real owner validation pending",
+    "status": "Basic real owner registration/session recovery confirmed on 2026-10-20; see statistics-acceptance-20261020.json",
     "browserCases": 13,
     "entry": "Activa el meu registre (8 h)",
     "existingAccountOnly": true,
@@ -193,5 +193,6 @@
       -1
     ],
     "sqlstate": "22023"
-  }
+  },
+  "followUpVerification": "statistics-live-status-verification.json"
 }

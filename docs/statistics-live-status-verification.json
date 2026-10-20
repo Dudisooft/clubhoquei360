@@ -1,0 +1,107 @@
+{
+  "project": "ClubHoquei360",
+  "season": "2026/2027",
+  "date": "2026-10-20",
+  "timezone": "Europe/Madrid",
+  "branch": "feat/statistics-live-status",
+  "baseCommit": "235b71f56e89503e90b91716e6967e3dd7885122",
+  "scope": "Local deterministic subscription tests and Chromium using fictitious identities/local PostgreSQL. Does not prove production Realtime delivery.",
+  "node": {
+    "command": "npm test",
+    "passed": 66,
+    "failed": 0,
+    "skipped": 0,
+    "newSubscriptionCases": 7
+  },
+  "browser": {
+    "startTime": "2026-10-20T11:12:26.435Z",
+    "duration": 53245.089,
+    "expected": 14,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "browserCases": [
+    {
+      "name": "FEM15 fictici: clocks, both input paths, correction, undo, recovery, reports and official isolation",
+      "passed": true
+    },
+    {
+      "name": "responsive mòbil and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "responsive tauleta and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "responsive ordinador and no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "legacy statistics URL preserves match and opens integrated module",
+      "passed": true
+    },
+    {
+      "name": "coach can consult, delegate has no automatic analysis access",
+      "passed": true
+    },
+    {
+      "name": "explicit login form restores access without embedding credentials",
+      "passed": true
+    },
+    {
+      "name": "club manager activates own match registration for eight hours without creating another account",
+      "passed": true
+    },
+    {
+      "name": "temporary external operator and coach share actual persisted observations; other teams and revoked access are denied",
+      "passed": true
+    },
+    {
+      "name": "offline outbox survives reload and reconnect confirms one action",
+      "passed": true
+    },
+    {
+      "name": "unavailable live connection is visible while HTTP writes and periodic refresh still work without a false live update",
+      "passed": true
+    },
+    {
+      "name": "possession, explicit zero coverage, evolution and exports use observed data",
+      "passed": true
+    },
+    {
+      "name": "an interrupted possession interval recovers once with paused analysis clock",
+      "passed": true
+    },
+    {
+      "name": "two devices cannot silently overwrite a shared operator clock; local copy can be recovered explicitly",
+      "passed": true
+    }
+  ],
+  "staticCheck": {
+    "files": 22,
+    "result": "PASS"
+  },
+  "staticBuild": {
+    "files": 22,
+    "result": "PASS",
+    "includesNewModule": true
+  },
+  "diffCheck": "PASS",
+  "previousRealOwnerAcceptance": "statistics-acceptance-20261020.json",
+  "productionDatabaseChanges": 0,
+  "productionAgentDataWrites": 0,
+  "accountsCreated": 0,
+  "runtimeDependenciesChanged": false,
+  "ci": {
+    "status": "pending"
+  },
+  "deployment": {
+    "status": "pending"
+  },
+  "remaining": [
+    "Realtime notification delivery between two physical devices; protocol in statistics-operations.md",
+    "FEM15 temporary-account pilot deferred until owner explicitly requests it"
+  ]
+}
