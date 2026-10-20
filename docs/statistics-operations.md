@@ -13,7 +13,7 @@ Ordre de publicació i comprovació:
 5. Comprovar contexts `stats_matches` i correspondència exacta d’equip/temporada/identificador federatiu. El bootstrap usa els identificadors existents; no uneix per nom. Un trigger pot afegir contexts de fonts noves verificades, sense modificar els anteriors, observacions o permisos.
 6. Designar un principal temporal mitjançant un administrador/coordinador autoritzat, o la superadministració existent. Les assignacions no creen comptes.
 7. Publicar els fitxers estàtics i executar la prova de fum autenticada a Pages: entrada, partit, perfil Estadístic, registre, recàrrega, consulta des d’una altra sessió i revocació.
-8. Comprovar Realtime real en dues sessions de Supabase i dos dispositius físics. El client també refresca cada quinze segons i en reconnectar per recuperar missatges perduts i caducitats.
+8. Comprovar Realtime real en dues sessions de Supabase i dos dispositius físics amb el protocol següent. El client també refresca cada quinze segons i en reconnectar per recuperar missatges perduts i caducitats.
 
 La compilació `npm run build` deixa un artefacte estàtic a `work/site`: no inclou tests, SQL, node_modules ni credencials. El workflow de la branca només comprova; no desplega.
 
@@ -25,7 +25,18 @@ Decisió del responsable del projecte: primer comprovar el mòdul amb el compte 
 2. Seleccionar el partit a comprovar. Si encara no hi ha principal, prémer **Activa el meu registre (8 h)**. Es desa una assignació al compte actual, per aquell partit, amb caducitat de vuit hores. No crea cap compte. El servidor valida l’autoritat del gestor.
 3. Iniciar/pausar el rellotge d’anàlisi, registrar accions d’equip i individuals, corregir, anul·lar, recarregar i consultar informes. Les accions introduïdes es conserven com a observacions del partit: anul·lar les que només s’hagin fet per provar el funcionament.
 4. A Operadors es pot consultar i revocar l’assignació pròpia. Un principal existent no es reemplaça automàticament; cal revisar-lo i, si correspon, revocar-lo explícitament.
-5. Quan el responsable confirmi la validació, preparar els comptes temporals i les assignacions concretes del pilot següent. La creació d’accessos externs queda ajornada expressament.
+5. La prova bàsica real ja es va confirmar el 20/10/2026: [evidència sanejada](statistics-acceptance-20261020.json). Preparar els comptes temporals només quan el responsable demani el pilot; la confirmació bàsica no n’ordena la creació automàtica.
+
+## Comprovació de connexió en dos dispositius
+
+La línia **Connexió compartida** informa de la subscripció real. «Establerta» només confirma connexió. **Darrera actualització en directe** apareix quan una notificació de canvi ha desencadenat una lectura autoritzada correcta; el desament HTTP, la lectura inicial i el refresc periòdic no actualitzen aquesta hora. L’hora es mostra a Europe/Madrid. En reconnectar es torna a consultar el partit per recuperar canvis perduts.
+
+1. Obrir el mateix partit autoritzat en dos dispositius físics. Es pot emprar el compte propi ja existent als dos, sense crear comptes temporals. Mantenir el rellotge pausat al dispositiu de consulta per evitar conflictes de sessió.
+2. Comprovar l’estat de connexió als dos. No donar la prova per superada només perquè hi consti «establerta».
+3. Al dispositiu de registre, introduir una acció real observada al vídeo o corregir una observació que realment ho necessiti. Al de consulta, comprovar el mateix esdeveniment a l’historial i que apareix o avança l’hora de l’actualització en directe, sense recarregar. No introduir accions fictícies en partits reals per forçar la prova.
+4. Si les dades arriben però l’hora no avança, només s’ha verificat el refresc HTTP; Realtime continua pendent. En cas d’error de connexió, la pantalla indica reconnexió i reintenta lectures cada quinze segons. Anotar resultat, hora i dispositius sense publicar identitats ni contingut esportiu privat.
+
+El controlador i la indicació de fallada es proven amb transport local de proves. Aquest protocol físic continua pendent d’execució; no es presenta com a superat per les proves automatitzades.
 
 ## Pilot real FEM15, temporada 2026/27
 

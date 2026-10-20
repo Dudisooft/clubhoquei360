@@ -2,7 +2,7 @@
 
 Actualitzat el 20/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
-**Resultat:** mòdul integrat i verificat en desenvolupament. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (codi publicat: `5baee53`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
+**Resultat:** mòdul integrat i publicat; ampliació de l’estat de connexió verificada localment (66 Node i 14 Chromium), pendent de CI/publicació. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (codi publicat: `5baee53`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
 
 ## A. Auditoria inicial
 
@@ -30,12 +30,13 @@ Implementat:
 - Consulta per entrenadors/coordinadors dels equips autoritzats. Les identitats d’evolució no es dedueixen pels noms.
 - Informes globals, individuals i comparatives/evolució entre partits accessibles. Dades absents diferents de zero, cobertura explícita, percentatges només amb denominadors coherents. CSV UTF-8 protegit contra fórmules i JSON d’auditoria.
 - Formulari de login del dashboard, versió fixada de supabase-js, protecció dels controls oficials fora del perfil principal i ruta antiga d’estadístiques preservada amb redirecció.
+- Estat real de connexió compartida i hora de la darrera actualització rebuda per notificació i carregada correctament; la lectura inicial/periòdica no s’hi confon. Refresc en reconnexió, avisos de fallada i callbacks aïllats entre partits.
 - Protocol persistent de continuïtat i punts de recuperació a Git.
 - Accés directe del gestor/superadministrador per activar el registre amb el compte actual durant vuit hores, només en el partit seleccionat i amb permisos validats al servidor. No substitueix un principal existent automàticament; ajust verificat i publicat amb la PR #2.
 
 Fitxers principals modificats: `avancat.html`, `federation-client.js`, `estadistiques.html`, `dashboard.html`, `base.html`, `historial.html`, `README.md`, `package.json`, `package-lock.json`, `.gitignore` i la prova d’interfície existent.
 
-Components nous: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats.css`. Verificació nova: proves de model/base de dades/outbox, helpers PostgreSQL i servidor local, suite Playwright, `playwright.config.mjs`, `scripts/verify.mjs`, `scripts/build.mjs`, `scripts/verify-production-statistics.sql` i `.github/workflows/statistics.yml`.
+Components nous: `app-client.js`, `auth-ui.js`, `stats-model.js`, `stats-clock.js`, `stats-store.js`, `stats-ui.js`, `stats-realtime.js`, `stats.css`. Verificació nova: proves de model/base de dades/outbox, helpers PostgreSQL i servidor local, suite Playwright, `playwright.config.mjs`, `scripts/verify.mjs`, `scripts/build.mjs`, `scripts/verify-production-statistics.sql` i `.github/workflows/statistics.yml`.
 
 Model nou: `stats_matches`, `stats_actions`, `stats_assignments`, `stats_events`, `stats_event_audit`, `stats_sessions`, `stats_coverage`, `stats_access_audit`. Migració: `supabase/migrations/20261017005241_match_statistics.sql`. La migració ja consta a producció com `20261017130942_match_statistics`, amb 29 contexts verificats, 24 FEM15. El reforç `20261017133038_require_session_revision.sql` també està instal·lat: rebutja revisions nul·les/negatives de sessió al servidor. Totes tenen RLS; no es concedeix DML directe al client. Les RPC exposades són invoker; els comandos privats implementen comprovacions explícites i transaccions atòmiques amb auditoria.
 
@@ -43,7 +44,7 @@ Les importacions FECAPA/RFEP es conserven. Només es reutilitzen identificadors 
 
 ## C. Proves
 
-Resultats locals: **59 proves Node i 13 casos Chromium**. La prova Node addicional reprodueix i evita que una revisió nul·la eludeixi CAS de sessió; reforç instal·lat i provat amb rollback a producció ([PR #3](https://github.com/Dudisooft/clubhoquei360/pull/3)). El tretzè comprova el registre propi del gestor, després de la decisió d’ajornar els comptes externs. La CI del frontend fusionat va superar 58 Node i 13 Chromium ([39036356807](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807)). [Evidències reproduïbles i casos executats](statistics-verification.json). Comprovació estàtica de 21 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
+Resultats locals actuals: **66 proves Node i 14 casos Chromium**, zero fallits/omesos/inestables; [verificació del bloc de connexió](statistics-live-status-verification.json). Set proves noves cobreixen reconnexió, cues de notificacions, permisos i callbacks antics; el nou cas Chromium verifica fallada WebSocket amb desament i refresc HTTP operatius, sense falsa actualització en directe. La resta del paràgraf documenta els checkpoints anteriors. La prova Node addicional reprodueix i evita que una revisió nul·la eludeixi CAS de sessió; reforç instal·lat i provat amb rollback a producció ([PR #3](https://github.com/Dudisooft/clubhoquei360/pull/3)). El tretzè comprova el registre propi del gestor, després de la decisió d’ajornar els comptes externs. La CI del frontend fusionat va superar 58 Node i 13 Chromium ([39036356807](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807)). [Evidències reproduïbles i casos executats](statistics-verification.json). Comprovació estàtica actual de 22 fitxers, artefacte `work/site` generat, diff sense errors i zero vulnerabilitats de dependències de producció comunicades per `npm audit --omit=dev`.
 
 | Requisit | Evidència executada |
 | --- | --- |
@@ -88,6 +89,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Protecció del registre oficial i fonts | OPERATIVA I VERIFICADA | Proves locals i empremtes abans/després de la instal·lació real |
 | Consulta autenticada i activació pròpia reals | OPERATIVA I VERIFICADA | Logs reals HTTP 200 i assignació persistent/auditada; sense prova visual directa |
 | Registre bàsic i recuperació sota Auth real | OPERATIVA I VERIFICADA | 20/10/2026: una acció/auditoria, sessió de vídeo revisió 7, lectura HTTP 200 posterior al desament i confirmació del responsable |
+| Estat de connexió i diferenciació Realtime/HTTP | OPERATIVA I VERIFICADA | Controlador unitari i Chromium amb tall de WebSocket; desplegament pendent de CI |
 | Realtime entre dispositius físics | IMPLEMENTADA PENDENT DE PROVES | Falta verificar entrega WebSocket; les lectures HTTP no l’acrediten |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
@@ -97,6 +99,8 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Sincronització automàtica de vídeo | PENDENT | Opcional; l’anàlisi manual ja està implementada |
 
 ## E. GitHub i desplegament
+
+Bloc de connexió actual: branca `feat/statistics-live-status`, base `235b71f56e89503e90b91716e6967e3dd7885122`. Proves locals correctes; commit/PR/CI/publicació s’actualitzen després de confirmar-los. Cap migració ni compte nou.
 
 - Base auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
 - Branca: [`feat/match-statistics-2026-27`](https://github.com/Dudisooft/clubhoquei360/tree/feat/match-statistics-2026-27).
@@ -109,7 +113,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 - Checkpoint de producció: [`f119d1d`](https://github.com/Dudisooft/clubhoquei360/commit/f119d1d36ad6b8b9d31dcbab76aaceb096a9f419), migració i smoke SQL/HTTP reals verificats; [CI correcta](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035723731).
 - Fusió a `main`: [`5e1ce5e`](https://github.com/Dudisooft/clubhoquei360/commit/5e1ce5efdc9624ecd6edd5ab53194098c77d1f85). Migració aplicada. [Pages 39035824360](https://github.com/Dudisooft/clubhoquei360/actions/runs/39035824360): **success** en build i deploy del mateix SHA. [Aplicació](https://dudisooft.github.io/clubhoquei360/).
 - Ajust de validació pròpia: [`7745628`](https://github.com/Dudisooft/clubhoquei360/commit/7745628f9e4b5ad32c93125e8486945ac1fae09e), [PR #2 fusionada](https://github.com/Dudisooft/clubhoquei360/pull/2), [CI 39036356807](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036356807), 58 Node i 13 Chromium.
-- Últim canvi d’aplicació a `main`: [`960837e`](https://github.com/Dudisooft/clubhoquei360/commit/960837efae194663f40f97325a5f2eef68b6453c). [Pages 39036449169](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036449169): **success**, inclou «Activa el meu registre (8 h)».
+- Canvi d’activació pròpia publicat a `main`: [`960837e`](https://github.com/Dudisooft/clubhoquei360/commit/960837efae194663f40f97325a5f2eef68b6453c). [Pages 39036449169](https://github.com/Dudisooft/clubhoquei360/actions/runs/39036449169): **success**, inclou «Activa el meu registre (8 h)».
 - Reforç de concurrència i registre final: [PR #3](https://github.com/Dudisooft/clubhoquei360/pull/3). Migració 20261017133038 aplicada; regressió i smoke real superats.
 - Detall del desplegament, límits de prova i avisos previs: [statistics-deployment.md](statistics-deployment.md).
 

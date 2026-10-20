@@ -7,7 +7,7 @@ async function setup(context,user='principal',connection={}){
  await context.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({path:path.resolve('node_modules/@supabase/supabase-js/dist/umd/supabase.js'),contentType:'text/javascript'}));
  await context.route(endpoint+'/**',async r=>{const url=new URL(r.request().url());if(connection.failWrites&&url.pathname.includes('/rpc/stats_write_event'))return r.abort('failed');const response=await r.fetch({url:'http://127.0.0.1:4173/api'+url.pathname+url.search});await r.fulfill({response});});
  await context.route(/https:\/\/(?:www\.)?(?:sidgad\.cloud|sidgad\.es)\//,r=>r.fulfill({body:'<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><text y="25">TEST</text></svg>',contentType:'image/svg+xml'}));
- await context.routeWebSocket(/supabase\.co/,()=>{});
+ await context.routeWebSocket(/supabase\.co/,socket=>{if(connection.closeRealtime)socket.close({code:1013,reason:'FICTITIOUS local transport unavailable'});});
  if(user)await context.addInitScript(data=>{if(!localStorage.getItem('sb-oevprbchlhyglhvopnvy-auth-token'))localStorage.setItem('sb-oevprbchlhyglhvopnvy-auth-token',JSON.stringify(data));},session(user));
 }
 async function open(page){await page.goto('/clubhoquei360/avancat.html?match='+ID.match+'&view=stats');await expect(page.locator('#statsContent')).toBeVisible();await expect(page.locator('#statsMessage')).toContainText('Estadístiques connectades');}
@@ -65,6 +65,14 @@ test('temporary external operator and coach share actual persisted observations;
 });
 test('offline outbox survives reload and reconnect confirms one action',async({page,context,request})=>{
  const connection={failWrites:true};await setup(context,'principal',connection);await open(page);await page.locator('[data-stats-action=pass_complete]').click();await expect(page.locator('#statsSync')).toContainText('1 accions pendents');await page.reload();await expect(page.locator('#statsSync')).toContainText('1 accions pendents');expect((await snapshot(request)).events.length).toBe(0);connection.failWrites=false;await page.locator('#statsRetry').click();await expect(page.locator('#statsSync')).toHaveText('Accions confirmades al servidor');expect((await snapshot(request)).events.length).toBe(1);
+});
+test('unavailable live connection is visible while HTTP writes and periodic refresh still work without a false live update',async({page,context,request})=>{
+ await setup(context,'principal',{closeRealtime:true});const errors=[];page.on('pageerror',e=>errors.push(e.message));await open(page);
+ const status=page.locator('#statsLive');await expect(status).toBeVisible();await expect(status).toContainText('reconnectant');await expect(status).toContainText('cada 15 s');await expect(status).toContainText('Pendent de rebre un canvi en directe');
+ await page.locator('[data-stats-action=pass_complete]').click();await expect(page.locator('#statsSync')).toHaveText('Accions confirmades al servidor');await expect.poll(async()=>((await snapshot(request)).events.length)).toBe(1);
+ // Let the actual periodic HTTP fallback run; it must not count as Realtime delivery.
+ const pollRead=page.waitForResponse(r=>r.url().includes('/rpc/stats_access')&&r.request().method()==='POST');await pollRead;
+ await expect(status).not.toContainText('Darrera actualització en directe:');await expect(status).toContainText('Pendent de rebre un canvi en directe');expect(errors).toEqual([]);
 });
 test('possession, explicit zero coverage, evolution and exports use observed data',async({page,context,request})=>{
  await setup(context);await open(page);await page.locator('#statsPlay').click();await page.locator('[data-possession=home]').click();await page.waitForTimeout(1200);await page.locator('#statsPlay').click();await expect.poll(async()=>((await snapshot(request)).events.filter(e=>e.action==='possession').length)).toBe(1);await page.locator('#statsTime').fill('00:00');await page.locator('#statsAdjust').click();expect((await snapshot(request)).events.filter(e=>e.action==='possession').length).toBe(1);
