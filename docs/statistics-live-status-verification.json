@@ -95,13 +95,25 @@
   "accountsCreated": 0,
   "runtimeDependenciesChanged": false,
   "ci": {
-    "status": "pending"
+    "status": "completed",
+    "conclusion": "success",
+    "head": "b8cec59f08cca7cc57fec05f6ece3b6619145a3d",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452",
+    "nodePassed": 66,
+    "browserPassed": 14
   },
   "deployment": {
-    "status": "pending"
+    "status": "completed",
+    "conclusion": "success",
+    "mergeCommit": "c53406a9d1263d766de4e9163e6eb225666dc510",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911",
+    "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+    "verification": "GitHub build/deploy job conclusions and deployment logs; no new visual production-browser claim"
   },
   "remaining": [
     "Realtime notification delivery between two physical devices; protocol in statistics-operations.md",
     "FEM15 temporary-account pilot deferred until owner explicitly requests it"
-  ]
+  ],
+  "codeCommit": "b8cec59f08cca7cc57fec05f6ece3b6619145a3d",
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/6"
 }

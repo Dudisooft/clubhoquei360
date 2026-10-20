@@ -2,7 +2,7 @@
 
 Actualitzat el 20/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
-**Resultat:** mòdul integrat i publicat; ampliació de l’estat de connexió verificada localment (66 Node i 14 Chromium), pendent de CI/publicació. L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (codi publicat: `5baee53`) i publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
+**Resultat:** mòdul integrat i publicat; ampliació de l’estat de connexió verificada localment i per CI (66 Node i 14 Chromium), fusionada amb la PR #6 i publicada a Pages (39413843911). L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (checkpoint anterior: `5baee53`), seguides per la PR #6; publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
 
 ## A. Auditoria inicial
 
@@ -89,7 +89,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Protecció del registre oficial i fonts | OPERATIVA I VERIFICADA | Proves locals i empremtes abans/després de la instal·lació real |
 | Consulta autenticada i activació pròpia reals | OPERATIVA I VERIFICADA | Logs reals HTTP 200 i assignació persistent/auditada; sense prova visual directa |
 | Registre bàsic i recuperació sota Auth real | OPERATIVA I VERIFICADA | 20/10/2026: una acció/auditoria, sessió de vídeo revisió 7, lectura HTTP 200 posterior al desament i confirmació del responsable |
-| Estat de connexió i diferenciació Realtime/HTTP | OPERATIVA I VERIFICADA | Controlador unitari i Chromium amb tall de WebSocket; desplegament pendent de CI |
+| Estat de connexió i diferenciació Realtime/HTTP | OPERATIVA I VERIFICADA | Controlador unitari, Chromium amb tall de WebSocket i CI; frontend publicat a Pages |
 | Realtime entre dispositius físics | IMPLEMENTADA PENDENT DE PROVES | Falta verificar entrega WebSocket; les lectures HTTP no l’acrediten |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
@@ -100,7 +100,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 
 ## E. GitHub i desplegament
 
-Bloc de connexió actual: branca `feat/statistics-live-status`, base `235b71f56e89503e90b91716e6967e3dd7885122`. Proves locals correctes; commit/PR/CI/publicació s’actualitzen després de confirmar-los. Cap migració ni compte nou.
+Bloc de connexió: branca `feat/statistics-live-status`, [commit `b8cec59`](https://github.com/Dudisooft/clubhoquei360/commit/b8cec59f08cca7cc57fec05f6ece3b6619145a3d), [PR #6 fusionada](https://github.com/Dudisooft/clubhoquei360/pull/6), [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**, 66 Node i 14 Chromium. Fusió `c53406a9d1263d766de4e9163e6eb225666dc510` i [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success**. Cap migració, compte ni dada esportiva nous. Registre final: `docs/statistics-live-status-release`.
 
 - Base auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
 - Branca: [`feat/match-statistics-2026-27`](https://github.com/Dudisooft/clubhoquei360/tree/feat/match-statistics-2026-27).

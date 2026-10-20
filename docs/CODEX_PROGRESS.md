@@ -4,7 +4,7 @@ Actualitzat: 20/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment a `feat/statistics-live-status` (66 Node, 14 Chromium), pendent de CI i publicació. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
+Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
@@ -13,7 +13,7 @@ La verificació no inclou control visual del navegador per l’agent ni entrega 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Checkpoint d’acceptació real: PR #5, fusionada a `235b71f56e89503e90b91716e6967e3dd7885122`. Branca actual: `feat/statistics-live-status`, des d’aquella base estable.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Checkpoint d’acceptació real: PR #5, fusionada a `235b71f56e89503e90b91716e6967e3dd7885122`. Branca del codi: `feat/statistics-live-status` (PR #6 fusionada). Branca del registre final: `docs/statistics-live-status-release`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
@@ -21,10 +21,11 @@ La verificació no inclou control visual del navegador per l’agent ni entrega 
 - Checkpoint 2 publicat i recuperable: `67958a35b0d2748fb2692d2c1c807a3371569b3e` — integració, permisos i sessions recuperables.
 - Checkpoint 3 publicat i verificat per CI: `ac8ad5ee754443804b1cdff3acbe434778877bc5` — aïllament de cues entre partits, paginació estable, RLS/anon i informe A–F.
 - Checkpoint inicial de codi verificat localment i per CI: `a0145fadf8be158cbe1b47707161c3803121616a` — procedència oficial vinculada a font real, visibilitat del login i pilot amb set participants ficticis per equip.
-- Últim commit de codi verificat: `4aee0c0997e8dac359411da170856410e8158eb4`, [CI 39037080177](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037080177), **59 Node i 13 Chromium correctes**.
+- Checkpoint anterior de codi verificat: `4aee0c0997e8dac359411da170856410e8158eb4`, [CI 39037080177](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037080177), **59 Node i 13 Chromium correctes**.
 - PR #1, #2 i #3 fusionades. Commit de publicació del codi: `5baee53cacc590c9cd18caef1f3d7464b6aae99f`, [Pages 39037185964](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037185964), **success**.
 - Migracions instal·lades: `20261017130942_match_statistics` (font local `20261017005241_match_statistics.sql`) i `20261017133038_require_session_revision`. No reaplicar-les.
-- Bloc actual: `stats-realtime.js`, integració a `stats-ui.js` i proves de connexió. No hi ha canvis SQL, dependències ni escriptures de l’agent a producció. El checkpoint de codi s’identifica amb `git log -1`; actualitzar l’estat de CI/publicació després de verificar-lo.
+- Últim commit de codi verificat: `b8cec59f08cca7cc57fec05f6ece3b6619145a3d`, [PR #6](https://github.com/Dudisooft/clubhoquei360/pull/6), [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**, 66 Node i 14 Chromium. Fusió: `c53406a9d1263d766de4e9163e6eb225666dc510`. [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success** en build/deploy; URL d’entorn confirmada als logs.
+- Aquest checkpoint només registra el resultat verificat de la publicació. No hi ha canvis SQL, dependències, dades esportives ni comptes. `git log -1` identifica el commit documental; no repetir suites de runtime del codi intacte.
 
 ## Completat i verificat
 
@@ -50,7 +51,7 @@ La verificació no inclou control visual del navegador per l’agent ni entrega 
 
 18. Prova real bàsica completada el 20/10/2026 amb confirmació del responsable: esdeveniment i sessió persistents, lectura HTTP 200 després del desament, una sola observació/auditoria i comprovacions d’integritat sense anomalies. Captura sanejada a `docs/statistics-acceptance-20261020.json`. Cap escriptura de l’agent a producció.
 
-19. Connexió compartida observable: estat de subscripció real, darrera actualització només després de notificació i lectura correcta, refresc en reconnexió i protecció contra callbacks de partits anteriors. Set proves unitàries noves i un cas Chromium amb WebSocket tallat/HTTP operatiu. Protocol físic sense comptes nous a `docs/statistics-operations.md`. No es declara entrega real entre dispositius.
+19. Connexió compartida observable: estat de subscripció real, darrera actualització només després de notificació i lectura correcta, refresc en reconnexió i protecció contra callbacks de partits anteriors. Set proves unitàries noves i un cas Chromium amb WebSocket tallat/HTTP operatiu. CI i publicació de la PR #6 correctes. Protocol físic sense comptes nous a `docs/statistics-operations.md`. No es declara entrega real entre dispositius.
 
 ## Proves executades i resultats
 
@@ -84,9 +85,9 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-En curs: completar la verificació del nou indicador de connexió, desar el checkpoint, obrir PR i verificar la CI abans de fusionar/publicar segons l’autorització existent. La base anterior continua publicada. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
+Cap bloc de codi o prova local obert. Indicador de connexió verificat localment i per CI, PR #6 fusionada i publicació Pages confirmada. Registre documental del resultat desat en aquest checkpoint, sense canvis d’aplicació. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
 
-1. Acabar CI/publicació del bloc de connexió si encara no estan confirmades; després verificar Realtime en dos dispositius físics amb comptes autoritzats quan estiguin disponibles. La prova bàsica del superadministrador ja està completada; no tornar a demanar-li el mateix recorregut ni confondre lectures HTTP amb entrega WebSocket.
+1. Verificar Realtime en dos dispositius físics amb comptes autoritzats quan estiguin disponibles. La prova bàsica del superadministrador ja està completada; no tornar a demanar-li el mateix recorregut ni confondre lectures HTTP amb entrega WebSocket.
 2. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
 3. Si es vol ampliar l’evidència real, comprovar registre individual, correcció/desfer i consulta per un segon usuari amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
 
