@@ -1,19 +1,19 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 20/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
+Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Realtime entre ordinador i mòbil físics confirmat pel responsable el 23/10/2026. Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
-La verificació no inclou control visual del navegador per l’agent ni entrega Realtime entre dos dispositius físics. Les correccions, el registre individual i la resta de proves locals/SQL continuen vàlides amb el seu abast original; no s’han presentat com a nous passos reals executats pel responsable.
+El 23/10/2026 el responsable confirma que l’acció apareix a l’historial del mòbil sense recarregar i que apareix o avança «Darrera actualització en directe». La prova física de Realtime queda acceptada amb aquesta evidència humana: [registre sanejat](statistics-realtime-acceptance-20261023.json). L’agent no ha controlat els dispositius ni inspeccionat logs d’aquesta prova. Les correccions, el registre individual i la resta de proves locals/SQL continuen vàlides amb el seu abast original; no s’han presentat com a nous passos reals executats pel responsable.
 
 ## Estat real de Git i punts de recuperació
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
-- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Checkpoint d’acceptació real: PR #5, fusionada a `235b71f56e89503e90b91716e6967e3dd7885122`. Branca del codi: `feat/statistics-live-status` (PR #6 fusionada). Branca del registre final: `docs/statistics-live-status-release`.
+- Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Checkpoint d’acceptació real: PR #5, fusionada a `235b71f56e89503e90b91716e6967e3dd7885122`. Branca del codi: `feat/statistics-live-status` (PR #6 fusionada). Branca del registre de publicació: `docs/statistics-live-status-release` (PR #7 fusionada a `3458532e75c709cfdedf9be0eb8e251f893695e3`). Branca del checkpoint d’acceptació física: `docs/statistics-realtime-acceptance`.
 - Checkout aïllat: `/workspace/work/clubhoquei360-stats`.
 - Checkout inicial: `/workspace/clubhoquei360`, branca `work`, conservat intacte.
 - Base remota auditada: `84e9872a8bce951f5bb56b8957ce64c11d570bcd`.
@@ -25,7 +25,7 @@ La verificació no inclou control visual del navegador per l’agent ni entrega 
 - PR #1, #2 i #3 fusionades. Commit de publicació del codi: `5baee53cacc590c9cd18caef1f3d7464b6aae99f`, [Pages 39037185964](https://github.com/Dudisooft/clubhoquei360/actions/runs/39037185964), **success**.
 - Migracions instal·lades: `20261017130942_match_statistics` (font local `20261017005241_match_statistics.sql`) i `20261017133038_require_session_revision`. No reaplicar-les.
 - Últim commit de codi verificat: `b8cec59f08cca7cc57fec05f6ece3b6619145a3d`, [PR #6](https://github.com/Dudisooft/clubhoquei360/pull/6), [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**, 66 Node i 14 Chromium. Fusió: `c53406a9d1263d766de4e9163e6eb225666dc510`. [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success** en build/deploy; URL d’entorn confirmada als logs.
-- Aquest checkpoint només registra el resultat verificat de la publicació. No hi ha canvis SQL, dependències, dades esportives ni comptes. `git log -1` identifica el commit documental; no repetir suites de runtime del codi intacte.
+- Aquest checkpoint registra la confirmació humana de Realtime del 23/10/2026, sobre la publicació ja verificada. `git log -1` identifica el commit documental d’acceptació. No hi ha canvis SQL, dependències, dades esportives ni comptes; no repetir suites de runtime del codi intacte.
 
 ## Completat i verificat
 
@@ -51,7 +51,9 @@ La verificació no inclou control visual del navegador per l’agent ni entrega 
 
 18. Prova real bàsica completada el 20/10/2026 amb confirmació del responsable: esdeveniment i sessió persistents, lectura HTTP 200 després del desament, una sola observació/auditoria i comprovacions d’integritat sense anomalies. Captura sanejada a `docs/statistics-acceptance-20261020.json`. Cap escriptura de l’agent a producció.
 
-19. Connexió compartida observable: estat de subscripció real, darrera actualització només després de notificació i lectura correcta, refresc en reconnexió i protecció contra callbacks de partits anteriors. Set proves unitàries noves i un cas Chromium amb WebSocket tallat/HTTP operatiu. CI i publicació de la PR #6 correctes. Protocol físic sense comptes nous a `docs/statistics-operations.md`. No es declara entrega real entre dispositius.
+19. Connexió compartida observable: estat de subscripció real, darrera actualització només després de notificació i lectura correcta, refresc en reconnexió i protecció contra callbacks de partits anteriors. Set proves unitàries noves i un cas Chromium amb WebSocket tallat/HTTP operatiu. CI i publicació de la PR #6 correctes. Protocol físic sense comptes nous a `docs/statistics-operations.md`; acceptació física posterior al punt 20.
+
+20. Prova física de Realtime acceptada el 23/10/2026 pel responsable: ordinador → mòbil, mateix partit, acció visible sense recàrrega i indicador d’actualització en directe que apareix o avança. Abast: protocol amb compte propi; no es presenta com a prova amb dos operadors diferents ni del pilot FEM15. Evidència a `docs/statistics-realtime-acceptance-20261023.json`.
 
 ## Proves executades i resultats
 
@@ -70,6 +72,8 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 - Verificació real del 20/10/2026: una acció i una sessió persistents; POST/GET HTTP 200; zero discrepàncies de dades/auditoria i zero errors als logs de la finestra consultada. Confirmació humana del recorregut bàsic. No s’han repetit suites vàlides ni migracions.
 
+- Confirmació humana del 23/10/2026: **PASS del protocol Realtime físic ordinador → mòbil**. Sense control visual/logs independents de l’agent; sense prova de dos comptes diferents, tauleta o portàtil. Canvi només documental: JSON, enllaços i diff verificats; codi/SQL/dependències intactes, suites anteriors conservades.
+
 ## Errors detectats i resolts
 
 - La pantalla no distingia notificacions en directe del refresc HTTP: estat i hora explícits, sense marcar lectures inicials/periòdiques com a entrega Realtime.
@@ -87,16 +91,17 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 Cap bloc de codi o prova local obert. Indicador de connexió verificat localment i per CI, PR #6 fusionada i publicació Pages confirmada. Registre documental del resultat desat en aquest checkpoint, sense canvis d’aplicació. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
 
-1. Verificar Realtime en dos dispositius físics amb comptes autoritzats quan estiguin disponibles. La prova bàsica del superadministrador ja està completada; no tornar a demanar-li el mateix recorregut ni confondre lectures HTTP amb entrega WebSocket.
-2. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
-3. Si es vol ampliar l’evidència real, comprovar registre individual, correcció/desfer i consulta per un segon usuari amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
+Realtime físic ja acceptat; no tornar a demanar aquesta prova només per una ordre de represa. No queda cap bloc tècnic independent pendent de desenvolupament.
+
+1. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
+2. Dins del pilot autoritzat, comprovar consulta i revocació amb un segon usuari. Si es vol ampliar l’evidència real, comprovar registre individual i correcció/desfer amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
 
 Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
 
 ## Dependències i límits
 
 - Esquema inicial complet de Supabase no versionat; la migració assumeix l’esquema real auditat i les funcions `app_private.has_club_role`, `has_team_role`, `is_platform_superadmin` existents. No executar SQL històrics com si fossin migracions des de zero.
-- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth. Les comprovacions posteriors observen Auth/consulta/activació i registre/desament/lectura reals HTTP 200, amb confirmació del recorregut bàsic pel responsable. Realtime entre dispositius continua pendent.
+- Migració instal·lada i provada realment amb BEGIN/ROLLBACK; frontend fusionat i publicat amb workflow correcte. Les proves SQL amb claims no acrediten una sessió real de Supabase Auth. Les comprovacions posteriors observen Auth/consulta/activació i registre/desament/lectura reals HTTP 200, amb confirmació del recorregut bàsic pel responsable. Realtime ordinador → mòbil confirmat pel responsable el 23/10/2026; la consulta/revocació entre comptes diferents queda per al pilot autoritzat.
 - Portals federatius i Pages no accessibles amb l’eina web en aquesta execució; no es declara revalidació de fonts ni test visual de producció. GitHub sí confirma el desplegament; la Data API real s’ha comprovat per HTTP i PostgreSQL.
 - Vídeo manual, sense sincronització automàtica; no hi ha app completa en fred sense xarxa. Les cues locals són recuperació d’escriptures, no un sistema d’autorització offline.
 - Claus del prototip conservades; no hi ha importació automàtica d’estadístiques antigues per manca d’identificadors fiables.
@@ -117,7 +122,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa aquell pendent; una nova ordre de represa no el reobre.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar amb el pilot només quan el responsable ho demani explícitament, sense crear comptes automàticament.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.

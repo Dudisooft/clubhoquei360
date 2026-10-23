@@ -1,0 +1,45 @@
+{
+  "project": "ClubHoquei360",
+  "season": "2026/2027",
+  "confirmationDate": "2026-10-23",
+  "timezone": "Europe/Madrid",
+  "scope": "Estadístiques del partit: actualització en directe entre ordinador i mòbil físics, confirmada pel responsable.",
+  "result": "PASS — confirmació del responsable",
+  "evidence": {
+    "kind": "project_owner_report",
+    "question": "Després de registrar una acció real a l’ordinador, què passa al mòbil amb el mateix partit obert, sense recarregar la pàgina?",
+    "answer": "L’acció apareix a l’historial i apareix o avança «Darrera actualització en directe»."
+  },
+  "protocolContext": {
+    "sourceDevice": "Ordinador",
+    "receivingDevice": "Mòbil",
+    "sameMatch": true,
+    "receivingPageReloaded": false,
+    "accountSetup": "Protocol amb el compte propi existent als dos dispositius, sense comptes temporals."
+  },
+  "reportedObservations": {
+    "eventVisibleInReceivingHistory": true,
+    "liveUpdateTimeAppearsOrAdvances": true
+  },
+  "interpretation": "Criteri d’acceptació del protocol complert: l’acció arriba sense recarregar i l’indicador exclusiu de lectures desencadenades per notificació apareix o avança. La lectura HTTP periòdica no actualitza aquest indicador.",
+  "evidenceLimits": {
+    "agentControlledDevices": false,
+    "agentInspectedProductionLogsForThisTest": false,
+    "independentPacketCapture": false,
+    "latencyMeasured": false,
+    "distinctOperatorAccountsTested": false,
+    "tabletAndLaptopConfirmed": false
+  },
+  "protectedData": "No es publiquen UUID, compte, nom del partit, jugadors ni contingut de l’acció.",
+  "codeCommit": "b8cec59f08cca7cc57fec05f6ece3b6619145a3d",
+  "existingAutomatedVerification": "statistics-live-status-verification.json",
+  "previousRealOwnerAcceptance": "statistics-acceptance-20261020.json",
+  "agentChanges": {
+    "runtimeFiles": 0,
+    "databaseWrites": 0,
+    "accountsCreated": 0
+  },
+  "remaining": [
+    "Pilot FEM15 amb operador/receptor diferents i consulta/revocació reals, només quan el responsable ho demani. Comptes temporals ajornats."
+  ]
+}

@@ -36,7 +36,7 @@ La línia **Connexió compartida** informa de la subscripció real. «Establerta
 3. Al dispositiu de registre, introduir una acció real observada al vídeo o corregir una observació que realment ho necessiti. Al de consulta, comprovar el mateix esdeveniment a l’historial i que apareix o avança l’hora de l’actualització en directe, sense recarregar. No introduir accions fictícies en partits reals per forçar la prova.
 4. Si les dades arriben però l’hora no avança, només s’ha verificat el refresc HTTP; Realtime continua pendent. En cas d’error de connexió, la pantalla indica reconnexió i reintenta lectures cada quinze segons. Anotar resultat, hora i dispositius sense publicar identitats ni contingut esportiu privat.
 
-El controlador i la indicació de fallada es proven amb transport local de proves. Aquest protocol físic continua pendent d’execució; no es presenta com a superat per les proves automatitzades.
+El controlador i la indicació de fallada es proven amb transport local de proves. **Protocol físic acceptat pel responsable el 23/10/2026, ordinador → mòbil:** l’acció apareix a l’historial sense recarregar i apareix o avança l’hora d’actualització en directe. [Evidència sanejada](statistics-realtime-acceptance-20261023.json). És una confirmació humana; l’agent no ha controlat els dispositius ni inspeccionat logs de la prova. No cal repetir-la en reprendre. La prova amb comptes d’operadors diferents forma part del pilot FEM15 quan s’autoritzi preparar-lo.
 
 ## Pilot real FEM15, temporada 2026/27
 

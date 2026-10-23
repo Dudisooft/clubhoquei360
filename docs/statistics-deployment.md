@@ -87,3 +87,9 @@ Checkpoint documental sobre `af702f4`; codi d’aplicació sense canvis respecte
 [PR #6](https://github.com/Dudisooft/clubhoquei360/pull/6), codi `b8cec59f08cca7cc57fec05f6ece3b6619145a3d`, [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**: 66 Node, 14 Chromium, check i build correctes. Fusió `c53406a9d1263d766de4e9163e6eb225666dc510`; [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success** amb build/deploy i URL d’entorn als logs. Cap migració ni compte nou. Evidència detallada: [statistics-live-status-verification.json](statistics-live-status-verification.json).
 
 L’estat visible diferencia la subscripció, les actualitzacions rebudes per notificació i el refresc HTTP. El tall de WebSocket s’ha provat localment; l’entrega real entre dispositius físics continua pendent segons el protocol d’operació. La prova bàsica real acceptada el 20/10 no es reobre.
+
+## 23/10/2026 · Acceptació física de Realtime
+
+El responsable confirma, en resposta al protocol ordinador → mòbil amb el mateix partit i sense recarregar: «L’acció apareix a l’historial i apareix o avança «Darrera actualització en directe».». El criteri d’acceptació queda complert: l’hora només apareix o avança després d’una notificació i lectura correcta, no pel refresc HTTP periòdic. [Evidència sanejada i límits](statistics-realtime-acceptance-20261023.json).
+
+És una prova manual confirmada pel responsable, no una observació directa o una captura de xarxa de l’agent. No s’ha mesurat latència ni verificat tauleta/portàtil o dos comptes diferents. Aquest checkpoint només actualitza documents: mateix codi `b8cec59f08cca7cc57fec05f6ece3b6619145a3d`, mateixes 66 proves Node i 14 Chromium vàlides, sense repetir suites ni migracions. Cap escriptura de l’agent a la base ni compte creat. El pilot FEM15 i els comptes temporals continuen ajornats fins a petició expressa del responsable.

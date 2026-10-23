@@ -1,8 +1,10 @@
 # ClubHoquei360 · Informe de lliurament del mòdul d’estadístiques
 
-Actualitzat el 20/10/2026, Europe/Madrid. Temporada de referència 2026/27.
+Actualitzat el 23/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
 **Resultat:** mòdul integrat i publicat; ampliació de l’estat de connexió verificada localment i per CI (66 Node i 14 Chromium), fusionada amb la PR #6 i publicada a Pages (39413843911). L’usuari ha autoritzat la posada en servei amb «Endavant»: migració aplicada i permisos/comandos verificats al PostgreSQL de producció, sense alterar dades oficials. PR #1, #2 i #3 fusionades a `main` (checkpoint anterior: `5baee53`), seguides per la PR #6; publicació Pages confirmada per GitHub; evidències a [statistics-deployment.md](statistics-deployment.md).
+
+Acceptació física posterior, 23/10/2026: el responsable confirma acció visible al mòbil sense recarregar i hora d’actualització en directe que apareix o avança. **Realtime ordinador → mòbil: OPERATIVA I VERIFICADA amb confirmació humana.** [Evidència i límits](statistics-realtime-acceptance-20261023.json). Els comptes temporals continuen ajornats.
 
 ## A. Auditoria inicial
 
@@ -70,11 +72,11 @@ Verificació addicional executada al PostgreSQL de producció: comandos, RLS, id
 
 Errors corregits: revisió nul·la que eludia CAS de sessió; final prematur de la prova de redirecció mentre carregava dades; superposició del rellotge oficial; controls oficials fora del perfil principal; selecció silenciosa d’un altre partit en una URL no autoritzada; pèrdua de selecció en canviar mode/període; recuperació d’interval obert; peticions en curs durant canvi de partit; lectura transitòria del rellotge a la prova de pausa. També s’han corregit errors del transport local de proves, sense atribuir-los a errors de producció.
 
-Límits de l’evidència: PostgreSQL/PGlite és real, amb RLS i funcions SQL, però el transport d’Auth/PostgREST/WebSocket del navegador és local i identificat com a prova. No s’ha comprovat Realtime de Supabase en producció ni dos dispositius físics. No s’han executat les proves opcionals que depenen d’HTML federatiu temporal absent. Els portals i Pages no s’han pogut reobrir amb l’eina web en aquesta execució. No es declara una prova real d’Oriol/Ventu ni de credencials de producció.
+Límits de l’evidència: PostgreSQL/PGlite és real, amb RLS i funcions SQL, però el transport d’Auth/PostgREST/WebSocket del navegador és local i identificat com a prova. Les proves automatitzades no acrediten Realtime de producció. L’acceptació física ordinador → mòbil del 23/10/2026 prové de la confirmació del responsable, sense control visual, captura de xarxa ni inspecció de logs d’aquesta prova per l’agent. No s’han executat les proves opcionals que depenen d’HTML federatiu temporal absent. Els portals i Pages no s’han pogut reobrir amb l’eina web en aquesta execució. No es declara una prova real d’Oriol/Ventu ni de credencials de producció.
 
 ## D. Estat funcional
 
-Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i la base està instal·lada. El 20/10/2026 s’ha confirmat la prova bàsica real amb el superadministrador (registre, desament i lectura posterior a la recàrrega); la verificació multiusuari/multidispositiu continua pendent.
+Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i la base està instal·lada. El 20/10/2026 s’ha confirmat la prova bàsica real amb el superadministrador (registre, desament i lectura posterior a la recàrrega); el 23/10/2026 el responsable ha confirmat Realtime en ordinador i mòbil. La prova amb comptes d’operadors diferents queda per al pilot ajornat.
 
 | Funcionalitat | Classificació | Límit |
 | --- | --- | --- |
@@ -90,7 +92,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Consulta autenticada i activació pròpia reals | OPERATIVA I VERIFICADA | Logs reals HTTP 200 i assignació persistent/auditada; sense prova visual directa |
 | Registre bàsic i recuperació sota Auth real | OPERATIVA I VERIFICADA | 20/10/2026: una acció/auditoria, sessió de vídeo revisió 7, lectura HTTP 200 posterior al desament i confirmació del responsable |
 | Estat de connexió i diferenciació Realtime/HTTP | OPERATIVA I VERIFICADA | Controlador unitari, Chromium amb tall de WebSocket i CI; frontend publicat a Pages |
-| Realtime entre dispositius físics | IMPLEMENTADA PENDENT DE PROVES | Falta verificar entrega WebSocket; les lectures HTTP no l’acrediten |
+| Realtime entre ordinador i mòbil físics | OPERATIVA I VERIFICADA | Confirmació del responsable el 23/10/2026: acció visible sense recàrrega i hora en directe que apareix o avança; sense inspecció independent de l’agent |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
 | Pilot amb Oriol Codinach i Ventu | PENDENT | Validació bàsica pròpia completada; comptes i pilot extern pendents que el responsable els demani |
@@ -99,6 +101,8 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Sincronització automàtica de vídeo | PENDENT | Opcional; l’anàlisi manual ja està implementada |
 
 ## E. GitHub i desplegament
+
+Acceptació física: branca `docs/statistics-realtime-acceptance`, base `3458532e75c709cfdedf9be0eb8e251f893695e3`. Checkpoint només documental, identificable amb `git log -1`; JSON, enllaços i diff verificats, sense canvis de runtime ni SQL.
 
 Bloc de connexió: branca `feat/statistics-live-status`, [commit `b8cec59`](https://github.com/Dudisooft/clubhoquei360/commit/b8cec59f08cca7cc57fec05f6ece3b6619145a3d), [PR #6 fusionada](https://github.com/Dudisooft/clubhoquei360/pull/6), [CI 39413527452](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413527452) **success**, 66 Node i 14 Chromium. Fusió `c53406a9d1263d766de4e9163e6eb225666dc510` i [Pages 39413843911](https://github.com/Dudisooft/clubhoquei360/actions/runs/39413843911) **success**. Cap migració, compte ni dada esportiva nous. Registre final: `docs/statistics-live-status-release`.
 
@@ -121,7 +125,6 @@ Verificació real posterior al desplegament: [snapshot de consulta/assignació](
 
 ## F. Pendents necessaris
 
-1. Verificar entrega Realtime entre dos dispositius físics i consulta/revocació amb un segon usuari autoritzat. La prova bàsica real del compte propi ja està completada.
-2. Preparar comptes i assignacions del pilot FEM15 quan el responsable ho demani, amb identitats, partit, abasts i caducitat confirmats. La creació dels comptes temporals continua ajornada; no bloqueja la validació pròpia ja superada.
+1. Preparar comptes i assignacions del pilot FEM15 només quan el responsable ho demani, amb identitats, partit, abasts i caducitat confirmats. Incloure-hi consulta/revocació amb un segon usuari autoritzat. La creació dels comptes temporals continua ajornada. El recorregut bàsic i Realtime ordinador → mòbil ja estan acceptats; no s’han de repetir sense una incidència nova.
 
 No cal introduir cap servei nou de pagament, ni repetir la importació federativa o l’auditoria inicial per completar aquests passos. La represa de desenvolupament es fa amb **CONTINUA CLUBHOQUEI360**, llegint primer el registre persistent.

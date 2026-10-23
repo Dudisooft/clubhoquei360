@@ -2,7 +2,7 @@
   "project": "ClubHoquei360",
   "season": "2026/2027",
   "timezone": "Europe/Madrid",
-  "scope": "Registre històric de la verificació inicial i del reforç CAS: 59 Node i 13 Chromium locals. La prova bàsica sota Auth real està confirmada a statistics-acceptance-20261020.json. Realtime físic continua pendent; el bloc posterior de connexió es registra separadament.",
+  "scope": "Registre històric de la verificació inicial i del reforç CAS: 59 Node i 13 Chromium locals. La prova bàsica sota Auth real està confirmada a statistics-acceptance-20261020.json. El bloc posterior de connexió es registra separadament; l’acceptació física ordinador → mòbil confirmada pel responsable el 23/10/2026 consta a statistics-realtime-acceptance-20261023.json.",
   "fixture": "Set participants ficticis per equip: una portera i sis jugadores de pista. Cap compte personal creat.",
   "branch": "feat/statistics-admin-validation",
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/2",
@@ -194,5 +194,6 @@
     ],
     "sqlstate": "22023"
   },
-  "followUpVerification": "statistics-live-status-verification.json"
+  "followUpVerification": "statistics-live-status-verification.json",
+  "physicalRealtimeAcceptance": "statistics-realtime-acceptance-20261023.json"
 }
