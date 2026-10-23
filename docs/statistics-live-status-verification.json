@@ -111,9 +111,9 @@
     "verification": "GitHub build/deploy job conclusions and deployment logs; no new visual production-browser claim"
   },
   "remaining": [
-    "Realtime notification delivery between two physical devices; protocol in statistics-operations.md",
-    "FEM15 temporary-account pilot deferred until owner explicitly requests it"
+    "FEM15 temporary-account pilot and distinct-user consultation/revocation, deferred until owner explicitly requests it"
   ],
   "codeCommit": "b8cec59f08cca7cc57fec05f6ece3b6619145a3d",
-  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/6"
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/6",
+  "physicalRealtimeAcceptance": "statistics-realtime-acceptance-20261023.json"
 }
