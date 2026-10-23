@@ -1,0 +1,102 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-23",
+  "timezone": "Europe/Madrid",
+  "branch": "feat/temporary-external-invitations",
+  "baseCommit": "4950940a6526ac9ae3236ca68b3525b9eb39bbdd",
+  "checkpoint1": "8de409c",
+  "scope": "Local and CI runtime suites plus real production migration, Edge deployment, transactional PostgreSQL RPC/RLS and anonymous HTTP checks. Real OTP/SMTP delivery pending; no persistent invitation or identity created.",
+  "audit": {
+    "enabledGlobalSuperoperators": 1,
+    "otherEnabledGlobalRoles": 0,
+    "authUserInsertTriggers": 0,
+    "existingInvitationTables": 0,
+    "initialProductionChanges": 0
+  },
+  "node": {
+    "passed": 98,
+    "failed": 0,
+    "skipped": 0,
+    "databaseInvitationCases": 13,
+    "endpointCases": 6,
+    "modelCases": 3,
+    "existingCases": 76,
+    "basicModuleCases": 10
+  },
+  "browser": {
+    "startTime": "2026-10-23T21:23:15.574Z",
+    "duration": 70474.121,
+    "expected": 22,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "staticFilesChecked": 31,
+  "staticBuild": "PASS: 31 application files; no server secrets, tests or SQL in artifact",
+  "edgeCheck": "PASS: deno check supabase/functions/temporary-access/index.ts",
+  "dependencyAudit": "npm audit: 0 vulnerabilities",
+  "diffCheck": "PASS",
+  "ci": {
+    "status": "completed",
+    "conclusion": "success",
+    "head": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311",
+    "nodePassed": 98,
+    "browserPassed": 22,
+    "edgeCheck": "success",
+    "staticCheck": "success",
+    "build": "success"
+  },
+  "production": {
+    "migrationApplied": true,
+    "migrationInstalledVersion": "20261023213604",
+    "migrationSource": "supabase/migrations/20261023204937_temporary_external_invitations.sql",
+    "functionDeployed": true,
+    "functionVersion": 1,
+    "frontendPublished": false,
+    "smtpVerified": false,
+    "authEmailDeliveryVerified": false,
+    "otpReady": false,
+    "sqlSmoke": "PASS: all writes rolled back",
+    "httpChecksPassed": 6,
+    "officialDataHashesPreserved": true,
+    "newSecurityWarnings": 0,
+    "accountsCreated": 0,
+    "invitationsCreated": 0,
+    "emailsSent": 0,
+    "evidence": "docs/temporary-access-deployment-20261023.json"
+  },
+  "authorization": "Received: Autoritzo la posada en servei amb aquestes comprovacions. Frontend conditional on successful configuration and real email checks; do not ask again.",
+  "remaining": [
+    "Owner configures Gmail application-password SMTP and applicable Auth email templates using docs/temporary-access-email-setup.md",
+    "Verify service configuration, then enable OTP_READY for controlled real-recipient test",
+    "Real delivery, acceptance, permission and revocation validation using owner's already-authorized controlled mailbox",
+    "Optional invitation SMTP credentials; copy-link fallback available",
+    "Merge/publish frontend only after successful real email checks; FEM15 pilot when requested"
+  ],
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/11",
+  "integration": {
+    "base": "12444a9eba4af1f5ee3a130a60c160c8f7b02840",
+    "mergeCommit": "3493575f1d8d8dfb45714397f4664243acccd071",
+    "basicRuntimePreserved": true
+  },
+  "ciHistory": [
+    {
+      "head": "ef8f50e295f555706e7757b320de0416cf8afbb2",
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40026215722",
+      "conclusion": "success",
+      "nodePassed": 98,
+      "browserPassed": 22
+    }
+  ],
+  "codeCommit": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
+  "finalDocumentationOnly": false,
+  "runtimeUnchangedSinceCodeCommit": true,
+  "controlledMailTest": {
+    "recipientAuthorized": true,
+    "recipientStoredInConversationOnly": true,
+    "userNeedsSmtpInstructions": true,
+    "emailsSent": 0
+  },
+  "emailSetupGuide": "docs/temporary-access-email-setup.md"
+}

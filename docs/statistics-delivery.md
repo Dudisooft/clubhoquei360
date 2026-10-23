@@ -6,6 +6,8 @@ Actualitzat el 23/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
 Acceptació física posterior, 23/10/2026: el responsable confirma acció visible al mòbil sense recarregar i hora d’actualització en directe que apareix o avança. **Realtime ordinador → mòbil: OPERATIVA I VERIFICADA amb confirmació humana.** [Evidència i límits](statistics-realtime-acceptance-20261023.json). Els comptes temporals continuen ajornats.
 
+**Modificació prioritària d’accessos externs:** sistema d’invitacions implementat a `feat/temporary-external-invitations`, [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11), [CI 40026853311](https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311) correcta amb 98 Node i 22 Chromium, pendent d’instal·lació, autorització i verificació Auth/SMTP real. Substitueix els comptes personals de provadors. [Informe específic amb set apartats i primera invitació](temporary-access.md). La versió publicada d’estadístiques es conserva.
+
 ## A. Auditoria inicial
 
 Frontend estàtic HTML/CSS/JavaScript, sense framework ni compilació necessària de runtime. Navegació multipàgina relativa: dashboard, Centre de partit (`avancat.html`), Base i Historial. Supabase real existent: Auth, RLS, PostgreSQL, Realtime i Edge Functions federatives. El catàleg normalitzat inclou clubs, temporades, equips, identitats, plantilles, calendaris i actes; l’operació de partit usa `pilot_matches`, `pilot_players`, `pilot_events` i `pilot_operator_state`.
@@ -95,7 +97,8 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Realtime entre ordinador i mòbil físics | OPERATIVA I VERIFICADA | Confirmació del responsable el 23/10/2026: acció visible sense recàrrega i hora en directe que apareix o avança; sense inspecció independent de l’agent |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
-| Pilot amb Oriol Codinach i Ventu | PENDENT | Validació bàsica pròpia completada; comptes i pilot extern pendents que el responsable els demani |
+| Invitacions externes de superoperador | PARCIALMENT IMPLEMENTADA | Backend instal·lat amb autorització i RPC/RLS de producció PASS; 98 Node/22 Chromium; configuració Auth/SMTP, correu real i publicació del frontend pendents |
+| Pilot amb Oriol Codinach i Ventu | PENDENT | Invitació temporal quan el responsable demani el pilot; sense alta personal tradicional ni UUID extern manual |
 | Cronologia/plantilla que la federació no publica | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | No s’inventa informació |
 | Notes tàctiques compartides | PARCIALMENT IMPLEMENTADA | Funció prèvia local; fora d’aquest lliurament estadístic |
 | Sincronització automàtica de vídeo | PENDENT | Opcional; l’anàlisi manual ja està implementada |
@@ -125,6 +128,7 @@ Verificació real posterior al desplegament: [snapshot de consulta/assignació](
 
 ## F. Pendents necessaris
 
-1. Preparar comptes i assignacions del pilot FEM15 només quan el responsable ho demani, amb identitats, partit, abasts i caducitat confirmats. Incloure-hi consulta/revocació amb un segon usuari autoritzat. La creació dels comptes temporals continua ajornada. El recorregut bàsic i Realtime ordinador → mòbil ja estan acceptats; no s’han de repetir sense una incidència nova.
+1. Configurar/verificar Supabase Auth/SMTP i el correu real abans de publicar el frontend d’invitacions. Autorització rebuda, migració `20261023213604` i Edge Function v1 instal·lades; prova transaccional i HTTP PASS. No repetir autorització ni instal·lació. [Configuracions i procediment](temporary-access.md).
+2. Preparar el pilot FEM15 per invitació quan el responsable ho demani, amb consulta/revocació i permisos configurats. L’alta personal i els UUID externs manuals queden substituïts per la nova instrucció. Realtime ordinador → mòbil i el recorregut bàsic ja estan acceptats.
 
-No cal introduir cap servei nou de pagament, ni repetir la importació federativa o l’auditoria inicial per completar aquests passos. La represa de desenvolupament es fa amb **CONTINUA CLUBHOQUEI360**, llegint primer el registre persistent.
+No cal introduir cap servei de pagament ni repetir la importació federativa o l’auditoria inicial. La represa es fa amb **CONTINUA CLUBHOQUEI360**, llegint el registre persistent i l’informe d’accessos temporals.

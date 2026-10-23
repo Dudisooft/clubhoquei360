@@ -1,18 +1,18 @@
 import {PGlite} from '@electric-sql/pglite';
 import fs from 'node:fs';
-export const ID={club:'10000000-0000-4000-8000-000000000001',season:'10000000-0000-4000-8000-000000000002',team:'10000000-0000-4000-8000-000000000003',otherTeam:'10000000-0000-4000-8000-000000000004',match:'20000000-0000-4000-8000-000000000001',otherMatch:'20000000-0000-4000-8000-000000000002',player:'30000000-0000-4000-8000-000000000001',goalie:'30000000-0000-4000-8000-000000000002',rival:'30000000-0000-4000-8000-000000000003',principal:'40000000-0000-4000-8000-000000000001',external:'40000000-0000-4000-8000-000000000002',coach:'40000000-0000-4000-8000-000000000003',delegate:'40000000-0000-4000-8000-000000000004',alien:'40000000-0000-4000-8000-000000000005',manager:'40000000-0000-4000-8000-000000000006',secondary:'40000000-0000-4000-8000-000000000007',officialGoal:'50000000-0000-4000-8000-000000000001'};
+export const ID={superoperator:'40000000-0000-4000-8000-000000000008',club:'10000000-0000-4000-8000-000000000001',season:'10000000-0000-4000-8000-000000000002',team:'10000000-0000-4000-8000-000000000003',otherTeam:'10000000-0000-4000-8000-000000000004',match:'20000000-0000-4000-8000-000000000001',otherMatch:'20000000-0000-4000-8000-000000000002',player:'30000000-0000-4000-8000-000000000001',goalie:'30000000-0000-4000-8000-000000000002',rival:'30000000-0000-4000-8000-000000000003',principal:'40000000-0000-4000-8000-000000000001',external:'40000000-0000-4000-8000-000000000002',coach:'40000000-0000-4000-8000-000000000003',delegate:'40000000-0000-4000-8000-000000000004',alien:'40000000-0000-4000-8000-000000000005',manager:'40000000-0000-4000-8000-000000000006',secondary:'40000000-0000-4000-8000-000000000007',officialGoal:'50000000-0000-4000-8000-000000000001'};
 export async function createDatabase(){
  const db=new PGlite();
  await db.exec(`
  create role anon;create role authenticated;create role service_role bypassrls;
- create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
+ create schema auth;create table auth.users(id uuid primary key,email text,email_confirmed_at timestamptz);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
  create schema app_private;create table public.clubs(id uuid primary key,name text);create table public.seasons(id uuid primary key,club_id uuid,label text);
  create table public.teams(id uuid primary key,club_id uuid,season_id uuid,name text);
  create table public.club_memberships(user_id uuid,club_id uuid,team_id uuid,role text);
  create function app_private.has_club_role(p_club uuid,p_roles text[]) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.club_memberships where user_id=auth.uid() and club_id=p_club and role=any(p_roles))$$;
  create function app_private.has_team_role(p_team uuid,p_roles text[]) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.club_memberships where user_id=auth.uid() and team_id=p_team and role=any(p_roles))$$;
- create function app_private.is_platform_superadmin() returns boolean language sql stable security definer as $$select false$$;
+ create table public.platform_admins(user_id uuid,enabled boolean,role text);create function app_private.is_platform_superadmin() returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.platform_admins where user_id=auth.uid() and enabled and role='platform_superadmin')$$;
  create table public.pilot_matches(id uuid primary key,title text,home_team text,away_team text,starts_at timestamptz,status text);
  create table public.pilot_members(match_id uuid,user_id uuid,role text);
  create table public.pilot_players(id uuid primary key,match_id uuid,team text,dorsal text,full_name text,position text,federation_player_id text,federation_active boolean default true);
@@ -26,7 +26,8 @@ export async function createDatabase(){
  for(const table of ['pilot_matches','pilot_events','pilot_players','pilot_operator_state','federation_match_sources'])await db.exec(`create policy legacy_member_read on public.${table} for select to authenticated using(exists(select 1 from public.pilot_members m where m.user_id=auth.uid() and m.match_id=${table==='pilot_matches'?table+'.id':table+'.match_id'}));`);
  await db.exec('alter table pilot_members enable row level security;create policy legacy_members_self on pilot_members for select to authenticated using(user_id=auth.uid());');
  await db.exec(`create policy legacy_official_operator on public.pilot_events for insert to authenticated with check(exists(select 1 from public.pilot_members m where m.user_id=auth.uid() and m.match_id=pilot_events.match_id and m.role='operator'));grant insert on public.pilot_events to authenticated;grant select on public.pilot_members to authenticated;`);
- for(const user of ['principal','external','coach','delegate','alien','manager','secondary'])await db.query('insert into auth.users values ($1)',[ID[user]]);
+ for(const user of ['principal','external','coach','delegate','alien','manager','secondary','superoperator'])await db.query('insert into auth.users values ($1,$2,now())',[ID[user],user+'@example.test']);
+ await db.query("insert into public.platform_admins values($1,true,'platform_superadmin')",[ID.superoperator]);
  await db.query('insert into public.clubs values ($1,$2)',[ID.club,'Club de prova fictici']);
  await db.query('insert into public.seasons values ($1,$2,$3)',[ID.season,ID.club,'2026/27']);
  for(const [id,name] of [[ID.team,'FEM15 · dades fictícies'],[ID.otherTeam,'Un altre equip · fictici']])await db.query('insert into public.teams values ($1,$2,$3,$4)',[id,ID.club,ID.season,name]);

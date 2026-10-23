@@ -1,5 +1,7 @@
 # Estadístiques del Centre de partit · operació i pilot FEM15
 
+**Instrucció vigent del 23/10/2026:** l’accés extern passa a invitacions temporals exclusives del superoperador global, sense alta personal tradicional ni UUID externs manuals. [Implementació, estat i configuració](temporary-access.md). Aquest bloc nou està preparat en desenvolupament, pendent d’autorització i de verificació de correu real; el sistema estadístic publicat es conserva.
+
 ## Posada en servei autoritzada
 
 La posada en servei està autoritzada per l’ordre «Endavant». La migració additiva ja està aplicada i verificada al PostgreSQL de producció; no tornar-la a executar. L’estat de fusió i Pages consta a [statistics-deployment.md](statistics-deployment.md). No es requereix cap servei nou ni de pagament.
@@ -40,20 +42,15 @@ El controlador i la indicació de fallada es proven amb transport local de prove
 
 ## Pilot real FEM15, temporada 2026/27
 
-Identitat federativa prèviament documentada: FECAPA, competició `4802`, equip `12419`, temporada SIDGAD `41`, grup `5010`. Cal seleccionar el partit ja importat i no crear-lo de nou a mà. L’actualització federativa conserva la procedència i no reescriu la capa analítica.
+Identitat federativa documentada: FECAPA, competició `4802`, equip `12419`, temporada SIDGAD `41`, grup `5010`. Seleccionar el partit ja importat; no crear-lo a mà. Les importacions conserven la procedència i no reescriuen la capa analítica.
 
-Oriol Codinach és el provador previst i Ventu és l’entrenador receptor. **No s’han creat comptes, credencials ni permisos a nom seu.** Segons la nova decisió del responsable, aquests comptes encara no existeixen i es crearan després de la seva validació com a superadministrador. Quan existeixin, cal confirmar-ne els UUID abans d’assignar accés real. No s’han utilitzat noms de menors reals en les proves de desenvolupament.
+La petició anterior de comptes personals per Oriol Codinach/Ventu queda substituïda per invitacions temporals. No s’han creat comptes, invitacions ni permisos a nom seu. Quan el responsable demani activar el pilot i la nova funcionalitat estigui instal·lada/verificada:
 
-Procediment per al responsable autoritzat:
-
-- Confirmar partit FEM15, dates i temporada al selector federatiu.
-- Amb el principal designat, entrar a Estadístic → Operadors. Assignar el UUID verificat del provador amb rol operador, caducitat de la prova, categories necessàries, costat correcte de l’IHC i, si correspon, jugadors. Sense selecció de jugadors es permet registre d’equip i individual; amb selecció, només aquells jugadors.
-- No concedir un rol d’entrenador/coordinador al provador ni afegir-lo a `pilot_members`. El nou accés dona SELECT només al partit assignat i les escriptures estadístiques indicades; no permet alterar marcador, titulars ni cronòmetre oficial.
-- Assegurar el rol d’entrenador d’equip o una assignació de consulta corresponent per al receptor. No concedir consulta de tot el club per conveniència.
-- Obrir el vídeo extern o seleccionar-ne un fitxer local. El fitxer no es puja al servidor. El rellotge manual d’anàlisi és independent; es pot pausar, reprendre, retrocedir, ajustar o copiar una vegada el temps oficial. No hi ha sincronització automàtica del reproductor.
-- Registrar passades, xuts, gols, recuperacions, pèrdues, faltes i intervencions segons l’assignació. L’acció individual també suma per a l’equip. Per atribuir un jugador a una acció d’equip existent, corregir aquella acció.
-- Revisar globals/individuals; corregir i desfer una observació; activar «Mostra anul·lades» per recuperar-la o consultar-ne revisions. Qualsevol correcció de referència oficial queda a la capa analítica.
-- Desar, tancar i tornar a obrir. La recuperació queda pausada. Fer consulta des del compte receptor i confirmar que no pot editar. Revocar el provador en acabar; les dades i l’auditoria es conserven.
+- El superoperador global entra a **Accessos temporals**, introdueix el correu destinatari autoritzat, selecciona Igualada HC → FEM15 → perfil i caducitat. Per a registre limitat cal seleccionar partits i categories. Els administradors de club no gestionen invitacions.
+- Generar i copiar l’enllaç d’un sol ús o enviar-lo si SMTP consta configurat. El destinatari ha de verificar el seu correu amb Supabase Auth; no rep una contrasenya ni permisos d’entrenador/coordinador. No afegir-lo a `pilot_members`.
+- Confirmar la consulta del receptor amb els seus permisos interns existents o amb una invitació de consulta, sense rols generals de club.
+- Fer l’anàlisi amb vídeo extern/local i cronòmetre manual, registrar accions reals, revisar informes, corregir/desfer, desar i reprendre. La capa oficial roman separada.
+- Comprovar consulta amb el receptor i revocació/caducitat amb la sessió del convidat oberta. Les dades i l’auditoria es conserven després de revocar. El procediment complet i els requisits de configuració són a [temporary-access.md](temporary-access.md).
 
 ## Semàntica de les dades
 

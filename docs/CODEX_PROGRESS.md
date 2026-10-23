@@ -4,7 +4,11 @@ Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Realtime entre ordinador i mòbil físics confirmat pel responsable el 23/10/2026. Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
+**Prioritat actual: invitacions temporals per correu, exclusives del superoperador global.** La nova instrucció [substitueix l’alta personal dels provadors](temporary-access-requirements.md). Comptes i permisos interns intactes. Branca `feat/temporary-external-invitations`; base `4950940a6526ac9ae3236ca68b3525b9eb39bbdd`. Realtime ordinador → mòbil continua acceptat; no repetir aquesta prova.
+
+Blocs 1 i 2 implementats i verificats localment: migració additiva `20261023204937_temporary_external_invitations.sql`, pantalla global «Accessos temporals», flux convidat amb codi de correu, Edge Function i SMTP opcional, auditoria i assignacions vinculades. **98 proves Node, 22 Chromium, 31 fitxers estàtics, check Deno, build i audit npm correctes**, després d’integrar els canvis bàsics de `main` (`12444a9`). Checkpoints recuperables `8de409c` (dades), `ef8f50e` (pantalles/endpoint) i `3493575` (integració de main); els següents s’identifiquen amb `git log`. [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11). Últim checkpoint de codi verificat `2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4`; [CI 40026853311](https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311) **success**, 98 Node i 22 Chromium, check Deno, check 31 fitxers i build correctes. Aquest registre posterior només modifica documents; no repetir suites del codi intacte.
+
+**Posada en servei autoritzada pel responsable:** «Autoritzo la posada en servei amb aquestes comprovacions.» Migració nova instal·lada com a `20261023213604_temporary_external_invitations` i Edge Function `temporary-access` versió 1 ACTIVE. La prova PostgreSQL real amb BEGIN/ROLLBACK ha passat; les empremtes esportives es conserven. Les comprovacions HTTP rebutgen accessos anònims/invàlids i l’OTP encara deshabilitat respon 503. **Frontend no fusionat ni publicat:** falta configurar/verificar el correu i el lliurament real. No repetir la petició d’autorització. El responsable necessita els passos SMTP i ha autoritzat una bústia pròpia per a la prova (adreça a la conversa, no versionada). No s’ha creat cap usuari o invitació persistent ni enviat cap correu. Informe: `docs/temporary-access.md`; evidència de producció: `docs/temporary-access-deployment-20261023.json`; guia de correu: `docs/temporary-access-email-setup.md`.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
@@ -55,11 +59,15 @@ El 23/10/2026 el responsable confirma que l’acció apareix a l’historial del
 
 20. Prova física de Realtime acceptada el 23/10/2026 pel responsable: ordinador → mòbil, mateix partit, acció visible sense recàrrega i indicador d’actualització en directe que apareix o avança. Abast: protocol amb compte propi; no es presenta com a prova amb dos operadors diferents ni del pilot FEM15. Evidència a `docs/statistics-realtime-acceptance-20261023.json`.
 
+21. Nova arquitectura d’accessos externs implementada: invitacions de superoperador global, correu verificat, tres perfils, enllaços hash d’un sol ús, revocació/caducitat i SMTP opcional. Regressió de navegació de fragment corregida i protecció dels permisos interns conservada. Backend instal·lat amb autorització; frontend condicionat a correu real verificat.
+
+22. Checkpoint de producció d’invitacions: migració `20261023213604` aplicada una sola vegada (font local `20261023204937_temporary_external_invitations.sql`), funció `temporary-access` v1 ACTIVE, sense tocar les funcions federatives. Script `scripts/verify-production-temporary-access.sql` executat íntegrament amb resultat PASS i reversió total. No hi ha comptes, invitacions, assignacions d’invitació ni correus nous persistents. Branca `feat/temporary-external-invitations`, pare documental `0ec6763`; el commit d’aquest checkpoint s’identifica amb `git log -1`. Darrer codi completament verificat: `2a4b6dc`; runtime intacte.
+
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
-- Suite Node actual: **66/66 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
-- Chromium: **14/14 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
+- Suite Node del checkpoint estadístic publicat: **66/66 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Chromium del checkpoint estadístic publicat: **14/14 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 22 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
 - `npm run build`: artefacte estàtic correcte a `work/site`, sense tests/SQL/node_modules/credencials.
@@ -73,6 +81,10 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Verificació real del 20/10/2026: una acció i una sessió persistents; POST/GET HTTP 200; zero discrepàncies de dades/auditoria i zero errors als logs de la finestra consultada. Confirmació humana del recorregut bàsic. No s’han repetit suites vàlides ni migracions.
 
 - Confirmació humana del 23/10/2026: **PASS del protocol Realtime físic ordinador → mòbil**. Sense control visual/logs independents de l’agent; sense prova de dos comptes diferents, tauleta o portàtil. Canvi només documental: JSON, enllaços i diff verificats; codi/SQL/dependències intactes, suites anteriors conservades.
+
+- Nova suite consolidada d’invitacions: **98/98 Node** (13 PostgreSQL d’invitacions, 6 endpoint, 3 model de caducitat, 66 estadístics anteriors i 10 del mode bàsic integrat) i **22/22 Chromium**, zero fallits/omesos/inestables. Check 31 fitxers, check Deno i build correctes, audit npm zero vulnerabilitats, diff net. Transport Auth/SMTP local fictici; no acredita correu real.
+
+- Invitacions en producció, 23/10: prova transaccional real PASS de rol global/admin de club, hash, correu confirmat, consum únic/rotació, límits, consulta sense escriptura, registre per categoria/partit, caducitat, revocació amb la mateixa identitat i conservació d’autoactivació interna. No és una sessió OTP real. Sis comprovacions HTTP correctes: OTP deshabilitat 503; administració anònima/token invàlid 401; origen aliè 403; RPC/taula hash anònimes 401/42501. Empremtes de partits, incidències, estat oficial i observacions idèntiques; 0 invitacions/auditories/comptadors persistents i 1 usuari Auth preexistent. Assessor: cap WARN/ERROR nou; INFO esperada de RLS sense política a la taula privada de límits, amb permisos de client revocats. Primer intent del script fallit perquè el fixture ometia `sides` en l’autoactivació; corregit el fixture i script complet PASS, sense canvi de codi de l’app.
 
 ## Errors detectats i resolts
 
@@ -89,14 +101,12 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-Cap bloc de codi o prova local obert. Indicador de connexió verificat localment i per CI, PR #6 fusionada i publicació Pages confirmada. Registre documental del resultat desat en aquest checkpoint, sense canvis d’aplicació. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
+1. **Configurar i verificar el correu. Autorització de posada en servei ja rebuda; no tornar-la a demanar.** El responsable demana els passos SMTP i ha facilitat a la conversa una bústia pròpia autoritzada per a la prova. Seguir `docs/temporary-access-email-setup.md`. Les accions disponibles del connector no exposen configuració Auth/SMTP ni secrets; la CLI retorna `AccessTokenRequiredError`. No demanar contrasenyes/claus al xat ni declarar que SMTP està absent: configuració no comprovable, OTP efectivament deshabilitat.
+2. Després de verificar la configuració del servei, habilitar OTP per a la prova controlada i comprovar lliurament real, destinatari, consum únic, consulta/registre i revocació. SMTP d’invitacions és opcional; la còpia no evita verificar el correu. No crear invitacions anticipades que caduquin mentre es configura el servei. **No reaplicar `20261023213604` ni redesplegar v1 intacta.**
+3. Publicar frontend només quan les comprovacions siguin satisfactòries, tal com ja s’ha autoritzat. PR #11 draft; `main` segueix a `12444a9`. CI 40026853311 correcta al codi `2a4b6dc`; conservar-la si runtime intacte. No fusionar mentre falti el correu real verificat.
+4. Primer pilot FEM15 per invitació quan el responsable ho demani. Queda anul·lada l’antiga petició de comptes personals/UUID externs; només es permet una identitat tècnica mínima de Supabase Auth, sense contrasenya, creada pel servei després de validar la invitació i abans de verificar el correu.
 
-Realtime físic ja acceptat; no tornar a demanar aquesta prova només per una ordre de represa. No queda cap bloc tècnic independent pendent de desenvolupament.
-
-1. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
-2. Dins del pilot autoritzat, comprovar consulta i revocació amb un segon usuari. Si es vol ampliar l’evidència real, comprovar registre individual i correcció/desfer amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
-
-Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
+En reprendre: llegir també `docs/temporary-access.md`, comprovar Git/PR i continuar la primera tasca pendent. No repetir auditoria, proves vàlides, migracions ja instal·lades o Realtime físic acceptat.
 
 ## Dependències i límits
 
@@ -114,6 +124,7 @@ Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi
 - Dades: migració inicial indicada i `supabase/migrations/20261017133038_require_session_revision.sql` (ja aplicada). No reaplicar-ne cap.
 - Verificació: `tests/stats-{model,database,store,realtime}.test.mjs`, `tests/helpers/stats-{db,server}.mjs`, `tests/browser/statistics.spec.mjs`, prova d’interfície adaptada, `playwright.config.mjs`, `scripts/{verify,build}.mjs`, `.github/workflows/statistics.yml`, dependències/lockfile i `.gitignore`.
 - Documents: README, auditoria, operació/pilot, informe A–F (`docs/statistics-delivery.md`), evidència JSON (`docs/statistics-verification.json`), posada en servei (`docs/statistics-deployment.md`) i aquest registre. Verificació operativa: `scripts/verify-production-statistics.sql` (BEGIN/ROLLBACK).
+- Checkpoint autoritzat d’invitacions: `scripts/verify-production-temporary-access.sql`, `docs/temporary-access-deployment-20261023.json`, `docs/temporary-access-email-setup.md`, actualització de `docs/temporary-access.md`, `docs/temporary-access-verification.json`, `docs/statistics-delivery.md` i aquest registre. SQL de comprovació executat i revertit; dos JSON, enllaços relatius, diff i identitat del runtime respecte de `2a4b6dc` verificats. No s’han repetit suites vigents.
 
 ## Represa exacta
 
@@ -122,7 +133,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar amb el pilot només quan el responsable ho demani explícitament, sense crear comptes automàticament.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. **Invitacions: autorització ja rebuda, migració i funció instal·lades; continuar pel correu i la prova de la bústia pròpia autoritzada a la conversa.** No llegir sessions ni demanar secrets. Frontend condicionat a comprovacions satisfactòries; pilot FEM15 només quan el responsable el demani. No crear comptes personals; la identitat tècnica Auth només la crea el servei per una invitació validada.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.

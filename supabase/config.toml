@@ -1,0 +1,7 @@
+project_id = "clubhoquei360"
+
+# Public entry is needed for invited guests who have not verified email yet.
+# The handler validates invitation tokens/rate limits; mail administration also
+# validates getUser + the existing global role via an authenticated DB RPC.
+[functions.temporary-access]
+verify_jwt = false

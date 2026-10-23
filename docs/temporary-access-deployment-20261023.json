@@ -1,0 +1,269 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-23",
+  "timezone": "Europe/Madrid",
+  "authorization": {
+    "received": true,
+    "userStatement": "Autoritzo la posada en servei amb aquestes comprovacions.",
+    "scope": "Install migration and Edge Function; publish frontend only after successful configuration and real email checks."
+  },
+  "branch": "feat/temporary-external-invitations",
+  "codeCommit": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
+  "mainCommit": "12444a9eba4af1f5ee3a130a60c160c8f7b02840",
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/11",
+  "prDraft": true,
+  "migration": {
+    "source": "supabase/migrations/20261023204937_temporary_external_invitations.sql",
+    "installedVersion": "20261023213604",
+    "sourceSha256": "adced6ea8a9d1beaae55172ebbfdd8ed6c4e62d842298a8aeea127c4382b0314",
+    "name": "temporary_external_invitations",
+    "applied": true,
+    "previousMigrationsReapplied": false
+  },
+  "edge": {
+    "name": "temporary-access",
+    "version": 1,
+    "status": "ACTIVE",
+    "verifyJwt": false,
+    "packageSha256": "c7cdc2e1c8d4dfc371ecd0d8355298d863856eadb35ad7ac607eba10f0b680d4",
+    "ownAdministrativeJwtAndRoleChecks": true,
+    "otpReady": false,
+    "invitationSmtpConfiguration": "not verified"
+  },
+  "sqlSmoke": {
+    "script": "scripts/verify-production-temporary-access.sql",
+    "result": "PASS",
+    "allTestWritesRolledBack": true,
+    "createsAuthUsers": false,
+    "sendsEmail": false,
+    "realOtpSession": false,
+    "covers": [
+      "global role and club-admin denial",
+      "sanitized RPC responses and token-hash-only storage",
+      "no direct hash table SELECT",
+      "service-only email reservation and rate limits",
+      "confirmed Auth recipient",
+      "rotated and consumed single-use token denial",
+      "legacy assignment revocation denial",
+      "preserved internal global self-activation",
+      "viewer read with no event or clock write",
+      "match isolation",
+      "recorder category restriction",
+      "assignment expiry",
+      "same-identity revocation and subsequent read/write denial",
+      "anonymous acceptance denial"
+    ],
+    "initialAttempt": "Smoke fixture omitted mandatory sides in legacy self-activation call. Transaction aborted, fixture corrected, complete script rerun successfully. Application code unchanged."
+  },
+  "httpChecks": [
+    {
+      "case": "request-code while OTP disabled",
+      "status": 503,
+      "result": "PASS; rejects before creating identity or reserving email"
+    },
+    {
+      "case": "anonymous admin capabilities",
+      "status": 401,
+      "result": "PASS"
+    },
+    {
+      "case": "invalid session admin capabilities",
+      "status": 401,
+      "result": "PASS"
+    },
+    {
+      "case": "wrong Origin",
+      "status": 403,
+      "result": "PASS"
+    },
+    {
+      "case": "anonymous management RPC",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS"
+    },
+    {
+      "case": "anonymous token table SELECT",
+      "status": 401,
+      "code": "42501",
+      "result": "PASS"
+    }
+  ],
+  "data": {
+    "before": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "stats_sessions": 1,
+      "stats_assignments": 3,
+      "pilot_operator_state": {
+        "hash": "249c85b51df6f3f76339b9c0ada4c1ba",
+        "rows": 7
+      }
+    },
+    "after": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "stats_sessions": 1,
+      "stats_assignments": 3,
+      "pilot_operator_state": {
+        "hash": "249c85b51df6f3f76339b9c0ada4c1ba",
+        "rows": 7
+      }
+    },
+    "baselineUnchanged": true,
+    "postInstall": {
+      "new_tables": [
+        {
+          "rls": true,
+          "name": "temporary_email_limits",
+          "schema": "app_private",
+          "anonymous_select": false,
+          "authenticated_insert": false,
+          "authenticated_select": false
+        },
+        {
+          "rls": true,
+          "name": "temporary_invitations",
+          "schema": "public",
+          "anonymous_select": false,
+          "authenticated_insert": false,
+          "authenticated_select": false
+        },
+        {
+          "rls": true,
+          "name": "temporary_invitation_audit",
+          "schema": "public",
+          "anonymous_select": false,
+          "authenticated_insert": false,
+          "authenticated_select": false
+        }
+      ],
+      "invitations": 0,
+      "confirmed_users": 1,
+      "invitation_audit": 0,
+      "public_functions": [
+        {
+          "name": "temporary_accept",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        },
+        {
+          "name": "temporary_admin",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        },
+        {
+          "name": "temporary_admin_access",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        },
+        {
+          "name": "temporary_email_target",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        },
+        {
+          "name": "temporary_manage",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        },
+        {
+          "name": "temporary_reserve_email",
+          "definer": false,
+          "service_execute": true,
+          "anonymous_execute": false,
+          "authenticated_execute": false
+        },
+        {
+          "name": "temporary_touch",
+          "definer": false,
+          "service_execute": false,
+          "anonymous_execute": false,
+          "authenticated_execute": true
+        }
+      ],
+      "email_limit_buckets": 0,
+      "enabled_superoperators": 1,
+      "invitation_assignments": 0
+    },
+    "authUsers": 1,
+    "authUsersCreatedSinceInstall": 0,
+    "persistentTestInvitations": 0,
+    "emailsSent": 0
+  },
+  "advisors": {
+    "newWarnings": 0,
+    "newErrors": 0,
+    "newInformation": [
+      {
+        "name": "rls_enabled_no_policy",
+        "table": "app_private.temporary_email_limits",
+        "reason": "Intentional deny by default; no client privileges or policies. Service-only checked private definer writes rate counters.",
+        "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0008_rls_enabled_no_policy"
+      }
+    ],
+    "preExistingWarningsUnchanged": true
+  },
+  "configurationBlock": {
+    "otpActivation": "not enabled; observed HTTP 503",
+    "authSmtpAndTemplates": "Not inspectable or editable with the available connector actions.",
+    "cli": "supabase secrets list fails AccessTokenRequiredError; no secret values read or requested in chat.",
+    "environment": "Connected, no management credential bindings or outbound identities configured.",
+    "requires": [
+      "Configure or confirm SMTP for external recipients in Supabase Auth",
+      "Include {{ .Token }} in applicable email templates while preserving internal flows",
+      "Authorized controlled recipient for real delivery and guest validation",
+      "Enable TEMPORARY_ACCESS_OTP_READY after service configuration verified"
+    ],
+    "optional": "Invitation SMTP can remain absent; copying link never bypasses email verification."
+  },
+  "frontend": {
+    "published": false,
+    "merged": false,
+    "reason": "Conditional authorization: real email/configuration checks not yet satisfied. Main and existing Pages retained."
+  },
+  "previousTests": {
+    "nodePassed": 98,
+    "browserPassed": 22,
+    "ci": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311",
+    "runtimeUnchanged": true
+  },
+  "resume": "CONTINUA CLUBHOQUEI360 — read docs/CODEX_PROGRESS.md and deployment evidence, do not reapply installed migrations or redeploy unchanged Edge Function; continue with email configuration and controlled recipient test before frontend publication.",
+  "controlledMailTest": {
+    "recipientAuthorized": true,
+    "recipientStoredInConversationOnly": true,
+    "userNeedsSmtpInstructions": true,
+    "emailsSent": 0
+  },
+  "emailSetupGuide": "docs/temporary-access-email-setup.md"
+}
