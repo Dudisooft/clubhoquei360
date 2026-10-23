@@ -32,7 +32,7 @@ L’arrencada en fred necessita Auth i lectures de xarxa; no és una PWA complet
 
 ## Accés i ús de la versió de prova
 
-No publicada ni fusionada a main. Per provar amb dades reals, servir l’artefacte en un origen de proves autoritzat per Auth i per CORS de l’Edge Function. Un servidor localhost arbitrari no acredita la integració federativa real. La configuració CORS existent de federation-sync admet l’origen de GitHub Pages i pot bloquejar altres orígens.
+Publicació autoritzada i completada el 23/10/2026: PR #9 fusionada a `12444a9`, Pages 40025155786 correcte. Prova mòbil: https://dudisooft.github.io/clubhoquei360/base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5 . Per altres orígens de proves, servir l’artefacte en un origen autoritzat per Auth i per CORS de l’Edge Function. Un servidor localhost arbitrari no acredita la integració federativa real. La configuració CORS existent de federation-sync admet l’origen de GitHub Pages i pot bloquejar altres orígens.
 
 Per reproduir localment sense tocar producció:
 
@@ -67,3 +67,12 @@ Font: https://www.hoqueipatins.fecapa.cat/league/4786 ; acta registrada a `https
 La ruta `base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5` carrega aquesta acta i les seves plantilles amb Auth/RLS vigents. Les anotacions de prova es desen exclusivament al dispositiu, sota una clau separada per usuari/partit; cap escriptura a `pilot_events`, cap compte o permís nou i cap canvi a l’històric. «Actualitza amb FECAPA» en aquesta prova torna a llegir la importació federativa i explica que no fa una consulta nova al portal. El registre operatiu normal continua emprant la persistència de servidor existent.
 
 Proves addicionals: persistència local de la prova, recuperació, quota de desament, acta/plantilla verificades i dades absents; cas de navegador que comprova zero escriptures remotes i zero crides de sincronització mentre es registren convocats, gols, targetes, recàrrega, contrast i finalització.
+
+
+## Publicació comprovada
+
+- HEAD de codi verificat `d24f97cd992eee15e1de97db812ab898e697dfa0`. CI [40024273839](https://github.com/Dudisooft/clubhoquei360/actions/runs/40024273839) correcta: instal·lació, check, Node, build i Chromium. Localment 76 Node i 18 Chromium superats.
+- [PR #9](https://github.com/Dudisooft/clubhoquei360/pull/9) fusionada amb autorització expressa a `12444a9eba4af1f5ee3a130a60c160c8f7b02840`.
+- [Pages 40025155786](https://github.com/Dudisooft/clubhoquei360/actions/runs/40025155786): build, deploy i report-build-status amb success. Logs de desplegament: pages_build_version del SHA de fusió, «Reported success!» el 23/10/2026 a les 21.14.18 UTC (23.14.18 Europe/Madrid), URL d’entorn https://dudisooft.github.io/clubhoquei360/.
+- No s’ha pogut obrir Pages amb l’eina web d’aquest entorn; no es declara recorregut autenticat real al mòbil. La publicació està acreditada pel desplegament GitHub. La prova humana del responsable és el següent pas.
+- El checkpoint documental posterior queda a la branca pròpia; no canvia el codi desplegat ni requereix tornar-lo a publicar.
