@@ -51,3 +51,19 @@ Després d’una publicació expressament autoritzada: Dashboard → Mode Base �
 ## Fitxers
 
 `base.html`, `base.js`, `basic-model.js`, `basic-store.js`, `tests/basic.test.mjs`, `tests/browser/basic.spec.mjs`, `tests/helpers/basic-browser-client.js`, aquest informe i `docs/CODEX_PROGRESS.md`.
+
+## Prova mòbil autoritzada · Igualada HC D – Salt
+
+El responsable ha autoritzat expressament la publicació de la versió nova i ha triat el partit anterior contra Salt. La lectura de les taules federatives generals (no només del pilot) identifica:
+
+- Igualada HC D – Oxford HC Salt A, Infantil OR 4, jornada 3.
+- 10/10/2026, 16.45 Europe/Madrid, Pista Polivalent Igualada.
+- Codi FECAPA `152035`, competició `4786`, grup `4920`.
+- Resultat **8–0**, coincident entre calendari i acta segons la importació del 23/10/2026 a les 11.17 Europe/Madrid.
+- Estat publicat `FINALIZAT`; vuit jugadors locals i set visitants a l’acta. La suma dels gols individuals locals publicats és vuit. Els camps individuals absents resten nuls, no zero.
+
+Font: https://www.hoqueipatins.fecapa.cat/league/4786 ; acta registrada a `https://www.server2.sidgad.es/fecapa/fecapa_gr_152035_1.php`. La nova comprovació és sobre la importació federativa desada; el portal directe continua inaccessible des de l’entorn, també via eina web. No s’afirma una extracció nova en directe.
+
+La ruta `base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5` carrega aquesta acta i les seves plantilles amb Auth/RLS vigents. Les anotacions de prova es desen exclusivament al dispositiu, sota una clau separada per usuari/partit; cap escriptura a `pilot_events`, cap compte o permís nou i cap canvi a l’històric. «Actualitza amb FECAPA» en aquesta prova torna a llegir la importació federativa i explica que no fa una consulta nova al portal. El registre operatiu normal continua emprant la persistència de servidor existent.
+
+Proves addicionals: persistència local de la prova, recuperació, quota de desament, acta/plantilla verificades i dades absents; cas de navegador que comprova zero escriptures remotes i zero crides de sincronització mentre es registren convocats, gols, targetes, recàrrega, contrast i finalització.
