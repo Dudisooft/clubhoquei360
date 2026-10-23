@@ -1,0 +1,12 @@
+/* Append-only pilot stream; server RLS remains authoritative. No writes to the
+ * advanced operator snapshot, player records, or federation source. */
+export class BasicStore{
+ constructor(db,storage,onChange=()=>{}){Object.assign(this,{db,storage,onChange,pending:[],rows:[]});}
+ async open(match,uid){this.match=match;this.uid=uid;this.key=`ch360-basic:${uid}:${match}`;const saved=JSON.parse(this.storage.getItem(this.key)||'{}');this.pending=saved.pending||[];this.rows=saved.rows||[];await this.refresh();}
+ remember(){this.storage.setItem(this.key,JSON.stringify({pending:this.pending,rows:this.rows}));}
+ all(){return [...new Map([...this.rows,...this.pending.flat()].map(r=>[r.id,r])).values()];}
+ async refresh(){const rows=[];for(let offset=0;;offset+=500){const r=await this.db.from('pilot_events').select('*').eq('match_id',this.match).order('created_at').order('id').range(offset,offset+499);if(r.error)throw r.error;rows.push(...r.data);if(r.data.length<500)break;}this.rows=rows;this.remember();this.onChange();}
+ async enqueue(batch){const old=[...this.pending];this.pending.push(batch);try{this.remember();}catch(e){this.pending=old;throw Error('No es pot conservar el registre al dispositiu: '+e.message);}this.onChange();await this.flush();}
+ async flush(){if(this.flushing)return this.flushing;this.flushing=(async()=>{while(this.pending.length){const batch=this.pending[0];let response;try{response=await this.db.from('pilot_events').insert(batch);}catch(e){this.error=e.message;break;}if(response.error){if(response.error.code==='23505'){const found=await this.db.from('pilot_events').select('*').eq('match_id',this.match).in('id',batch.map(r=>r.id));if(found.error||found.data.length!==batch.length){this.error='Conflicte d’identificadors: cal revisar la cua.';break;}}else{this.error=response.error.message;break;}}this.rows=[...new Map([...this.rows,...batch].map(r=>[r.id,r])).values()];this.pending.shift();this.remember();this.error=null;}this.onChange();})().finally(()=>this.flushing=null);return this.flushing;}
+}
+export async function syncFederation(db,match,source){if(source?.federation!=='FECAPA')throw Error('No hi ha una font FECAPA verificada per a aquest partit.');const r=await db.functions.invoke('federation-sync',{body:{match_id:match}});if(r.error||r.data?.error)throw r.error||Error(r.data.error);const result=r.data?.results?.find(x=>x.match_id===match);if(!result||!['verified','cached'].includes(result.status))throw Error(result?.error||'La consulta no ha confirmat cap dada del partit.');return result.status;}
