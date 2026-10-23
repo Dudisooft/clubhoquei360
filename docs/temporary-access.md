@@ -61,7 +61,7 @@ No s’introdueix cap proveïdor de pagament. Les credencials SMTP i `SUPABASE_S
 
 ## 6. Configuració i publicació pendents
 
-**No fusionar ni aplicar/desplegar aquest canvi a producció sense autorització.** La branca de treball és `feat/temporary-external-invitations`; `main` conserva la versió anterior. Checkpoints `8de409c` i `ef8f50e`; `main` bàsic `12444a9` integrat sense modificar-ne els fitxers. [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11); consultar `git log` per als següents. La primera CI `40026215722` ha superat 98 Node i 22 Chromium; comprovar l’últim HEAD abans d’instal·lar.
+**No fusionar ni aplicar/desplegar aquest canvi a producció sense autorització.** La branca de treball és `feat/temporary-external-invitations`; `main` conserva la versió anterior. Checkpoints `8de409c` i `ef8f50e`; `main` bàsic `12444a9` integrat sense modificar-ne els fitxers. [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11); consultar `git log` per als següents. Codi final verificat `2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4`; [CI 40026853311](https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311) **success**, 98 Node i 22 Chromium, Deno, comprovació estàtica i build correctes. El checkpoint documental posterior no canvia el runtime.
 
 Després de l’autorització:
 

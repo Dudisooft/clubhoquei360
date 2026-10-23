@@ -37,7 +37,15 @@
   "dependencyAudit": "npm audit: 0 vulnerabilities",
   "diffCheck": "PASS",
   "ci": {
-    "status": "pending"
+    "status": "completed",
+    "conclusion": "success",
+    "head": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311",
+    "nodePassed": 98,
+    "browserPassed": 22,
+    "edgeCheck": "success",
+    "staticCheck": "success",
+    "build": "success"
   },
   "production": {
     "migrationApplied": false,
@@ -51,7 +59,7 @@
   },
   "authorization": "Required before production changes; new request section 10.",
   "remaining": [
-    "Review CI/PR and obtain production authorization",
+    "Obtain explicit production authorization for PR #11; CI passed",
     "Apply new migration and install Edge Function",
     "Configure and verify Supabase Auth email templates/SMTP before enabling OTP_READY",
     "Optional invitation SMTP credentials; copy-link fallback available",
@@ -71,5 +79,7 @@
       "nodePassed": 98,
       "browserPassed": 22
     }
-  ]
+  ],
+  "codeCommit": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
+  "finalDocumentationOnly": true
 }

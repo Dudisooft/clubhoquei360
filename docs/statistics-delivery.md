@@ -6,7 +6,7 @@ Actualitzat el 23/10/2026, Europe/Madrid. Temporada de referència 2026/27.
 
 Acceptació física posterior, 23/10/2026: el responsable confirma acció visible al mòbil sense recarregar i hora d’actualització en directe que apareix o avança. **Realtime ordinador → mòbil: OPERATIVA I VERIFICADA amb confirmació humana.** [Evidència i límits](statistics-realtime-acceptance-20261023.json). Els comptes temporals continuen ajornats.
 
-**Modificació prioritària d’accessos externs:** sistema d’invitacions implementat a `feat/temporary-external-invitations`, pendent d’instal·lació, autorització i verificació Auth/SMTP real. Substitueix els comptes personals de provadors. [Informe específic amb set apartats i primera invitació](temporary-access.md). La versió publicada d’estadístiques es conserva.
+**Modificació prioritària d’accessos externs:** sistema d’invitacions implementat a `feat/temporary-external-invitations`, [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11), [CI 40026853311](https://github.com/Dudisooft/clubhoquei360/actions/runs/40026853311) correcta amb 98 Node i 22 Chromium, pendent d’instal·lació, autorització i verificació Auth/SMTP real. Substitueix els comptes personals de provadors. [Informe específic amb set apartats i primera invitació](temporary-access.md). La versió publicada d’estadístiques es conserva.
 
 ## A. Auditoria inicial
 
