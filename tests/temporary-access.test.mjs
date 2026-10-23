@@ -76,4 +76,19 @@ test('internal memberships survive an invitation lifecycle; future scoped matche
  const i=await create({email:'coach@example.test',permission:'viewer'});await accept(i.token,'coach');await manage('revoke',{id:i.id});assert.equal((await read('coach')).read,true);
  const v=await create({permission:'viewer'});await accept(v.token);const mid=crypto.randomUUID();await asOwner(db,"insert into pilot_matches(id,title) values($1,'FICTITIOUS future match')",[mid]);await asOwner(db,'insert into stats_matches(match_id,club_id,season_id,home_team_id) values($1,$2,$3,$4)',[mid,ID.club,ID.season,ID.team]);assert.equal((await read('external',mid)).read,true);
  assert.equal((await asUser(db,'external','select temporary_touch() value')).rows[0].value,true);
+ // An import must survive two accepted invitations that conflict on a future match.
+ const nextTeam=crypto.randomUUID(),nextMatch=crypto.randomUUID();await asOwner(db,'insert into teams values($1,$2,$3,$4)',[nextTeam,ID.club,ID.season,'FICTITIOUS future team']);
+ for(const user of ['principal','secondary']){const invitation=await create({email:user+'@example.test',team_id:nextTeam});await accept(invitation.token,user);}
+ await asOwner(db,'insert into pilot_matches(id,title) values($1,$2)',[nextMatch,'FICTITIOUS imported match']);await asOwner(db,'insert into stats_matches(match_id,club_id,season_id,home_team_id) values($1,$2,$3,$4)',[nextMatch,ID.club,ID.season,nextTeam]);
+ assert.equal((await asOwner(db,"select count(*)::int n from stats_assignments where match_id=$1 and revoked_at is null",[nextMatch])).rows[0].n,1);
+ assert.equal((await asOwner(db,"select count(*)::int n from temporary_invitation_audit where action='new_match_scope_conflict'")).rows[0].n,1);
+});
+test('excessive invalid email attempts cannot create unbounded rate-limit rows',async()=>{
+ await asOwner(db,"insert into app_private.temporary_email_limits values('FICTITIOUS-OLD',now()-interval '3 days',1)");
+ for(let n=0;n<205;n++)await service('unknown-'+n+'@example.test',null);
+ const rows=(await asOwner(db,'select count(*)::int n from app_private.temporary_email_limits')).rows[0].n;assert.ok(rows<=32);assert.equal((await asOwner(db,"select count(*)::int n from app_private.temporary_email_limits where bucket='FICTITIOUS-OLD'")).rows[0].n,0);
+});
+test('an invitation to the existing superoperator cannot remove internal self-activation rights',async()=>{
+ const i=await create({email:'superoperator@example.test',team_id:ID.otherTeam,permission:'viewer'});await accept(i.token,'superoperator');await manage('revoke',{id:i.id});
+ const granted=(await asUser(db,'superoperator','select * from stats_grant($1::jsonb)',[JSON.stringify({match_id:ID.otherMatch,user_id:ID.superoperator,role:'primary',categories:[],sides:['home','away','disputed'],player_ids:[],expires_at:future()})])).rows[0];assert.equal(granted.role,'primary');assert.equal(granted.invitation_id,null);
 });

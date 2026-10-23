@@ -3,6 +3,7 @@ const $=id=>document.getElementById(id);
 async function refresh(){
  const response=await db.auth.getUser();const user=response.data.user;
  $('authForm').hidden=!!user;$('authSignOut').hidden=!user;$('authOpenMatch').hidden=!user;
+ const temporary=document.getElementById('authTemporaryAccess');if(temporary){temporary.hidden=true;if(user){const allowed=await db.rpc('temporary_admin_access');temporary.hidden=!!allowed.error||allowed.data!==true;}}
  $('authState').textContent=user?'Sessió iniciada: '+user.email:'Inicia sessió amb el teu compte autoritzat del club.';
 }
 $('authForm').onsubmit=async e=>{

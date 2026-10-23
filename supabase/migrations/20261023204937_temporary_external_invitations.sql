@@ -19,6 +19,7 @@ create table public.temporary_invitation_audit (
 );
 create index temporary_invitation_audit_idx on public.temporary_invitation_audit(invitation_id,at);
 create table app_private.temporary_email_limits (bucket text primary key, started_at timestamptz not null, attempts int not null);
+create index temporary_email_limit_age_idx on app_private.temporary_email_limits(started_at);
 alter table public.temporary_invitations enable row level security;
 alter table public.temporary_invitation_audit enable row level security;
 alter table app_private.temporary_email_limits enable row level security;
@@ -121,11 +122,11 @@ create function app_private.temporary_rate(p_bucket text,p_max int) returns bool
  started_at=case when temporary_email_limits.started_at<now()-interval '1 hour' then now() else temporary_email_limits.started_at end returning attempts into attempts_now;
  return attempts_now<=p_max;
 end$$;
-create function app_private.temporary_reserve_email(p_email text,p_token text,p_address_hash text) returns jsonb language plpgsql security definer set search_path='' as $$declare i public.temporary_invitations;ok boolean;begin
- ok:=app_private.temporary_rate('ip:'||coalesce(p_address_hash,''),30);
- ok:=app_private.temporary_rate('global',200) and ok;
- ok:=app_private.temporary_rate('email:'||app_private.temporary_hash(lower(btrim(p_email))),6) and ok;
- if not ok then return jsonb_build_object('allowed',false);end if;
+create function app_private.temporary_reserve_email(p_email text,p_token text,p_address_hash text) returns jsonb language plpgsql security definer set search_path='' as $$declare i public.temporary_invitations;begin
+ delete from app_private.temporary_email_limits where started_at<now()-interval '2 days';
+ if not app_private.temporary_rate('global',200) then return jsonb_build_object('allowed',false);end if;
+ if not app_private.temporary_rate('ip:'||coalesce(p_address_hash,''),30) then return jsonb_build_object('allowed',false);end if;
+ if not app_private.temporary_rate('email:'||app_private.temporary_hash(lower(btrim(p_email))),6) then return jsonb_build_object('allowed',false);end if;
  select * into i from public.temporary_invitations where email=lower(btrim(p_email)) and revoked_at is null and expires_at>now() and
  ((p_token is not null and token_hash=app_private.temporary_hash(p_token) and consumed_at is null and token_expires_at>now()) or (p_token is null and consumed_at is not null)) order by created_at desc limit 1;
  if i.id is null then return jsonb_build_object('allowed',false);end if;
@@ -150,7 +151,7 @@ create trigger temporary_access_new_match after insert on public.stats_matches f
 -- can only be changed through the invitation lifecycle, never the legacy form.
 create or replace function app_private.stats_grant(p_grant jsonb) returns public.stats_assignments language plpgsql security definer set search_path='' as $$
 declare uid uuid:=auth.uid();mid uuid:=(p_grant->>'match_id')::uuid;result public.stats_assignments;old public.stats_assignments;cats text[];sides_list text[];players uuid[];target uuid:=(p_grant->>'user_id')::uuid;role_label text:=p_grant->>'role';expiry timestamptz:=(p_grant->>'expires_at')::timestamptz;begin
- if exists(select 1 from public.temporary_invitations where accepted_by=target) and not exists(select 1 from public.club_memberships m join public.stats_matches s on s.club_id=m.club_id where s.match_id=mid and m.user_id=target) then raise exception 'Use temporary invitations for external users' using errcode='42501';end if;
+ if exists(select 1 from public.temporary_invitations where accepted_by=target) and not exists(select 1 from public.club_memberships m join public.stats_matches s on s.club_id=m.club_id where s.match_id=mid and m.user_id=target) and not exists(select 1 from public.platform_admins p where p.user_id=target and p.enabled and p.role='platform_superadmin') and not exists(select 1 from public.pilot_members p where p.match_id=mid and p.user_id=target) then raise exception 'Use temporary invitations for external users' using errcode='42501';end if;
  if uid is null or not app_private.stats_can_manage(mid) then raise exception 'Assignment management denied' using errcode='42501';end if;
  perform pg_advisory_xact_lock(hashtextextended('stats:'||mid::text,0));
  select array_agg(value) into cats from jsonb_array_elements_text(coalesce(p_grant->'categories','[]'));select array_agg(value) into sides_list from jsonb_array_elements_text(coalesce(p_grant->'sides','[]'));select array_agg(value::uuid) into players from jsonb_array_elements_text(coalesce(p_grant->'player_ids','[]'));

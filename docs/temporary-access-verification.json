@@ -1,0 +1,59 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-23",
+  "timezone": "Europe/Madrid",
+  "branch": "feat/temporary-external-invitations",
+  "baseCommit": "4950940a6526ac9ae3236ca68b3525b9eb39bbdd",
+  "checkpoint1": "8de409c",
+  "scope": "Local development. SQL functions/RLS on PostgreSQL/PGlite; Auth/OTP/SMTP test transports are fictitious. No production invitation, identity or email created.",
+  "audit": {
+    "enabledGlobalSuperoperators": 1,
+    "otherEnabledGlobalRoles": 0,
+    "authUserInsertTriggers": 0,
+    "existingInvitationTables": 0,
+    "productionChanges": 0
+  },
+  "node": {
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0,
+    "databaseInvitationCases": 13,
+    "endpointCases": 6,
+    "modelCases": 3,
+    "existingCases": 66
+  },
+  "browser": {
+    "startTime": "2026-10-23T21:14:02.603Z",
+    "duration": 61786.283,
+    "expected": 18,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "staticFilesChecked": 28,
+  "staticBuild": "PASS: 28 application files; no server secrets, tests or SQL in artifact",
+  "edgeCheck": "PASS: deno check supabase/functions/temporary-access/index.ts",
+  "dependencyAudit": "npm audit: 0 vulnerabilities",
+  "diffCheck": "PASS",
+  "ci": {
+    "status": "pending"
+  },
+  "production": {
+    "migrationApplied": false,
+    "functionDeployed": false,
+    "frontendPublished": false,
+    "smtpVerified": false,
+    "authEmailDeliveryVerified": false,
+    "accountsCreated": 0,
+    "invitationsCreated": 0,
+    "emailsSent": 0
+  },
+  "authorization": "Required before production changes; new request section 10.",
+  "remaining": [
+    "Review CI/PR and obtain production authorization",
+    "Apply new migration and install Edge Function",
+    "Configure and verify Supabase Auth email templates/SMTP before enabling OTP_READY",
+    "Optional invitation SMTP credentials; copy-link fallback available",
+    "First real invited-recipient test and FEM15 pilot only when requested"
+  ]
+}

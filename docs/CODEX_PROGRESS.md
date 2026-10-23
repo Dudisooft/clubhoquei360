@@ -6,9 +6,9 @@ Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Prioritat actual: invitacions temporals per correu, exclusives del superoperador global.** La nova instrucció [substitueix l’alta personal dels provadors](temporary-access-requirements.md). Comptes i permisos interns intactes. Branca `feat/temporary-external-invitations`; base `4950940a6526ac9ae3236ca68b3525b9eb39bbdd`. Realtime ordinador → mòbil continua acceptat; no repetir aquesta prova.
 
-Bloc 1 verificat: migració additiva local `20261023204937_temporary_external_invitations.sql`, taules i auditoria, comprovacions de correu verificat, enllaços hash d’un sol ús, assignacions estadístiques vinculades, revocació/caducitat i restricció dels antics comandos per a identitats externes. Onze proves de PostgreSQL/PGlite correctes. **Suite Node completa: 77/77 correctes** (66 anteriors + 11 específiques).
+Blocs 1 i 2 implementats i verificats localment: migració additiva `20261023204937_temporary_external_invitations.sql`, pantalla global «Accessos temporals», flux convidat amb codi de correu, Edge Function i SMTP opcional, auditoria i assignacions vinculades. **88 proves Node, 18 Chromium, 28 fitxers estàtics, check Deno, build i audit npm correctes.** Primer checkpoint recuperable `8de409c`; els següents es poden identificar amb `git log`.
 
-Pendent: pantalla administrativa i accés sense contrasenya, Edge Function de correu, proves d’interfície, informe final i PR. **No aplicar aquesta migració ni desplegar la nova funcionalitat a producció sense autorització específica.** No s’ha creat cap usuari o invitació real ni enviat cap correu.
+La nova funcionalitat **no està instal·lada ni publicada**: pendent de CI/PR i autorització; Supabase Auth/SMTP i lliurament real de correu pendents de configurar/verificar. No s’ha creat cap usuari o invitació real ni enviat cap correu. Informe i instruccions de primera invitació: `docs/temporary-access.md`; evidències: `docs/temporary-access-verification.json`.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
@@ -59,11 +59,13 @@ El 23/10/2026 el responsable confirma que l’acció apareix a l’historial del
 
 20. Prova física de Realtime acceptada el 23/10/2026 pel responsable: ordinador → mòbil, mateix partit, acció visible sense recàrrega i indicador d’actualització en directe que apareix o avança. Abast: protocol amb compte propi; no es presenta com a prova amb dos operadors diferents ni del pilot FEM15. Evidència a `docs/statistics-realtime-acceptance-20261023.json`.
 
+21. Nova arquitectura d’accessos externs implementada en desenvolupament: invitacions de superoperador global, correu verificat, tres perfils, enllaços hash d’un sol ús, revocació/caducitat i SMTP opcional. Regressió de navegació de fragment corregida i protecció dels permisos interns conservada. Encara no s’ha desplegat.
+
 ## Proves executades i resultats
 
 - Base original: 27/27 proves Node. Fonts reals temporals absents: no es compten les proves condicionals com a executades.
-- Suite Node actual: **66/66 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
-- Chromium: **14/14 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
+- Suite Node del checkpoint estadístic publicat: **66/66 correctes** (`npm test`), incloses proves de PostgreSQL/PGlite, permisos, revisions, idempotència, possessió, agregats, recuperació i outbox.
+- Chromium del checkpoint estadístic publicat: **14/14 casos correctes** en una execució consolidada de la suite completa, incloses recuperació de possessió i conflicte de rellotge entre dispositius.
 - Resolucions provades: 390×844, 820×1180, 1440×1000, sense overflow horitzontal i amb botons estadístics ≥44 px. Captures locals a `work/statistics-*.png` (dades fictícies).
 - `npm run check`: 22 fitxers HTML/JS/CSS correctes; sintaxi, scripts inline, IDs i enllaços relatius.
 - `npm run build`: artefacte estàtic correcte a `work/site`, sense tests/SQL/node_modules/credencials.
@@ -77,6 +79,8 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 - Verificació real del 20/10/2026: una acció i una sessió persistents; POST/GET HTTP 200; zero discrepàncies de dades/auditoria i zero errors als logs de la finestra consultada. Confirmació humana del recorregut bàsic. No s’han repetit suites vàlides ni migracions.
 
 - Confirmació humana del 23/10/2026: **PASS del protocol Realtime físic ordinador → mòbil**. Sense control visual/logs independents de l’agent; sense prova de dos comptes diferents, tauleta o portàtil. Canvi només documental: JSON, enllaços i diff verificats; codi/SQL/dependències intactes, suites anteriors conservades.
+
+- Nova suite consolidada d’invitacions: **88/88 Node** (13 PostgreSQL d’invitacions, 6 endpoint, 3 model de caducitat i els 66 anteriors) i **18/18 Chromium**, zero fallits/omesos/inestables. Check 28 fitxers, check Deno i build correctes, audit npm zero vulnerabilitats, diff net. Transport Auth/SMTP local fictici; no acredita correu real.
 
 ## Errors detectats i resolts
 
@@ -93,13 +97,12 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-1. Bloc 1 de dades i permisos completat: 11 proves específiques i 77/77 Node correctes; checkpoint recuperable amb `git log`. Continuar pel bloc 2.
-2. Implementar una única pantalla «Accessos temporals», visible només després de validar el rol global al servidor; generació/còpia segura, edició, revocació i rotació d’enllaços pendents.
-3. Implementar la verificació de correu amb Supabase Auth sense contrasenya i l’Edge Function. Correu d’invitació SMTP opcional; còpia d’enllaç amb indicació explícita que no s’ha enviat. Configuració OTP/SMTP de producció pendent de verificar.
-4. Executar proves d’endpoint, navegador i regressió; documentar la primera invitació, preparar PR revisable i obtenir autorització abans d’instal·lar/desplegar.
-5. Pilot FEM15 amb invitació només quan el responsable ho demani. Queda anul·lada l’antiga petició de comptes personals/UUID externs; es permet únicament una identitat tècnica mínima de Supabase Auth, sense contrasenya, per verificar el correu.
+1. Desar el checkpoint complet, obtenir CI correcta i preparar PR sense fusionar ni publicar. Comprovar l’estat real de la PR en reprendre; els tests locals ja són correctes.
+2. Després d’autorització expressa: aplicar només la nova migració, instal·lar l’Edge Function i verificar Auth/SMTP de correu. Seguir `docs/temporary-access.md`, inclosos els controls de rol, destinatari i revocació. No activar `TEMPORARY_ACCESS_OTP_READY` abans de verificar el servei.
+3. Publicar frontend només quan les comprovacions siguin satisfactòries i hi hagi autorització. `main` es conserva estable fins aleshores.
+4. Primer pilot FEM15 per invitació quan el responsable ho demani. Queda anul·lada l’antiga petició de comptes personals/UUID externs; només es permet una identitat tècnica mínima de Supabase Auth, sense contrasenya, creada pel servei després de validar la invitació i abans de verificar el correu.
 
-En reprendre: llegir també `docs/temporary-access.md`, comprovar Git i continuar la primera tasca pendent. No repetir auditoria, migracions ja instal·lades o Realtime físic acceptat.
+En reprendre: llegir també `docs/temporary-access.md`, comprovar Git/PR i continuar la primera tasca pendent. No repetir auditoria, proves vàlides, migracions ja instal·lades o Realtime físic acceptat.
 
 ## Dependències i límits
 
@@ -125,7 +128,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar amb el pilot només quan el responsable ho demani explícitament, sense crear comptes automàticament.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar pel desplegament de les invitacions només després de l’autorització, i pel pilot només quan el responsable el demani. No crear comptes personals; la identitat tècnica Auth només la crea el servei per una invitació validada.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.
