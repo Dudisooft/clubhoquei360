@@ -16,7 +16,7 @@ Deno.serve(createTemporaryAccessHandler({
  otpReady:env('TEMPORARY_ACCESS_OTP_READY')==='true',smtpReady,
  deliverInvitation:async({to,url}:{to:string;url:string})=>{
   if(!mailer)throw Error('SMTP unavailable');
-  const result=await mailer.sendMail({from,to,subject:'ClubHoquei360 · Invitació temporal',text:'Has rebut una invitació temporal a ClubHoquei360. Obre aquest enllaç abans de 30 minuts i verifica el teu correu per activar-la:\n\n'+url+'\n\nL’enllaç és d’un sol ús i no concedeix accés sense verificar el correu destinatari.'});
+  const result=await mailer.sendMail({from,to,subject:'ClubHoquei360 · Invitació temporal',text:'Has rebut una invitació temporal a ClubHoquei360. Verifica el teu correu per activar-la. L’enllaç caduca trenta minuts després de generar-lo:\n\n'+url+'\n\nL’enllaç és d’un sol ús i no concedeix accés sense verificar el correu destinatari.'});
   if(!result.accepted?.length)throw Error('SMTP did not accept recipient');
  }
 }));

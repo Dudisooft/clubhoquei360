@@ -14,24 +14,25 @@
     "productionChanges": 0
   },
   "node": {
-    "passed": 88,
+    "passed": 98,
     "failed": 0,
     "skipped": 0,
     "databaseInvitationCases": 13,
     "endpointCases": 6,
     "modelCases": 3,
-    "existingCases": 66
+    "existingCases": 76,
+    "basicModuleCases": 10
   },
   "browser": {
-    "startTime": "2026-10-23T21:14:02.603Z",
-    "duration": 61786.283,
-    "expected": 18,
+    "startTime": "2026-10-23T21:23:15.574Z",
+    "duration": 70474.121,
+    "expected": 22,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0
   },
-  "staticFilesChecked": 28,
-  "staticBuild": "PASS: 28 application files; no server secrets, tests or SQL in artifact",
+  "staticFilesChecked": 31,
+  "staticBuild": "PASS: 31 application files; no server secrets, tests or SQL in artifact",
   "edgeCheck": "PASS: deno check supabase/functions/temporary-access/index.ts",
   "dependencyAudit": "npm audit: 0 vulnerabilities",
   "diffCheck": "PASS",
@@ -55,5 +56,20 @@
     "Configure and verify Supabase Auth email templates/SMTP before enabling OTP_READY",
     "Optional invitation SMTP credentials; copy-link fallback available",
     "First real invited-recipient test and FEM15 pilot only when requested"
+  ],
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/11",
+  "integration": {
+    "base": "12444a9eba4af1f5ee3a130a60c160c8f7b02840",
+    "mergeCommit": "3493575f1d8d8dfb45714397f4664243acccd071",
+    "basicRuntimePreserved": true
+  },
+  "ciHistory": [
+    {
+      "head": "ef8f50e295f555706e7757b320de0416cf8afbb2",
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40026215722",
+      "conclusion": "success",
+      "nodePassed": 98,
+      "browserPassed": 22
+    }
   ]
 }

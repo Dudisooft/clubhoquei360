@@ -57,11 +57,11 @@ No s’introdueix cap proveïdor de pagament. Les credencials SMTP i `SUPABASE_S
 - Endpoint: rol servidor obligatori, SMTP absent, destinatari/URL fixats al servidor, rebuig SMTP/OTP sense fals èxit, identitat mínima no verificada, sense creació pública d’usuaris i límits/origen invàlid. Transport de correu doble de prova, no enviament real.
 - Navegador: accés administratiu denegat a normal/admin, generació/còpia sense correu, verificació amb transport Auth local fictici sobre PostgreSQL, consulta, canvi a registre limitat, revocació i registre oficial intacte; destinatari incorrecte, enllaç consumit, entrada posterior i mòbil a 390 px. La resta de la suite cobreix 820 i 1440 px.
 - Corregit durant les proves: reobrir un enllaç a la mateixa pestanya feia només navegació de fragment i no reiniciava el formulari; ara es reinicia amb protecció contra respostes d’un flux anterior. Els secrets es tornen a retirar de la URL.
-- Compilació Deno de l’Edge Function, verificació de 28 fitxers estàtics, build Pages, diff i auditoria npm executats. Auth/SMTP d’invitacions en producció encara no provats. La prova Realtime ordinador → mòbil del 23/10 es conserva, sense repetir-la.
+- Compilació Deno de l’Edge Function, verificació de 31 fitxers estàtics, build Pages, diff i auditoria npm executats. Auth/SMTP d’invitacions en producció encara no provats. La prova Realtime ordinador → mòbil del 23/10 es conserva, sense repetir-la.
 
 ## 6. Configuració i publicació pendents
 
-**No fusionar ni aplicar/desplegar aquest canvi a producció sense autorització.** La branca de treball és `feat/temporary-external-invitations`; `main` conserva la versió anterior. Checkpoint 1: `8de409c`; consultar `git log` i la PR per als següents.
+**No fusionar ni aplicar/desplegar aquest canvi a producció sense autorització.** La branca de treball és `feat/temporary-external-invitations`; `main` conserva la versió anterior. Checkpoints `8de409c` i `ef8f50e`; `main` bàsic `12444a9` integrat sense modificar-ne els fitxers. [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11); consultar `git log` per als següents. La primera CI `40026215722` ha superat 98 Node i 22 Chromium; comprovar l’últim HEAD abans d’instal·lar.
 
 Després de l’autorització:
 

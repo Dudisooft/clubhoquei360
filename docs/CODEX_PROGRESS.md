@@ -6,9 +6,9 @@ Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Prioritat actual: invitacions temporals per correu, exclusives del superoperador global.** La nova instrucció [substitueix l’alta personal dels provadors](temporary-access-requirements.md). Comptes i permisos interns intactes. Branca `feat/temporary-external-invitations`; base `4950940a6526ac9ae3236ca68b3525b9eb39bbdd`. Realtime ordinador → mòbil continua acceptat; no repetir aquesta prova.
 
-Blocs 1 i 2 implementats i verificats localment: migració additiva `20261023204937_temporary_external_invitations.sql`, pantalla global «Accessos temporals», flux convidat amb codi de correu, Edge Function i SMTP opcional, auditoria i assignacions vinculades. **88 proves Node, 18 Chromium, 28 fitxers estàtics, check Deno, build i audit npm correctes.** Primer checkpoint recuperable `8de409c`; els següents es poden identificar amb `git log`.
+Blocs 1 i 2 implementats i verificats localment: migració additiva `20261023204937_temporary_external_invitations.sql`, pantalla global «Accessos temporals», flux convidat amb codi de correu, Edge Function i SMTP opcional, auditoria i assignacions vinculades. **98 proves Node, 22 Chromium, 31 fitxers estàtics, check Deno, build i audit npm correctes**, després d’integrar els canvis bàsics de `main` (`12444a9`). Checkpoints recuperables `8de409c` (dades), `ef8f50e` (pantalles/endpoint) i `3493575` (integració de main); els següents s’identifiquen amb `git log`. [PR #11 draft](https://github.com/Dudisooft/clubhoquei360/pull/11). La primera CI `40026215722` és correcta (98 Node i 22 Chromium); comprovar la CI del HEAD més recent abans d’instal·lar.
 
-La nova funcionalitat **no està instal·lada ni publicada**: pendent de CI/PR i autorització; Supabase Auth/SMTP i lliurament real de correu pendents de configurar/verificar. No s’ha creat cap usuari o invitació real ni enviat cap correu. Informe i instruccions de primera invitació: `docs/temporary-access.md`; evidències: `docs/temporary-access-verification.json`.
+La nova funcionalitat **no està instal·lada ni publicada**: pendent de verificació final de CI i autorització; Supabase Auth/SMTP i lliurament real de correu pendents de configurar/verificar. No s’ha creat cap usuari o invitació real ni enviat cap correu. Informe i instruccions de primera invitació: `docs/temporary-access.md`; evidències: `docs/temporary-access-verification.json`.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
@@ -80,7 +80,7 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 - Confirmació humana del 23/10/2026: **PASS del protocol Realtime físic ordinador → mòbil**. Sense control visual/logs independents de l’agent; sense prova de dos comptes diferents, tauleta o portàtil. Canvi només documental: JSON, enllaços i diff verificats; codi/SQL/dependències intactes, suites anteriors conservades.
 
-- Nova suite consolidada d’invitacions: **88/88 Node** (13 PostgreSQL d’invitacions, 6 endpoint, 3 model de caducitat i els 66 anteriors) i **18/18 Chromium**, zero fallits/omesos/inestables. Check 28 fitxers, check Deno i build correctes, audit npm zero vulnerabilitats, diff net. Transport Auth/SMTP local fictici; no acredita correu real.
+- Nova suite consolidada d’invitacions: **98/98 Node** (13 PostgreSQL d’invitacions, 6 endpoint, 3 model de caducitat, 66 estadístics anteriors i 10 del mode bàsic integrat) i **22/22 Chromium**, zero fallits/omesos/inestables. Check 31 fitxers, check Deno i build correctes, audit npm zero vulnerabilitats, diff net. Transport Auth/SMTP local fictici; no acredita correu real.
 
 ## Errors detectats i resolts
 
@@ -97,7 +97,7 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-1. Desar el checkpoint complet, obtenir CI correcta i preparar PR sense fusionar ni publicar. Comprovar l’estat real de la PR en reprendre; els tests locals ja són correctes.
+1. PR #11 draft preparada; comprovar la CI del HEAD més recent i conservar aquest resultat. Les proves locals i la primera CI ja són correctes. No fusionar ni publicar sense autorització específica d’invitacions; l’autorització del bloc bàsic és independent.
 2. Després d’autorització expressa: aplicar només la nova migració, instal·lar l’Edge Function i verificar Auth/SMTP de correu. Seguir `docs/temporary-access.md`, inclosos els controls de rol, destinatari i revocació. No activar `TEMPORARY_ACCESS_OTP_READY` abans de verificar el servei.
 3. Publicar frontend només quan les comprovacions siguin satisfactòries i hi hagi autorització. `main` es conserva estable fins aleshores.
 4. Primer pilot FEM15 per invitació quan el responsable ho demani. Queda anul·lada l’antiga petició de comptes personals/UUID externs; només es permet una identitat tècnica mínima de Supabase Auth, sense contrasenya, creada pel servei després de validar la invitació i abans de verificar el correu.

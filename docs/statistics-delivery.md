@@ -97,7 +97,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Realtime entre ordinador i mòbil físics | OPERATIVA I VERIFICADA | Confirmació del responsable el 23/10/2026: acció visible sense recàrrega i hora en directe que apareix o avança; sense inspecció independent de l’agent |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
-| Invitacions externes de superoperador | IMPLEMENTADA PENDENT DE PROVES | 88 Node i 18 Chromium locals; instal·lació, Auth/SMTP i correu real pendents; encara no publicat |
+| Invitacions externes de superoperador | IMPLEMENTADA PENDENT DE PROVES | 98 Node i 22 Chromium locals, inclòs el mode bàsic integrat; instal·lació, Auth/SMTP i correu real pendents; encara no publicat |
 | Pilot amb Oriol Codinach i Ventu | PENDENT | Invitació temporal quan el responsable demani el pilot; sense alta personal tradicional ni UUID extern manual |
 | Cronologia/plantilla que la federació no publica | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | No s’inventa informació |
 | Notes tàctiques compartides | PARCIALMENT IMPLEMENTADA | Funció prèvia local; fora d’aquest lliurament estadístic |
