@@ -97,7 +97,7 @@ Cada fila identifica l’entorn comprovat. El frontend està fusionat a `main` i
 | Realtime entre ordinador i mòbil físics | OPERATIVA I VERIFICADA | Confirmació del responsable el 23/10/2026: acció visible sense recàrrega i hora en directe que apareix o avança; sense inspecció independent de l’agent |
 | Migració del projecte existent | OPERATIVA I VERIFICADA | Aplicada; RLS, comandos, contexts i API verificats en producció |
 | Publicació Pages | OPERATIVA I VERIFICADA | GitHub confirma build i deploy; comprovació autenticada bàsica real completada |
-| Invitacions externes de superoperador | IMPLEMENTADA PENDENT DE PROVES | 98 Node i 22 Chromium locals, inclòs el mode bàsic integrat; instal·lació, Auth/SMTP i correu real pendents; encara no publicat |
+| Invitacions externes de superoperador | PARCIALMENT IMPLEMENTADA | Backend instal·lat amb autorització i RPC/RLS de producció PASS; 98 Node/22 Chromium; configuració Auth/SMTP, correu real i publicació del frontend pendents |
 | Pilot amb Oriol Codinach i Ventu | PENDENT | Invitació temporal quan el responsable demani el pilot; sense alta personal tradicional ni UUID extern manual |
 | Cronologia/plantilla que la federació no publica | BLOQUEJADA PER DEPENDÈNCIA EXTERNA | No s’inventa informació |
 | Notes tàctiques compartides | PARCIALMENT IMPLEMENTADA | Funció prèvia local; fora d’aquest lliurament estadístic |
@@ -128,7 +128,7 @@ Verificació real posterior al desplegament: [snapshot de consulta/assignació](
 
 ## F. Pendents necessaris
 
-1. Autoritzar i instal·lar la nova arquitectura d’invitacions després de revisar la PR i la CI; verificar Supabase Auth/SMTP i el correu real abans de declarar-la operativa. [Configuracions i procediment](temporary-access.md).
+1. Configurar/verificar Supabase Auth/SMTP i el correu real abans de publicar el frontend d’invitacions. Autorització rebuda, migració `20261023213604` i Edge Function v1 instal·lades; prova transaccional i HTTP PASS. No repetir autorització ni instal·lació. [Configuracions i procediment](temporary-access.md).
 2. Preparar el pilot FEM15 per invitació quan el responsable ho demani, amb consulta/revocació i permisos configurats. L’alta personal i els UUID externs manuals queden substituïts per la nova instrucció. Realtime ordinador → mòbil i el recorregut bàsic ja estan acceptats.
 
 No cal introduir cap servei de pagament ni repetir la importació federativa o l’auditoria inicial. La represa es fa amb **CONTINUA CLUBHOQUEI360**, llegint el registre persistent i l’informe d’accessos temporals.

@@ -5,13 +5,13 @@
   "branch": "feat/temporary-external-invitations",
   "baseCommit": "4950940a6526ac9ae3236ca68b3525b9eb39bbdd",
   "checkpoint1": "8de409c",
-  "scope": "Local development. SQL functions/RLS on PostgreSQL/PGlite; Auth/OTP/SMTP test transports are fictitious. No production invitation, identity or email created.",
+  "scope": "Local and CI runtime suites plus real production migration, Edge deployment, transactional PostgreSQL RPC/RLS and anonymous HTTP checks. Real OTP/SMTP delivery pending; no persistent invitation or identity created.",
   "audit": {
     "enabledGlobalSuperoperators": 1,
     "otherEnabledGlobalRoles": 0,
     "authUserInsertTriggers": 0,
     "existingInvitationTables": 0,
-    "productionChanges": 0
+    "initialProductionChanges": 0
   },
   "node": {
     "passed": 98,
@@ -48,22 +48,31 @@
     "build": "success"
   },
   "production": {
-    "migrationApplied": false,
-    "functionDeployed": false,
+    "migrationApplied": true,
+    "migrationInstalledVersion": "20261023213604",
+    "migrationSource": "supabase/migrations/20261023204937_temporary_external_invitations.sql",
+    "functionDeployed": true,
+    "functionVersion": 1,
     "frontendPublished": false,
     "smtpVerified": false,
     "authEmailDeliveryVerified": false,
+    "otpReady": false,
+    "sqlSmoke": "PASS: all writes rolled back",
+    "httpChecksPassed": 6,
+    "officialDataHashesPreserved": true,
+    "newSecurityWarnings": 0,
     "accountsCreated": 0,
     "invitationsCreated": 0,
-    "emailsSent": 0
+    "emailsSent": 0,
+    "evidence": "docs/temporary-access-deployment-20261023.json"
   },
-  "authorization": "Required before production changes; new request section 10.",
+  "authorization": "Received: Autoritzo la posada en servei amb aquestes comprovacions. Frontend conditional on successful configuration and real email checks; do not ask again.",
   "remaining": [
-    "Obtain explicit production authorization for PR #11; CI passed",
-    "Apply new migration and install Edge Function",
-    "Configure and verify Supabase Auth email templates/SMTP before enabling OTP_READY",
+    "Owner configures Gmail application-password SMTP and applicable Auth email templates using docs/temporary-access-email-setup.md",
+    "Verify service configuration, then enable OTP_READY for controlled real-recipient test",
+    "Real delivery, acceptance, permission and revocation validation using owner's already-authorized controlled mailbox",
     "Optional invitation SMTP credentials; copy-link fallback available",
-    "First real invited-recipient test and FEM15 pilot only when requested"
+    "Merge/publish frontend only after successful real email checks; FEM15 pilot when requested"
   ],
   "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/11",
   "integration": {
@@ -81,5 +90,13 @@
     }
   ],
   "codeCommit": "2a4b6dc98d5e8278b4a3ce88e8a123b661bbb6d4",
-  "finalDocumentationOnly": true
+  "finalDocumentationOnly": false,
+  "runtimeUnchangedSinceCodeCommit": true,
+  "controlledMailTest": {
+    "recipientAuthorized": true,
+    "recipientStoredInConversationOnly": true,
+    "userNeedsSmtpInstructions": true,
+    "emailsSent": 0
+  },
+  "emailSetupGuide": "docs/temporary-access-email-setup.md"
 }
