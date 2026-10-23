@@ -4,7 +4,11 @@ Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Realtime entre ordinador i mòbil físics confirmat pel responsable el 23/10/2026. Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
+**Prioritat actual: invitacions temporals per correu, exclusives del superoperador global.** La nova instrucció [substitueix l’alta personal dels provadors](temporary-access-requirements.md). Comptes i permisos interns intactes. Branca `feat/temporary-external-invitations`; base `4950940a6526ac9ae3236ca68b3525b9eb39bbdd`. Realtime ordinador → mòbil continua acceptat; no repetir aquesta prova.
+
+Bloc 1 verificat: migració additiva local `20261023204937_temporary_external_invitations.sql`, taules i auditoria, comprovacions de correu verificat, enllaços hash d’un sol ús, assignacions estadístiques vinculades, revocació/caducitat i restricció dels antics comandos per a identitats externes. Onze proves de PostgreSQL/PGlite correctes. **Suite Node completa: 77/77 correctes** (66 anteriors + 11 específiques).
+
+Pendent: pantalla administrativa i accés sense contrasenya, Edge Function de correu, proves d’interfície, informe final i PR. **No aplicar aquesta migració ni desplegar la nova funcionalitat a producció sense autorització específica.** No s’ha creat cap usuari o invitació real ni enviat cap correu.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
@@ -89,14 +93,13 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-Cap bloc de codi o prova local obert. Indicador de connexió verificat localment i per CI, PR #6 fusionada i publicació Pages confirmada. Registre documental del resultat desat en aquest checkpoint, sense canvis d’aplicació. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
+1. Bloc 1 de dades i permisos completat: 11 proves específiques i 77/77 Node correctes; checkpoint recuperable amb `git log`. Continuar pel bloc 2.
+2. Implementar una única pantalla «Accessos temporals», visible només després de validar el rol global al servidor; generació/còpia segura, edició, revocació i rotació d’enllaços pendents.
+3. Implementar la verificació de correu amb Supabase Auth sense contrasenya i l’Edge Function. Correu d’invitació SMTP opcional; còpia d’enllaç amb indicació explícita que no s’ha enviat. Configuració OTP/SMTP de producció pendent de verificar.
+4. Executar proves d’endpoint, navegador i regressió; documentar la primera invitació, preparar PR revisable i obtenir autorització abans d’instal·lar/desplegar.
+5. Pilot FEM15 amb invitació només quan el responsable ho demani. Queda anul·lada l’antiga petició de comptes personals/UUID externs; es permet únicament una identitat tècnica mínima de Supabase Auth, sense contrasenya, per verificar el correu.
 
-Realtime físic ja acceptat; no tornar a demanar aquesta prova només per una ordre de represa. No queda cap bloc tècnic independent pendent de desenvolupament.
-
-1. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
-2. Dins del pilot autoritzat, comprovar consulta i revocació amb un segon usuari. Si es vol ampliar l’evidència real, comprovar registre individual i correcció/desfer amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
-
-Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
+En reprendre: llegir també `docs/temporary-access.md`, comprovar Git i continuar la primera tasca pendent. No repetir auditoria, migracions ja instal·lades o Realtime físic acceptat.
 
 ## Dependències i límits
 
