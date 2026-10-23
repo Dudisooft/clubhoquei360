@@ -126,3 +126,25 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.
+
+## Mode Bàsic prioritari · 23/10/2026
+
+Represa: **CONTINUA MODE BÀSIC CLUBHOQUEI360**. Aquest bloc és independent dels checkpoints d’estadístiques anteriors; no repetir les migracions ja instal·lades.
+
+- Base `4950940` (main amb PR #8). Worktree `/workspace/work/clubhoquei360-basic`, branca `feat/basic-match-20261024`. Checkout inicial conservat. Cap PR oberta en començar segons GitHub; visibilitat global d’altres tasques Codex no disponible.
+- Completat: pantalla bàsica mòbil amb convocats editables, golejador opcional, gols rivals, targetes individuals i generals de banqueta, anul·lació, cua persistent/reintent, marcador fix, finalització/reobertura local i taula de discrepàncies. Reutilitza el flux pilot i no modifica els fitxers avançats ni l’esquema.
+- FECAPA: consulta manual de l’Edge Function existent i consulta en finalitzar, amb memòria cau de sis hores declarada. Dades manuals conservades. Estat cru de la font visible; tancament i targetes oficials de banqueta no verificables. Enllaç al portal per revisió manual. Cap desplegament de funcions ni consulta contínua nova.
+- Auditoria real només de lectura: esquema/CHECK/FK/RLS verificats. La política `pilot_events_direct_club_fixture` és RESTRICTIVE. No s’han canviat permisos, comptes, dades esportives ni producció.
+- **Bloqueig de la prova concreta:** no existeix al calendari pilot consultat el partit Infantil D – Aplicat A del 24/10. Hi ha un FEM15 contra Alpicat, que no s’ha assimilat. Cal font verificable, importació autoritzada del partit correcte, plantilla i accés operador. No crear IDs manuals ni deduir competició/horari.
+- Proves: suite Node 74/74; Chromium completa 17/17 (14 regressions avançades i 3 bàsics). Vuit casos específics Node inclouen permisos/escriptures PostgreSQL local, participants, gols/targetes/correccions, persistència/reintent, errors federatius, discrepàncies i finalització/estat. Check 24 fitxers, build i diff correctes. Dades fictícies en navegador; la nova UI usa transport sintètic i els permisos també es proven separadament en PostgreSQL local. Cap prova d’escriptura esportiva en producció. Retoc final comprovat de nou amb els 8 casos Node bàsics i els 3 Chromium bàsics.
+- Limitacions: arrencada en fred amb xarxa, memòria cau FECAPA sense bypass, contracte d’estats no verificat, partit prioritari absent, CORS existent restringit a GitHub Pages. Bloqueig HTTP 403 al portal i al changelog Supabase des de l’entorn; documentació RLS consultada via MCP. Finalització bàsica no bloqueja el Centre Avançat. No emprar simultàniament dos operadors oficials entre modes durant la prova.
+- Fitxers: `base.html`, `base.js`, `basic-model.js`, `basic-store.js`, `tests/basic.test.mjs`, `tests/browser/basic.spec.mjs`, `tests/helpers/basic-browser-client.js`, `docs/basic-match-delivery.md`, aquest document.
+- Represa: revisar branca/status i [informe detallat](basic-match-delivery.md); verificar el partit/plantilla correcte; inspeccionar revisions remotes abans de qualsevol integració. La publicació a producció i qualsevol importació de dades reals queden pendents d’autorització expressa. Els commits de branca i la PR són revisables i no activen Pages.
+
+### Publicació autoritzada i prova Salt · continuació 23/10/2026
+
+El responsable autoritza expressament publicar la versió i provar-la amb el partit anterior Igualada HC – Salt; també demana contrastar FECAPA. S’ha localitzat a les taules federatives generals Igualada HC D – Oxford HC Salt A, 10/10/2026 16.45 Europe/Madrid, 8–0, codi 152035, acta importada el 23/10 a les 11.17 amb estat `FINALIZAT` i resultat coincident calendari/acta. No existia a `pilot_matches`; no se n’ha inventat ni creat una còpia de producció.
+
+S’afegeix `basic-practice.js` i la ruta `base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5`: mateixa pantalla i controls amb convocats federatius verificats, anotacions de prova només al dispositiu per usuari/partit i lectura RLS de les dades federatives. No escriu a l’històric ni modifica permisos. La UI declara clarament «PROVA LOCAL» i la naturalesa de la consulta de dades importades. Fitxers addicionals modificats: base.js/base.html i les tres proves/fixtures bàsiques. Informe ampliat a `docs/basic-match-delivery.md`.
+
+La CI del checkpoint anterior `8969261` és correcta: run 40021877440. Nova suite Node ampliada 76/76 correcta; navegador ampliat en execució abans de publicar. La publicació s’ha de completar després de la CI del nou HEAD; l’autorització ja és vigent, no cal tornar-la a demanar.
