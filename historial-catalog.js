@@ -10,8 +10,9 @@ const dataTable=(headers,rows)=>'<div class="tablewrap"><table><thead><tr>'+head
 const ownTeamLink=id=>{const t=catalog.teams.find(t=>t.id===id);return t?btn(t.category+' · '+t.name,'clubteam',id):'—'};
 function visiblePeople(role='player'){const search=$('filter').value.toLocaleLowerCase('ca');return catalog.persons(selection(),role).filter(p=>!search||p.name.toLocaleLowerCase('ca').includes(search))}
 async function loadClubCatalog(){
- if(!selectedAdminClub){catalog=new ClubCatalog();return}
  if(privateMatches===null){privateMatches=matches.map(m=>({...m}));privateSources=sources.map(s=>({...s}))}
+ if(!selectedAdminClub){catalog=new ClubCatalog();matches=[];sources=[];return}
+ const context=window.ch360ClubContext;const config=context?.clubs.find(c=>c.club_id===selectedAdminClub);if(config){const {applyIdentity}=await import('./club-context.js');applyIdentity(config,document);context.active=config;localStorage.setItem('ch360_club',config.slug);window.ch360ClubId=config.club_id;}
  catalog=await ClubCatalog.load(db,selectedAdminClub);clubTeams=catalog.teams;clubEntries=catalog.entries;clubRoster=catalog.roster;clubPeople=catalog.people;
  matches=catalog.combine(privateMatches,privateSources).filter(m=>m._officialOnly||m._clubTeamIds?.length||(!privateSources.some(s=>s.match_id===m.id)&&clubList.length===1));sources=privateSources.map(s=>({...s}));
  for(const m of matches)if(m._officialOnly&&!sources.some(s=>s.match_id===m.id)){const f=m._federationFixture;sources.push({match_id:m.id,home_name:f.home_team,away_name:f.away_team,official_data:{...f.raw_data,home_score:f.home_score,away_score:f.away_score}})}
