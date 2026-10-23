@@ -126,3 +126,18 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.
+
+## Sincronització multiclub · 23/10/2026
+
+Encàrrec nou, independent de les acceptacions estadístiques anteriors. Branca `feat/multiclub-federation`, base `4950940`, worktree `/workspace/work/clubhoquei360-multiclub`. Checkout inicial `work` intacte. Auditoria i informe complet: [multiclub-federation-delivery.md](multiclub-federation-delivery.md).
+
+- Auditoria de models/RLS/identificadors/colors i branques `feat/basic-match-20261024` / `feat/temporary-external-invitations` feta abans de modificar. Conservar-les; no s'han fusionat els seus canvis. Repositori real: Dudisooft/clubhoquei360.
+- Lectura de producció confirma 36 equips, 553 partits, 22 competicions i cron `ihc-federation-hourly` actiu, amb execucions recents correctes. Cap canvi ni importació a producció.
+- Implementat en branca: configuració de club al servidor, selector/contrast/escut, pantalla federativa i historial amb club actiu, fonts verificables, cua per club/equip/partit, deduplicació/leases/reintents, comptadors i importador normalitzat multiclub que conserva UUIDs IHC i dades manuals. Manresa preparat sense equips/IDs inventats.
+- Migració nova `20261023210142_multiclub_federation.sql`, seed i cron desactivat preparats; **no aplicats**. Worker `club-sync` **no desplegat**. Cap nova automatització de Codex.
+- Portals federatius i changelog bloquejats pel proxy (403); docs Supabase consultats via MCP. No es declara revalidació actual de fonts ni imports reals nous. Accés/condicions, IDs Manresa, desplegament de staging i contracte d'acta tancada pendents.
+- Proves: 74/74 Node en primera execució (8 noves), 16/16 Chromium complets (2 nous). Afegida novena prova SQL de dos clubs compartint competició; bloc final de federació i comprovació mòbil documentats a l'informe. Check 25 fitxers i build correctes; SQL executat en PostgreSQL/PGlite fictici. Fixture d'estadístiques limita les seves migracions a les dues que modela, per no interpretar l'esquema multiclub incomplet com a esquema de producció.
+- Abast pendent explícit: actes/incidències detallades segueixen al servei existent; no s'han migrat al nou worker. La selecció de partit operatiu segueix l'autorització pròpia i cal conciliar-la amb Mode Bàsic/invitacions. No presentar tot l'objectiu com a desplegat/completat.
+- Represa: revisar l'informe i estat remot, continuar pels pendents verificables; mantenir la prohibició de publicar a producció sense autorització. No reobrir les acceptacions estadístiques ni crear comptes de pilot.
+
+- Checkpoint de codi `560544e`, branca pujada i [PR #10 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/10), sense fusió ni publicació. Proves locals segons l'informe; no atribuir un resultat de CI sense consultar-lo.
