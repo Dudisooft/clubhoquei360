@@ -37,3 +37,7 @@ Els fitxers HTML, JSON i SQL amb dades reals es generen exclusivament a `work/` 
 Branca `feat/import-vic-roster`, checkout `/workspace/work/clubhoquei360-starters`, base publicada `02ca084`. Cap migració nova ni desplegament de frontend/Edge Function necessari per completar aquesta importació de dades.
 
 CI consolidada del preparador `a524e2dd1266785bf49ce94cfdec9486f205f3a8`: [40122687503](https://github.com/Dudisooft/clubhoquei360/actions/runs/40122687503) success, logs amb **117/117 Node, 32/32 Chromium**, check/build 31 fitxers. [PR #22](https://github.com/Dudisooft/clubhoquei360/pull/22) continua draft perquè no s’ha pogut recuperar ni importar la plantilla real. Els commits posteriors són només checkpoints documentals; no repetir les suites de codi intacte.
+
+## Represa amb configuració declarada desada
+
+Després del «Fet» del responsable, 24/10/2026 18:59 UTC, l’entorn observat passa a revisió 114 però manté `restricted/enforced` sense SIDGAD. La petició real del preparador, amb el proxy configurat, retorna CONNECT **403** abans d’arribar a RFEP. Cap font ni dada importada. [Evidència sanejada](vic-roster-access-20261024.json). Cal revisar una captura de la configuració de dominis per esbrinar si és una configuració diferent o encara sense aplicar a la sessió vinculada; no afirmar-ne la causa sense veure-la. No repetir suites de codi intacte ni permisos ja autoritzats.
