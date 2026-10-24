@@ -6,6 +6,11 @@ Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
+**Actualització independent publicada després del fracàs real al pavelló:** el responsable no ha pogut iniciar el registre mentre era fora de casa. Consulta de només lectura 19:09:54 UTC: cap acció/sessió/convocat del pilot; acceptació real FALLIDA EN L’INICI. S’ha publicat una entrada visible al registre col·lectiu existent a la PR #23, codi `7132b50`, merge `8a14b8b`; CI 40124627984 success (110 Node/34 Chromium) i Pages 40124867007 success. Informe/acceptació sanejada a main: https://github.com/Dudisooft/clubhoquei360/blob/main/docs/live-team-recording-entry.md . Tancament documental PR #24 merge `21a8a7a`. No substituir aquests canvis en reprendre aquesta branca ni presentar l’acceptació humana com a superada.
+
+Aquest canvi independent permet l’anàlisi col·lectiva amb plantilla pendent i no importa Vic. La PR #22 continua draft i el preparador d’aquesta branca conserva les seves proves. En reprendre la importació, comprovar `origin/main` actual i preservar l’entrada publicada; no repetir cap migració ni publicació de la PR #23. El responsable farà la configuració de xarxa quan pugui; evitar el bucle de demanar «Fet» al pavelló.
+
+
 **Aclariment per desbloquejar l’accés (consulta oficial):** el responsable pregunta com fer-ho. Guia actual verificada a https://learn.chatgpt.com/docs/environments/cloud-environments, seccions «Reuse and update saved state» i «Connect to services»: Settings → Codex Cloud → Environments → … → Edit; Internet access activat, Package managers i Additional allowed domains amb `www.server2.sidgad.es`; desar, **Republish i iniciar una tasca nova amb l’entorn republicat**. Les tasques existents conserven el seu estat. La instrucció anterior només «desa i Fet» era insuficient per guiar aquest flux; no repetir aquest bucle. Observació de la sessió: revisió 115, restricted, state unknown; no acredita configuració nova aplicada.
 
 **Text de represa a la tasca nova:** «CONTINUA CLUBHOQUEI360 des de la branca feat/import-vic-roster. Llegeix docs/CODEX_PROGRESS.md i continua la importació del Vic.» Treball del preparador i resultats desats/presents a origin; PR #22 draft. No reaplicar migracions ni repetir proves intactes. No s’ha importat encara cap plantilla real del Vic.
