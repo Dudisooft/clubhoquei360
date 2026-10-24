@@ -1,0 +1,65 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "branch": "fix/principal-profile-access",
+  "baseCommit": "d9b803ff8dff55ae3d79f2dc3f04a75e408dab5f",
+  "issue": "Existing authorized operator cannot select Principal for calendar-only fixture",
+  "realDatabaseDiagnosis": {
+    "verifiedOwner": true,
+    "enabledGlobalRole": "platform_superadmin",
+    "matchRole": "operator",
+    "sourceKind": "verified_calendar",
+    "importStatus": "pending",
+    "officialMatchId": null,
+    "players": 0,
+    "writes": 0
+  },
+  "beforeFix": {
+    "regressionExecuted": true,
+    "result": "FAIL",
+    "expected": "main",
+    "actual": "stats"
+  },
+  "local": {
+    "interfaceNodePassed": 2,
+    "browserPassed": 3,
+    "browserFailed": 0,
+    "staticFilesChecked": 29,
+    "build": "PASS",
+    "diff": "PASS",
+    "officialWriteRequestsAfterOpeningPrincipal": 0,
+    "profileSurvivesReload": true,
+    "officialAndStatisticalDataUnchangedInBrowserFixture": true
+  },
+  "scope": "Principal view access for authorized match operator; official controls and writes remain blocked for pending report, no fake lineup. No server data/roles/RLS/migration changes.",
+  "authorization": "Regression correction within already authorized RFEP publication after user reported access failure.",
+  "ci": {
+    "head": "3e5bb69d1a6922d8f395d11ab039f2c8f7b64ca7",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40072904236",
+    "status": "completed",
+    "conclusion": "success",
+    "nodePassed": 99,
+    "browserPassed": 29,
+    "staticFilesChecked": 29,
+    "build": "success"
+  },
+  "merged": true,
+  "frontendPublished": true,
+  "productionAuthBrowserInspected": false,
+  "remaining": [
+    "Investigate only new owner-reported issues; do not repeat valid tests or deployment",
+    "Official report and verified match lineups remain pending; official writes not enabled by this view-access fix"
+  ],
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/16",
+  "pages": {
+    "mergeCommit": "ffbdf78f82ec733c0090131b6d7443e835fdca43",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40073230378",
+    "status": "completed",
+    "conclusion": "success",
+    "deployJob": 120811084975,
+    "reportedSuccessAt": "2026-10-24T07:13:18.4083212Z",
+    "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+    "principalUrl": "https://dudisooft.github.io/clubhoquei360/avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1&v=principal1"
+  }
+}

@@ -1,0 +1,186 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "authorization": {
+    "received": true,
+    "userStatement": "Autoritzat",
+    "scope": "Apply existing Igualada–Vic calendar/statistics linkage and publish PR #12"
+  },
+  "branch": "fix/rfep-vic-20261024",
+  "verifiedCommit": "e1f4ffdcbf378c83de1e4708441578d53122b60b",
+  "ci": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070611341",
+  "nodePassed": 99,
+  "browserPassed": 28,
+  "repair": {
+    "script": "scripts/prepare-rfep-vic-20261024.sql",
+    "sha256": "61e0a0be704a9e274da84a2c697a5046147a878eff52cef818c94ec5ece35c68",
+    "permanentlyApplied": true,
+    "newPilotMatches": 0,
+    "newSourceRows": 1,
+    "newStatisticsContexts": 1,
+    "createsAccounts": false,
+    "changesRoles": false,
+    "changesSchemaOrRls": false
+  },
+  "before": {
+    "unchanged": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "other_sources": {
+        "hash": "e280963ade9ac040c5e3657166280c14",
+        "rows": 30
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "pilot_members": {
+        "hash": "fb3a700e7363e5f38d652d83ae343ec9",
+        "rows": 31
+      },
+      "pilot_players": {
+        "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+        "rows": 166
+      },
+      "stats_sessions": {
+        "hash": "ebb70b704b48eda8478e70034785eb62",
+        "rows": 1
+      },
+      "stats_assignments": {
+        "hash": "2a69b723210d4619b110b7101ceb85d3",
+        "rows": 3
+      },
+      "other_stats_contexts": {
+        "hash": "f9c2f8f40ca0c10db9c2c513d5ea5640",
+        "rows": 29
+      },
+      "pilot_operator_state": {
+        "hash": "17778402b757c006d018e260d6fd5005",
+        "rows": 7
+      }
+    },
+    "auth_users": 1,
+    "source_count": 30,
+    "context_count": 29
+  },
+  "after": {
+    "unchanged": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "other_sources": {
+        "hash": "e280963ade9ac040c5e3657166280c14",
+        "rows": 30
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "pilot_members": {
+        "hash": "fb3a700e7363e5f38d652d83ae343ec9",
+        "rows": 31
+      },
+      "pilot_players": {
+        "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+        "rows": 166
+      },
+      "stats_sessions": {
+        "hash": "ebb70b704b48eda8478e70034785eb62",
+        "rows": 1
+      },
+      "stats_assignments": {
+        "hash": "2a69b723210d4619b110b7101ceb85d3",
+        "rows": 3
+      },
+      "other_stats_contexts": {
+        "hash": "f9c2f8f40ca0c10db9c2c513d5ea5640",
+        "rows": 29
+      },
+      "pilot_operator_state": {
+        "hash": "17778402b757c006d018e260d6fd5005",
+        "rows": 7
+      }
+    },
+    "auth_users": 1,
+    "source_count": 31,
+    "context_count": 30
+  },
+  "tenExistingDataGroupsPreserved": true,
+  "target": {
+    "title": "Pilot 24/10 · Simar Igualada – Patí Vic",
+    "players": 0,
+    "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+    "starts_at": "2026-10-24T18:30:00+00:00",
+    "federation": "RFEP",
+    "official_id": null,
+    "source_kind": "verified_calendar",
+    "import_status": "pending",
+    "stats_context": {
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "created_at": "2026-10-24T06:26:51.187458+00:00",
+      "away_team_id": null,
+      "home_team_id": "f9eed270-6221-42dc-7ac4-3df490ad65db",
+      "away_external_team_id": "3727",
+      "home_external_team_id": "3697"
+    },
+    "official_events": 0,
+    "calendar_match_id": "51894d05-c323-f3e1-8534-fa79e062c448"
+  },
+  "permissionCheck": "PASS: persisted metadata accessible to existing owner under authenticated RLS; existing operator role and statistics read/manage preserved; no account or statistics grant created by this read-only check",
+  "permissionCheckUsesRealAuthBrowserSession": false,
+  "sourceOfficialId": null,
+  "lineupsAvailable": false,
+  "frontend": {
+    "merged": true,
+    "published": true,
+    "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/12",
+    "mergeCommit": "9b5af19f931e33bd7e38f165d9d649456ecb4035",
+    "workflow": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070909976",
+    "status": "completed",
+    "conclusion": "success",
+    "buildJob": 120803929934,
+    "deployJob": 120804016166,
+    "reportedSuccessAt": "2026-10-24T06:37:46.1836516Z",
+    "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+    "directMatchUrl": "https://dudisooft.github.io/clubhoquei360/avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1&view=stats&v=vic1",
+    "authenticatedOwnerBrowserInspected": false
+  },
+  "invitationPr11Merged": false,
+  "resume": "RFEP repair and frontend published with authorization; do not reapply/redeploy or repeat valid 99 Node/28 Chromium suites. Continue only owner-reported issues, official report/lineups when available, or independent invitation SMTP setup.",
+  "integration": {
+    "baseCommit": "129e097e63260ef577b4c22a533c066eb91f5eee",
+    "basicRuntimePreserved": true,
+    "productionBasicDependencyAlreadyPresent": true,
+    "nodePassed": 99,
+    "browserPassed": 28,
+    "staticFilesChecked": 29,
+    "build": "PASS",
+    "ci": {
+      "head": "e1f4ffdcbf378c83de1e4708441578d53122b60b",
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070611341",
+      "status": "completed",
+      "conclusion": "success",
+      "jobId": 120803018788,
+      "nodePassed": 99,
+      "browserPassed": 28,
+      "staticFilesChecked": 29,
+      "build": "success"
+    },
+    "documentationBase": "e35b38933afd1a1d57e2bbbed55f8b83a8ce276b"
+  },
+  "securityAdvisors": "No new WARN/ERROR; pre-existing notices unchanged"
+}
