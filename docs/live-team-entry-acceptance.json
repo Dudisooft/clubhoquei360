@@ -1,0 +1,47 @@
+{
+  "reported_by": "project_owner",
+  "reported_outcome": "Could not start live recording at the venue; external network configuration cannot be done there.",
+  "acceptance": "FAILED_TO_START",
+  "checked_at_utc": "2026-10-24T19:09:54.298418Z",
+  "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+  "production_observation": {
+    "official_events": 0,
+    "statistics_events": 0,
+    "called_up_players": 0,
+    "operator_state": null,
+    "analysis_sessions": 0,
+    "active_statistics_assignments": 0,
+    "source_status": "pending"
+  },
+  "limits": [
+    "A read-only server observation; the agent did not control the owner browser.",
+    "No cause inferred from absence of rows alone.",
+    "Earlier automated tests remain valid for their original local scope."
+  ],
+  "independent_fix": "Visible entry to the existing authorized collective statistics recorder without requiring official lineup preparation.",
+  "owner_statistics_permission_check": {
+    "method": "existing owner claims, read-only SQL transaction rolled back",
+    "read": true,
+    "manage": true,
+    "club_manager": true
+  },
+  "local_verification": {
+    "rfep_browser_cases": 7,
+    "new_cases_latest_revision": 2,
+    "interface_node_cases": 2,
+    "static_files": 31,
+    "build": "pass",
+    "diff": "pass",
+    "browser_auth": "fictitious local transport, real PostgreSQL/PGlite RLS",
+    "scenarios": [
+      "Principal visible entry with zero called-up players",
+      "explicit existing self-registration authorization",
+      "live P2 manually adjusted to 03:20",
+      "one team pass with player_id null",
+      "paused session recovery after reload",
+      "no official state write and unchanged official events/clock",
+      "saved video session mode and time preserved on returning through the entry",
+      "delegate without analysis access receives no entry or grant"
+    ]
+  }
+}

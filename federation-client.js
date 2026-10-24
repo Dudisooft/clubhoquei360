@@ -1,4 +1,4 @@
-import {mountStats} from './stats-ui.js';
+import {mountStats} from './stats-ui.js?v=20261024.team1';
 import {db} from './app-client.js';
 import {mountRoster} from './advanced-roster.js';
 import {fromRow,mergeEvents,score} from './federation-model.js';
@@ -13,6 +13,7 @@ import {competitionOptions,isCalendarOnlySource} from './federation-selection.js
  const rosterRoot=document.createElement('div');rosterRoot.className='roster-preparation';rosterRoot.id='rosterPreparation';rosterRoot.hidden=true;$('starterGrid').before(rosterRoot);
  const roster=mountRoster({db,root:rosterRoot,getState:()=>s,getRevision:()=>revision,onChange:()=>controls(),onSaved:async()=>{loading=true;try{await refreshState();await refreshEvents();await loadFederation();await openAnalysis();}finally{loading=false;render();}}});
  const officialReady=()=>!isCalendarOnlySource(source)||(roster.prepared&&s.startersConfirmed);
+ $('openTeamRecording').onclick=()=>{if(loading||!analysis.canOpenTeamRecorder)return;$('profile').value='stats';$('profile').onchange();analysis.showTeamRecorder();$('statsRoot').scrollIntoView({block:'start'});};
  async function openAnalysis(){await analysis.open({match,uid,players:s.players.map(p=>({id:p.id,team:p.side,dorsal:p.num,full_name:p.name,position:p.goalie?'goalkeeper':'field',federation_player_id:p.federation_player_id})),teamNames,matchTitle:matches.find(m=>m.id===match)?.title||'Partit'});}
  $('starterGrid').addEventListener('change',()=>{roster.rememberDraft();controls();});
  for(const id of ['kitHomePlayer','kitHomeGoalie','kitAwayPlayer','kitAwayGoalie'])$(id).addEventListener('change',()=>roster.rememberDraft());
@@ -33,6 +34,7 @@ s.running=false;s.timeoutRunning=false;last=performance.now();}
  function refreshRecoverButton(){recoverButton.hidden=role!=='operator'||loading||s.finished||!cancelledGoals().length;}
  recoverButton.onclick=()=>{if(role!=='operator'||loading||s.finished)return;const items=cancelledGoals();if(!items.length)return;modal('Recuperar gol anul·lat',items.map(row=>{const e=row.payload.details.previous,p=person(e.actor),a=person(e.details?.assist);const label=eventClockLabel(e)+' · '+sideName(e.side)+' · '+(p?.name||'Sense golejador')+(a?' · Assistència: '+a.name:'');return {label,fn:async()=>{if(role!=='operator'||loading||s.finished)return;if(!confirm('Recuperar aquest gol amb el golejador i l’assistència originals? S’afegirà un sol gol.'))return;recoverButton.disabled=true;const original=row.payload.details.previous;const details={...original.details,_restoredFrom:row.id,recuperat:true};const newRow=rowFor({...original,kind:'gol',details});const result=await db.from('pilot_events').insert(newRow);recoverButton.disabled=false;if(result.error){status.textContent='No s’ha pogut recuperar el gol: '+result.error.message;return;}await refreshEvents();}}}), 'Selecciona una anotació anul·lada. Es recupera completa, sense haver de tornar a introduir els jugadors.');};
  function controls(){
+  const entry=$('teamRecordingEntry');if(entry)entry.hidden=loading||!match||$('profile').value!=='main'||!analysis.canOpenTeamRecorder;
   const operator=role==='operator'&&!loading&&!s.finished&&$('profile').value==='main'&&!roster.busy;
   const prepare=operator&&(!isCalendarOnlySource(source)||roster.available),play=operator&&officialReady();
   for(const id of ['kitHomePlayer','kitHomeGoalie','kitAwayPlayer','kitAwayGoalie'])$(id).disabled=!prepare||s.matchStarted;
