@@ -12,6 +12,7 @@
   "local_full_suite": {"code_commit": "12b5c26", "node": {"pass": 122, "fail": 0, "skip": 0}, "chromium": {"pass": 40, "fail": 0, "skip": 0}},
   "additional_verification": {"node_roster_permissions": {"pass": 6, "fail": 0}, "chromium_roster_editor": {"pass": 4, "fail": 0}, "resolutions": [[390,844],[820,1180],[1440,1000]], "dark_editor_visually_inspected": true, "touch_target_minimum_px": 44},
   "check_and_build_application_files": 33,
+  "base_reattribution_verification": {"chromium_pass":17,"fail":0,"initial_unidentified_goal_preserved":true,"replacement_counted_once":true},
   "test_data": "explicitly fictitious; local PostgreSQL/PGlite with Auth/HTTP/WebSocket test transport",
   "physical_production_test": "not performed by agent",
   "production_integrity": {

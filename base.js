@@ -177,6 +177,8 @@ function openSheet({actor=null,team=activeSide,bench=false,eventId=null}={}){
  const row=eventId?state().active.find(r=>r.id===eventId):null;
  $('actionTitle').textContent=bench?'Banqueta '+(team==='home'?'local':'visitant'):actor?recordFor(actor)?.full_name||(row?eventName(row):'Jugador'):'Gol sense jugador identificat';
  $('actionContext').textContent=(eventId?'Correcció d’una incidència · ':'')+teamName(team);
+ $('editPlayerLabel').hidden=!eventId||bench;
+ if(eventId&&!bench){const pool=state().participants.map(recordFor).filter(p=>p?.team===team);if(actor&&!pool.some(p=>p.id===actor))pool.push(recordFor(actor)||{id:actor,full_name:row?eventName(row):'Jugador anterior'});$('editPlayer').innerHTML='<option value="">Sense jugador identificat</option>'+pool.map(p=>`<option value="${esc(p.id)}">${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</option>`).join('');$('editPlayer').value=actor||'';}
  document.querySelectorAll('[data-action]').forEach(b=>{b.hidden=bench&&b.dataset.action==='gol';b.disabled=false;});
  $('actionSheet').showModal();
 }
@@ -186,7 +188,8 @@ async function choose(kind,context){
  const row=actionRow(kind,team,actor,{bench:!!bench});
  const original=eventId?state().active.find(r=>r.id===eventId):null;
  if(eventId&&!original)throw Error('Aquesta incidència ja ha estat modificada.');
- if(original?.payload?.details?.player_snapshot&&!row.payload.details.player_snapshot)row.payload.details.player_snapshot={...original.payload.details.player_snapshot};
+ if(actor&&actor!==original?.payload?.actor&&(!state().participants.includes(actor)||recordFor(actor)?.team!==team))throw Error('Tria un jugador convocat del mateix equip.');
+ if(actor&&actor===original?.payload?.actor&&original?.payload?.details?.player_snapshot&&!row.payload.details.player_snapshot)row.payload.details.player_snapshot={...original.payload.details.player_snapshot};
  const batch=original?[makeRow({match,uid,kind:'correction',related:original.id,side:original.team,details:{previous:fromRow(original),replacement:row.id}}),row]:[row];
  await addBatch(batch);flash=(original?'Incidència corregida':kind==='gol'?'Gol registrat':'Targeta '+cards[kind].toLowerCase()+' registrada')+' · '+teamName(team);
 }
@@ -207,6 +210,7 @@ $('teamList').onclick=e=>{const row=e.target.closest('[data-person]');if(row)ope
 $('bench').onclick=()=>openSheet({bench:true});
 $('unidentifiedGoal').onclick=()=>action(()=>choose('gol',{team:activeSide,actor:null,bench:false}));
 $('closeSheet').onclick=closeSheet;
+$('editPlayer').onchange=()=>{if(sheet?.eventId&&!sheet.bench)sheet.actor=$('editPlayer').value||null;};
 $('actionSheet').addEventListener('cancel',()=>{sheet=null;});
 $('actionSheet').addEventListener('click',e=>{
  const button=e.target.closest('[data-action]');if(!button||!sheet||busy)return;
