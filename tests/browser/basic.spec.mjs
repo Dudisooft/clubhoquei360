@@ -45,7 +45,7 @@ test('all player card types and both benches remain distinct and never increment
 });
 
 test('verified reinforcement can be selected and imported once; unknown eligibility stays blocked',async({page})=>{
- await setup(page);await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();
+ await setup(page);await expect(page.locator('#rosterGrid')).not.toContainText('Altre infantil exclòs fictici');await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();
  await expect(page.locator('#rosterGrid')).toContainText('Elegibilitat de reforç no verificable');
  await prepare(page,['p1','a1','catalog:home:CP3']);await expect(page.locator('#teamList')).toContainText('Reforç verificat fictici');
  await incident(page,'Reforç verificat','Gol');await expect(page.locator('#score')).toHaveText('1 – 0');
@@ -105,4 +105,12 @@ test('Alpicat-like catalogue fixture opens without an acta code, keeps unknown o
  await page.locator('#tabAway').click();await expect(page.locator('#teamList')).toContainText('Cap jugador convocat');await page.locator('#unidentifiedGoal').click();await expect(page.locator('#score')).toHaveText('1 – 1');
  await expect(page.locator('#federation')).toContainText('Estat de l’acta desconegut');await expect(page.locator('#comparison')).toContainText('No verificable');
  expect((await stored(page)).every(r=>r.match_id===live)).toBe(true);
+});
+
+test('saved out-of-scope infant selection requires review while keeping its goal',async({page})=>{
+ await setup(page,'?catalogue=20000000-0000-4000-8000-000000000002');await prepare(page,['catalog:home:CP1']);await incident(page,'Jugador local','Gol');
+ await page.evaluate(()=>localStorage.setItem('synthetic-retired-player','p1'));await page.reload();
+ await expect(page.locator('#preparation')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
+ await page.locator('#confirmRosters').click();await expect(page.locator('#status')).toContainText('Desmarca');
+ await page.locator('#rosterGrid input:checked').uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
 });
