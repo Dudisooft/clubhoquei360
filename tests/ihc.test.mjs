@@ -9,4 +9,13 @@ test('pending score and missing numbers stay unknown',()=>{const d=parseCompetit
 test('stable identity survives rescheduling',()=>{const a=parseCompetition(cfg,fixture(),roster,''),b=parseCompetition(cfg,fixture('252','IGUALADA HC A','18/10/2026'),roster,'');assert.equal(a.matches[0].fingerprint,b.matches[0].fingerprint);});
 test('duplicate identical published person rows collapse; conflicting identities reject',()=>{const d=parseCompetition(cfg,fixture(),roster+roster,'');assert.equal(d.teams[0].roster.length,1);assert.throws(()=>parseCompetition(cfg,fixture(),roster+roster.replace('PLAYER ONE','ANOTHER PERSON'),''));});
 test('missing fixture date is not invented',()=>{const d=parseCompetition(cfg,fixture('252','IGUALADA HC A',''),roster,'');assert.equal(d.matches[0].date,null);assert.equal(d.matches[0].venue,null);});
+test('opponent roster is taken from exact calendar/team IDs, with no inferred shirt or club ownership',()=>{
+ const rival=roster.replaceAll('teamid_10','teamid_20').replaceAll('team_id="10"','team_id="20"').replaceAll('50','60').replaceAll('PLAYER ONE','RIVAL FICTICI');
+ const d=parseCompetition(cfg,fixture(),roster+rival+rival,'');assert.equal(d.teams.length,1);assert.equal(d.opponents.length,1);assert.equal(d.opponents[0].external_team_id,'20');assert.equal(d.opponents[0].roster.length,1);assert.equal(d.opponents[0].roster[0].shirt_number,null);assert.equal(d.opponents[0].roster[0].position,null);
+ assert.throws(()=>parseCompetition(cfg,fixture(),roster+rival.replace('team_id="20"','team_id="99"'),''),/opponent player identity/);
+ assert.throws(()=>parseCompetition(cfg,fixture(),roster+rival+rival.replace('RIVAL FICTICI','CONFLICTE'),''),/Conflicting opponent/);
+});
+test('missing and unrelated opponent rows never invent a roster',()=>{
+ const d=parseCompetition(cfg,fixture(),roster+roster.replaceAll('teamid_10','teamid_999'),'');assert.deepEqual(d.opponents[0].roster,[]);
+});
 const inventory='/tmp/ihc-audit';if(fs.existsSync(inventory+'/fecapa-4816-calendar.html'))test('all 22 live competitions parse and contain only direct IHC fixtures',()=>{const configs=JSON.parse(fs.readFileSync(new URL('../supabase/functions/ihc-sync/manifest.json',import.meta.url)));for(const c of configs){const base=inventory+'/'+c.federation.toLowerCase()+'-'+c.id;const d=parseCompetition(c,...['calendar','roster','standings'].map(k=>fs.readFileSync(base+'-'+k+'.html','utf8')));assert.ok(d.teams.length);for(const m of d.matches)assert.ok(d.teams.some(t=>[m.home_team_id,m.away_team_id].includes(t.external_team_id)));for(const t of d.teams)for(const p of t.roster)assert.equal(Object.keys(p).some(k=>/birth|dob|photo|email|phone|nationality/i.test(k)),false);}});

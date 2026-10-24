@@ -75,9 +75,9 @@ test('a lost roster acknowledgement survives reload and retries the original mut
  });
  await page.setViewportSize({width:390,height:844});await page.goto('/clubhoquei360/avancat.html?match='+vic);const home=page.locator('[data-roster-team=home]');
  await home.locator('details').first().locator('summary').click();await home.locator('[data-candidate]').evaluateAll(nodes=>nodes.forEach(n=>n.click()));await home.locator('[data-add-candidates]').click();
- await expect(page.locator('[data-roster-message]')).toContainText('ACK perdut');await page.reload();await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
- await page.locator('[data-roster-retry]').click();await expect(page.locator('[data-roster-message]')).toContainText('Convocats desats');expect(mutations).toHaveLength(2);expect(mutations[1]).toBe(mutations[0]);await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
- await home.locator('[data-edit-callups] summary').click();await home.locator('[data-edit-player]').first().locator('[data-position]').selectOption('field');await home.locator('[data-save-callups]').click();await expect(page.locator('[data-roster-message]')).toContainText('Convocats desats');await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
+ await expect(page.locator('#rosterPreparation [data-roster-message]')).toContainText('ACK perdut');await page.reload();await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
+ await page.locator('#rosterPreparation [data-roster-retry]').click();await expect(page.locator('#rosterPreparation [data-roster-message]')).toContainText('Convocats desats');expect(mutations).toHaveLength(2);expect(mutations[1]).toBe(mutations[0]);await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
+ await home.locator('[data-edit-callups] summary').click();await home.locator('[data-edit-player]').first().locator('[data-position]').selectOption('field');await home.locator('[data-save-callups]').click();await expect(page.locator('#rosterPreparation [data-roster-message]')).toContainText('Convocats desats');await expect(page.locator('#starterGrid [data-starter]')).toHaveCount(5);
  expect((await snapshot(request)).official.filter(r=>r.match_id===vic)).toHaveLength(0);expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);await page.screenshot({path:'work/starting-five-mobile.png',fullPage:true});
 });
 

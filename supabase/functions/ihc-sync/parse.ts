@@ -29,6 +29,16 @@ export function parseCompetition(config:any,calendarHtml:string,rosterHtml:strin
  if(!teams.size||!fixtures.length)throw Error('No verified IHC teams or fixtures');
  if(new Set(fixtures.map(f=>f.fingerprint)).size!==fixtures.length)throw Error('Duplicate fixture identities');
  const {document:r}=parseHTML(rosterHtml);
+ const opponents=new Map<string,any>();
+ for(const m of fixtures)for(const side of ['home','away']){const id=m[side+'_team_id'];if(teams.has(id))continue;const name=m[side+'_name'];const prior=opponents.get(id);if(prior&&prior.name!==name)throw Error('Ambiguous opponent identity');if(!prior)opponents.set(id,{external_team_id:id,name,roster:[]});}
+ for(const team of opponents.values())for(const tr of [...r.querySelectorAll('tr.teamid_'+team.external_team_id)]){
+  const link=tr.querySelector('[id_player]');if(!link)continue; // staff and aggregates are not players
+  const external_id=link.getAttribute('id_player'),name=text(link);
+  if(!/^[1-9]\d*$/.test(external_id||'')||!name||link.getAttribute('team_id')!==team.external_team_id)throw Error('Unverified opponent player identity');
+  const previous=team.roster.find((p:any)=>p.external_id===external_id);if(previous){if(previous.name!==name)throw Error('Conflicting opponent player identity');continue;}
+  // This table contains season totals, not match shirts or match eligibility.
+  team.roster.push({external_id,name,shirt_number:null,position:null,verification:'official_roster'});
+ }
  for(const team of teams.values()){
   for(const tr of [...r.querySelectorAll('tr.teamid_'+team.external_team_id)]){
    const c=[...tr.children],link=tr.querySelector('[id_player]');const external_id=link?.getAttribute('id_player')||tr.id.replace('filaplayer_','');const role=link?'player':'staff';const name=text(link||c[4]);
@@ -40,7 +50,7 @@ export function parseCompetition(config:any,calendarHtml:string,rosterHtml:strin
   team.roster_status=team.roster.length?'published':'not_published';
  }
  let standings:any[]=[],standings_status='published';try{standings=parseStandings(standingsHtml).map(g=>({...g,rows:g.rows.filter(x=>[...teams.values()].some(t=>t.name===x.team_name))})).filter(g=>g.rows.length);if(!standings.length)standings_status='not_published';}catch{standings_status='unavailable';}
- return {...config,season_id:'41',season_label:'2026/27',club_external_id:source.club,source_url:source.origin+'/league/'+config.id,teams:[...teams.values()],matches:fixtures,standings,standings_status,fetched_at:new Date().toISOString()};
+ return {...config,season_id:'41',season_label:'2026/27',club_external_id:source.club,source_url:source.origin+'/league/'+config.id,teams:[...teams.values()],opponents:[...opponents.values()],matches:fixtures,standings,standings_status,fetched_at:new Date().toISOString()};
 }
 export function enrichFromReport(data:any,fixture:any,html:string){
  const report=parseMatch(html,{federation:data.federation,competition_id:data.id,season_id:'41',federation_match_id:fixture.match_id,federation_url:data.source_url});

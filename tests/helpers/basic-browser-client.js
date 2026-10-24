@@ -21,6 +21,22 @@ data.federation_matches.push({id:live,external_match_id:null,home_team:'Igualada
 data.federation_match_teams.push({id:'live-link',match_id:live,entry_id:'EH',side:'home'});
 window.basicFixture={fail:false,syncFail:false,syncCalls:0,remoteWrites:0,playerWrites:0,delay:0};
 export const db={rpc:async(name,args)=>{
+ if(name==='match_roster'){const players=(load('pilot_players')||data.pilot_players).filter(p=>p.match_id===args.p_match);return {data:{players,candidates:[],write_sides:['home','away'],editable_ids:players.map(p=>p.id)}};}
+ if(name==='match_roster_save'){
+  if(window.basicFixture.fail)return {error:{message:'Connexió tallada'}};
+  const p=args.p_player,rows=load('pilot_players')||structuredClone(data.pilot_players);let existing=rows.find(r=>r.id===p.id);
+  if(p.candidate_id){
+   const ref=p.candidate_id.split(':').slice(1).join(':'),lineup=p.candidate_id.startsWith('lineup:')?data.federation_match_lineups.find(l=>l.id===ref):null;
+   const roster=p.candidate_id.startsWith('roster:')?data.federation_team_roster.find(l=>l.id===ref):null,entry=lineup||roster;
+   if(!entry)return {error:{code:'42501',message:'Unknown synthetic candidate'}};
+   const fid=data.federation_players.find(i=>i.id===entry.player_id)?.external_player_id||null;
+   const marker=url+(lineup?'#lineup=':'#season-roster=')+ref;
+   existing=rows.find(r=>r.match_id===args.p_match&&((fid&&r.federation_player_id===fid)||r.official_source===marker));
+   const saved=existing||{id:p.id,match_id:args.p_match,team:p.team,full_name:entry.display_name,dorsal:p.dorsal,position:p.position,federation_player_id:fid,federation_active:true,official_source:marker,roster_revision:1};
+   if(!existing){rows.push(saved);window.basicFixture.playerWrites++;}save('pilot_players',rows);return {data:saved};
+  }
+  const saved={...existing,...p,match_id:args.p_match,federation_player_id:null,federation_active:true,roster_revision:(existing?.roster_revision||0)+1,official_source:'operator:'+uid};if(existing)Object.assign(existing,saved);else rows.push(saved);save('pilot_players',rows);return {data:saved};
+ }
  if(name!=='basic_open_catalogue_match')return {error:{message:'Unknown fixture RPC'}};
  const id=args.p_practice?'20000000-0000-4000-8000-000000000009':args.p_catalogue;
  const contexts=load('basic_match_contexts')||[];if(!contexts.length){save('basic_match_contexts',[{id:'context',catalogue_match_id:args.p_catalogue,pilot_match_id:id,owner_id:uid,practice:args.p_practice}]);save('pilot_members',[...data.pilot_members,{match_id:id,user_id:uid,role:'operator'}]);save('pilot_matches',[...data.pilot_matches,{id,title:'PROVA FICTÍCIA',starts_at:'2026-10-10T14:45:00Z'}]);}
