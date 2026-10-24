@@ -11,13 +11,12 @@ test.before(async()=>{
  alter table federation_match_sources add column federation_url text,add column home_crest_url text,add column away_crest_url text,add column automatic_enabled boolean,add column notes text;
  update federation_match_sources set federation_match_id=match_id::text;
  create unique index federation_source_external_unique on federation_match_sources(federation,federation_match_id) where federation_match_id is not null;
- create table federation_groups(id uuid primary key,competition_id uuid);
- create table federation_matches(id uuid primary key,group_id uuid,external_match_id text,match_fingerprint text,raw_data jsonb,federation_start_at timestamptz,home_team text,away_team text,home_score int,away_score int,fetched_at timestamptz);
+ alter table federation_matches add column match_fingerprint text,add column fetched_at timestamptz;
  `);
  await db.query("insert into federation_competitions values($1,$2,$3,'RFEP','3575')",[VIC.competition,ID.club,ID.season]);
  await db.query('insert into federation_groups values($1,$2)',[VIC.group,VIC.competition]);
  await db.query("insert into federation_team_entries values($1,$2,$3,'3697',$4)",[VIC.entry,ID.team,VIC.competition,JSON.stringify({season_id:'41',verification:'official'})]);
- await db.query("insert into federation_matches values($1,$2,null,'RFEP:41:3575:3575:JORNADA 5:3697:3727',$3,'2026-10-24 18:30Z','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC',null,null,'2026-10-23 23:17Z')",[VIC.calendar,VIC.group,JSON.stringify(calendar)]);
+ await db.query("insert into federation_matches(id,group_id,external_match_id,match_fingerprint,raw_data,federation_start_at,home_team,away_team,home_score,away_score,fetched_at) values($1,$2,null,'RFEP:41:3575:3575:JORNADA 5:3697:3727',$3,'2026-10-24 18:30Z','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC',null,null,'2026-10-23 23:17Z')",[VIC.calendar,VIC.group,JSON.stringify(calendar)]);
  await db.query("insert into pilot_matches values($1,'Igualada – Vic · fixture de prova','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC','2026-10-24 18:30Z','scheduled')",[VIC.pilot]);
 });
 test.after(async()=>db.close());

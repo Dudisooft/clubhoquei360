@@ -186,7 +186,17 @@
       "staticFilesChecked": 27,
       "build": "success"
     },
-    "dataEvidence": "docs/rfep-vic-deployment-20261024.json"
+    "dataEvidence": "docs/rfep-vic-deployment-20261024.json",
+    "integration": {
+      "baseCommit": "129e097e63260ef577b4c22a533c066eb91f5eee",
+      "basicRuntimePreserved": true,
+      "productionBasicDependencyAlreadyPresent": true,
+      "nodePassed": 99,
+      "browserPassed": 28,
+      "staticFilesChecked": 29,
+      "build": "PASS",
+      "ci": "pending after integration push"
+    }
   },
   "remaining": [
     "Complete authorized PR #12 merge and verify Pages deployment",

@@ -149,5 +149,15 @@
     "published": false
   },
   "invitationPr11Merged": false,
-  "resume": "Authorization already received and data repair applied: do not ask again or reapply. Continue frontend publication verification and checkpoint update."
+  "resume": "Authorization already received and data repair applied: do not ask again or reapply. Continue frontend publication verification and checkpoint update.",
+  "integration": {
+    "baseCommit": "129e097e63260ef577b4c22a533c066eb91f5eee",
+    "basicRuntimePreserved": true,
+    "productionBasicDependencyAlreadyPresent": true,
+    "nodePassed": 99,
+    "browserPassed": 28,
+    "staticFilesChecked": 29,
+    "build": "PASS",
+    "ci": "pending after integration push"
+  }
 }
