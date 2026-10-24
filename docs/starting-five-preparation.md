@@ -15,6 +15,10 @@ La preparació ha de permetre a l’operador incorporar jugadors reals del catà
 3. Registre manual de l’operador després de confirmar la preparació, independent de l’acta RFEP. Cap canvi de marcador/cronòmetre causat per accions estadístiques ni importació federativa.
 4. Proves locals de PostgreSQL/RLS, regressió de navegador completa (confirmar, iniciar, pausa, gol, recàrrega, separar anàlisi/oficial) i publicació verificada. No executar automàticament una convocatòria o un partit de prova de producció.
 
-Branca `fix/advanced-starting-five`, base `113b517031b5616d2606337577c959b0022718c5`, checkout `/workspace/work/clubhoquei360-starters`. Migració creada amb la CLI fixada: `20261024105636_advanced_lineup_preparation.sql`, encara buida/no aplicada en aquest checkpoint d’auditoria. El nou bloc substituirà el bloqueig transitori del registre oficial només quan hi hagi preparació explícita i validada; no marcarà una acta pendent com a RFEP verificada.
+Branca `fix/advanced-starting-five`, base `113b517031b5616d2606337577c959b0022718c5`, checkout `/workspace/work/clubhoquei360-starters`. Migració creada amb la CLI fixada: `20261024105636_advanced_lineup_preparation.sql`, implementada i verificada localment; no aplicada a producció. El nou bloc substituirà el bloqueig transitori del registre oficial només quan hi hagi preparació explícita i validada; no marcarà una acta pendent com a RFEP verificada.
 
 Represa: llegir `docs/CODEX_PROGRESS.md`, revisar Git i continuar el primer bloc pendent. No repetir la vinculació RFEP publicada, les migracions d’estadístiques, bàsic o invitacions, ni les proves antigues de codi intacte.
+
+## Verificació del bloc servidor
+
+12/12 proves PostgreSQL/PGlite correctes: 8 de preparació i 4 de regressió RFEP. Catàleg restringit, UUID estables, entrada manual explícita, unicitat federativa/dorsals, reintents idempotents, 5 + 1 porter, revisions, confirmació atòmica, registre posterior i bloqueig de tercers. Cap dada de prova personal real; cap DML de producció. La UI continua pendent en aquest checkpoint.

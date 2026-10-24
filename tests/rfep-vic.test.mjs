@@ -8,14 +8,14 @@ const calendar={round:'JORNADA 5',date:'24/10/2026',time:'20:30',home_name:'SIMA
 let db;
 test.before(async()=>{
  db=await createDatabase();await db.exec(`reset role;
- alter table federation_match_sources add column federation_url text,add column home_crest_url text,add column away_crest_url text,add column automatic_enabled boolean,add column notes text;
+ alter table federation_match_sources add column if not exists federation_url text,add column if not exists home_crest_url text,add column if not exists away_crest_url text,add column if not exists automatic_enabled boolean,add column if not exists notes text;
  update federation_match_sources set federation_match_id=match_id::text;
  create unique index federation_source_external_unique on federation_match_sources(federation,federation_match_id) where federation_match_id is not null;
- alter table federation_matches add column match_fingerprint text,add column fetched_at timestamptz;
+ alter table federation_matches add column if not exists match_fingerprint text,add column if not exists fetched_at timestamptz;
  `);
  await db.query("insert into federation_competitions values($1,$2,$3,'RFEP','3575')",[VIC.competition,ID.club,ID.season]);
  await db.query('insert into federation_groups values($1,$2)',[VIC.group,VIC.competition]);
- await db.query("insert into federation_team_entries values($1,$2,$3,'3697',$4)",[VIC.entry,ID.team,VIC.competition,JSON.stringify({season_id:'41',verification:'official'})]);
+ await db.query("insert into federation_team_entries(id,club_team_id,competition_id,external_team_id,raw_data) values($1,$2,$3,'3697',$4)",[VIC.entry,ID.team,VIC.competition,JSON.stringify({season_id:'41',verification:'official'})]);
  await db.query("insert into federation_matches(id,group_id,external_match_id,match_fingerprint,raw_data,federation_start_at,home_team,away_team,home_score,away_score,fetched_at) values($1,$2,null,'RFEP:41:3575:3575:JORNADA 5:3697:3727',$3,'2026-10-24 18:30Z','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC',null,null,'2026-10-23 23:17Z')",[VIC.calendar,VIC.group,JSON.stringify(calendar)]);
  await db.query("insert into pilot_matches values($1,'Igualada – Vic · fixture de prova','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC','2026-10-24 18:30Z','scheduled')",[VIC.pilot]);
 });
