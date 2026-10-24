@@ -1,0 +1,211 @@
+{
+  "date": "2026-10-24",
+  "scope": "starting-five preparation in existing Advanced match module",
+  "reference_match": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+  "branch": "fix/advanced-starting-five",
+  "runtime_head": "ffef2ff317c491645e26919cfd2934cadc487fbf",
+  "merge_commit": "de35b538bc9207a5a388cd1fd080dd655f0a07e9",
+  "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/20",
+  "ci": {
+    "run": 40089984343,
+    "status": "success",
+    "node": 110,
+    "chromium": 32,
+    "static_files": 31,
+    "build": "pass",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40089984343"
+  },
+  "local_before_main_merge": {
+    "node": 108,
+    "chromium": 31
+  },
+  "migration": {
+    "installed": {
+      "version": "20261024113012",
+      "name": "advanced_lineup_preparation"
+    },
+    "local_file": "supabase/migrations/20261024105636_advanced_lineup_preparation.sql",
+    "sha256": "8d297dcd45802b891589c337dc8b6d699bcc830784aa57c0005b4b06c546ba4c"
+  },
+  "production_sql_smoke": {
+    "rolled_back": true,
+    "catalogue_away": 0,
+    "catalogue_home": 19,
+    "clock_revision": 2,
+    "temporary_events": 2,
+    "temporary_players": 10,
+    "stable_player_retry": true,
+    "stable_confirmation_retry": true,
+    "blocked_before_confirmation": true,
+    "manual_goal_after_confirmation": true
+  },
+  "data_before": [
+    {
+      "table_name": "pilot_matches",
+      "rows": 31,
+      "fingerprint": "591647660c9e14b82fc1a50b5062184a"
+    },
+    {
+      "table_name": "pilot_players",
+      "rows": 182,
+      "fingerprint": "79fa9ce12882cef1ba660957ea9cbabb"
+    },
+    {
+      "table_name": "pilot_members",
+      "rows": 31,
+      "fingerprint": "a9cdbcfbc5e54fda15b0a8361b20929b"
+    },
+    {
+      "table_name": "pilot_events",
+      "rows": 342,
+      "fingerprint": "786862eceddb3cb38256bb500fde596d"
+    },
+    {
+      "table_name": "pilot_operator_state",
+      "rows": 7,
+      "fingerprint": "423ef2b75301fc6e96ff4216581be613"
+    },
+    {
+      "table_name": "federation_match_sources",
+      "rows": 31,
+      "fingerprint": "d9b5dd4c1a66bb0e400cc6598642d308"
+    },
+    {
+      "table_name": "stats_matches",
+      "rows": 30,
+      "fingerprint": "0dd1e92ae286f715f8a8ab6619877349"
+    },
+    {
+      "table_name": "stats_events",
+      "rows": 3,
+      "fingerprint": "62846dc42c94ef44bd805a4525656982"
+    },
+    {
+      "table_name": "stats_sessions",
+      "rows": 1,
+      "fingerprint": "ebb70b704b48eda8478e70034785eb62"
+    },
+    {
+      "table_name": "stats_assignments",
+      "rows": 3,
+      "fingerprint": "67f4fda852145db1ee2c7e912caff548"
+    },
+    {
+      "table_name": "federation_matches",
+      "rows": 557,
+      "fingerprint": "9b30986622ac50d0641055e6b440783e"
+    },
+    {
+      "table_name": "federation_team_roster",
+      "rows": 902,
+      "fingerprint": "896b1a8bd45ba29c932974c17804d165"
+    },
+    {
+      "table_name": "auth_user_ids",
+      "rows": 1,
+      "fingerprint": "9036b35364b0f090d38532b8fbaaa770"
+    }
+  ],
+  "data_after": [
+    {
+      "table_name": "pilot_matches",
+      "rows": 31,
+      "fingerprint": "591647660c9e14b82fc1a50b5062184a"
+    },
+    {
+      "table_name": "pilot_players",
+      "rows": 182,
+      "fingerprint": "79fa9ce12882cef1ba660957ea9cbabb"
+    },
+    {
+      "table_name": "pilot_members",
+      "rows": 31,
+      "fingerprint": "a9cdbcfbc5e54fda15b0a8361b20929b"
+    },
+    {
+      "table_name": "pilot_events",
+      "rows": 342,
+      "fingerprint": "786862eceddb3cb38256bb500fde596d"
+    },
+    {
+      "table_name": "pilot_operator_state",
+      "rows": 7,
+      "fingerprint": "423ef2b75301fc6e96ff4216581be613"
+    },
+    {
+      "table_name": "federation_match_sources",
+      "rows": 31,
+      "fingerprint": "d9b5dd4c1a66bb0e400cc6598642d308"
+    },
+    {
+      "table_name": "stats_matches",
+      "rows": 30,
+      "fingerprint": "0dd1e92ae286f715f8a8ab6619877349"
+    },
+    {
+      "table_name": "stats_events",
+      "rows": 3,
+      "fingerprint": "62846dc42c94ef44bd805a4525656982"
+    },
+    {
+      "table_name": "stats_sessions",
+      "rows": 1,
+      "fingerprint": "ebb70b704b48eda8478e70034785eb62"
+    },
+    {
+      "table_name": "stats_assignments",
+      "rows": 3,
+      "fingerprint": "67f4fda852145db1ee2c7e912caff548"
+    },
+    {
+      "table_name": "federation_matches",
+      "rows": 557,
+      "fingerprint": "9b30986622ac50d0641055e6b440783e"
+    },
+    {
+      "table_name": "federation_team_roster",
+      "rows": 902,
+      "fingerprint": "896b1a8bd45ba29c932974c17804d165"
+    },
+    {
+      "table_name": "auth_user_ids",
+      "rows": 1,
+      "fingerprint": "9036b35364b0f090d38532b8fbaaa770"
+    }
+  ],
+  "all_13_data_fingerprints_unchanged": true,
+  "security": {
+    "unrelated_identity_denied_commands": 3,
+    "anonymous_http": [
+      {
+        "rpc": "pilot_roster_catalogue",
+        "status": 401,
+        "code": "42501"
+      },
+      {
+        "rpc": "pilot_prepare_players",
+        "status": 401,
+        "code": "42501"
+      },
+      {
+        "rpc": "pilot_confirm_lineup",
+        "status": 401,
+        "code": "42501"
+      }
+    ],
+    "advisors_unchanged": true
+  },
+  "pages": {
+    "run": 40090318388,
+    "status": "success",
+    "sha": "de35b538bc9207a5a388cd1fd080dd655f0a07e9",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40090318388"
+  },
+  "limits": [
+    "SQL production checks use existing operator claims, not a real Auth browser login.",
+    "Local browser uses fictitious identities and participants over PostgreSQL/PGlite.",
+    "Live GitHub Pages HTTP retrieval was unavailable through the execution proxy; publication is verified from GitHub build/deploy/report logs.",
+    "The responsible operator still needs to choose the actual called-up players. No real lineup was automatically created.",
+    "Away season roster unavailable; explicit manual entry of real players is supported. RFEP report status remains pending."
+  ]
+}
