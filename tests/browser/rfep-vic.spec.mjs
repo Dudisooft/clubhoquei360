@@ -21,6 +21,7 @@ test('RFEP selector opens calendar-linked existing fixture, records live team st
 test('pending report stays explicit on mobile with no invented roster or horizontal overflow',async({page,context})=>{
  await setup(context);await page.setViewportSize({width:390,height:844});await page.goto('/clubhoquei360/avancat.html?match='+vic);
  await expect(page.locator('#statsOwnStart')).toBeVisible();await expect(page.locator('#federationPending')).toContainText('1 partit');await expect(page.locator('#federationMatch option[value^="pending:"]')).toHaveAttribute('disabled','');await expect(page.locator('#syncFederation')).toBeDisabled();await expect(page.locator('#profile')).toHaveValue('stats');
+ await page.locator('#profile').selectOption('main');await expect(page.locator('#profile')).toHaveValue('stats');await expect(page.locator('#play')).toBeDisabled();
  await page.locator('#statsOwnStart').click();await page.locator('#statsScope').selectOption('player');await expect(page.locator('#statsPlayers [data-stats-player]')).toHaveCount(0);await expect(page.locator('#statsSelection')).toContainText('jugador');
  await expect(page.locator('#ch360-base-sync')).toBeHidden();expect(await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}))).toEqual({width:390,viewport:390});await page.screenshot({path:'work/rfep-vic-mobile.png',fullPage:true});
 });
