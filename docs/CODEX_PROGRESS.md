@@ -101,11 +101,12 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-1. Checkpoint RFEP verificat: **85/85 Node i 20/20 Chromium**, zero fallits/omesos/inestables; check 27 fitxers, build i diff correctes. Preparar/verificar PR i CI de la branca `fix/rfep-vic-20261024`. Codi recuperable `819b19cce8498338e6a4ebaf15097a349435a1ca`; base `12444a9`. [PR #12 draft](https://github.com/Dudisooft/clubhoquei360/pull/12). Reforç posterior: 2/2 casos Chromium específics correctes amb el mateix rol d’operador existent auditat al compte real; perfil principal reconduït a estadístic i rellotge oficial deshabilitat. No s’ha canviat el runtime del checkpoint de codi. CI del darrer checkpoint pendent de confirmar.
-2. Autorització específica de publicació de la reparació Igualada–Vic (requisit exprés de l’apartat 7): aplicar només metadades del pilot existent i publicar frontend d’aquesta branca quan la CI sigui satisfactòria. No tocar històrics, rols, comptes ni la PR #11.
-3. Identificador RFEP i alineacions del partit: mantenir com a no verificats mentre no es recuperin de font oficial; reconciliar el mateix registre quan es publiquin. El registre col·lectiu no exigeix inventar-los.
-4. Reprendre després la configuració SMTP d’invitacions amb el responsable, segons la guia de la branca corresponent. Autorització d’aquell backend ja executada; no repetir-la. No crear comptes personals ficticis.
-5. Pilot FEM15 només quan el responsable el demani, per invitació temporal i permisos acotats. La prova bàsica i Realtime físic ja estan acceptats; no repetir-los.
+Checkpoint RFEP verificat: **85/85 Node i 20/20 Chromium**, zero fallits/omesos/inestables; check 27 fitxers, build i diff correctes. PR #12 preparada; CI final correcta. Codi recuperable `819b19cce8498338e6a4ebaf15097a349435a1ca`; base `12444a9`. [PR #12 draft](https://github.com/Dudisooft/clubhoquei360/pull/12). Reforç posterior: 2/2 casos Chromium específics correctes amb el mateix rol d’operador existent auditat al compte real; perfil principal reconduït a estadístic i rellotge oficial deshabilitat. No s’ha canviat el runtime del checkpoint de codi. Últim commit verificat `4bc548c7eae948a54839bb5deea1581b73456000`; [CI 40067242846](https://github.com/Dudisooft/clubhoquei360/actions/runs/40067242846) success, logs amb 85 Node, 20 Chromium, check 27 fitxers i build. Checkpoint documental posterior sense canvis de runtime; no repetir aquestes suites.
+
+1. Autorització específica de publicació de la reparació Igualada–Vic (requisit exprés de l’apartat 7): aplicar només metadades del pilot existent i publicar frontend d’aquesta branca quan la CI sigui satisfactòria. No tocar històrics, rols, comptes ni la PR #11.
+2. Identificador RFEP i alineacions del partit: mantenir com a no verificats mentre no es recuperin de font oficial; reconciliar el mateix registre quan es publiquin. El registre col·lectiu no exigeix inventar-los.
+3. Reprendre després la configuració SMTP d’invitacions amb el responsable, segons la guia de la branca corresponent. Autorització d’aquell backend ja executada; no repetir-la. No crear comptes personals ficticis.
+4. Pilot FEM15 només quan el responsable el demani, per invitació temporal i permisos acotats. La prova bàsica i Realtime físic ja estan acceptats; no repetir-los.
 
 Represa exacta: llegir aquest document, l’informe RFEP i el Git real. Continuar per la primera tasca pendent sense repetir auditories, proves vàlides o migracions ja aplicades.
 
