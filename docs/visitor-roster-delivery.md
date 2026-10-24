@@ -54,7 +54,7 @@ Integritat real: les cinc empremtes/recomptes de l'auditoria són **idèntics en
 
 ## E. GitHub i recuperació
 
-Branca `fix/visitor-roster-contingency`, base `a5e54e7`. Checkpoints: `887aa7d` auditoria, `437cd37` backend, `12b5c26` integració/importador, `78c5da0` reforç d'editor/cau. La Pull Request de la branca conté l'informe i les comprovacions; `main` i Pages no s'han modificat. Llista exacta dels fitxers/commits: diff de la PR. [Continuïtat](CODEX_PROGRESS.md).
+Branca `fix/visitor-roster-contingency`, base `a5e54e7`. Checkpoints: `887aa7d` auditoria, `437cd37` backend, `12b5c26` integració/importador, `78c5da0` reforç d'editor/cau, `269096c` informe/permisos finals. [PR #27 draft per a revisió](https://github.com/Dudisooft/clubhoquei360/pull/27), sense fusió ni publicació. [CI del codi 269096c](https://github.com/Dudisooft/clubhoquei360/actions/runs/40129259665); consultar-ne el resultat verificable i les comprovacions del HEAD a la PR. `main` i Pages no s'han modificat. Llista exacta dels fitxers/commits: diff de la PR. [Continuïtat](CODEX_PROGRESS.md).
 
 ## F. Pendents necessaris
 
