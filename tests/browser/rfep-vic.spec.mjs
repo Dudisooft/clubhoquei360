@@ -1,4 +1,5 @@
 import {test,expect} from '@playwright/test';import path from 'node:path';import {ID} from '../helpers/stats-db.mjs';
+const recording='https://www.youtube.com/live/T9ANG2Ew0Mg?is=W-va1Rwrzai-CUuh';
 const endpoint='https://oevprbchlhyglhvopnvy.supabase.co',vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';
 async function setup(context,user='manager'){
  const uid=ID[user];
@@ -99,4 +100,32 @@ test('visible Principal entry opens live team recording with zero call-ups and n
 });
 test('official delegate without analysis access gets no team-recording entry or automatic statistical grant',async({page,context,request})=>{
  await setup(context,'delegate');const before=await snapshot(request);await page.goto('/clubhoquei360/avancat.html?match='+ID.match);await expect(page.locator('#profile')).toHaveValue('main');await expect(page.locator('#federationStatus')).toContainText('FECAPA');await expect(page.locator('#teamRecordingEntry')).toBeHidden();await expect(page.locator('#statsMessage')).toContainText('No tens permisos');expect((await snapshot(request)).assignments).toEqual(before.assignments);
+});
+
+test('TV replay link opens paused video controls without writes, supports manual review and recovers saved observations',async({page,context,request})=>{
+ await setup(context);await page.setViewportSize({width:390,height:844});const before=await snapshot(request),errors=[];let officialWrites=0;
+ page.on('pageerror',e=>errors.push(e.message));page.on('request',r=>{if(new URL(r.url()).pathname==='/rest/v1/rpc/pilot_save_operator_state')officialWrites++;});
+ await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats&analysis=video&video='+encodeURIComponent(recording));await expect(page.locator('#statsTvVideoLink')).toHaveAttribute('href',recording);await expect(page.locator('#statsMode')).toHaveValue('video');await expect(page.locator('#statsRecord')).toBeVisible();await expect(page.locator('#statsTvGuide')).toBeVisible();await expect(page.locator('#statsTvGuide')).toContainText('18:30');await expect(page.locator('#statsClock')).toHaveText('00:00');await expect(page.locator('#statsPlay')).toBeDisabled();
+ let current=await snapshot(request);expect(current.events).toEqual(before.events);expect(current.sessions).toEqual(before.sessions);expect(current.assignments).toEqual(before.assignments);
+ await page.locator('#profile').selectOption('main');await expect(page).toHaveURL(/analysis=video/);await page.locator('#openTeamRecording').click();await expect(page.locator('#statsMode')).toHaveValue('video');await page.reload();await expect(page).toHaveURL(/analysis=video/);await expect(page.locator('#statsMode')).toHaveValue('video');
+ await page.locator('#statsOwnStart').click();await page.locator('#statsTime').fill('06:30');await page.locator('#statsAdjust').click();await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.ms)).toBe(390000);
+ await page.locator('[data-stats-action=pass_complete]').click();await expect.poll(async()=>((await snapshot(request)).events.filter(e=>e.match_id===vic).length)).toBe(1);
+ const pass=(await snapshot(request)).events.find(e=>e.match_id===vic);await page.locator('#statsBack').click();await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.ms)).toBe(380000);
+ await page.locator('[data-stats-edit="'+pass.id+'"]').click();await page.locator('#statsEditAction').selectOption('pass_failed');await page.locator('#statsEditForm button[type=submit]').click();await expect.poll(async()=>((await snapshot(request)).events.find(e=>e.id===pass.id)?.revision)).toBe(2);
+ await page.locator('#statsUndo').click();await expect.poll(async()=>((await snapshot(request)).events.find(e=>e.id===pass.id)?.validation)).toBe('void');await page.locator('#statsShowVoided').check();await page.locator('[data-stats-restore="'+pass.id+'"]').click();await expect.poll(async()=>((await snapshot(request)).events.find(e=>e.id===pass.id)?.validation)).toBe('recorded');
+ await page.locator('#statsPlay').click();await expect(page.locator('#statsClock')).not.toHaveText('06:20');await page.locator('#statsPlay').click();await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.ms)).toBeGreaterThanOrEqual(381000);const paused=await page.locator('#statsClock').textContent();
+ await page.reload();await expect(page.locator('#statsMode')).toHaveValue('video');await expect(page.locator('#statsClock')).toHaveText(paused);await expect(page.locator('#statsPlay')).toContainText('Inicia');await expect(page.locator('#statsHistory')).toContainText('Passada fallada');
+ const after=await snapshot(request),event=after.events.find(e=>e.id===pass.id);expect(after.sessions.find(s=>s.match_id===vic).state.videoUrl).toBe(recording);expect(event.origin).toBe('video');expect(event.player_id).toBeNull();expect(event.match_ms).toBe(390000);expect(after.official).toEqual(before.official);expect(after.clock).toEqual(before.clock);expect(after.authUsers).toBe(before.authUsers);expect(officialWrites).toBe(0);expect(errors).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(390);await page.locator('#statsRecord > .panel').first().screenshot({path:'work/video-tv-controls.png'});
+});
+test('video URL preference preserves an existing live session until the operator explicitly changes mode',async({page,context,request})=>{
+ await setup(context);await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats');await page.locator('#statsOwnStart').click();await page.locator('#statsMode').selectOption('live');await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.mode)).toBe('live');await page.locator('#statsTime').fill('04:10');await page.locator('#statsAdjust').click();await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.ms)).toBe(250000);
+ const before=await snapshot(request);await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats&analysis=video');await expect(page.locator('#statsMode')).toHaveValue('live');await expect(page.locator('#statsClock')).toHaveText('04:10');await expect(page.locator('#statsTvGuide')).toBeHidden();expect((await snapshot(request)).sessions).toEqual(before.sessions);
+ await page.locator('#statsMode').selectOption('video');await expect.poll(async()=>((await snapshot(request)).sessions.find(s=>s.match_id===vic)?.state.mode)).toBe('video');await expect(page.locator('#statsClock')).toHaveText('04:10');await expect(page.locator('#statsTvGuide')).toBeVisible();
+});
+
+
+test('a recording preset stays bound to its requested match when the selector changes',async({page,context,request})=>{
+ await setup(context);await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats&analysis=video&video='+encodeURIComponent(recording));await expect(page.locator('#statsTvVideoLink')).toHaveAttribute('href',recording);
+ await page.locator('#federationCompetition').selectOption('FECAPA:4802');await expect(page.locator('#federationMatch')).toHaveValue(ID.match);await expect(page).not.toHaveURL(/video=/);await expect(page.locator('#statsVideoLink')).toBeHidden();await expect(page.locator('#statsVideoUrl')).toHaveValue('');
+ expect((await snapshot(request)).sessions).toHaveLength(0);
 });

@@ -1,0 +1,3 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {normalizeVideoUrl} from '../stats-ui.js';
+test('video links preserve the supplied recording and accept an empty optional value',()=>{const url='https://www.youtube.com/live/T9ANG2Ew0Mg?is=W-va1Rwrzai-CUuh';assert.equal(normalizeVideoUrl(' '+url+' '),url);assert.equal(normalizeVideoUrl(null),'');assert.equal(normalizeVideoUrl(''),'');});
+test('video links refuse executable URLs, credentials, relative addresses and oversized values',()=>{for(const url of ['javascript:alert(1)','data:text/html,<b>test</b>','file:///tmp/video','https://fake:fake@example.test/video','relative/video','https://example.test/'+ 'x'.repeat(2000)])assert.throws(()=>normalizeVideoUrl(url));});

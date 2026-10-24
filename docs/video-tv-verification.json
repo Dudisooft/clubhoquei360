@@ -1,0 +1,37 @@
+{
+  "scope": "Igualada–Vic deferred analysis while watching supplied YouTube recording on TV",
+  "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+  "entry_url": "https://dudisooft.github.io/clubhoquei360/avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1&view=stats&analysis=video&video=https%3A%2F%2Fwww.youtube.com%2Flive%2FT9ANG2Ew0Mg%3Fis%3DW-va1Rwrzai-CUuh&v=video-tv1",
+  "recording_url": "https://www.youtube.com/live/T9ANG2Ew0Mg?is=W-va1Rwrzai-CUuh",
+  "recording_source": "user supplied",
+  "external_video_playback_verified": false,
+  "web_lookup_result": "Online fetch throttled",
+  "local_tests": {
+    "rfep_browser_cases": 10,
+    "node_interface_and_url_cases": 4,
+    "static_files": 31,
+    "build": "pass",
+    "diff": "pass"
+  },
+  "scenarios": [
+    "new video entry paused before any statistical assignment or session write",
+    "explicit self-registration with existing server permissions",
+    "safe recording link prefilled for new sessions only",
+    "manual adjustment to elapsed 06:30, rewind, real-style fictitious test observation, correction, undo and restore",
+    "video-origin timestamps and paused recovery after reload",
+    "existing live sessions preserved until explicit mode change",
+    "recording preset never transferred to another match",
+    "no official state writes, official events/clock unchanged",
+    "no new Auth users",
+    "390px mobile controls without horizontal overflow"
+  ],
+  "production_data_written_by_agent": false,
+  "accounts_created": 0,
+  "role_changes": 0,
+  "limits": [
+    "No physical TV controlled by agent.",
+    "Local Auth/PostgREST transport over PostgreSQL/PGlite uses fictitious identities.",
+    "Earlier failed real live acceptance remains a separate failed observation.",
+    "Vic roster still not imported."
+  ]
+}
