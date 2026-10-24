@@ -8,10 +8,10 @@
     "scope": "Apply existing Igualada–Vic calendar/statistics linkage and publish PR #12"
   },
   "branch": "fix/rfep-vic-20261024",
-  "verifiedCommit": "4bc548c7eae948a54839bb5deea1581b73456000",
-  "ci": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40067242846",
-  "nodePassed": 85,
-  "browserPassed": 20,
+  "verifiedCommit": "e1f4ffdcbf378c83de1e4708441578d53122b60b",
+  "ci": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070611341",
+  "nodePassed": 99,
+  "browserPassed": 28,
   "repair": {
     "script": "scripts/prepare-rfep-vic-20261024.sql",
     "sha256": "61e0a0be704a9e274da84a2c697a5046147a878eff52cef818c94ec5ece35c68",
@@ -158,6 +158,17 @@
     "browserPassed": 28,
     "staticFilesChecked": 29,
     "build": "PASS",
-    "ci": "pending after integration push"
+    "ci": {
+      "head": "e1f4ffdcbf378c83de1e4708441578d53122b60b",
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070611341",
+      "status": "completed",
+      "conclusion": "success",
+      "jobId": 120803018788,
+      "nodePassed": 99,
+      "browserPassed": 28,
+      "staticFilesChecked": 29,
+      "build": "success"
+    },
+    "documentationBase": "e35b38933afd1a1d57e2bbbed55f8b83a8ce276b"
   }
 }

@@ -1,0 +1,117 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "authorization": "User explicitly authorized installing the new migration and publishing PR #13.",
+  "code_head": "4c926d9ae21a3c493a4171cb985bd1284fa18278",
+  "merge_commit": "129e097e63260ef577b4c22a533c066eb91f5eee",
+  "pull_request": 13,
+  "ci": {
+    "run": 40067343032,
+    "conclusion": "success",
+    "node_pass": 90,
+    "chromium_pass": 26
+  },
+  "pages": {
+    "run": 40070267131,
+    "conclusion": "success",
+    "reported_success_utc": "2026-10-24T06:27:57Z",
+    "url": "https://dudisooft.github.io/clubhoquei360/"
+  },
+  "migration": {
+    "version": "20261024062538",
+    "name": "basic_catalogue_contexts",
+    "source": "supabase/migrations/20261023214042_basic_catalogue_contexts.sql",
+    "applied": true
+  },
+  "schema_verification": {
+    "rows": 0,
+    "functions": [
+      {
+        "schema": "app_private",
+        "proname": "basic_open_catalogue",
+        "proconfig": [
+          "search_path=\"\""
+        ],
+        "prosecdef": true,
+        "anon_execute": false,
+        "authenticated_execute": true
+      },
+      {
+        "schema": "public",
+        "proname": "basic_open_catalogue_match",
+        "proconfig": [
+          "search_path=\"\""
+        ],
+        "prosecdef": false,
+        "anon_execute": false,
+        "authenticated_execute": true
+      }
+    ],
+    "table_rls": true,
+    "privileges": {
+      "anon_select": false,
+      "authenticated_insert": false,
+      "authenticated_select": true
+    },
+    "fingerprints": {
+      "clock": {
+        "hash": "17778402b757c006d018e260d6fd5005",
+        "count": 7
+      },
+      "stats": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "count": 3
+      },
+      "events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "count": 342
+      },
+      "players": {
+        "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+        "count": 166
+      },
+      "official": {
+        "hash": "5729362bce7affecb8d3f462209a4aa8",
+        "count": 555
+      }
+    }
+  },
+  "fingerprints_before": {
+    "clock": {
+      "hash": "17778402b757c006d018e260d6fd5005",
+      "count": 7
+    },
+    "stats": {
+      "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+      "count": 3
+    },
+    "events": {
+      "hash": "b439347e63705e020c8443a142d0fc97",
+      "count": 342
+    },
+    "players": {
+      "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+      "count": 166
+    },
+    "official": {
+      "hash": "5729362bce7affecb8d3f462209a4aa8",
+      "count": 555
+    }
+  },
+  "sports_data_unchanged": true,
+  "created_test_matches_or_accounts": false,
+  "anonymous_http_guards": [
+    {
+      "resource": "basic_match_contexts",
+      "status": 401,
+      "code": "42501"
+    },
+    {
+      "resource": "basic_open_catalogue_match",
+      "status": 401,
+      "code": "42501"
+    }
+  ],
+  "security_advisors": "No new findings; pre-existing security notices unchanged.",
+  "authenticated_mobile_walkthrough": "Pending user validation; no production sporting events entered by the agent."
+}
