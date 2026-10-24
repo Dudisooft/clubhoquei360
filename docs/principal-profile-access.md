@@ -22,4 +22,6 @@ Obrir Principal no habilita l’escriptura oficial d’una font pendent. L’av�
 
 Branca `fix/principal-profile-access`, base `d9b803ff8dff55ae3d79f2dc3f04a75e408dab5f`. Esmena de la publicació RFEP ja autoritzada, motivada per la incidència del responsable. Només frontend, prova i documents; cap compte, dada esportiva, assignació, política o funció modificats.
 
-Continuar CI → fusió de la PR → verificació Pages → registre del SHA i desplegament. Després de publicar, l’operador pot obrir `avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1` i seleccionar Principal. Mentre la fitxa sigui pendent, aquesta vista permet consultar la preparació, amb registre oficial pendent. No declarar resoltes les alineacions ni habilitat el registre oficial.
+**Publicació completada:** PR #16 fusionada a `ffbdf78f82ec733c0090131b6d7443e835fdca43`; [Pages 40073230378](https://github.com/Dudisooft/clubhoquei360/actions/runs/40073230378) success, logs del SHA, «Reported success!» a les 07.13.18 UTC (09.13.18 Madrid) i URL d’entorn. CI 99 Node/29 Chromium correcta. No repetir publicació ni proves vàlides.
+
+Ara, l’operador pot obrir `avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1` i seleccionar Principal. Mentre la fitxa sigui pendent, aquesta vista permet consultar la preparació, amb registre oficial pendent. No declarar resoltes les alineacions ni habilitat el registre oficial.

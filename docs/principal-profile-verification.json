@@ -44,12 +44,22 @@
     "staticFilesChecked": 29,
     "build": "success"
   },
-  "merged": false,
-  "frontendPublished": false,
+  "merged": true,
+  "frontendPublished": true,
   "productionAuthBrowserInspected": false,
   "remaining": [
-    "Merge PR #16 and verify Pages",
-    "Record publication checkpoint"
+    "Investigate only new owner-reported issues; do not repeat valid tests or deployment",
+    "Official report and verified match lineups remain pending; official writes not enabled by this view-access fix"
   ],
-  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/16"
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/16",
+  "pages": {
+    "mergeCommit": "ffbdf78f82ec733c0090131b6d7443e835fdca43",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40073230378",
+    "status": "completed",
+    "conclusion": "success",
+    "deployJob": 120811084975,
+    "reportedSuccessAt": "2026-10-24T07:13:18.4083212Z",
+    "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+    "principalUrl": "https://dudisooft.github.io/clubhoquei360/avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1&v=principal1"
+  }
 }
