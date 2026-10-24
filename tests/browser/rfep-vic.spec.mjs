@@ -13,15 +13,26 @@ test('RFEP selector opens calendar-linked existing fixture, records live team st
  await setup(context);const errors=[];page.on('pageerror',e=>errors.push(e.message));const before=await snapshot(request);
  await page.goto('/clubhoquei360/avancat.html?match='+ID.match);await expect(page.locator('#federationCompetition')).toHaveValue('FECAPA:4802');await expect(page.locator('#federationStatus')).toContainText('FECAPA');
  await page.locator('#federationCompetition').selectOption('RFEP:3575');await expect(page.locator('#federationMatch')).toHaveValue(vic);await expect(page.locator('#federationMatch option[value="'+vic+'"]')).toHaveCount(1);await expect(page.locator('#federationMatch option[value="'+vic+'"]')).toContainText('20:30');
- await expect(page.locator('#federationStatus')).toContainText('alineacions del partit pendents');await expect(page.locator('#profile')).toHaveValue('stats');await expect(page.locator('#statsIdentity')).toContainText('Vic');await expect(page.locator('#statsOwnStart')).toBeVisible();await page.locator('#statsOwnStart').click();await expect(page.locator('#statsMessage')).toContainText('Registre propi activat');
+ await expect(page.locator('#federationStatus')).toContainText('alineacions del partit pendents');await expect(page.locator('#profile')).toHaveValue('main');await page.locator('#profile').selectOption('stats');await expect(page.locator('#profile')).toHaveValue('stats');await expect(page.locator('#statsIdentity')).toContainText('Vic');await expect(page.locator('#statsOwnStart')).toBeVisible();await page.locator('#statsOwnStart').click();await expect(page.locator('#statsMessage')).toContainText('Registre propi activat');
  await page.locator('#statsMode').selectOption('live');await page.locator('#statsPlay').click();await page.locator('[data-stats-action=pass_complete]').click();await page.locator('#statsCategory').selectOption('shot');await page.locator('[data-stats-action=shot_target]').click();await page.locator('#statsCategory').selectOption('goal');await page.locator('[data-stats-action=goal]').click();await page.locator('#statsPlay').click();
  await expect.poll(async()=>((await snapshot(request)).events.filter(e=>e.match_id===vic).length)).toBe(3);await page.reload();await expect(page.locator('#statsContent')).toBeVisible();await expect(page.locator('#statsMode')).toHaveValue('live');
  const after=await snapshot(request);expect(after.events.filter(e=>e.match_id===vic).every(e=>e.origin==='live')).toBe(true);expect(after.official).toEqual(before.official);expect(after.clock).toEqual(before.clock);expect(after.authUsers).toBe(before.authUsers);expect(errors).toEqual([]);
 });
 test('pending report stays explicit on mobile with no invented roster or horizontal overflow',async({page,context})=>{
- await setup(context);await page.setViewportSize({width:390,height:844});await page.goto('/clubhoquei360/avancat.html?match='+vic);
+ await setup(context);await page.setViewportSize({width:390,height:844});await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats');
  await expect(page.locator('#statsOwnStart')).toBeVisible();await expect(page.locator('#federationPending')).toContainText('1 partit');await expect(page.locator('#federationMatch option[value^="pending:"]')).toHaveAttribute('disabled','');await expect(page.locator('#syncFederation')).toBeDisabled();await expect(page.locator('#profile')).toHaveValue('stats');
- await page.locator('#profile').selectOption('main');await expect(page.locator('#profile')).toHaveValue('stats');await expect(page.locator('#play')).toBeDisabled();
+ await page.locator('#profile').selectOption('main');await expect(page.locator('#profile')).toHaveValue('main');await expect(page.locator('#play')).toBeDisabled();await page.locator('#profile').selectOption('stats');
  await page.locator('#statsOwnStart').click();await page.locator('#statsScope').selectOption('player');await expect(page.locator('#statsPlayers [data-stats-player]')).toHaveCount(0);await expect(page.locator('#statsSelection')).toContainText('jugador');
  await expect(page.locator('#ch360-base-sync')).toBeHidden();expect(await page.evaluate(()=>({width:document.documentElement.scrollWidth,viewport:innerWidth}))).toEqual({width:390,viewport:390});await page.screenshot({path:'work/rfep-vic-mobile.png',fullPage:true});
+});
+test('existing operator can open Principal from the statistics link and retain it after reload without official writes',async({page,context,request})=>{
+ await setup(context);const before=await snapshot(request);let officialWrites=0;const errors=[];
+ page.on('request',r=>{if(new URL(r.url()).pathname==='/rest/v1/rpc/pilot_save_operator_state')officialWrites++;});page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats');await expect(page.locator('#statsContent')).toBeVisible();
+ await page.locator('#profile').selectOption('main');await expect(page.locator('#profile')).toHaveValue('main');await expect(page.locator('#mainView')).toBeVisible();
+ await expect(page.locator('#federationStatus')).toContainText('registre oficial');await expect(page.locator('#play')).toBeDisabled();await expect(page.locator('#confirmStarters')).toBeDisabled();await expect(page.locator('#kitHomePlayer')).toBeDisabled();
+ // Let the actual 800 ms operator autosave window elapse: opening this pending
+ // view must not create a blank official snapshot or attempt its write RPC.
+ await page.waitForTimeout(1100);await page.reload();await expect(page.locator('#profile')).toHaveValue('main');await expect(page.locator('#mainView')).toBeVisible();await page.waitForTimeout(1100);
+ const after=await snapshot(request);expect(officialWrites).toBe(0);expect(after.clock).toEqual(before.clock);expect(after.official).toEqual(before.official);expect(after.events).toEqual(before.events);expect(errors).toEqual([]);
 });
