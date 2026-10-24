@@ -1,16 +1,28 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 23/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 ## Objectiu i fase actual
 
-Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Realtime entre ordinador i mòbil físics confirmat pel responsable el 23/10/2026. Els comptes temporals continuen ajornats fins que el responsable demani preparar el pilot.
+**Prioritat màxima: Igualada–Vic del 24/10/2026 a les 20.30, Centre avançat.** Branca `fix/rfep-vic-20261024`, checkout `/workspace/work/clubhoquei360-rfep-vic`, base `12444a9`. El calendari RFEP és complet (182 files / 26 jornades). El pilot original `18fa0a6e-e5c6-487e-8315-5bc371e22cb1` existeix i el responsable ja n’és operador; no tenia font federativa ni context estadístic. El selector el descartava pel join de competició i també amagava els futurs sense codi de fitxa.
+
+Correcció preparada: reutilitzar aquest pilot, vincular-lo al calendari canònic `51894d05-c323-f3e1-8534-fa79e062c448` (RFEP 3575, temporada 41, equips 3697/3727), mantenir l’ID RFEP nul si encara no està publicat, mostrar futurs pendents i permetre estadístiques col·lectives en directe. Cap plantilla inventada ni alteració d’altres partits. Script de reparació delimitat a dues files de metadades, amb validació de procedència/identitat i idempotència. No modifica l’esquema ni els permisos.
+
+**Producció no modificada:** dues proves transaccionals de PostgreSQL PASS, tot revertit; vuit empremtes de taules iguals abans/després. En SQL real, el compte existent llegeix els inputs del selector, activa el registre i desa acció/sessió live; una identitat aliena i l’escriptura oficial pendent són rebutjades. Això no acredita login Auth real ni control del navegador del responsable. Guia/evidència: `docs/rfep-vic-20261024.md` i `docs/rfep-vic-verification-20261024.json`. Script reproduïble: `scripts/verify-production-rfep-vic-20261024.sql`.
+
+**No desplegar encara:** l’apartat 7 del nou encàrrec exigeix autorització. Cal publicar només aquesta correcció i aplicar `scripts/prepare-rfep-vic-20261024.sql` després de les proves/CI i l’autorització específica. No fusionar la PR #11 d’invitacions per resoldre aquesta incidència. L’identificador oficial RFEP no s’ha recuperat: és nul als dos conjunts importats, última importació general 23/10 23.17 UTC (24/10 01.17 Madrid). La pàgina pública oberta amb web no exposa el fragment dinàmic; l’endpoint SIDGAD no és accessible amb les eines d’aquesta execució. Hi ha una petició asíncrona d’enllaç oficial al responsable; no esperar-la per continuar les tasques independents.
+
+Continuïtat d’invitacions conservada a la branca `feat/temporary-external-invitations`, checkpoint `2f2b87af23dbe7d793528fb97a04b59a003417a5`, PR #11 draft. Backend ja instal·lat: migració `20261023213604` i `temporary-access` v1; OTP deshabilitat, SMTP pendent del responsable, publicació condicionada ja autoritzada per aquell bloc. No reaplicar-les ni demanar comptes personals/UUID externs. [Registre d’aquella branca](https://github.com/Dudisooft/clubhoquei360/blob/feat/temporary-external-invitations/docs/CODEX_PROGRESS.md).
+
+Mòdul d’estadístiques integrat al Centre de partit, temporada 2026/27. **Base instal·lada i publicada; ampliació de l’estat de connexió verificada localment i per CI (66 Node, 14 Chromium), fusionada amb la PR #6 i publicada a Pages. Prova bàsica real amb el superadministrador completada: registre d’una acció, desament i lectura posterior de la sessió confirmats.** Realtime entre ordinador i mòbil físics confirmat pel responsable el 23/10/2026. El pilot FEM15 continua ajornat; la gestió externa per invitacions està en una branca independent, segons el checkpoint anterior.
 
 El 20/10/2026 el responsable ha respost «Fet» al recorregut d’inici, registre, pausa, desament i recàrrega. La consulta de producció de les 07:41:05 UTC confirma una passada completada, una auditoria, una sessió de vídeo en P1 amb 19.202 ms i revisió 7. Els logs confirmen un POST d’esdeveniment, set desaments de sessió i una lectura de sessió posterior, tots HTTP 200. Identitats/auditoria/revisions coherents, sense errors als logs delimitats. [Evidència sanejada](statistics-acceptance-20261020.json); la [fotografia anterior](statistics-live-verification.json) es conserva com a antecedent.
 
 El 23/10/2026 el responsable confirma que l’acció apareix a l’historial del mòbil sense recarregar i que apareix o avança «Darrera actualització en directe». La prova física de Realtime queda acceptada amb aquesta evidència humana: [registre sanejat](statistics-realtime-acceptance-20261023.json). L’agent no ha controlat els dispositius ni inspeccionat logs d’aquesta prova. Les correccions, el registre individual i la resta de proves locals/SQL continuen vàlides amb el seu abast original; no s’han presentat com a nous passos reals executats pel responsable.
 
 ## Estat real de Git i punts de recuperació
+
+- Incidència prioritària RFEP: branca `fix/rfep-vic-20261024`, checkout `/workspace/work/clubhoquei360-rfep-vic`; codi/SQL verificats amb 85 Node, 20 Chromium i prova SQL real revertida. Fitxers: `federation-selection.js`, `federation-selection.css`, `federation-client.js`, `avancat.html`, els dos scripts RFEP, proves de selector/SQL/navegador, helper i prova VM d’interfície; informe, JSON i aquest registre. No s’han modificat fitxers bàsics, dependències o migracions.
 
 - Repositori: https://github.com/Dudisooft/clubhoquei360
 - Branca de desenvolupament: `feat/match-statistics-2026-27` (fusionada). Checkpoint documental publicat a `docs/statistics-deployment-record` (`ac699c4`). Branca de la validació pròpia: `feat/statistics-admin-validation` (PR #2 fusionada). Branca del reforç final: `docs/statistics-release-status` (PR #3 fusionada). Branca de la primera comprovació real: `docs/statistics-live-checkpoint` (PR #4 fusionada a `af702f4`). Checkpoint d’acceptació real: PR #5, fusionada a `235b71f56e89503e90b91716e6967e3dd7885122`. Branca del codi: `feat/statistics-live-status` (PR #6 fusionada). Branca del registre de publicació: `docs/statistics-live-status-release` (PR #7 fusionada a `3458532e75c709cfdedf9be0eb8e251f893695e3`). Branca del checkpoint d’acceptació física: `docs/statistics-realtime-acceptance`.
@@ -89,14 +101,13 @@ El navegador utilitza un transport local d’Auth/PostgREST/WebSocket amb identi
 
 ## Pendents per prioritat
 
-Cap bloc de codi o prova local obert. Indicador de connexió verificat localment i per CI, PR #6 fusionada i publicació Pages confirmada. Registre documental del resultat desat en aquest checkpoint, sense canvis d’aplicació. `docs/statistics-delivery.md` conté l’informe A–F; no repetir migracions ni la prova bàsica real ja acceptada.
+1. Checkpoint RFEP verificat: **85/85 Node i 20/20 Chromium**, zero fallits/omesos/inestables; check 27 fitxers, build i diff correctes. Preparar/verificar PR i CI de la branca `fix/rfep-vic-20261024`. El commit de codi recuperable és identificable amb `git log -1`; base `12444a9`.
+2. Autorització específica de publicació de la reparació Igualada–Vic (requisit exprés de l’apartat 7): aplicar només metadades del pilot existent i publicar frontend d’aquesta branca quan la CI sigui satisfactòria. No tocar històrics, rols, comptes ni la PR #11.
+3. Identificador RFEP i alineacions del partit: mantenir com a no verificats mentre no es recuperin de font oficial; reconciliar el mateix registre quan es publiquin. El registre col·lectiu no exigeix inventar-los.
+4. Reprendre després la configuració SMTP d’invitacions amb el responsable, segons la guia de la branca corresponent. Autorització d’aquell backend ja executada; no repetir-la. No crear comptes personals ficticis.
+5. Pilot FEM15 només quan el responsable el demani, per invitació temporal i permisos acotats. La prova bàsica i Realtime físic ja estan acceptats; no repetir-los.
 
-Realtime físic ja acceptat; no tornar a demanar aquesta prova només per una ordre de represa. No queda cap bloc tècnic independent pendent de desenvolupament.
-
-1. Preparar el pilot FEM15 només quan el responsable ho demani: confirmar comptes verificats, partit, abasts i caducitat. Els comptes d’Oriol/Ventu encara no s’han creat des d’aquest encàrrec i la creació continua ajornada. No exigir-los per validar el compte propi, que ja ha funcionat.
-2. Dins del pilot autoritzat, comprovar consulta i revocació amb un segon usuari. Si es vol ampliar l’evidència real, comprovar registre individual i correcció/desfer amb les assignacions corresponents. Aquestes funcions ja tenen proves locals i SQL; no repetir-les sense dades o incidències noves.
-
-Una ordre **CONTINUA CLUBHOQUEI360** ha de verificar primer aquest estat i si hi ha noves autoritzacions/dades per resoldre aquests pendents. No repetir auditoria o suites vàlides ni començar una nova refactorització sense necessitat.
+Represa exacta: llegir aquest document, l’informe RFEP i el Git real. Continuar per la primera tasca pendent sense repetir auditories, proves vàlides o migracions ja aplicades.
 
 ## Dependències i límits
 
@@ -122,7 +133,7 @@ En rebre **CONTINUA CLUBHOQUEI360**:
 1. Llegir aquest document i les instruccions locals aplicables.
 2. Executar `git status --short --branch` i `git log --oneline -5` al checkout indicat, o descarregar la branca en una sessió nova.
 3. Verificar commits i fitxers. No repetir auditories ni proves vàlides de blocs intactes.
-4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar amb el pilot només quan el responsable ho demani explícitament, sense crear comptes automàticament.
+4. Continuar per la primera tasca pendent, autònomament. Si el codi no ha canviat i no hi ha dades o errors nous, conservar les proves vàlides i el pendent concret de validació humana; evitar tornar a proposar activacions o recorreguts bàsics ja confirmats. La resposta «Fet» del 20/10/2026 completa el recorregut bàsic, i la confirmació del 23/10/2026 completa Realtime ordinador → mòbil; una nova ordre de represa no reobre aquestes proves. Continuar primer la incidència RFEP a la branca i checkout indicats a dalt. La publicació d’aquesta correcció necessita l’autorització específica demanada per l’encàrrec. El pilot FEM15 queda ajornat i els accessos externs segueixen el checkpoint separat d’invitacions, sense alta personal.
 5. Després de cada bloc: proves pertinents → actualitzar aquest document → commit descriptiu → comprovar `git show` i pujar la branca si hi ha accés.
 
 La renovació de crèdits no inicia automàticament una execució. Cal enviar la instrucció de represa. No s’ha creat cap automatització.

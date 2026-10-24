@@ -1,0 +1,181 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "branch": "fix/rfep-vic-20261024",
+  "baseCommit": "12444a9eba4af1f5ee3a130a60c160c8f7b02840",
+  "priority": "SIMAR Igualada HC – Auto Vigatana Patí Vic, 24/10/2026 20:30 Europe/Madrid",
+  "identity": {
+    "existingPilotId": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+    "canonicalCalendarId": "51894d05-c323-f3e1-8534-fa79e062c448",
+    "officialMatchId": null,
+    "federation": "RFEP",
+    "competitionId": "3575",
+    "seasonId": "41",
+    "homeExternalTeamId": "3697",
+    "awayExternalTeamId": "3727",
+    "fingerprint": "RFEP:41:3575:3575:JORNADA 5:3697:3727",
+    "startsAt": "2026-10-24T18:30:00Z",
+    "sourceUrl": "https://hockeypatines.fep.es/league/3575",
+    "sourceImportedAt": "2026-10-23T23:17:02.128Z"
+  },
+  "audit": {
+    "competitionCalendarRows": 182,
+    "rounds": 26,
+    "clubFixtures": 26,
+    "publishedReportIds": 28,
+    "existingPilotCount": 1,
+    "existingOwnerRole": "operator",
+    "targetPlayers": 0,
+    "targetOfficialEvents": 0,
+    "targetOfficialState": null,
+    "targetSourceBeforeRepair": null,
+    "targetStatsContextBeforeRepair": null,
+    "cause": [
+      "existing pilot had no federation source; competition join excluded it",
+      "calendar selector silently filtered out rows without published report ID"
+    ],
+    "finishedFutureFilterIsCause": false,
+    "calendarTruncated": false
+  },
+  "officialVerificationLimit": "Imported and timestamped federation calendar verified in database. Web portal dynamic content and SIDGAD fragment inaccessible with available tools; no live official match ID recovered. Await official link if owner can open report; never infer ID from nearby rounds.",
+  "changes": {
+    "createsPilotMatches": false,
+    "createsAccounts": false,
+    "changesRoles": false,
+    "changesSchemaOrRls": false,
+    "deploysEdgeFunctions": false,
+    "dataRepair": "only existing pilot source and statistics context; conflict checks, provenance, idempotency and later official-ID reconciliation",
+    "ui": "pending future fixtures visible; linked pilot selectable once, team live statistics without invented roster; responsive selectors; unrelated unscoped prototype summary hidden with storage preserved"
+  },
+  "tests": {
+    "node": {
+      "passed": 85,
+      "failed": 0,
+      "skipped": 0,
+      "newSelectorCases": 5,
+      "newDatabaseCases": 4
+    },
+    "browser": {
+      "startTime": "2026-10-24T05:34:20.521Z",
+      "duration": 65273.78199999999,
+      "expected": 20,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "staticFilesChecked": 27,
+    "build": "PASS: 27 application files; server SQL and tests excluded",
+    "diff": "PASS",
+    "mobile": {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "documentWidth": 390,
+      "layoutViewportWidth": 390,
+      "screenshot": "work/rfep-vic-mobile.png",
+      "visualInspection": true
+    },
+    "databaseProduction": {
+      "result": "PASS: scoped calendar bridge and stats context, existing owner selector data and live recording/session, pending official report write denied, unrelated identity denied; all writes rolled back, no real Auth login claimed",
+      "script": "scripts/verify-production-rfep-vic-20261024.sql",
+      "sha256": "9be27417c536407803c04de331041f788bc503e3fa678d8f324aaeb650a4a726",
+      "usesExistingOwner": true,
+      "authenticatedRoleAndUidClaims": true,
+      "realAuthBrowserSession": false,
+      "allWritesRolledBack": true,
+      "officialWriteRejected": true,
+      "foreignIdentityRejected": true
+    },
+    "browserAuthAndRealtime": "Synthetic local transport over PostgreSQL/PGlite; not production Auth/Realtime.",
+    "before": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "pilot_players": {
+        "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+        "rows": 166
+      },
+      "stats_sessions": {
+        "hash": "ebb70b704b48eda8478e70034785eb62",
+        "rows": 1
+      },
+      "stats_assignments": {
+        "hash": "2a69b723210d4619b110b7101ceb85d3",
+        "rows": 3
+      },
+      "pilot_operator_state": {
+        "hash": "17778402b757c006d018e260d6fd5005",
+        "rows": 7
+      },
+      "federation_match_sources": {
+        "hash": "e280963ade9ac040c5e3657166280c14",
+        "rows": 30
+      }
+    },
+    "after": {
+      "pilot_events": {
+        "hash": "b439347e63705e020c8443a142d0fc97",
+        "rows": 342
+      },
+      "stats_events": {
+        "hash": "b9ea918c541ef18425a8c76ce90b10d0",
+        "rows": 3
+      },
+      "pilot_matches": {
+        "hash": "417f08a5ffa2158586704d3601f08d74",
+        "rows": 31
+      },
+      "pilot_players": {
+        "hash": "f35b344bb368b7bdeda9c8da947b56ee",
+        "rows": 166
+      },
+      "stats_sessions": {
+        "hash": "ebb70b704b48eda8478e70034785eb62",
+        "rows": 1
+      },
+      "stats_assignments": {
+        "hash": "2a69b723210d4619b110b7101ceb85d3",
+        "rows": 3
+      },
+      "pilot_operator_state": {
+        "hash": "17778402b757c006d018e260d6fd5005",
+        "rows": 7
+      },
+      "federation_match_sources": {
+        "hash": "e280963ade9ac040c5e3657166280c14",
+        "rows": 30
+      }
+    },
+    "eightTableHashesPreserved": true
+  },
+  "repair": {
+    "script": "scripts/prepare-rfep-vic-20261024.sql",
+    "sha256": "61e0a0be704a9e274da84a2c697a5046147a878eff52cef818c94ec5ece35c68",
+    "permanentlyApplied": false,
+    "requiresFrontendFix": true
+  },
+  "publication": {
+    "productionChangesCommitted": 0,
+    "frontendPublished": false,
+    "authorization": "Latest instruction section 7 requires specific publication approval. None received for this repair.",
+    "invitationPr11Separate": true,
+    "ci": null
+  },
+  "remaining": [
+    "CI and reviewable PR checkpoint",
+    "Specific authorization for scoped data repair and frontend publication",
+    "Post-publication verification using owner existing account",
+    "RFEP report ID and lineups when officially available; no dependency on them for prepared team-statistics path"
+  ]
+}

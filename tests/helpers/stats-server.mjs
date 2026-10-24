@@ -3,6 +3,7 @@
 import http from 'node:http';import fs from 'node:fs';import path from 'node:path';
 import {createDatabase,ID,asUser,asOwner} from './stats-db.mjs';
 const db=await createDatabase(),cwd=path.resolve(new URL('../..',import.meta.url).pathname);let serial=Promise.resolve();
+const vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';let vicCalendar=null;
 const token=id=>Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:id,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
 function userOf(req){try{return JSON.parse(Buffer.from((req.headers.authorization||'').replace('Bearer ','').split('.')[1],'base64url')).sub;}catch{return null;}}
 const json=(res,data,status=200)=>{res.writeHead(status,{'content-type':'application/json','access-control-allow-origin':'*','access-control-allow-headers':'*','access-control-expose-headers':'content-range'});res.end(JSON.stringify(data));};
@@ -23,7 +24,7 @@ async function api(req,res,url){
    const response=await asUser(db,uid,`select * from public.${identifier(name)}(${args.join(',')})`,vals);
    return json(res,['stats_access','stats_revoke','stats_set_coverage'].includes(name)?Object.values(response.rows[0]||{})[0]:response.rows[0]);
   }
-  if(name==='federation_calendar_cache')return json(res,[]);
+  if(name==='federation_calendar_cache'){const data=vicCalendar&&url.searchParams.get('federation')==='eq.RFEP'?{data:vicCalendar}:null;return json(res,req.headers.accept?.includes('vnd.pgrst.object+json')?data:data?[data]:[]);}
   if(!tables.has(name))return json(res,{message:'Table not in local fixture'},404);
   if(req.method!=='GET')return json(res,{message:'Only authenticated commands can write'},403);
   const select=url.searchParams.get('select')||'*';const fields=select==='*'?'*':select.split(',').map(identifier).join(',');
@@ -43,7 +44,15 @@ const server=http.createServer((req,res)=>{
  const url=new URL(req.url,'http://127.0.0.1:4173');
  if(url.pathname==='/health')return json(res,{fixture:'FICTITIOUS FEM15',database:'PostgreSQL/PGlite'});
  if(url.pathname.startsWith('/api/')){serial=serial.then(()=>api(req,res,url)).catch(e=>json(res,{message:e.message},500));return;}
- if(url.pathname==='/__test/reset'){serial=serial.then(async()=>{await db.exec("reset role;delete from stats_event_audit;delete from stats_events;delete from stats_sessions;delete from stats_coverage;delete from stats_access_audit;delete from stats_assignments;");await db.query("insert into stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);json(res,{ok:true});});return;}
+ if(url.pathname==='/__test/reset'){serial=serial.then(async()=>{vicCalendar=null;await db.exec("reset role;delete from stats_event_audit;delete from stats_events;delete from stats_sessions;delete from stats_coverage;delete from stats_access_audit;delete from stats_assignments;");for(const table of ['federation_match_sources','stats_matches','pilot_matches'])await db.query('delete from '+table+' where '+(table==='pilot_matches'?'id':'match_id')+'=$1',[vic]);await db.query("insert into stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);json(res,{ok:true});});return;}
+ // Explicit local-only pending-calendar scenario; no production fetch/Auth.
+ if(url.pathname==='/__test/rfep-vic'){serial=serial.then(async()=>{
+  const row={round:'JORNADA 5',date:'24/10/2026',time:'20:30',home_name:'SIMAR IGUALADA HC',away_name:'AUTO VIGATANA PATÍ VIC',home_team_id:'3697',away_team_id:'3727',match_id:null};
+  await db.exec('reset role');await db.query("insert into pilot_matches(id,title,home_team,away_team,starts_at,status) values($1,'Igualada – Vic · PROVA FICTÍCIA','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC','2026-10-24 18:30Z','scheduled')",[vic]);
+  await db.query("insert into federation_match_sources(match_id,federation,competition_id,season_id,official_data,import_status,home_name,away_name,federation_match_id) values($1,'RFEP','3575','41',$2,'pending',$3,$4,null)",[vic,JSON.stringify({...row,source_kind:'verified_calendar',calendar_match_id:'51894d05-c323-f3e1-8534-fa79e062c448'}),row.home_name,row.away_name]);
+  await db.query("insert into stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,'3697','3727')",[vic,ID.club,ID.season,ID.team]);
+  vicCalendar=[row,{...row,round:'JORNADA 6',date:'31/10/2026',away_team_id:'99999',away_name:'Futur rival · FICTICI'}];json(res,{ok:true});
+ });return;}
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
  const relative=url.pathname.replace(/^\/clubhoquei360\//,'/').replace(/^\//,'')||'index.html';const filename=path.resolve(cwd,relative);
  if(!filename.startsWith(cwd+'/')||relative.includes('.git')||relative.endsWith('.sql')){res.writeHead(404);res.end();return;}
