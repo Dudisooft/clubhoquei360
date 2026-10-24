@@ -178,6 +178,8 @@ export function mountStats({db,getOfficialClock=()=>({ms:0,period:1}),onProfile=
  document.addEventListener('visibilitychange',()=>{if(document.hidden&&opened&&clock.running)pause().catch(e=>message(e.message,true));});
  db.auth.onAuthStateChange(event=>{if(event==='SIGNED_OUT'){clock.running=false;opened=false;live.stop();root.querySelectorAll('input,select,textarea,button').forEach(e=>e.disabled=true);$('statsContent').hidden=true;message('Sessió tancada. Les dades pendents es conserven amb l’identificador del seu usuari.');}});
  return {
+  get canOpenTeamRecorder(){return opened&&store.access.read&&(writable()||store.access.club_manager);},
+  showTeamRecorder(){if(!opened||!store.access.read)return;$('statsScope').value='team';playerId=null;pendingAction=null;view='record';if(!store.session&&!store.localClock()&&!clock.running&&getOfficialClock().status!=='Finalitzat')clock.mode='live';draw();},
   async open({match,uid,players,teamNames,matchTitle}){
    if(opened&&store.match===match){roster=players;names=teamNames;draw();return;}
    if(opened&&clock.running)await pause();opened=false;await live.stop();if(videoObject){URL.revokeObjectURL(videoObject);videoObject=null;}$('statsVideo').pause();$('statsVideo').removeAttribute('src');$('statsVideo').hidden=true;$('statsVideoFile').value='';
