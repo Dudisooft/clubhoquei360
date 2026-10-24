@@ -1,0 +1,29 @@
+{
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "branch": "feat/base-mobile-rosters",
+  "production_base": "12444a9eba4af1f5ee3a130a60c160c8f7b02840",
+  "consolidated_before_final_hardening": {
+    "node_pass": 88,
+    "chromium_pass": 26
+  },
+  "final_affected_suites": {
+    "model_and_postgres_pass": 23,
+    "basic_chromium_pass": 12,
+    "additional_global_role_case_pass": 1,
+    "retired_player_correction_pass": 1,
+    "preview_capture_case_pass": 1
+  },
+  "static_files_checked": 27,
+  "build": "passed",
+  "diff_check": "passed",
+  "fictitious_test_data": true,
+  "production_mutations": false,
+  "migration_applied": false,
+  "redesign_merged_or_published": false,
+  "migration": "20261023214042_basic_catalogue_contexts.sql",
+  "official_source": "https://www.hoqueipatins.fecapa.cat/league/4786",
+  "target_catalogue_match_id": "8b5cd05a-149e-7e21-73b3-5782994e0d07",
+  "target_federation_match_id": null,
+  "remote_ci": "See the pull request for final HEAD results"
+}
