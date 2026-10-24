@@ -242,3 +242,9 @@ Verificació local: 17/17 proves bàsiques Node, 12/12 Chromium bàsics; check 2
 - En reprendre: no reinstal·lar, no demanar novament autorització ni repetir les suites. Continuar només una incidència nova o les dependències federatives/invitacions ja documentades.
 
 Reforç de la mateixa correcció: una convocatòria desada que queda fora del filtre obliga a tornar a preparació en recarregar; no permet confirmar-la sense desmarcar els exclosos. Un jugador ja importat no conserva una elegibilitat anterior si la verificació actual el bloqueja. Proves addicionals de model i Chromium correctes, amb gol anterior conservat. Incorporada la branca principal actual `113b517` (correccions RFEP/Principal ja publicades), mantenint tots els checkpoints documentals. PR #18. Sense canvis SQL.
+
+### Correcció de plantilla publicada · resultat final
+
+**PUBLICAT.** PR #18 fusionada a `e171c118dbd103fe972f35fc7e1a8d398da2808f`. HEAD de codi `53913e92c49a0e9875e2a7cfc293f421b13f77eb`: CI 40087117204 success, **101 Node i 30 Chromium** correctes, check/build correctes. Pages 40087260201: build/report/deploy success; logs del deploy 120852695071 acrediten el SHA i «Reported success!» a les **10:47:39 UTC / 12:47:39 Europe/Madrid del 24/10/2026**. Cap migració ni modificació de dades de producció. No repetir proves/publicació de codi intacte.
+
+Enllaç actual Alpicat: https://dudisooft.github.io/clubhoquei360/base.html?catalogue=8b5cd05a-149e-7e21-73b3-5782994e0d07&v=5 . Salt: https://dudisooft.github.io/clubhoquei360/base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5&v=5 . Pendent: validació humana del filtre al mòbil i contrast de plantilla inscrita completa quan sigui accessible una font federativa específica; no confondre vuit participants documentats amb certificat de tota la plantilla actual ni amb elegibilitat futura. Els reforços alevins encara no verificats continuen bloquejats. Només corregir noves incidències comunicades.
