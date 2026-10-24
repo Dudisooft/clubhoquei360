@@ -167,13 +167,13 @@
   "repair": {
     "script": "scripts/prepare-rfep-vic-20261024.sql",
     "sha256": "61e0a0be704a9e274da84a2c697a5046147a878eff52cef818c94ec5ece35c68",
-    "permanentlyApplied": false,
+    "permanentlyApplied": true,
     "requiresFrontendFix": true
   },
   "publication": {
-    "productionChangesCommitted": 0,
+    "productionChangesCommitted": 2,
     "frontendPublished": false,
-    "authorization": "Latest instruction section 7 requires specific publication approval. None received for this repair.",
+    "authorization": "Received: Autoritzat. Scoped data linkage and PR #12 frontend publication authorized.",
     "invitationPr11Separate": true,
     "ci": {
       "head": "4bc548c7eae948a54839bb5deea1581b73456000",
@@ -185,10 +185,11 @@
       "browserPassed": 20,
       "staticFilesChecked": 27,
       "build": "success"
-    }
+    },
+    "dataEvidence": "docs/rfep-vic-deployment-20261024.json"
   },
   "remaining": [
-    "Specific authorization for scoped data repair and frontend publication",
+    "Complete authorized PR #12 merge and verify Pages deployment",
     "Post-publication verification using owner existing account",
     "RFEP report ID and lineups when officially available; no dependency on them for prepared team-statistics path"
   ],
