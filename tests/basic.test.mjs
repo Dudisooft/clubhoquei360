@@ -15,4 +15,28 @@ test('PostgreSQL existing operator permissions persist basic events; viewer cann
 
 import {PracticeStore,readPractice} from '../basic-practice.js';
 test('rehearsal stores events on device only, survives reload, and rolls back on storage errors',async()=>{const f=fixture(),s=new PracticeStore(f.storage);await s.open(ID.match,ID.delegate);await s.enqueue([row('gol',{side:'home'})]);assert.equal(f.saved().length,0);const again=new PracticeStore(f.storage);await again.open(ID.match,ID.delegate);assert.equal(again.all().length,1);f.storage.setItem=()=>{throw Error('quota');};await assert.rejects(again.enqueue([row('gol')]),/quota/);assert.equal(again.all().length,1);});
-test('practice requires a verified accessible report and roster; absent card fields remain null',async()=>{let verified=true;const db={from(table){const q={select(){return q;},eq(){return q;},order(){return q;},maybeSingle(){return q;},then(resolve){return Promise.resolve({data:table==='federation_matches'?{home_team:'IHC',away_team:'Salt',home_score:8,away_score:0,raw_data:{report_status:verified?'verified':'pending',report_data:{official_status:'FINALIZAT'}}}:[{id:'lineup',side:'home',display_name:'Fictici',shirt_number:'7',raw_data:{}}]}).then(resolve);}};return q;}};const data=await readPractice(db,ID.match);assert.equal(data.source.official_data.home_score,8);assert.equal(data.source.official_data.players[0].blue,null);verified=false;await assert.rejects(readPractice(db,ID.match),/verificada/);});
+test('practice requires a verified accessible report and roster; absent card fields remain null',async()=>{let verified=true;const db={from(table){const q={select(){return q;},eq(){return q;},order(){return q;},maybeSingle(){return q;},then(resolve){return Promise.resolve({data:table==='federation_matches'?{home_team:'IHC',away_team:'Salt',home_score:8,away_score:0,raw_data:{source_url:'https://www.hoqueipatins.fecapa.cat/league/4786',report_status:verified?'verified':'pending',report_data:{official_status:'FINALIZAT'}}}:[{id:'lineup',side:'home',display_name:'Fictici',shirt_number:'7',raw_data:{}}]}).then(resolve);}};return q;}};const data=await readPractice(db,ID.match);assert.equal(data.source.official_data.home_score,8);assert.equal(data.source.official_data.players[0].blue,null);verified=false;await assert.rejects(readPractice(db,ID.match),/verificada/);});
+
+import {mergeRoster,kitFor,safeCrest,materializePlayers} from '../basic-roster.js';
+import {playerTotals,benchTotals} from '../basic-model.js';
+test('roster merge joins only stable identities, preserves pilot UUIDs and blocks unverified reinforcements',()=>{
+ const people=mergeRoster([{id:'pilot',team:'home',full_name:'Fictici',federation_player_id:'42'}],[{id:'other',team:'home',full_name:'Nom nou',federation_player_id:'42',matchVerified:true,selectable:true},{id:'same-name',team:'home',full_name:'Fictici',federation_player_id:'43',selectable:false,reinforcement:true}]);
+ assert.equal(people.length,2);assert.equal(people.find(p=>p.federation_player_id==='42').id,'pilot');assert.equal(people.find(p=>p.id==='pilot').matchVerified,true);assert.equal(people.find(p=>p.id==='same-name').selectable,false);
+});
+test('both-side player and bench totals never turn a card into a goal',()=>{
+ const rows=[row('gol',{side:'home',actor:'p'}),row('groga',{side:'home',actor:'p'}),row('blava',{side:'away',actor:'a'}),row('vermella',{side:'away',details:{bench:true}})];const events=basicState(rows).events;
+ assert.deepEqual(playerTotals(events,'p'),{goals:1,groga:1,blava:0,vermella:0});assert.deepEqual(benchTotals(events,'away'),{groga:0,blava:0,vermella:1});assert.equal(playerTotals(events,'a').goals,0);
+});
+test('kits remain explicitly provisional and crest URLs reject unrelated hosts or unsafe protocols',()=>{
+ assert.equal(kitFor('home').verified,false);assert.notEqual(kitFor('home','IHC A').background,kitFor('home','IHC B').background);assert.notEqual(kitFor('home').background,kitFor('away').background);assert.equal(safeCrest('javascript:alert(1)'),null);assert.equal(safeCrest('https://example.test/logos_clubes/1.png'),null);assert.match(safeCrest('https://sidgad.cloud/fecapa/images/logos_clubes/252_1.png'),/252_1/);
+});
+test('confirmation preserves both teams and independent incidents including player snapshots',()=>{
+ const note=row('basic_participants',{details:{ids:['p','a'],players:[{id:'p',team:'home',full_name:'Fictici'},{id:'a',team:'away',full_name:'Rival fictici'}]}}),goal=row('gol',{side:'home',actor:'p',details:{player_snapshot:{full_name:'Fictici'}}});
+ const state=basicState([note,goal]);assert.equal(state.confirmed,true);assert.deepEqual(state.participants,['p','a']);assert.equal(state.playerRecords.length,2);assert.equal(state.events.filter(e=>e.kind==='gol').length,1);
+});
+test('a blocked reinforcement cannot be materialized even when its identity is known',async()=>{
+ const db={from(){const q={select(){return q;},eq(){return q;},order(){return q;},range(){return Promise.resolve({data:[]});}};return q;}};
+ await assert.rejects(materializePlayers(db,ID.match,[{id:'candidate',needsImport:true,selectable:false,full_name:'Fictici',federation_player_id:'42'}]),/identitat federativa/);
+});
+
+test('a lineup reference from an unverified report does not certify eligibility',async()=>{const db={from(){const q={select(){return q;},eq(){return q;},order(){return q;},range(){return Promise.resolve({data:[]});}};return q;}};await assert.rejects(materializePlayers(db,ID.match,[{id:'partial',needsImport:true,selectable:true,matchVerified:false,catalog_lineup_id:'not-a-federation-code',full_name:'Fictici'}]),/identitat federativa/);});

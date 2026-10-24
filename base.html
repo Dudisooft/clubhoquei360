@@ -1,8 +1,38 @@
-<!doctype html><html lang="ca"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ClubHoquei360 · Mode Bàsic</title><style>:root{font:16px system-ui;--brand:#194b9b;--bg:#edf1f7;--panel:#fff;--ink:#182840;--line:#d8e0ec}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink)}header{background:var(--club-header,#112f64);color:#fff;display:flex;align-items:center;gap:12px;padding:12px;flex-wrap:wrap}main{max-width:1100px;margin:auto;padding:12px}.panel{background:var(--panel);border:1px solid var(--line);padding:14px;border-radius:12px;margin:10px 0}button,select{font:inherit;padding:11px;border:1px solid var(--line);border-radius:8px;background:var(--panel);color:var(--ink);cursor:pointer}button:disabled{opacity:.4}.primary{background:var(--brand);color:white}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.score{font-size:32px;font-weight:bold}.muted{color:#607087;font-size:13px}.event{padding:8px;border-bottom:1px solid var(--line)}nav a{margin-right:12px;color:var(--brand)}button,select{min-height:48px}input[type=checkbox]{width:24px;height:24px;vertical-align:middle}.scoreboard{position:sticky;top:0;z-index:2}label{display:block;margin:8px 0}table{width:100%;border-collapse:collapse;font-size:14px}td,th{text-align:left;padding:8px 3px;border-bottom:1px solid var(--line);overflow-wrap:anywhere}button:focus-visible,select:focus-visible{outline:3px solid #bc5900}#roster label{padding:6px}select{max-width:100%}</style><header><h1>ClubHoquei360 · Mode Bàsic</h1></header><main><nav><a href="./avancat.html">Mode Avançat</a><a href="./historial.html">Historial</a><a href="./dashboard.html">Dashboard</a></nav>
-<section class="panel"><h2>Partit</h2><label>Calendari <select id="match" disabled></select></label><p id="fixtureNotice"></p><label>Equip gestionat <select id="side"><option value="home">Local</option><option value="away">Visitant</option></select></label></section>
-<section class="panel scoreboard"><div id="teams"></div><div class="score" id="score">—</div><p id="status" role="status" aria-live="polite">Carregant…</p><button id="retry">Desa pendents i actualitza</button></section>
-<section class="panel"><h2>Jugadors participants</h2><div id="roster"></div><button id="saveRoster" data-write>Desa convocats</button></section>
-<section class="panel"><h2>Gols i targetes</h2><label>Jugador <select id="player"><option value="">Sense identificar</option></select></label><div class="row"><button id="goal" class="primary" data-write>+ Gol de l’equip</button><button id="opponentGoal" class="primary" data-write>+ Gol del rival</button></div><label>Targeta <select id="card"><option value="groga">Groga</option><option value="blava">Blava</option><option value="vermella">Vermella</option></select></label><div class="row"><button id="playerCard" data-write>Targeta al jugador</button><button id="benchCard" data-write>Targeta de banqueta</button></div><p class="muted">Les targetes es registren separadament, sense conversions ni sancions automàtiques. Per corregir una acció, anul·la-la i registra la correcta.</p></section>
-<section class="panel"><h2>Registre local</h2><div id="events"></div><button id="finish" data-write>Finalitza i desa el partit</button><button id="reopen">Reobre el registre local</button></section>
-<section class="panel"><h2>Contrast amb FECAPA</h2><button id="sync">Actualitza amb FECAPA</button><p id="federation" role="status"></p><p><a href="https://hoqueipatins.fecapa.cat" target="_blank" rel="noopener noreferrer">Obre el portal FECAPA per revisar l’acta</a></p><p>La finalització local no tanca l’acta federativa. Les dades oficials es consulten separadament i no substitueixen el registre local.</p><table><thead><tr><th>Concepte</th><th>ClubHoquei360</th><th>FECAPA</th><th>Estat</th></tr></thead><tbody id="summary"></tbody></table></section></main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script src="./club-theme.js?v=1"></script><script type="module" src="./base.js?v=3"></script></html>
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ClubHoquei360 · Mode Base</title><link rel="stylesheet" href="./basic.css?v=4">
+</head>
+<body>
+<header><h1>ClubHoquei360 <span>Mode Base</span></h1><a href="./dashboard.html">Inici i sessió</a></header>
+<main>
+<section class="panel selection"><label for="match">Partit</label><select id="match" disabled><option>Carregant partits…</option></select><p id="fixtureNotice" class="muted"></p><button id="activateContext" class="primary wide" hidden>Activa el registre compartit</button><button id="exportLegacy" class="wide" hidden>Descarrega les anotacions de la prova local anterior</button></section>
+<div id="matchHeader" class="match-header">
+ <div class="scoreboard panel"><div class="team-identity"><img id="homeCrest" alt="Escut local" hidden><strong id="homeName">Local</strong></div><div><div id="score" class="score" aria-label="Marcador">—</div><span id="modeLabel" class="muted">Registre de partit</span></div><div class="team-identity"><img id="awayCrest" alt="Escut visitant" hidden><strong id="awayName">Visitant</strong></div></div>
+ <div id="status" role="status" aria-live="polite">Carregant…</div>
+ <div id="teamTabs" class="tabs" role="tablist" aria-label="Equip" hidden><button id="tabHome" role="tab" aria-controls="teamList" aria-selected="true" data-side="home">LOCAL</button><button id="tabAway" role="tab" aria-controls="teamList" aria-selected="false" data-side="away" tabindex="-1">VISITANT</button></div>
+</div>
+<section id="preparation" class="panel">
+ <div class="section-heading"><div><p class="eyebrow">1 · Preparació</p><h2>Convocatòries dels dos equips</h2></div></div>
+ <p class="muted">Marca els participants. Pots revisar la selecció durant el partit sense perdre les incidències.</p>
+ <p id="rosterNotice" class="notice"></p><div id="rosterGrid" class="roster-grid"></div>
+ <button id="confirmRosters" class="primary wide" data-write>Confirma convocatòries i continua</button>
+ <button id="cancelPreparation" class="wide" hidden>Torna al partit sense canviar la convocatòria</button>
+</section>
+<section id="recording" hidden>
+ <div class="toolbar"><button id="editRosters">Modifica convocatòries</button><button id="retry">Desa pendents i actualitza</button></div>
+ <p id="kitNotice" class="muted"></p>
+ <div id="teamList" role="tabpanel" aria-labelledby="tabHome"></div>
+ <button id="unidentifiedGoal" class="wide" data-write>Gol sense jugador identificat</button>
+ <button id="bench" class="bench wide" data-write>Banqueta local</button>
+ <section class="panel history"><h2>Historial d’incidències</h2><div id="events"></div></section>
+ <button id="finish" class="primary wide" data-write>Finalitza i desa el partit</button><button id="reopen" class="wide" hidden>Reobre el registre local</button>
+</section>
+<section id="finalSummary" class="panel" hidden><p class="eyebrow">Resum del partit</p><h2>Gols i targetes</h2><div id="playerSummary"></div><div id="benchSummary"></div></section>
+<section class="panel federation-panel"><div class="section-heading"><h2>Contrast amb FECAPA</h2><button id="sync">Actualitza amb FECAPA</button></div><p id="federation" role="status" class="muted"></p><a href="https://hoqueipatins.fecapa.cat" target="_blank" rel="noopener noreferrer">Obre el portal federatiu</a><p class="muted">La finalització local no tanca l’acta oficial. Les incidències locals es conserven separades de les dades federatives.</p><details id="federationDetails"><summary>Revisa el resultat, les targetes i les diferències</summary><div id="comparison"></div></details></section>
+<nav class="footer-nav"><a href="./avancat.html">Mode Avançat</a><a href="./historial.html">Historial</a></nav>
+</main>
+<dialog id="actionSheet" aria-labelledby="actionTitle"><div class="sheet-handle" aria-hidden="true"></div><h2 id="actionTitle">Selecciona una acció</h2><p id="actionContext" class="muted"></p><div class="sheet-actions"><button data-action="gol" class="goal">Gol</button><button data-action="groga" class="yellow">Targeta groga</button><button data-action="blava" class="blue">Targeta blava</button><button data-action="vermella" class="red">Targeta vermella</button></div><button id="closeSheet" class="wide">Cancel·la</button></dialog>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script type="module" src="./base.js?v=4"></script>
+</body></html>
