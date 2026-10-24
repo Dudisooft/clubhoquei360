@@ -21,4 +21,12 @@ Represa: llegir `docs/CODEX_PROGRESS.md`, revisar Git i continuar el primer bloc
 
 ## Verificació del bloc servidor
 
-12/12 proves PostgreSQL/PGlite correctes: 8 de preparació i 4 de regressió RFEP. Catàleg restringit, UUID estables, entrada manual explícita, unicitat federativa/dorsals, reintents idempotents, 5 + 1 porter, revisions, confirmació atòmica, registre posterior i bloqueig de tercers. Cap dada de prova personal real; cap DML de producció. La UI continua pendent en aquest checkpoint.
+12/12 proves PostgreSQL/PGlite correctes: 8 de preparació i 4 de regressió RFEP. Catàleg restringit, UUID estables, entrada manual explícita, unicitat federativa/dorsals, reintents idempotents, 5 + 1 porter, revisions, confirmació atòmica, registre posterior i bloqueig de tercers. Cap dada de prova personal real; cap DML de producció. La UI es completa al checkpoint següent.
+
+## Integració i proves de pantalla
+
+`advanced-roster.js` i CSS dins de la preparació existent; `federation-client.js` carrega els convocats reals i separa preparar/registrar. Es poden corregir dorsals i posicions conservant identitat/procedència. Seleccions provisionals i mutacions pendents s’aïllen per usuari/partit; no hi ha escriptura oficial en només obrir la pantalla.
+
+Suite local del bloc: **108/108 Node i 31/31 Chromium**, check/build 31 fitxers i diff correctes. Prova completa: catàleg + rivals ficticis manuals → cincs → confirmació → inici/pausa → gol → recàrrega. També ACK perdut després d’escriure al servidor, recàrrega i reintent del mateix UUID. Mòbil 390, tauleta 820 i ordinador 1440 sense overflow; captura revisada. Transport Auth/PostgREST local sobre PostgreSQL real de proves, sense sessió Auth de producció. Errors inicials de fixtures (columna ja present, metadades de calendari i clics sobre nodes regenerats) corregits, suites finals sense fallades.
+
+La preparació real encara no s’ha executat en producció: el responsable ha de seleccionar els convocats reals. No hi ha font del Vic importada; s’ofereix entrada manual explícita.

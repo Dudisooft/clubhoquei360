@@ -74,8 +74,12 @@ begin
  catalogue:=app_private.pilot_roster_catalogue(p_match);
  for entry in select value from jsonb_array_elements(p_players) loop
   if coalesce(entry->>'team','') not in('home','away') then raise exception 'Valid team required';end if;
-  candidate:=null;external_id:=null;
-  if nullif(entry->>'roster_id','') is not null then
+  candidate:=null;external_id:=null;existing:=null;
+  if nullif(entry->>'player_id','') is not null then
+   select * into existing from public.pilot_players where id=(entry->>'player_id')::uuid and match_id=p_match and team=entry->>'team';
+   if existing.id is null then raise exception 'Player outside active match team' using errcode='42501';end if;
+   name:=existing.full_name;external_id:=existing.federation_player_id;provenance:=existing.official_source;
+  elsif nullif(entry->>'roster_id','') is not null then
    select value into candidate from jsonb_array_elements(catalogue) where value->>'roster_id'=entry->>'roster_id' and value->>'team'=entry->>'team';
    if candidate is null then raise exception 'Player outside verified match catalogue' using errcode='42501';end if;
    name:=candidate->>'full_name';external_id:=candidate->>'federation_player_id';provenance:=coalesce(candidate->>'source_url','')||'#season-roster='||(candidate->>'roster_id');
@@ -86,7 +90,7 @@ begin
   shirt:=nullif(btrim(case when entry?'dorsal' then entry->>'dorsal' else candidate->>'dorsal' end),'');
   position_label:=coalesce(entry->>'position',candidate->>'position');
   if name is null or length(name) not between 1 and 120 or coalesce(position_label,'') not in('field','goalkeeper') or (shirt is not null and shirt!~'^[0-9]{1,3}$') then raise exception 'Valid real name, shirt and position required' using errcode='22023';end if;
-  existing:=null;by_shirt:=null;
+  by_shirt:=null;
   if external_id is not null then select * into existing from public.pilot_players where match_id=p_match and team=entry->>'team' and federation_player_id=external_id;end if;
   if shirt is not null then
    select * into by_shirt from public.pilot_players where match_id=p_match and team=entry->>'team' and dorsal~'^[0-9]{1,3}$' and dorsal::int=shirt::int limit 1;

@@ -54,3 +54,11 @@ test('roster changes require fresh confirmation and started matches cannot chang
  await confirm(state,2);await asOwner(db,"update pilot_operator_state set state=state||'{\"matchStarted\":true,\"sec\":1}' where match_id=$1",[PREP.match]);
  await assert.rejects(confirm(state,3),/after match start/);await assert.rejects(prepare([{team:'away',manual:true,full_name:'Tard FICTICI',dorsal:'11',position:'field'}]),/after match start/);
 });
+test('correcting a saved shirt or goalkeeper keeps identity and provenance and rejects foreign player IDs',async()=>{
+ const {home,away}=await bothTeams();const p=away[0];
+ const [updated]=await prepare([{team:'away',player_id:p.id,dorsal:'12',position:'field',full_name:'SPOOF',federation_player_id:'SPOOF'}]);
+ assert.equal(updated.id,p.id);assert.equal(updated.full_name,p.full_name);assert.equal(updated.federation_player_id,null);assert.equal(updated.official_source,p.official_source);assert.equal(updated.dorsal,'12');assert.equal(updated.position,'field');
+ await assert.rejects(prepare([{team:'home',player_id:p.id,dorsal:'12',position:'field'}]),/outside active match/);
+ await assert.rejects(prepare([{team:'home',player_id:ID.player,dorsal:'12',position:'field'}]),/outside active match/);
+ const [federal]=await prepare([{team:'home',player_id:home[0].id,dorsal:'13',position:'goalkeeper'}]);assert.equal(federal.id,home[0].id);assert.equal(federal.federation_player_id,home[0].federation_player_id);assert.equal(federal.official_source,home[0].official_source);
+});

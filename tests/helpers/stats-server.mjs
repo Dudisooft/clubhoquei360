@@ -2,6 +2,7 @@
  * and RLS used in integration tests. NOT a production Auth/Realtime substitute. */
 import http from 'node:http';import fs from 'node:fs';import path from 'node:path';
 import {createDatabase,ID,asUser,asOwner} from './stats-db.mjs';
+import {seedPreparation} from './preparation-db.mjs';
 const db=await createDatabase(),cwd=path.resolve(new URL('../..',import.meta.url).pathname);let serial=Promise.resolve();
 const vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';let vicCalendar=null;
 const token=id=>Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:id,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
@@ -18,14 +19,20 @@ async function api(req,res,url){
  try{
   const name=url.pathname.split('/').at(-1);
   if(url.pathname.includes('/rpc/')){
-   const commands={stats_access:['p_match'],stats_write_event:['p_event','p_expected'],stats_save_session:['p_match','p_state','p_expected'],stats_grant:['p_grant'],stats_revoke:['p_id'],stats_set_coverage:['p_match','p_side','p_category','p_complete']};
+   const commands={pilot_roster_catalogue:['p_match'],pilot_prepare_players:['p_match','p_mutation','p_players'],pilot_confirm_lineup:['p_match','p_mutation','p_revision','p_state'],pilot_save_operator_state:['p_match','p_revision','p_state'],stats_access:['p_match'],stats_write_event:['p_event','p_expected'],stats_save_session:['p_match','p_state','p_expected'],stats_grant:['p_grant'],stats_revoke:['p_id'],stats_set_coverage:['p_match','p_side','p_category','p_complete']};
    if(!commands[name])return json(res,{code:'PGRST202',message:'Unimplemented fixture RPC'},404);
    const keys=commands[name],args=keys.map((k,i)=>`$${i+1}`),vals=keys.map(k=>typeof body[k]==='object'?JSON.stringify(body[k]):body[k]);
    const response=await asUser(db,uid,`select * from public.${identifier(name)}(${args.join(',')})`,vals);
-   return json(res,['stats_access','stats_revoke','stats_set_coverage'].includes(name)?Object.values(response.rows[0]||{})[0]:response.rows[0]);
+   if(name==='pilot_save_operator_state')return json(res,response.rows);
+   return json(res,['pilot_roster_catalogue','pilot_prepare_players','pilot_confirm_lineup','stats_access','stats_revoke','stats_set_coverage'].includes(name)?Object.values(response.rows[0]||{})[0]:response.rows[0]);
   }
   if(name==='federation_calendar_cache'){const data=vicCalendar&&url.searchParams.get('federation')==='eq.RFEP'?{data:vicCalendar}:null;return json(res,req.headers.accept?.includes('vnd.pgrst.object+json')?data:data?[data]:[]);}
   if(!tables.has(name))return json(res,{message:'Table not in local fixture'},404);
+  if(name==='pilot_events'&&req.method==='POST'){
+   const batch=Array.isArray(body)?body:[body];const cols=[...new Set(batch.flatMap(Object.keys))],vals=[];
+   const tuples=batch.map(row=>'('+cols.map(col=>{vals.push(typeof row[col]==='object'&&row[col]!==null?JSON.stringify(row[col]):row[col]??null);return '$'+vals.length;}).join(',')+')');
+   await asUser(db,uid,`insert into pilot_events(${cols.map(identifier).join(',')}) values ${tuples.join(',')}`,vals);return json(res,null,201);
+  }
   if(req.method!=='GET')return json(res,{message:'Only authenticated commands can write'},403);
   const select=url.searchParams.get('select')||'*';const fields=select==='*'?'*':select.split(',').map(identifier).join(',');
   const filters=[],values=[];
@@ -44,14 +51,13 @@ const server=http.createServer((req,res)=>{
  const url=new URL(req.url,'http://127.0.0.1:4173');
  if(url.pathname==='/health')return json(res,{fixture:'FICTITIOUS FEM15',database:'PostgreSQL/PGlite'});
  if(url.pathname.startsWith('/api/')){serial=serial.then(()=>api(req,res,url)).catch(e=>json(res,{message:e.message},500));return;}
- if(url.pathname==='/__test/reset'){serial=serial.then(async()=>{vicCalendar=null;await db.exec("reset role;delete from stats_event_audit;delete from stats_events;delete from stats_sessions;delete from stats_coverage;delete from stats_access_audit;delete from stats_assignments;");await db.query('delete from pilot_members where match_id=$1',[vic]);for(const table of ['federation_match_sources','stats_matches','pilot_matches'])await db.query('delete from '+table+' where '+(table==='pilot_matches'?'id':'match_id')+'=$1',[vic]);await db.query("insert into stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);json(res,{ok:true});});return;}
+ if(url.pathname==='/__test/reset'){serial=serial.then(async()=>{vicCalendar=null;await db.exec("reset role;delete from stats_event_audit;delete from stats_events;delete from stats_sessions;delete from stats_coverage;delete from stats_access_audit;delete from stats_assignments;");for(const table of ['pilot_preparation_audit','pilot_prepared_lineups','pilot_events','pilot_operator_state','pilot_players','pilot_members'])await db.query('delete from '+table+' where match_id=$1',[vic]);for(const table of ['federation_match_sources','stats_matches','pilot_matches'])await db.query('delete from '+table+' where '+(table==='pilot_matches'?'id':'match_id')+'=$1',[vic]);await db.query("insert into stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);json(res,{ok:true});});return;}
  // Explicit local-only pending-calendar scenario; no production fetch/Auth.
  if(url.pathname==='/__test/rfep-vic'){serial=serial.then(async()=>{
   const row={round:'JORNADA 5',date:'24/10/2026',time:'20:30',home_name:'SIMAR IGUALADA HC',away_name:'AUTO VIGATANA PATÍ VIC',home_team_id:'3697',away_team_id:'3727',match_id:null};
-  await db.exec('reset role');await db.query("insert into pilot_matches(id,title,home_team,away_team,starts_at,status) values($1,'Igualada – Vic · PROVA FICTÍCIA','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC','2026-10-24 18:30Z','scheduled')",[vic]);
-  await db.query("insert into federation_match_sources(match_id,federation,competition_id,season_id,official_data,import_status,home_name,away_name,federation_match_id) values($1,'RFEP','3575','41',$2,'pending',$3,$4,null)",[vic,JSON.stringify({...row,source_kind:'verified_calendar',calendar_match_id:'51894d05-c323-f3e1-8534-fa79e062c448'}),row.home_name,row.away_name]);
-  await db.query("insert into stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,'3697','3727')",[vic,ID.club,ID.season,ID.team]);
-  await db.query("insert into pilot_members(match_id,user_id,role) values($1,$2,'operator')",[vic,ID.manager]);
+  await seedPreparation(db);
+  await asOwner(db,"update federation_match_sources set home_name=$2,away_name=$3,official_data=official_data||$4::jsonb where match_id=$1",[vic,row.home_name,row.away_name,JSON.stringify(row)]);
+  await asOwner(db,"update pilot_matches set title='Igualada – Vic · PROVA FICTÍCIA' where id=$1",[vic]);
   vicCalendar=[row,{...row,round:'JORNADA 6',date:'31/10/2026',away_team_id:'99999',away_name:'Futur rival · FICTICI'}];json(res,{ok:true});
  });return;}
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
