@@ -1,0 +1,22 @@
+{
+  "reported_by": "project_owner",
+  "reported_outcome": "Could not start live recording at the venue; external network configuration cannot be done there.",
+  "acceptance": "FAILED_TO_START",
+  "checked_at_utc": "2026-10-24T19:09:54.298418Z",
+  "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+  "production_observation": {
+    "official_events": 0,
+    "statistics_events": 0,
+    "called_up_players": 0,
+    "operator_state": null,
+    "analysis_sessions": 0,
+    "active_statistics_assignments": 0,
+    "source_status": "pending"
+  },
+  "limits": [
+    "A read-only server observation; the agent did not control the owner browser.",
+    "No cause inferred from absence of rows alone.",
+    "Earlier automated tests remain valid for their original local scope."
+  ],
+  "independent_fix": "Visible entry to the existing authorized collective statistics recorder without requiring official lineup preparation."
+}
