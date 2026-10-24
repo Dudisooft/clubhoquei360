@@ -2,7 +2,7 @@
 
 ## Estat i abast
 
-**Preparat en branca pròpia, encara no instal·lat ni publicat.** Base de producció `12444a9` (PR #9); branca `feat/base-mobile-rosters`, worktree `/workspace/work/clubhoquei360-base-redesign`. El checkpoint documental de la publicació anterior s’ha recuperat amb `e109e79`, sense repetir-la. L’encàrrec nou exigeix validar els canvis i autoritzar-ne expressament la fusió/publicació; l’autorització de la versió anterior ja desplegada no s’ha utilitzat per instal·lar aquesta migració nova.
+**PUBLICAT i migració instal·lada amb autorització expressa del responsable.** Base de producció `12444a9` (PR #9); branca `feat/base-mobile-rosters`, worktree `/workspace/work/clubhoquei360-base-redesign`. El checkpoint documental de la publicació anterior s’ha recuperat amb `e109e79`, sense repetir-la. L’encàrrec nou exigeix validar els canvis i autoritzar-ne expressament la fusió/publicació; l’autorització de la versió anterior ja desplegada no s’ha utilitzat per instal·lar aquesta migració nova.
 
 L’auditoria revisa el Mode Base, els adaptadors federatius, `ClubCatalog`, `pilot_players`, el flux `pilot_events`, l’estat avançat i els escuts/equipacions. No es modifica la lògica de `avancat.html`, `federation-client.js` ni `stats-*`. S’han identificat dues PR paral·leles, #10 multiclub i #11 accessos temporals: no s’hi ha escrit ni s’han fusionat. El nou backend comprova el rol global existent o un operador ja autoritzat de la mateixa competició, club i temporada; no substitueix aquestes branques ni crea comptes.
 
@@ -48,7 +48,7 @@ La migració nova és `supabase/migrations/20261023214042_basic_catalogue_contex
 - El navegador bàsic utilitza un transport sintètic; permisos, transaccions i persistència també es proven separadament en PostgreSQL local. No s’han creat comptes, partits de prova, gols ni targetes reals de producció. No es declara prova Auth/Realtime real d’aquest redisseny en dos dispositius.
 - Limitacions reals: colors d’equipació provisionals; normativa d’elegibilitat no disponible; convocats de l’Alpicat absents fins que la font els publiqui/importi; contrast del catàleg sobre importacions, no extracció immediata; contextos nous de partits sense acta operatius al Mode Base, sense canviar el flux d’alta d’estadístiques avançades.
 
-## Desplegament exacte, pendent d’autorització
+## Procediment de desplegament (executat amb autorització)
 
 1. Revisar la PR d’aquesta branca i la CI del HEAD. Comparar amb main i amb les PR #10/#11 abans de fusionar, mantenint les seves migracions i permisos fora d’aquest desplegament.
 2. Instal·lar **només** la migració `20261023214042_basic_catalogue_contexts.sql` en staging/projecte autoritzat, amb el mecanisme de migracions Supabase existent. No executar de nou l’esquema inicial ni les migracions estadístiques. No executar `supabase db push` indiscriminadament si hi ha migracions remotes desalineades: el primer esquema estadístic té un timestamp local diferent del registrat en producció.
@@ -62,7 +62,7 @@ Salt: `https://dudisooft.github.io/clubhoquei360/base.html?practice=b89dd91d-933
 
 Alpicat: `https://dudisooft.github.io/clubhoquei360/base.html?catalogue=8b5cd05a-149e-7e21-73b3-5782994e0d07`.
 
-Aquests enllaços apunten al lloc de producció: **el redisseny no hi és encara**. No utilitzar l’URL de l’Alpicat com si ja activés la nova RPC abans d’instal·lar/publicar.
+Aquests enllaços apunten a la versió nova publicada. Afegir `&v=4` permet evitar una còpia HTML antiga del navegador.
 
 Després del desplegament: iniciar sessió → obrir l’enllaç → activar el context compartit si cal → marcar convocats locals i visitants disponibles → «Confirma convocatòries i continua» → tocar jugador i Gol/targeta → canviar LOCAL/VISITANT → usar Banqueta per a una targeta general → revisar/corregir incidències → finalitzar i contrastar. Al Salt la prova comença amb marcador propi 0–0 i oficial 8–0. A l’Alpicat, si la plantilla rival no és disponible, continuar sense inventar jugadors i utilitzar «Gol sense jugador identificat». Comprovar «Dades confirmades al servidor»; davant de pendents, mantenir el dispositiu i reintentar.
 
@@ -86,3 +86,16 @@ Totes utilitzen dades fictícies i escuts de transport de prova, sense persones 
 - [Preparació dels dos equips](assets/base-preparation.png)
 - [Pantalla de partit mòbil](assets/base-mobile.png)
 - [Menú inferior de jugador](assets/base-action-sheet.png)
+
+
+## Resultat real del desplegament autoritzat · 24/10/2026
+
+El responsable ha respost **«Autoritzat»** a la instal·lació de la migració i publicació de la PR #13. La migració `basic_catalogue_contexts` està instal·lada amb versió remota **20261024062538**; font local **20261023214042**. No reaplicar-la ni llançar un `db push` que intenti instal·lar la font com una migració diferent.
+
+La [PR #13](https://github.com/Dudisooft/clubhoquei360/pull/13) s’ha fusionat a `129e097e63260ef577b4c22a533c066eb91f5eee`. CI del codi `4c926d9`: [40067343032](https://github.com/Dudisooft/clubhoquei360/actions/runs/40067343032), **90 Node i 26 Chromium correctes**. [Pages 40070267131](https://github.com/Dudisooft/clubhoquei360/actions/runs/40070267131): build/deploy/report correctes, SHA de fusió acreditat als logs, «Reported success!» a les **08.27.57 Europe/Madrid** i URL d’entorn `https://dudisooft.github.io/clubhoquei360/`.
+
+Postflight real: RLS activada; authenticated té SELECT però no INSERT directe al context; anon no té SELECT ni EXECUTE de la RPC. HTTP real sense sessió retorna 401/42501 als dos recursos. Wrapper públic invoker i helper privat definer amb search_path buit, com s’havia verificat localment. Advisors de seguretat sense incidències noves respecte a la fotografia prèvia; els avisos preexistents continuen sense modificar. Empremtes i recomptes de `pilot_events`, `pilot_players`, `pilot_operator_state`, `stats_events` i `federation_matches` exactament iguals abans/després. Cap compte ni anotació esportiva de prova creats en aquest desplegament.
+
+Evidència sanejada: [base-mobile-deployment-20261024.json](base-mobile-deployment-20261024.json). La prova autenticada al telèfon encara correspon al responsable: no s’ha presentat el desplegament GitHub ni l’HTTP anònim com una prova de login o d’anotació real.
+
+Obrir primer [Salt compartit](https://dudisooft.github.io/clubhoquei360/base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5&v=4), activar-lo i seleccionar convocats. Per al directe: [Infantil D–Alpicat](https://dudisooft.github.io/clubhoquei360/base.html?catalogue=8b5cd05a-149e-7e21-73b3-5782994e0d07&v=4). Les PR #10/#11/#12 no s’han fusionat ni s’han instal·lat canvis seus des d’aquest desplegament.

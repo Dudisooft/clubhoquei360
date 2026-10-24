@@ -177,3 +177,20 @@ Les lectures reals comproven grants authenticated SELECT i RLS de les taules fed
 ### Checkpoint revisable del redisseny
 
 Canvis de codi, SQL, proves i informe preparats per desar en un únic commit de funcionalitat a `feat/base-mobile-rosters` i pujar una PR en esborrany. Captures fictícies de preparació, partit i menú a `docs/assets/base-*.png`. Evidència sanejada a `docs/base-redesign-verification.json`. No hi ha canvis nous de producció: ni migració aplicada, ni fusió/publicació del redisseny, ni dades esportives reals modificades. La CI de la PR és la validació del HEAD final; el resum del seu resultat es manté a la descripció de la PR.
+
+## MODE BASE PUBLICAT · autorització i comprovacions del 24/10/2026
+
+**COMPLETAT.** El responsable respon «Autoritzat» a instal·lar la nova migració i publicar la PR #13. Ja no cal tornar a demanar aquesta autorització ni repetir la instal·lació/publicació.
+
+- Migració remota instal·lada **20261024062538_basic_catalogue_contexts**, font local **20261023214042_basic_catalogue_contexts.sql**. Conservar aquesta correspondència; no reaplicar la font per la diferència de timestamp, ni fer un db push indiscriminat.
+- Codi verificat `4c926d9`, CI [40067343032](https://github.com/Dudisooft/clubhoquei360/actions/runs/40067343032): **90/90 Node, 26/26 Chromium**, check/build correctes. PR #13 fusionada a **129e097e63260ef577b4c22a533c066eb91f5eee**.
+- Pages [40070267131](https://github.com/Dudisooft/clubhoquei360/actions/runs/40070267131): build, deploy i report success. Logs acrediten SHA, «Reported success!» a les 06.27.57 UTC (08.27.57 Europe/Madrid), i URL d’entorn. No s’ha modificat la configuració de Pages.
+- Verificació real: RLS/ACL/funcions correctes, cap context creat per l’agent, taula i RPC anònimes denegades per HTTP 401/42501. Empremtes de cinc taules esportives exactament iguals abans/després. Sense avisos nous de seguretat respecte a la fotografia prèvia. Cap nou compte, correu, gol, targeta o prova esportiva persistent d’aquest desplegament. No es declara prova Auth/Realtime autenticada real de la nova pantalla.
+- Evidència: `docs/base-mobile-deployment-20261024.json`. Informe actualitzat: `docs/base-mobile-redesign.md`. El checkpoint posterior és documental i no modifica el runtime ja verificat. Les PR #10/#11/#12 continuen separades d’aquest desplegament.
+
+Enllaços de mòbil (v=4 evita HTML antic):
+
+- Salt, prova compartida separada de l’històric: https://dudisooft.github.io/clubhoquei360/base.html?practice=b89dd91d-933f-841a-ad43-f03553ca14a5&v=4
+- Directe Alpicat: https://dudisooft.github.io/clubhoquei360/base.html?catalogue=8b5cd05a-149e-7e21-73b3-5782994e0d07&v=4
+
+**Pendent únic immediat:** validació humana al mòbil amb el compte existent: iniciar sessió si cal → activar context compartit → seleccionar convocats dels dos equips → confirmar → jugador/acció, banquetes i correcció → finalització/contrast. No crear dades fictícies sobre el partit real. Si arriba una incidència, continuar només sobre aquell error; no reinstal·lar migracions, reobrir proves avançades ja acceptades ni crear comptes. Les limitacions federatives/equipacions/elegibilitat descrites a l’informe continuen vigents.

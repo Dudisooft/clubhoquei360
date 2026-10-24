@@ -18,12 +18,21 @@
   "build": "passed",
   "diff_check": "passed",
   "fictitious_test_data": true,
-  "production_mutations": false,
-  "migration_applied": false,
-  "redesign_merged_or_published": false,
+  "production_mutations": true,
+  "migration_applied": true,
+  "redesign_merged_or_published": true,
   "migration": "20261023214042_basic_catalogue_contexts.sql",
   "official_source": "https://www.hoqueipatins.fecapa.cat/league/4786",
   "target_catalogue_match_id": "8b5cd05a-149e-7e21-73b3-5782994e0d07",
   "target_federation_match_id": null,
-  "remote_ci": "See the pull request for final HEAD results"
+  "remote_ci": {
+    "run": 40067343032,
+    "conclusion": "success",
+    "node_pass": 90,
+    "chromium_pass": 26
+  },
+  "production_schema_changes": true,
+  "production_sports_data_mutations": false,
+  "deployed_merge_commit": "129e097e63260ef577b4c22a533c066eb91f5eee",
+  "deployment_evidence": "base-mobile-deployment-20261024.json"
 }
