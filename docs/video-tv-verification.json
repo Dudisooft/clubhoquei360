@@ -33,5 +33,21 @@
     "Local Auth/PostgREST transport over PostgreSQL/PGlite uses fictitious identities.",
     "Earlier failed real live acceptance remains a separate failed observation.",
     "Vic roster still not imported."
-  ]
+  ],
+  "runtime_head": "81714a75cd45627949b7f664ba95f9b373310b6e",
+  "merge_commit": "f67daaafc28f8a2885b2a6dfa2918cb405069494",
+  "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/25",
+  "ci": {
+    "run": 40126241140,
+    "conclusion": "success",
+    "node": 112,
+    "chromium": 37,
+    "static_files": 31
+  },
+  "pages": {
+    "run": 40126490540,
+    "conclusion": "success",
+    "sha": "f67daaafc28f8a2885b2a6dfa2918cb405069494"
+  },
+  "human_tv_validation": "not yet reported"
 }

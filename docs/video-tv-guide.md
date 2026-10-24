@@ -6,7 +6,7 @@
 
 ## Començar l’anàlisi
 
-1. Reprodueix la gravació a la TV. Obre l’entorn preparat al mòbil, tauleta o ordinador amb el teu compte habitual. L’accés obre el perfil Estadístic i, si és una sessió nova, «Vídeo en diferit», amb el rellotge pausat i l’enllaç «Obre la gravació».
+1. Reprodueix la gravació a la TV. Entra primer a ClubHoquei360 amb el teu compte habitual i, un cop connectat, obre l’enllaç preparat al mòbil, tauleta o ordinador. L’accés obre el perfil Estadístic i, si és una sessió nova, «Vídeo en diferit», amb el rellotge pausat i l’enllaç «Obre la gravació».
 2. Prem «Activa el meu registre (8 h)» si apareix. La vista es pot consultar abans d’activar; per registrar cal l’assignació existent validada pel servidor.
 3. Situa el vídeo a l’inici del període i selecciona P1 o P2. El cronòmetre d’anàlisi indica **temps jugat del període**, no temps restant ni la posició absoluta del reproductor. Exemple: en una part de 25 minuts, si la TV marca 18:30 restants, ajusta l’anàlisi a **06:30**.
 4. Prem «Inicia anàlisi» quan reprenguis la gravació. Pausa també aquest cronòmetre quan pausis la TV. «−10 s» i «Ajusta» permeten tornar a una jugada. La TV i l’aplicació es controlen manualment.
@@ -26,3 +26,7 @@ Es mostra amb el compte existent del responsable. Aquest preparatiu no crea cap 
 La plantilla del Vic continua pendent d’importació. Les dades individuals requereixen convocats reals vinculats; l’entrada col·lectiva funciona sense completar els dos cincs oficials. El vídeo és un enllaç aportat pel responsable; la consulta web externa ha estat limitada i l’agent no n’ha verificat la reproducció o durada. La prova tècnica utilitza l’enllaç, sense simular una reproducció real a la TV. No s’han creat registres ficticis en producció.
 
 Implementació i proves: [registre de verificació](video-tv-verification.json). Continuïtat a [CODEX_PROGRESS](CODEX_PROGRESS.md).
+
+## Verificació i publicació
+
+Preparació publicada a la [PR #25](https://github.com/Dudisooft/clubhoquei360/pull/25), merge `f67daaafc28f8a2885b2a6dfa2918cb405069494`. [CI 40126241140](https://github.com/Dudisooft/clubhoquei360/actions/runs/40126241140) success amb 112 proves Node i 37 Chromium, check/build correctes; [Pages 40126490540](https://github.com/Dudisooft/clubhoquei360/actions/runs/40126490540) success. Les proves són de navegador local/CI i no acrediten una reproducció física a la TV.
