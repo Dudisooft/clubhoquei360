@@ -1,0 +1,46 @@
+{
+  "project": "ClubHoquei360",
+  "date": "2026-10-24",
+  "timezone": "Europe/Madrid",
+  "branch": "fix/principal-profile-access",
+  "baseCommit": "d9b803ff8dff55ae3d79f2dc3f04a75e408dab5f",
+  "issue": "Existing authorized operator cannot select Principal for calendar-only fixture",
+  "realDatabaseDiagnosis": {
+    "verifiedOwner": true,
+    "enabledGlobalRole": "platform_superadmin",
+    "matchRole": "operator",
+    "sourceKind": "verified_calendar",
+    "importStatus": "pending",
+    "officialMatchId": null,
+    "players": 0,
+    "writes": 0
+  },
+  "beforeFix": {
+    "regressionExecuted": true,
+    "result": "FAIL",
+    "expected": "main",
+    "actual": "stats"
+  },
+  "local": {
+    "interfaceNodePassed": 2,
+    "browserPassed": 3,
+    "browserFailed": 0,
+    "staticFilesChecked": 29,
+    "build": "PASS",
+    "diff": "PASS",
+    "officialWriteRequestsAfterOpeningPrincipal": 0,
+    "profileSurvivesReload": true,
+    "officialAndStatisticalDataUnchangedInBrowserFixture": true
+  },
+  "scope": "Principal view access for authorized match operator; official controls and writes remain blocked for pending report, no fake lineup. No server data/roles/RLS/migration changes.",
+  "authorization": "Regression correction within already authorized RFEP publication after user reported access failure.",
+  "ci": null,
+  "merged": false,
+  "frontendPublished": false,
+  "productionAuthBrowserInspected": false,
+  "remaining": [
+    "Consolidated CI",
+    "Merge and verify Pages",
+    "Record publication checkpoint"
+  ]
+}

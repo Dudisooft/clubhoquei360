@@ -6,6 +6,10 @@ Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
+**Incidència activa: accés al perfil Principal després de publicar RFEP.** El responsable indica que no hi pot accedir. Diagnòstic real: el seu compte continua sent operador; la reconducció afegida al frontend el tornava a Estadístic amb una font de calendari pendent. Correcció a `fix/principal-profile-access`, checkout `/workspace/work/clubhoquei360-principal`, base `d9b803f`: permetre la vista Principal a l’operador, mantenir-la després de recarregar i impedir autodesament oficial en consultar una font pendent. Registre oficial i alineacions segueixen pendents; cap canvi de dades/permisos.
+
+Regressió reproduïda amb FAIL abans del canvi. Després: 3/3 Chromium RFEP i 2/2 Node d’interfície, check 29 fitxers, build i diff PASS. CI consolidada pendent abans de publicar l’esmena de la publicació RFEP ja autoritzada. Informe: `docs/principal-profile-access.md`. En reprendre, continuar aquest bloc sense reexecutar la vinculació RFEP ni les migracions.
+
 **Igualada–Vic del 24/10/2026 a les 20.30: CORRECCIÓ PUBLICADA amb autorització.** Branca `fix/rfep-vic-20261024`, checkout `/workspace/work/clubhoquei360-rfep-vic`, base `12444a9`. El calendari RFEP és complet (182 files / 26 jornades). El pilot original `18fa0a6e-e5c6-487e-8315-5bc371e22cb1` existeix i el responsable ja n’és operador; no tenia font federativa ni context estadístic. El selector el descartava pel join de competició i també amagava els futurs sense codi de fitxa.
 
 Correcció preparada: reutilitzar aquest pilot, vincular-lo al calendari canònic `51894d05-c323-f3e1-8534-fa79e062c448` (RFEP 3575, temporada 41, equips 3697/3727), mantenir l’ID RFEP nul si encara no està publicat, mostrar futurs pendents i permetre estadístiques col·lectives en directe. Cap plantilla inventada ni alteració d’altres partits. Script de reparació delimitat a dues files de metadades, amb validació de procedència/identitat i idempotència. No modifica l’esquema ni els permisos.
