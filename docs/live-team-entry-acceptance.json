@@ -43,5 +43,27 @@
       "saved video session mode and time preserved on returning through the entry",
       "delegate without analysis access receives no entry or grant"
     ]
+  },
+  "remediation": {
+    "runtime_head": "7132b50725e9d4b2aa92057e2c7ad4add9933dfe",
+    "merge_commit": "8a14b8be17a41b59b58d942caf340084ef00a187",
+    "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/23",
+    "ci": {
+      "run": 40124627984,
+      "conclusion": "success",
+      "node": 110,
+      "chromium": 34,
+      "static_files": 31
+    },
+    "pages": {
+      "run": 40124867007,
+      "conclusion": "success",
+      "sha": "8a14b8be17a41b59b58d942caf340084ef00a187"
+    },
+    "schema_or_permissions_changed": false,
+    "real_roster_imported": false,
+    "production_browser_controlled_by_agent": false,
+    "human_retest_after_remediation": "not yet reported",
+    "note": "Earlier failed live acceptance remains recorded as failure. Automated remediation checks do not replace a human retest."
   }
 }

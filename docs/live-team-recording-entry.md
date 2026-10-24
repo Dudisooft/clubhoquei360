@@ -20,11 +20,11 @@ Transport local d’Auth/PostgREST sobre PostgreSQL/PGlite amb dades fictícies;
 
 ## D. Estat
 
-Entrada i recorregut col·lectiu: IMPLEMENTATS I VERIFICATS LOCALMENT, pendents de CI/publicació. Prova humana al pavelló: FALLIDA EN L’INICI, no reclassificar-la com a superada. Plantilla Vic: bloquejada per xarxa a la branca independent i PR #22; aquest canvi no la importa.
+Entrada i recorregut col·lectiu: OPERATIUS I VERIFICATS per proves locals, CI i publicació Pages. Prova humana al pavelló: FALLIDA EN L’INICI, no reclassificar-la com a superada. Plantilla Vic: bloquejada per xarxa a la branca independent i PR #22; aquest canvi no la importa.
 
 ## E. Git i continuïtat
 
-Branca `fix/live-team-recording-entry`, base main `02ca084`, checkout `/workspace/work/clubhoquei360-live-entry`; checkpoint d’auditoria `bf06a36`. La publicació és una esmena del mateix registre de partit ja autoritzat. Actualitzar amb CI, SHA i Pages reals abans de donar per publicat.
+Branca `fix/live-team-recording-entry`, base main `02ca084`, checkout `/workspace/work/clubhoquei360-live-entry`; checkpoint d’auditoria `bf06a36`. La publicació és una esmena del mateix registre de partit ja autoritzat. Codi verificat `7132b50725e9d4b2aa92057e2c7ad4add9933dfe`; [CI 40124627984](https://github.com/Dudisooft/clubhoquei360/actions/runs/40124627984) success: **110 Node, 34 Chromium**, check/build 31, logs verificats. [PR #23](https://github.com/Dudisooft/clubhoquei360/pull/23) fusionada a `8a14b8be17a41b59b58d942caf340084ef00a187`; [Pages 40124867007](https://github.com/Dudisooft/clubhoquei360/actions/runs/40124867007) build/deploy/report success amb SHA i URL als logs. El navegador real del responsable després del canvi continua sense nova validació; no presentar-la com a superada. Tancament documental a `docs/live-team-recording-release`.
 
 ## F. Ús i pendent necessari
 
