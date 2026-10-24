@@ -6,6 +6,11 @@ Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
+**Últim objectiu del responsable: diferit a la TV i presentació de l’entorn.** Preparació ja publicada a main: PR #25, codi `81714a7`, merge `f67daaa`; CI 40126241140 success amb 112 Node/37 Chromium i Pages 40126490540 success. Guia operativa amb l’enllaç de YouTube facilitat i accés en mode vídeo: https://github.com/Dudisooft/clubhoquei360/blob/main/docs/video-tv-guide.md . Tancament documental PR #26 merge `a5e54e7`. No s’han creat comptes per al convidat, sessions o observacions de producció, ni s’ha verificat una TV física.
+
+La importació real del Vic continua pendent en aquesta branca. En reprendre, preservar els canvis de vídeo/registre ja publicats de `origin/main` i no repetir les seves publicacions o suites intactes. La prova real fallida en directe continua registrada com a fallida; aquest preparatiu és per a l’anàlisi posterior.
+
+
 **Actualització independent publicada després del fracàs real al pavelló:** el responsable no ha pogut iniciar el registre mentre era fora de casa. Consulta de només lectura 19:09:54 UTC: cap acció/sessió/convocat del pilot; acceptació real FALLIDA EN L’INICI. S’ha publicat una entrada visible al registre col·lectiu existent a la PR #23, codi `7132b50`, merge `8a14b8b`; CI 40124627984 success (110 Node/34 Chromium) i Pages 40124867007 success. Informe/acceptació sanejada a main: https://github.com/Dudisooft/clubhoquei360/blob/main/docs/live-team-recording-entry.md . Tancament documental PR #24 merge `21a8a7a`. No substituir aquests canvis en reprendre aquesta branca ni presentar l’acceptació humana com a superada.
 
 Aquest canvi independent permet l’anàlisi col·lectiva amb plantilla pendent i no importa Vic. La PR #22 continua draft i el preparador d’aquesta branca conserva les seves proves. En reprendre la importació, comprovar `origin/main` actual i preservar l’entrada publicada; no repetir cap migració ni publicació de la PR #23. El responsable farà la configuració de xarxa quan pugui; evitar el bucle de demanar «Fet» al pavelló.
