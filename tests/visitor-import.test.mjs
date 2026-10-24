@@ -1,0 +1,42 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {createDatabase,ID,asOwner,asUser} from './helpers/stats-db.mjs';import {PREP,seedPreparation} from './helpers/preparation-db.mjs';
+let db;const source='https://hockeypatines.fep.es/league/3575';
+const commit=teams=>asOwner(db,'select federation_commit_opponents($1,$2,$3,now(),$4) value',['RFEP','3575',JSON.stringify(teams),source]);
+const visitor=(players=[{external_id:'99001',name:'VISITANT FICTICI',verification:'official_roster'}])=>[{external_team_id:'3727',name:'VIC · FICTICI',roster:players}];
+test.before(async()=>{db=await createDatabase();await seedPreparation(db);
+ const club=(await asOwner(db,"select md5('clubhoquei360:fecapa:club:252')::uuid id")).rows[0].id;
+ await asOwner(db,"insert into clubs values($1,'Club FICTICI per importació')",[club]);
+ await asOwner(db,"insert into seasons values('10000000-0000-4000-8000-000000000099',$1,'2026/27')",[club]);
+ await asOwner(db,"insert into teams(id,club_id,season_id,name) values('10000000-0000-4000-8000-000000000098',$1,'10000000-0000-4000-8000-000000000099','Equip propi FICTICI')",[club]);
+ await asOwner(db,"update federation_competitions set club_id=$1,season_id='10000000-0000-4000-8000-000000000099' where id=$2",[club,PREP.competition]);
+ await asOwner(db,"update federation_team_entries set club_team_id='10000000-0000-4000-8000-000000000098' where id=$1",[PREP.entry]);
+ await asOwner(db,"insert into federation_match_teams values($1,$2,'home')",[PREP.calendar,PREP.entry]);
+});test.after(async()=>db.close());
+test('visitor entries remain outside club teams, imports repeat without duplicates, absent/partial rosters preserve prior rows',async()=>{
+ const before=(await asOwner(db,"select jsonb_build_object('teams',(select jsonb_agg(to_jsonb(t)) from teams t),'events',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'players',(select jsonb_agg(to_jsonb(p)) from pilot_players p),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'stats',(select jsonb_agg(to_jsonb(a)) from stats_events a)) data")).rows[0].data;
+ await commit(visitor());await commit(visitor());await commit(visitor([]));
+ await commit(visitor([{external_id:'99002',name:'SEGON VISITANT FICTICI',verification:'official_roster'}]));
+ const rows=(await asOwner(db,"select e.club_team_id,r.shirt_number,r.raw_data from federation_team_entries e join federation_team_roster r on r.entry_id=e.id where e.external_team_id='3727'")).rows;
+ assert.equal(rows.length,2);assert.ok(rows.every(r=>r.club_team_id===null&&r.shirt_number===null&&r.raw_data.active_in_latest_roster));
+ const after=(await asOwner(db,"select jsonb_build_object('teams',(select jsonb_agg(to_jsonb(t)) from teams t),'events',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'players',(select jsonb_agg(to_jsonb(p)) from pilot_players p),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'stats',(select jsonb_agg(to_jsonb(a)) from stats_events a)) data")).rows[0].data;assert.deepEqual(after,before);
+});
+test('unrelated teams, spoofed source and unauthenticated catalogue writes are refused',async()=>{
+ await assert.rejects(commit([{...visitor()[0],external_team_id:'99999'}]),/outside verified/);
+ await assert.rejects(commit([{...visitor()[0],name:'A DIFFERENT TEAM'}]),/outside verified/);
+ await assert.rejects(asOwner(db,"select federation_commit_opponents('RFEP','3575',$1,now(),'https://example.test')",[JSON.stringify(visitor())]),/Unexpected official/);
+ await assert.rejects(asUser(db,'manager','select federation_commit_opponents($1,$2,$3,now(),$4)',['RFEP','3575',JSON.stringify(visitor()),source]),/permission denied/);
+});
+test('a later report stages official identities while provisional goals/cards/statistics keep their actor',async()=>{
+ await asOwner(db,"update federation_match_sources set federation_match_id='99901',federation_url=$2 where match_id=$1",[PREP.match,source]);
+ const id=crypto.randomUUID();await asUser(db,'manager','select match_roster_save($1,$2,$3)',[PREP.match,crypto.randomUUID(),JSON.stringify({id,revision:0,team:'away',manual:true,full_name:'Nom provisional FICTICI',dorsal:'9',position:'field'})]);
+ await asOwner(db,"insert into pilot_events(id,match_id,user_id,event_type,team,payload) values(gen_random_uuid(),$1,$2,'goal','away',$3),(gen_random_uuid(),$1,$2,'card_blue','away',$4)",[PREP.match,ID.manager,JSON.stringify({kind:'gol',actor:id}),JSON.stringify({kind:'blava',actor:id})]);
+ const report={match_id:'99901',competition_id:'3575',home_name:'SIMAR FICTICI',away_name:'VIC FICTICI',players:[{external_id:'99001',team:'away',name:'Nom oficial FICTICI',dorsal:'9',position:'field'},{external_id:'99002',team:'away',name:'Segon oficial FICTICI',dorsal:null,position:'field'}]};
+ const before=(await asOwner(db,'select * from pilot_events where match_id=$1 order by id',[PREP.match])).rows;
+ for(let i=0;i<2;i++)await asOwner(db,'select federation_commit_snapshot($1,$2)',[PREP.match,JSON.stringify(report)]);
+ let players=(await asOwner(db,'select * from pilot_players where match_id=$1',[PREP.match])).rows;assert.equal(players.length,1);assert.equal(players[0].federation_player_id,null);
+ const r=(await asUser(db,'manager','select match_roster($1) value',[PREP.match])).rows[0].value,c=r.candidates.find(c=>c.candidate_id==='report:away:99001');assert.ok(c);
+ const linked=(await asUser(db,'manager','select match_roster_save($1,$2,$3) value',[PREP.match,crypto.randomUUID(),JSON.stringify({id,revision:1,team:'away',candidate_id:c.candidate_id,dorsal:'9',position:'field'})])).rows[0].value;assert.equal(linked.id,id);assert.equal(linked.federation_player_id,'99001');
+ await asOwner(db,'select federation_commit_snapshot($1,$2)',[PREP.match,JSON.stringify(report)]);
+ assert.deepEqual((await asOwner(db,'select * from pilot_events where match_id=$1 order by id',[PREP.match])).rows,before);
+ players=(await asOwner(db,'select * from pilot_players where match_id=$1',[PREP.match])).rows;assert.equal(players.filter(p=>p.federation_player_id==='99001').length,1);assert.equal(players.find(p=>p.id===id).full_name,'Nom oficial FICTICI');
+});

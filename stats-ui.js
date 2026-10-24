@@ -2,6 +2,7 @@ import {ACTIONS,CATEGORIES,action,fmt,parseTime,effectiveEvents,aggregate,eventC
 import {AnalysisClock} from './stats-clock.js';
 import {StatsStore} from './stats-store.js';
 import {StatsLiveSync} from './stats-realtime.js';
+import {identityLabel} from './match-roster.js';
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const requiredPlayer=code=>['assist','player_in','player_out'].includes(code)||action(code)?.category==='goalkeeper';
 const value=v=>v===null||v===undefined?'No registrat':String(v);
@@ -77,7 +78,7 @@ export function mountStats({db,getOfficialClock=()=>({ms:0,period:1}),onProfile=
   root.querySelectorAll('[data-stats-side]').forEach(b=>{b.textContent=names[b.dataset.statsSide];b.setAttribute('aria-pressed',String(side===b.dataset.statsSide));});
   const individual=$('statsScope').value==='player';$('statsOrderLabel').hidden=!individual;$('statsPlayers').hidden=!individual;
   $('statsSelection').textContent=individual?($('statsOrder').value==='action_first'?(pendingAction?'Acció: '+action(pendingAction).label+' · toca un jugador.':'Selecciona una acció i després el jugador.'):'Jugador: '+playerLabel(playerId)+' · toca una acció.'):'Equip: '+names[side]+' · no cal seleccionar jugador.';
-  $('statsPlayers').innerHTML=roster.filter(p=>p.team===side).map(p=>`<button type="button" data-stats-player="${p.id}" aria-pressed="${p.id===playerId}" ${pendingAction&&!allowed(pendingAction,side,p.id)?'disabled':''}>#${esc(p.dorsal)} · ${esc(p.full_name)}${p.position==='goalkeeper'?' · PORTER':''}</button>`).join('')||'<span class="muted">Convocatòria no disponible. Pots registrar dades d’equip; no s’inventa una plantilla.</span>';
+  $('statsPlayers').innerHTML=roster.filter(p=>p.team===side).map(p=>`<button type="button" data-stats-player="${p.id}" aria-pressed="${p.id===playerId}" ${pendingAction&&!allowed(pendingAction,side,p.id)?'disabled':''}>#${esc(p.dorsal??'—')} · ${esc(p.full_name)}${p.position==='goalkeeper'?' · PORTER':''} · ${esc(identityLabel(p))}</button>`).join('')||'<span class="muted">Convocatòria no disponible. Pots registrar dades d’equip o completar la plantilla manualment.</span>';
   const category=$('statsCategory').value;
   $('statsActions').innerHTML=ACTIONS.filter(a=>a.category===category&&a.code!=='possession').map(a=>{
    const needsPlayer=individual&&$('statsOrder').value==='player_first';const disabled=!writable()||(!individual&&requiredPlayer(a.code))||(needsPlayer&&!playerId)||(!allowed(a.code,side,individual?playerId:null)&&!(individual&&$('statsOrder').value==='action_first'&&roster.some(p=>p.team===side&&allowed(a.code,side,p.id))));

@@ -3,9 +3,16 @@ import {basicState,makeRow,cards,comparison,playerTotals,benchTotals} from './ba
 import {score,fromRow} from './federation-model.js';
 import {BasicStore,syncFederation} from './basic-store.js';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=5';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=6';
+import {mountMatchRoster,identityLabel} from './match-roster.js';
 
 const $=id=>document.getElementById(id);
+const rosterEditorRoot=document.createElement('div');$('preparation').before(rosterEditorRoot);
+const rosterEditor=mountMatchRoster({db,root:rosterEditorRoot,onSaved:async saved=>{
+ await metadata();if(!editable())return;
+ if(state().confirmed){const ids=[...new Set([...state().participants,saved.id])],records=ids.map(recordFor).filter(Boolean).map(snapshot);await addBatch([actionRow('basic_participants','none',null,{ids:records.map(p=>p.id),players:records})]);}
+ draft.add(saved.id);flash='Jugador desat · '+identityLabel(saved);render();
+}});
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const requestedPractice=new URLSearchParams(location.search).get('practice');
 let practiceId=requestedPractice,catalogueId=requestedPractice||new URLSearchParams(location.search).get('catalogue'),activationNeeded=false,legacyRows=[];
@@ -39,7 +46,7 @@ function renderPlayers(){
  const selected=s.participants.map(id=>recordFor(id)).filter(p=>p?.team===activeSide);
  $('teamList').innerHTML=selected.map(p=>{
   const text=countsText(playerTotals(events,p.id));
-  return `<button class="player-row" data-person="${esc(p.id)}" ${busy||!editable()?'disabled':''}>${jersey(p,activeSide)}<span class="player-info"><strong>${esc(p.full_name)}</strong>${text?`<span class="incidents">${esc(text)}</span>`:''}</span><span aria-hidden="true">＋</span></button>`;
+  return `<button class="player-row" data-person="${esc(p.id)}" ${busy||!editable()?'disabled':''}>${jersey(p,activeSide)}<span class="player-info"><strong>${esc(p.full_name)}</strong><span class="player-details">${esc(identityLabel(p))}</span>${text?`<span class="incidents">${esc(text)}</span>`:''}</span><span aria-hidden="true">＋</span></button>`;
  }).join('')||'<p class="notice">Cap jugador convocat en aquest equip. Pots modificar la convocatòria o registrar un gol sense identificar el jugador.</p>';
  $('bench').textContent='Banqueta '+(activeSide==='home'?'local':'visitant')+(countsText(benchTotals(events,activeSide))?' · '+countsText(benchTotals(events,activeSide)):'');
  $('kitNotice').textContent=kitFor(activeSide).label+'.';
@@ -108,16 +115,16 @@ async function metadata(){
 }
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
+ rosterEditor.reset();match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
  draft=new Set(state().participants);preparing=!state().confirmed||needsRosterReview();activeSide='home';
- history.replaceState(null,'','?match='+encodeURIComponent(id));render();
+ history.replaceState(null,'','?match='+encodeURIComponent(id));await rosterEditor.open({match,uid,teamNames:{home:teamName('home'),away:teamName('away')}});render();
 }
 async function openCatalogue(id,training){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];source=null;legacyRows=[];
+ rosterEditor.reset();catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];source=null;legacyRows=[];
  let q=db.from('basic_match_contexts').select('*').eq('catalogue_match_id',id).eq('practice',training);if(training)q=q.eq('owner_id',uid);
  const context=await q.maybeSingle();
  if(context.data){match=context.data.pilot_match_id;const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;activationNeeded=role!=='operator';}
@@ -129,6 +136,7 @@ async function openCatalogue(id,training){
  if(!window.basicAvailableMatches?.has(id))$('match').innerHTML=`<option value="${esc(id)}">${esc(teamName('home'))} – ${esc(teamName('away'))}</option>`;
  $('fixtureNotice').textContent=(training?'PROVA COMPARTIDA · Incidències separades de l’històric. ':'Partit real del catàleg. ')+(context.error?'La persistència de catàleg necessita instal·lar la migració del Mode Base.':'Activa el registre si encara no té context operatiu.');
  history.replaceState(null,'','?'+(training?'practice':'catalogue')+'='+encodeURIComponent(id));
+ if(!activationNeeded)await rosterEditor.open({match,uid,teamNames:{home:teamName('home'),away:teamName('away')}});
 }
 async function activateContext(){
  const members=await allRows(db,'pilot_members',q=>q.eq('user_id',uid).eq('role','operator'));
@@ -169,6 +177,8 @@ function openSheet({actor=null,team=activeSide,bench=false,eventId=null}={}){
  const row=eventId?state().active.find(r=>r.id===eventId):null;
  $('actionTitle').textContent=bench?'Banqueta '+(team==='home'?'local':'visitant'):actor?recordFor(actor)?.full_name||(row?eventName(row):'Jugador'):'Gol sense jugador identificat';
  $('actionContext').textContent=(eventId?'Correcció d’una incidència · ':'')+teamName(team);
+ $('editPlayerLabel').hidden=!eventId||bench;
+ if(eventId&&!bench){const pool=state().participants.map(recordFor).filter(p=>p?.team===team);if(actor&&!pool.some(p=>p.id===actor))pool.push(recordFor(actor)||{id:actor,full_name:row?eventName(row):'Jugador anterior'});$('editPlayer').innerHTML='<option value="">Sense jugador identificat</option>'+pool.map(p=>`<option value="${esc(p.id)}">${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</option>`).join('');$('editPlayer').value=actor||'';}
  document.querySelectorAll('[data-action]').forEach(b=>{b.hidden=bench&&b.dataset.action==='gol';b.disabled=false;});
  $('actionSheet').showModal();
 }
@@ -178,7 +188,8 @@ async function choose(kind,context){
  const row=actionRow(kind,team,actor,{bench:!!bench});
  const original=eventId?state().active.find(r=>r.id===eventId):null;
  if(eventId&&!original)throw Error('Aquesta incidència ja ha estat modificada.');
- if(original?.payload?.details?.player_snapshot&&!row.payload.details.player_snapshot)row.payload.details.player_snapshot={...original.payload.details.player_snapshot};
+ if(actor&&actor!==original?.payload?.actor&&(!state().participants.includes(actor)||recordFor(actor)?.team!==team))throw Error('Tria un jugador convocat del mateix equip.');
+ if(actor&&actor===original?.payload?.actor&&original?.payload?.details?.player_snapshot&&!row.payload.details.player_snapshot)row.payload.details.player_snapshot={...original.payload.details.player_snapshot};
  const batch=original?[makeRow({match,uid,kind:'correction',related:original.id,side:original.team,details:{previous:fromRow(original),replacement:row.id}}),row]:[row];
  await addBatch(batch);flash=(original?'Incidència corregida':kind==='gol'?'Gol registrat':'Targeta '+cards[kind].toLowerCase()+' registrada')+' · '+teamName(team);
 }
@@ -199,6 +210,7 @@ $('teamList').onclick=e=>{const row=e.target.closest('[data-person]');if(row)ope
 $('bench').onclick=()=>openSheet({bench:true});
 $('unidentifiedGoal').onclick=()=>action(()=>choose('gol',{team:activeSide,actor:null,bench:false}));
 $('closeSheet').onclick=closeSheet;
+$('editPlayer').onchange=()=>{if(sheet?.eventId&&!sheet.bench)sheet.actor=$('editPlayer').value||null;};
 $('actionSheet').addEventListener('cancel',()=>{sheet=null;});
 $('actionSheet').addEventListener('click',e=>{
  const button=e.target.closest('[data-action]');if(!button||!sheet||busy)return;

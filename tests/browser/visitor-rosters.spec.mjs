@@ -1,0 +1,51 @@
+import {test,expect} from '@playwright/test';import path from 'node:path';import {ID} from '../helpers/stats-db.mjs';
+const match='18fa0a6e-e5c6-487e-8315-5bc371e22cb1',endpoint='https://oevprbchlhyglhvopnvy.supabase.co';
+async function setup(context){
+ await context.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({path:path.resolve('node_modules/@supabase/supabase-js/dist/umd/supabase.js'),contentType:'text/javascript'}));
+ await context.route(endpoint+'/**',async r=>{const url=new URL(r.request().url());const response=await r.fetch({url:'http://127.0.0.1:4173/api'+url.pathname+url.search});await r.fulfill({response});});await context.routeWebSocket(/supabase\.co/,()=>{});
+ const token=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:ID.manager,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
+ await context.addInitScript(({token,id})=>localStorage.setItem('sb-oevprbchlhyglhvopnvy-auth-token',JSON.stringify({access_token:token,refresh_token:'local-fixture',expires_in:3600,expires_at:4070908800,token_type:'bearer',user:{id,email:'manager@example.test',app_metadata:{},user_metadata:{},aud:'authenticated',role:'authenticated'}})),{token,id:ID.manager});
+}
+const snap=async request=>(await request.get('/__test/snapshot')).json();
+async function editor(page){await page.locator('[data-complete-roster]').click();await expect(page.locator('[data-roster-dialog]')).toBeVisible();}
+async function add(page,name='Visitant provisional FICTICI',dorsal='9'){
+ await editor(page);await page.locator('[data-roster-side]').selectOption('away');await page.locator('[data-roster-person]').selectOption('');await page.locator('[data-roster-name]').fill(name);await page.locator('[data-roster-shirt]').fill(dorsal);await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Jugador desat');await page.locator('[data-roster-close]').click();
+}
+test.beforeEach(async({request,context,page})=>{await request.get('/__test/reset');await request.get('/__test/rfep-vic');await setup(context);await page.setViewportSize({width:390,height:844});});
+test('Base on mobile: missing away roster, goals/cards, correction during play and later official reconciliation preserve incidents',async({page,request})=>{
+ await request.get('/__test/base-visitor');const errors=[];page.on('pageerror',e=>errors.push(e.message));
+ await page.goto('/clubhoquei360/base.html?match='+match);await expect(page.locator('[data-complete-roster]')).toBeEnabled();await page.locator('#confirmRosters').click();await page.locator('#tabAway').click();await page.locator('#unidentifiedGoal').click();await expect(page.locator('#score')).toHaveText('0 – 1');await expect.poll(async()=>(await snap(request)).official.filter(e=>e.match_id===match&&e.event_type==='goal').length).toBe(1);const unidentified=(await snap(request)).official.find(e=>e.match_id===match&&e.event_type==='goal');await add(page);
+ const p=(await snap(request)).players.find(p=>p.match_id===match);await page.locator('#events [data-edit]').first().click();await page.locator('#editPlayer').selectOption(p.id);await page.locator('#actionSheet [data-action=gol]').click();await expect(page.locator('#teamList')).toContainText('no verificat');
+ for(const kind of ['blava','vermella']){await page.locator('[data-person="'+p.id+'"]').click();await page.locator('#actionSheet [data-action='+kind+']').click();}
+ await expect(page.locator('#score')).toHaveText('0 – 1');await expect.poll(async()=>(await snap(request)).official.filter(e=>e.match_id===match&&e.payload?.actor===p.id).length).toBe(3);
+ const before=await snap(request);await editor(page);await page.locator('[data-roster-person]').selectOption(p.id);await page.locator('[data-roster-name]').fill('Nom corregit FICTICI');await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Jugador desat');await page.locator('[data-roster-close]').click();
+ await expect(page.locator('#teamList')).toContainText('Nom corregit');await expect(page.locator('#score')).toHaveText('0 – 1');
+ await add(page,'Segon provisional FICTICI','10');await expect(page.locator('#teamList [data-person]')).toHaveCount(2);
+ await request.get('/__test/visitor-report');await editor(page);await page.locator('[data-roster-refresh]').click();await page.locator('[data-roster-person]').selectOption(p.id);await page.locator('[data-roster-candidate]').selectOption('report:away:99001');await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Identitat federativa');await page.locator('[data-roster-close]').click();
+ await page.reload();await page.locator('#tabAway').click();await expect(page.locator('#teamList')).toContainText('Visitant oficial FICTICI');await expect(page.locator('#teamList')).toContainText('1 gol · 1 blava · 1 vermella');await expect(page.locator('#score')).toHaveText('0 – 1');
+ const after=await snap(request);expect(after.official.some(e=>e.id===unidentified.id&&e.payload.actor===null)).toBe(true);expect(after.official.filter(e=>e.related_event_id===unidentified.id)).toHaveLength(1);expect(after.official.filter(e=>e.match_id===match&&e.payload?.actor===p.id)).toEqual(before.official.filter(e=>e.match_id===match&&e.payload?.actor===p.id));expect(after.clock).toEqual(before.clock);expect(after.players.find(x=>x.id===p.id).federation_player_id).toBe('99001');expect(after.players.filter(x=>x.match_id===match)).toHaveLength(2);expect(errors).toEqual([]);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'work/visitor-base-mobile.png',fullPage:true});
+});
+test('Advanced on mobile: provisional player receives individual actions in both input orders and survives official sync',async({page,request})=>{
+ const before=await snap(request),errors=[];page.on('pageerror',e=>errors.push(e.message));await page.goto('/clubhoquei360/avancat.html?match='+match+'&view=stats&analysis=video');await expect(page.locator('#statsOwnStart')).toBeVisible();await page.locator('#statsOwnStart').click();await page.locator('#statsPlay').click();
+ await add(page);await expect(page.locator('#statsPlay')).toContainText('Pausa');const p=(await snap(request)).players.find(p=>p.match_id===match);
+ await page.locator('[data-stats-side=away]').click();await page.locator('#statsScope').selectOption('player');await page.locator('[data-stats-player="'+p.id+'"]').click();await page.locator('[data-stats-action=pass_complete]').click();await page.locator('#statsOrder').selectOption('action_first');await page.locator('#statsCategory').selectOption('shot');await page.locator('[data-stats-action=shot_target]').click();await page.locator('[data-stats-player="'+p.id+'"]').click();
+ await expect.poll(async()=>(await snap(request)).events.filter(e=>e.match_id===match).length).toBe(2);
+ await request.get('/__test/visitor-report');await editor(page);await page.locator('[data-roster-refresh]').click();await page.locator('[data-roster-person]').selectOption(p.id);await page.locator('[data-roster-candidate]').selectOption('report:away:99001');await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Jugador desat');await page.locator('[data-roster-close]').click();await page.locator('#statsPlay').click();await page.reload();
+ await expect(page.locator('#statsHistory')).toContainText('Passada completada');await page.locator('[data-stats-side=away]').click();await page.locator('#statsScope').selectOption('player');await expect(page.locator('#statsPlayers')).toContainText('Visitant oficial FICTICI');
+ const after=await snap(request);expect(after.events.filter(e=>e.match_id===match).every(e=>e.player_id===p.id)).toBe(true);expect(after.official).toEqual(before.official);expect(after.clock).toEqual(before.clock);expect(errors).toEqual([]);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'work/visitor-advanced-mobile.png',fullPage:true});
+});
+test('lost roster acknowledgement is recoverable after reload and retries one server identity',async({page,context,request})=>{
+ await page.goto('/clubhoquei360/avancat.html?match='+match);let dropped=false;
+ await context.route(endpoint+'/rest/v1/rpc/match_roster_save',async r=>{const u=new URL(r.request().url());const response=await r.fetch({url:'http://127.0.0.1:4173/api'+u.pathname});if(!dropped){dropped=true;await r.abort('failed');}else await r.fulfill({response});});
+ await editor(page);await page.locator('[data-roster-name]').fill('Pendent FICTICI');await page.locator('[data-roster-shirt]').fill('9');await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Petició conservada');
+ await page.reload();await editor(page);await page.locator('[data-roster-dialog] [data-roster-retry]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Jugador desat');expect((await snap(request)).players.filter(p=>p.match_id===match)).toHaveLength(1);
+});
+test('roster editor fits phone, tablet and desktop, including the dark theme and touch targets',async({page})=>{
+ await page.goto('/clubhoquei360/avancat.html?match='+match);await editor(page);
+ for(const [width,height] of [[390,844],[820,1180],[1440,1000]]){
+  await page.setViewportSize({width,height});expect(await page.locator('[data-roster-dialog]').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
+  const box=await page.locator('[data-roster-save]').boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>document.body.classList.add('dark'));await page.screenshot({path:'work/visitor-editor-dark-mobile.png'});
+});
