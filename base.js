@@ -3,7 +3,7 @@ import {basicState,makeRow,cards,comparison,playerTotals,benchTotals} from './ba
 import {score,fromRow} from './federation-model.js';
 import {BasicStore,syncFederation} from './basic-store.js';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=4';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=5';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -150,6 +150,7 @@ async function confirmRosters(){
  const identities=selected.map(p=>p.catalog_player_id||p.federation_player_id||p.id);
  if(new Set(identities).size!==identities.length)throw Error('Un mateix jugador no pot estar convocat als dos equips.');
  const prior=new Set(state().participants);
+ if(selected.some(p=>!players.some(current=>current.id===p.id)))throw Error('Desmarca els convocats anteriors que ja no consten a la plantilla filtrada. Les seves incidències es conserven.');
  if(selected.some(p=>p.selectable===false&&!prior.has(p.id)))throw Error('Hi ha un reforç sense elegibilitat verificada.');
  const converted=await materializePlayers(db,match,selected,false);
  const newIds=new Map(selected.map((p,i)=>[p.id,converted[i]]));

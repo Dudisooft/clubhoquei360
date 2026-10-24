@@ -194,3 +194,13 @@ Enllaços de mòbil (v=4 evita HTML antic):
 - Directe Alpicat: https://dudisooft.github.io/clubhoquei360/base.html?catalogue=8b5cd05a-149e-7e21-73b3-5782994e0d07&v=4
 
 **Pendent únic immediat:** validació humana al mòbil amb el compte existent: iniciar sessió si cal → activar context compartit → seleccionar convocats dels dos equips → confirmar → jugador/acció, banquetes i correcció → finalització/contrast. No crear dades fictícies sobre el partit real. Si arriba una incidència, continuar només sobre aquell error; no reinstal·lar migracions, reobrir proves avançades ja acceptades ni crear comptes. Les limitacions federatives/equipacions/elegibilitat descrites a l’informe continuen vigents.
+
+## Correcció de plantilla Infantil D · 24/10/2026
+
+Incidència comunicada pel responsable: la llista incloïa altres infantils del club. Branca `fix/base-team-roster-scope`. El catàleg general importat conté 34 jugadors actius al D, però només 8 tenen `observed_match_id=152035` documentant participació amb el D. La mera presència a la llista de competició no acredita pertinença a aquest equip.
+
+El Mode Base, quan l’equip vinculat és INFANTIL, mostra només jugadors amb participació documentada amb l’equip i candidats ALEVI del mateix club/temporada. No ofereix altres infantils, juvenils/sèniors ni categories sense identificar. Els alevins amb participació documentada en un altre infantil queden exclosos de candidats. Una acta verificada del mateix partit continua essent font directa. Els possibles reforços tenen l’equip d’origen visible i resten bloquejats sense verificació del partit; no s’infereix elegibilitat normativa ni s’assigna un equip superior per nom. Els convocats antics exclosos han de desmarcar-se abans de confirmar, amb snapshots/incidències conservats. No s’altera cap dada federativa ni esportiva a Supabase.
+
+Portal FECAPA 4786 consultat via web (inaccessible) i endpoint oficial de plantilles via proxy (403). No afirmar contrast nou del portal ni que aquests vuit constitueixin tota la plantilla inscrita. És un filtre conservador basat en la importació disponible; ampliar la plantilla completa requereix una font de pertinença d’equip més precisa. Aleví és l’única categoria inferior proposada, sense extrapolar benjamins/prebenjamins ni FEM per edat nominal.
+
+Verificació local: 17/17 proves bàsiques Node, 12/12 Chromium bàsics; check 27 fitxers i build correctes. Regressió específica afegida: jugador importat al D però documentat amb altre infantil no es mostra; categories inferiors/superiors/desconegudes diferenciades. Versions de base.js i basic-roster.js a v5 per evitar memòria cau antiga. Consultar PR/CI/Pages de la branca per l’estat final de publicació; cap migració necessària.

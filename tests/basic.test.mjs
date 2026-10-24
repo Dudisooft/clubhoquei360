@@ -40,3 +40,16 @@ test('a blocked reinforcement cannot be materialized even when its identity is k
 });
 
 test('a lineup reference from an unverified report does not certify eligibility',async()=>{const db={from(){const q={select(){return q;},eq(){return q;},order(){return q;},range(){return Promise.resolve({data:[]});}};return q;}};await assert.rejects(materializePlayers(db,ID.match,[{id:'partial',needsImport:true,selectable:true,matchVerified:false,catalog_lineup_id:'not-a-federation-code',full_name:'Fictici'}]),/identitat federativa/);});
+
+import {infantilRosterScope} from '../basic-roster.js';
+test('infantil selection excludes competition-wide lists and other infant teams; lower-category origin is explicit',()=>{
+ const entries=new Map([['D',{club_team_id:'td'}],['A',{club_team_id:'ta'}],['L',{club_team_id:'tl'}],['J',{club_team_id:'tj'}]]),teams=new Map([['td',{category:'INFANTIL'}],['ta',{category:'INFANTIL'}],['tl',{category:'ALEVÍ'}],['tj',{category:'JUVENIL'}]]),ids=new Set(['D']);
+ const r=(entry,raw={})=>({entry_id:entry,raw_data:raw});
+ assert.equal(infantilRosterScope([r('D',{active_in_latest_roster:true})],ids,entries,teams).primary,undefined);
+ assert.equal(infantilRosterScope([r('A',{observed_match_id:'old'})],ids,entries,teams).lower.length,0);
+ assert.equal(infantilRosterScope([r('D',{observed_match_id:'old'})],ids,entries,teams).primary.entry_id,'D');
+ assert.equal(infantilRosterScope([r('L')],ids,entries,teams).lower[0].entry_id,'L');
+ assert.equal(infantilRosterScope([r('L'),r('A',{observed_match_id:'old'})],ids,entries,teams).lower.length,0);
+ assert.equal(infantilRosterScope([r('J')],ids,entries,teams).lower.length,0);
+ assert.equal(infantilRosterScope([r('L',{active_in_latest_roster:false})],ids,entries,teams).lower.length,0);
+});

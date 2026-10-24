@@ -45,7 +45,7 @@ test('all player card types and both benches remain distinct and never increment
 });
 
 test('verified reinforcement can be selected and imported once; unknown eligibility stays blocked',async({page})=>{
- await setup(page);await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();
+ await setup(page);await expect(page.locator('#rosterGrid')).not.toContainText('Altre infantil exclòs fictici');await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();
  await expect(page.locator('#rosterGrid')).toContainText('Elegibilitat de reforç no verificable');
  await prepare(page,['p1','a1','catalog:home:CP3']);await expect(page.locator('#teamList')).toContainText('Reforç verificat fictici');
  await incident(page,'Reforç verificat','Gol');await expect(page.locator('#score')).toHaveText('1 – 0');
