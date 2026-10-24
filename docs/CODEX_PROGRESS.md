@@ -6,6 +6,13 @@ Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
+**Prioritat actual: importar plantilla del Vic a petició explícita del responsable.** Branca `feat/import-vic-roster`, checkout `/workspace/work/clubhoquei360-starters`, base `02ca084`. Auditoria: RFEP 3575/41, equip rival 3727, calendari canònic verificat; 0 entrades de catàleg del Vic, 0 alineacions verificades del Vic a les actes ja importades, 0 convocats al pilot. L’importador general filtra només equips propis IHC; no ampliar-lo indiscriminadament. Es prepara una importació acotada de dades de temporada, sense convocar jugadors ni modificar marcadors/cronòmetres.
+
+Bloqueig verificat a l’entorn (revisió 113, política enforced): només `cdn.jsdelivr.net` i el projecte Supabase són dominis afegits; `www.server2.sidgad.es` no està permès. La RFEP oberta amb web només exposa la carcassa del portal i el fragment de plantilla no és accessible; cerca web retorna error. El responsable respon «sí» a afegir el domini, però l’observació posterior continua sense el canvi. No confondre autorització amb configuració aplicada i no utilitzar serveis de tercers per esquivar aquesta restricció. No s’han escrit dades de producció.
+
+Represa: comprovar política vigent; quan el domini sigui permès, recuperar per POST la plantilla oficial de la competició, validar equip 3727/temporada 41 i importar amb UUID/procedència/idempotència. Preparador i proves locals en curs; no importar cap nom o dorsal deduït. La convocatòria real continuarà a càrrec de l’operador. No repetir instal·lacions o smoke de les PR ja publicades.
+
+
 **Cinc inicial: correcció IMPLEMENTADA, VERIFICADA I PUBLICADA (PR #20).** El partit no tenia convocats vinculats. La preparació integrada de l’Avançat permet incorporar jugadors reals del catàleg de temporada o manualment, revisar dorsals/porters, seleccionar els cincs i confirmar-los al servidor abans de començar el registre manual. Manté l’acta RFEP pendent i les estadístiques independents. No s’ha creat cap convocatòria real automàtica.
 
 Branca del codi `fix/advanced-starting-five`, checkpoints `3331e0f` (servidor), `e56aa7c` (UI), últim codi verificat **`ffef2ff317c491645e26919cfd2934cadc487fbf`** (conserva PR #18/#19 del Mode Base). [CI 40089984343](https://github.com/Dudisooft/clubhoquei360/actions/runs/40089984343) success: **110 Node, 32 Chromium**, check/build 31 fitxers. [PR #20](https://github.com/Dudisooft/clubhoquei360/pull/20) fusionada a **`de35b538bc9207a5a388cd1fd080dd655f0a07e9`**. [Pages 40090318388](https://github.com/Dudisooft/clubhoquei360/actions/runs/40090318388) build/deploy/report success, SHA i URL confirmats, «Reported success!» 11:33:11 UTC. Publicació dins de la correcció ja autoritzada.
