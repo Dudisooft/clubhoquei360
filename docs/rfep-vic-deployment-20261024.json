@@ -145,11 +145,22 @@
   "sourceOfficialId": null,
   "lineupsAvailable": false,
   "frontend": {
-    "merged": false,
-    "published": false
+    "merged": true,
+    "published": true,
+    "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/12",
+    "mergeCommit": "9b5af19f931e33bd7e38f165d9d649456ecb4035",
+    "workflow": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40070909976",
+    "status": "completed",
+    "conclusion": "success",
+    "buildJob": 120803929934,
+    "deployJob": 120804016166,
+    "reportedSuccessAt": "2026-10-24T06:37:46.1836516Z",
+    "environmentUrl": "https://dudisooft.github.io/clubhoquei360/",
+    "directMatchUrl": "https://dudisooft.github.io/clubhoquei360/avancat.html?match=18fa0a6e-e5c6-487e-8315-5bc371e22cb1&view=stats&v=vic1",
+    "authenticatedOwnerBrowserInspected": false
   },
   "invitationPr11Merged": false,
-  "resume": "Authorization already received and data repair applied: do not ask again or reapply. Continue frontend publication verification and checkpoint update.",
+  "resume": "RFEP repair and frontend published with authorization; do not reapply/redeploy or repeat valid 99 Node/28 Chromium suites. Continue only owner-reported issues, official report/lineups when available, or independent invitation SMTP setup.",
   "integration": {
     "baseCommit": "129e097e63260ef577b4c22a533c066eb91f5eee",
     "basicRuntimePreserved": true,
@@ -170,5 +181,6 @@
       "build": "success"
     },
     "documentationBase": "e35b38933afd1a1d57e2bbbed55f8b83a8ce276b"
-  }
+  },
+  "securityAdvisors": "No new WARN/ERROR; pre-existing notices unchanged"
 }
