@@ -35,3 +35,5 @@ Els fitxers HTML, JSON i SQL amb dades reals es generen exclusivament a `work/` 
 6. Comprovar candidats `away` de `pilot_roster_catalogue` amb l’operador existent, UUID i absència de duplicats; comparar marcadors, registres manuals/estadístics i altres equips abans/després. Actualitzar informe/progrés amb recomptes i empremtes reals.
 
 Branca `feat/import-vic-roster`, checkout `/workspace/work/clubhoquei360-starters`, base publicada `02ca084`. Cap migració nova ni desplegament de frontend/Edge Function necessari per completar aquesta importació de dades.
+
+CI consolidada del preparador `a524e2dd1266785bf49ce94cfdec9486f205f3a8`: [40122687503](https://github.com/Dudisooft/clubhoquei360/actions/runs/40122687503) success, logs amb **117/117 Node, 32/32 Chromium**, check/build 31 fitxers. [PR #22](https://github.com/Dudisooft/clubhoquei360/pull/22) continua draft perquè no s’ha pogut recuperar ni importar la plantilla real. Els commits posteriors són només checkpoints documentals; no repetir les suites de codi intacte.
