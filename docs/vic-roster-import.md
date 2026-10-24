@@ -41,3 +41,7 @@ CI consolidada del preparador `a524e2dd1266785bf49ce94cfdec9486f205f3a8`: [40122
 ## Represa amb configuració declarada desada
 
 Després del «Fet» del responsable, 24/10/2026 18:59 UTC, l’entorn observat passa a revisió 114 però manté `restricted/enforced` sense SIDGAD. La petició real del preparador, amb el proxy configurat, retorna CONNECT **403** abans d’arribar a RFEP. Cap font ni dada importada. [Evidència sanejada](vic-roster-access-20261024.json). Cal revisar una captura de la configuració de dominis per esbrinar si és una configuració diferent o encara sense aplicar a la sessió vinculada; no afirmar-ne la causa sense veure-la. No repetir suites de codi intacte ni permisos ja autoritzats.
+
+## Aplicar la configuració a una tasca nova
+
+Guia oficial actual consultada: https://learn.chatgpt.com/docs/environments/cloud-environments. Cal editar l’entorn a Settings → Codex Cloud → Environments, afegir el host a Additional allowed domains, desar i **Republish**. Crear una tasca nova amb l’entorn actualitzat i recuperar `feat/import-vic-roster`; les tasques existents mantenen el seu estat. No n’hi ha prou amb assumir que la resposta «Fet» actualitza la sessió vinculada. La represa exacta està al capdamunt de CODEX_PROGRESS.

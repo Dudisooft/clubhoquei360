@@ -6,6 +6,11 @@ Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 ## Objectiu i fase actual
 
+**Aclariment per desbloquejar l’accés (consulta oficial):** el responsable pregunta com fer-ho. Guia actual verificada a https://learn.chatgpt.com/docs/environments/cloud-environments, seccions «Reuse and update saved state» i «Connect to services»: Settings → Codex Cloud → Environments → … → Edit; Internet access activat, Package managers i Additional allowed domains amb `www.server2.sidgad.es`; desar, **Republish i iniciar una tasca nova amb l’entorn republicat**. Les tasques existents conserven el seu estat. La instrucció anterior només «desa i Fet» era insuficient per guiar aquest flux; no repetir aquest bucle. Observació de la sessió: revisió 115, restricted, state unknown; no acredita configuració nova aplicada.
+
+**Text de represa a la tasca nova:** «CONTINUA CLUBHOQUEI360 des de la branca feat/import-vic-roster. Llegeix docs/CODEX_PROGRESS.md i continua la importació del Vic.» Treball del preparador i resultats desats/presents a origin; PR #22 draft. No reaplicar migracions ni repetir proves intactes. No s’ha importat encara cap plantilla real del Vic.
+
+
 **Represa després del «Fet» del responsable (18:59 UTC): el bloqueig continua verificat amb una petició real.** L’observació actual és revisió **114**, política `restricted/enforced`, domini SIDGAD encara absent. Comanda del preparador executada amb el proxy habitual: falla abans de contactar RFEP, **CONNECT 403** (`Proxy response (403) !== 200 when HTTP Tunneling`). No s’ha creat cap fitxer de dades de plantilla ni fet cap DML. [Diagnòstic sanejat](vic-roster-access-20261024.json). Les proves del preparador/CI continuen vàlides, no repetir-les. Següent pas: revisar una captura de la llista de dominis/configuració que ha desat el responsable per entendre per què no s’aplica a aquesta sessió; no tornar simplement a demanar «Fet» ni sortejar el proxy. Preparador complet a `0a158ca`, PR #22 draft.
 
 
