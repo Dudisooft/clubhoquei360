@@ -1,0 +1,24 @@
+{
+  "checked_at_utc": "2026-10-24T18:59:11Z",
+  "user_report": "Fet: network configuration saved",
+  "environment_observation": {
+    "revision": "114",
+    "observations_current": true,
+    "network_mode": "restricted",
+    "network_state": "enforced",
+    "sidgad_in_effective_allowed_hosts": false
+  },
+  "request": {
+    "endpoint": "https://www.server2.sidgad.es/rfep/rfep_stats_1_3575.php",
+    "method": "POST",
+    "command": "node --use-env-proxy scripts/import-vic-roster.mjs --fetch"
+  },
+  "result": {
+    "proxy_connect_status": 403,
+    "error": "Proxy response (403) !== 200 when HTTP Tunneling",
+    "federation_response_received": false,
+    "roster_data_file_created": false,
+    "production_data_written": false
+  },
+  "next_step": "Inspect a screenshot of the allowed-host list/environment configuration to determine why the saved change is not applied to this bound session. Do not repeat the same confirmation loop or bypass the proxy."
+}
