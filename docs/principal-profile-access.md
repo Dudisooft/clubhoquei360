@@ -16,7 +16,7 @@ Obrir Principal no habilita l’escriptura oficial d’una font pendent. L’av�
 - Després del canvi: **3/3 Chromium específics PASS**. Cobertura: registre d’equip en directe i persistència, canvi de perfil en mòbil, obertura de Principal des de l’enllaç estadístic i conservació després de recarregar; zero peticions `pilot_save_operator_state` i dades oficials/estadístiques intactes en consultar la vista.
 - **2/2 proves Node d’interfície PASS**; check dels 29 fitxers, build Pages i diff correctes.
 - Transport de navegador Auth/Realtime local fictici sobre PostgreSQL/PGlite. La consulta real de Supabase és de diagnòstic de permisos, sense accedir a contrasenyes/JWT i sense escriptures. No és una inspecció de la sessió real del responsable.
-- La CI de la PR executa el conjunt consolidat; registrar-ne el resultat abans de publicar. No repetir la reparació de dades RFEP ni migracions.
+- [CI de la PR #16](https://github.com/Dudisooft/clubhoquei360/actions/runs/40072904236) success al codi `3e5bb69d1a6922d8f395d11ab039f2c8f7b64ca7`: **99 Node, 29 Chromium**, check 29 i build correctes, confirmats als logs. No repetir la reparació de dades RFEP ni migracions.
 
 ## Publicació i represa
 

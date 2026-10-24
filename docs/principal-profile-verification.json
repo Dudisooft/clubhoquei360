@@ -34,13 +34,22 @@
   },
   "scope": "Principal view access for authorized match operator; official controls and writes remain blocked for pending report, no fake lineup. No server data/roles/RLS/migration changes.",
   "authorization": "Regression correction within already authorized RFEP publication after user reported access failure.",
-  "ci": null,
+  "ci": {
+    "head": "3e5bb69d1a6922d8f395d11ab039f2c8f7b64ca7",
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40072904236",
+    "status": "completed",
+    "conclusion": "success",
+    "nodePassed": 99,
+    "browserPassed": 29,
+    "staticFilesChecked": 29,
+    "build": "success"
+  },
   "merged": false,
   "frontendPublished": false,
   "productionAuthBrowserInspected": false,
   "remaining": [
-    "Consolidated CI",
-    "Merge and verify Pages",
+    "Merge PR #16 and verify Pages",
     "Record publication checkpoint"
-  ]
+  ],
+  "pullRequest": "https://github.com/Dudisooft/clubhoquei360/pull/16"
 }
