@@ -9,11 +9,13 @@ const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const requestedPractice=new URLSearchParams(location.search).get('practice');
 let practiceId=requestedPractice,catalogueId=requestedPractice||new URLSearchParams(location.search).get('catalogue'),activationNeeded=false,legacyRows=[];
+let restrictedSides=[];
 let uid,match,store,source,fixture,players=[],role=null,busy=false,advancedFinished=false;
 let activeSide='home',preparing=true,draft=new Set(),sheet=null,flash='',rosterNotice='';
 const state=()=>basicState(store?.all()||[]);
 const teamName=side=>source?.[side+'_name']||sideLabel(side);
 const editable=()=>!!store&&role==='operator'&&!state().finished&&!advancedFinished;
+const needsRosterReview=()=>state().playerRecords.some(p=>restrictedSides.includes(p.team)&&(!players.some(x=>x.id===p.id)||players.find(x=>x.id===p.id)?.selectable===false));
 const recordFor=id=>players.find(p=>p.id===id)||state().playerRecords.find(p=>p.id===id);
 const eventName=row=>row.payload?.details?.player_snapshot?.full_name||recordFor(row.payload?.actor)?.full_name||row.player_label||'Jugador no disponible';
 const jersey=(p,side)=>{const kit=kitFor(side,source?.official_data?.[side+'_team_id']||teamName(side),p.position==='goalkeeper'?'goalie':'player');return `<span class="jersey" style="--kit-background:${kit.background};--kit-ink:${kit.ink}" aria-label="${p.dorsal?'Dorsal '+esc(p.dorsal):'Dorsal desconegut'}">${esc(p.dorsal??'—')}</span>`;};
@@ -102,7 +104,7 @@ async function metadata(){
  let enriched;
  try{enriched=await catalogueRoster(db,{players:nextPlayers,source:nextSource,fixture:nextFixture});}
  catch(e){enriched={players:mergeRoster(nextPlayers),notice:'Catàleg addicional no disponible: '+e.message+'. Es conserva la plantilla del partit; elegibilitat de reforços no verificable.'};}
- source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
+ restrictedSides=enriched.restrictedSides||[];source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
 }
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
@@ -110,7 +112,7 @@ async function open(id){
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
- draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed||needsRosterReview();activeSide='home';
  history.replaceState(null,'','?match='+encodeURIComponent(id));render();
 }
 async function openCatalogue(id,training){
@@ -123,7 +125,7 @@ async function openCatalogue(id,training){
  if(!training&&fixture?.raw_data?.report_status==='verified'&&fixture.raw_data?.report_data?.official_status==='FINALIZAT'){await openCatalogue(id,true);return;}
  if(context.data){const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;}
  if(training){const legacy=new PracticeStore(localStorage);await legacy.open(id,uid);legacyRows=legacy.all();}
- draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed||needsRosterReview();activeSide='home';
  if(!window.basicAvailableMatches?.has(id))$('match').innerHTML=`<option value="${esc(id)}">${esc(teamName('home'))} – ${esc(teamName('away'))}</option>`;
  $('fixtureNotice').textContent=(training?'PROVA COMPARTIDA · Incidències separades de l’històric. ':'Partit real del catàleg. ')+(context.error?'La persistència de catàleg necessita instal·lar la migració del Mode Base.':'Activa el registre si encara no té context operatiu.');
  history.replaceState(null,'','?'+(training?'practice':'catalogue')+'='+encodeURIComponent(id));
@@ -151,7 +153,7 @@ async function confirmRosters(){
  if(new Set(identities).size!==identities.length)throw Error('Un mateix jugador no pot estar convocat als dos equips.');
  const prior=new Set(state().participants);
  if(selected.some(p=>!players.some(current=>current.id===p.id)))throw Error('Desmarca els convocats anteriors que ja no consten a la plantilla filtrada. Les seves incidències es conserven.');
- if(selected.some(p=>p.selectable===false&&!prior.has(p.id)))throw Error('Hi ha un reforç sense elegibilitat verificada.');
+ if(selected.some(p=>p.selectable===false&&(!prior.has(p.id)||p.scopeChecked)))throw Error('Hi ha un reforç sense elegibilitat verificada.');
  const converted=await materializePlayers(db,match,selected,false);
  const newIds=new Map(selected.map((p,i)=>[p.id,converted[i]]));
  players=players.map(p=>newIds.get(p.id)||p);

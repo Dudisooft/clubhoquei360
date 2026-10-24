@@ -106,3 +106,11 @@ test('Alpicat-like catalogue fixture opens without an acta code, keeps unknown o
  await expect(page.locator('#federation')).toContainText('Estat de l’acta desconegut');await expect(page.locator('#comparison')).toContainText('No verificable');
  expect((await stored(page)).every(r=>r.match_id===live)).toBe(true);
 });
+
+test('saved out-of-scope infant selection requires review while keeping its goal',async({page})=>{
+ await setup(page,'?catalogue=20000000-0000-4000-8000-000000000002');await prepare(page,['catalog:home:CP1']);await incident(page,'Jugador local','Gol');
+ await page.evaluate(()=>localStorage.setItem('synthetic-retired-player','p1'));await page.reload();
+ await expect(page.locator('#preparation')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
+ await page.locator('#confirmRosters').click();await expect(page.locator('#status')).toContainText('Desmarca');
+ await page.locator('#rosterGrid input:checked').uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
+});

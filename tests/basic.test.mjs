@@ -53,3 +53,8 @@ test('infantil selection excludes competition-wide lists and other infant teams;
  assert.equal(infantilRosterScope([r('J')],ids,entries,teams).lower.length,0);
  assert.equal(infantilRosterScope([r('L',{active_in_latest_roster:false})],ids,entries,teams).lower.length,0);
 });
+
+test('an already imported reinforcement cannot retain an old selectable status after scope verification',()=>{
+ const [person]=mergeRoster([{id:'saved',team:'home',full_name:'Fictici',federation_player_id:'42',selectable:true}],[{id:'catalog',team:'home',full_name:'Fictici',federation_player_id:'42',scopeChecked:true,selectable:false,origin:'Possible reforç · Aleví',eligibility:'No verificable'}]);
+ assert.equal(person.id,'saved');assert.equal(person.selectable,false);assert.equal(person.origin,'Possible reforç · Aleví');
+});
