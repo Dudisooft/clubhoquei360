@@ -10,7 +10,7 @@ test.before(async()=>{db=await createDatabase();await seedPreparation(db);});tes
 test.beforeEach(async()=>{await db.exec('reset role;delete from match_roster_audit;delete from pilot_prepared_lineups;');await asOwner(db,'delete from pilot_players where match_id=$1',[PREP.match]);});
 test('empty/partial visitor roster: provisional identity persists and retry does not duplicate',async()=>{
  assert.equal((await roster()).players.length,0);assert.deepEqual((await roster()).write_sides,['home','away']);
- const input=manual(),mutation=crypto.randomUUID(),p=await save(input,mutation);assert.equal(p.identity_status,'provisional');assert.equal(p.federation_player_id,null);assert.equal(p.official_source,'operator:'+ID.manager);assert.equal(p.id,input.id);
+ const input=manual({federation_player_id:'INVENTED',identity_status:'federation',roster_registered_by:ID.alien}),mutation=crypto.randomUUID(),p=await save(input,mutation);assert.equal(p.identity_status,'provisional');assert.equal(p.federation_player_id,null);assert.equal(p.official_source,'operator:'+ID.manager);assert.equal(p.roster_registered_by,ID.manager);assert.equal(p.id,input.id);
  assert.deepEqual(await save(input,mutation),p);await save(manual({dorsal:'10'}));assert.equal((await roster()).players.length,2);
  await assert.rejects(save({...input,full_name:'Changed'},mutation),/Mutation identity/);
  await assert.rejects(save(manual({dorsal:'009'})),/Shirt belongs/);
@@ -35,11 +35,13 @@ test('manual roster access is limited by match, side, player assignment, expiry 
  for(const user of ['alien','coach','delegate','external'])await assert.rejects(save(manual(),crypto.randomUUID(),user),/access denied/);
  await asOwner(db,"insert into stats_assignments(match_id,user_id,role,categories,sides,expires_at,granted_by) values($1,$2,'operator','{passing}','{away}',now()+interval '1 hour',$3)",[PREP.match,ID.external,ID.manager]);
  const p=await save(manual(),crypto.randomUUID(),'external');await assert.rejects(save(manual({team:'home'}),crypto.randomUUID(),'external'),/access denied/);
+ await assert.rejects(asUser(db,'external',"insert into pilot_events(id,match_id,user_id,event_type,team,payload) values(gen_random_uuid(),$1,$2,'goal','away',$3)",[PREP.match,ID.external,JSON.stringify({kind:'gol',actor:p.id})]),/row-level security/);
  await assert.rejects(save({...manual(),id:p.id,revision:1,team:'home'}),/outside match team/);
  await assert.rejects(save({...manual(),id:ID.player,revision:1}),/outside match team/);
  await asOwner(db,'update stats_assignments set player_ids=$1 where match_id=$2 and user_id=$3',[[p.id],PREP.match,ID.external]);
  assert.deepEqual((await roster('external')).write_sides,[]);await assert.rejects(save(manual({dorsal:'11'}),crypto.randomUUID(),'external'),/access denied/);
- await asOwner(db,"update stats_assignments set revoked_at=now() where match_id=$1 and user_id=$2",[PREP.match,ID.external]);await assert.rejects(roster('external'),/access denied/);
+ await asOwner(db,"update stats_assignments set expires_at=now()-interval '1 second' where match_id=$1 and user_id=$2",[PREP.match,ID.external]);await assert.rejects(roster('external'),/access denied/);
+ await asOwner(db,"update stats_assignments set expires_at=now()+interval '1 hour',revoked_at=now() where match_id=$1 and user_id=$2",[PREP.match,ID.external]);await assert.rejects(roster('external'),/access denied/);
  await assert.rejects(asUser(db,'manager',"update pilot_players set full_name='UNSAFE' where id=$1",[p.id]),/permission denied/);
  await assert.rejects(asUser(db,'manager',"insert into pilot_players(id,match_id,team,full_name) values(gen_random_uuid(),$1,'away','UNSAFE')",[PREP.match]),/permission denied/);
  await db.exec('reset role;set role anon');await assert.rejects(db.query('select match_roster($1)',[PREP.match]),/permission denied/);
@@ -49,4 +51,10 @@ test('official candidates require exact team and scope; conflicting existing ide
  const a=await save({...manual(),team:'home',dorsal:'21',candidate_id:c.candidate_id}),b=await save(manual({team:'home',dorsal:'22'}));
  await assert.rejects(save({...manual(),id:b.id,revision:1,team:'home',dorsal:'22',candidate_id:c.candidate_id}),/already has a match record/);
  const rows=(await roster()).players;assert.equal(rows.length,2);assert.equal(rows.find(x=>x.id===a.id).federation_player_id,c.federation_player_id);assert.equal(rows.find(x=>x.id===b.id).identity_status,'provisional');
+});
+test('a club administrator and its match operator cannot read or edit another club roster',async()=>{
+ const club=crypto.randomUUID(),season=crypto.randomUUID(),team=crypto.randomUUID(),mid=crypto.randomUUID();
+ await asOwner(db,"insert into clubs values($1,'UN ALTRE CLUB FICTICI')",[club]);await asOwner(db,"insert into seasons values($1,$2,'2026/27')",[season,club]);await asOwner(db,"insert into teams(id,club_id,season_id,name) values($1,$2,$3,'Equip aliè FICTICI')",[team,club,season]);await asOwner(db,"insert into pilot_matches(id,title) values($1,'PARTIT D UN ALTRE CLUB FICTICI')",[mid]);await asOwner(db,'insert into stats_matches(match_id,club_id,season_id,home_team_id) values($1,$2,$3,$4)',[mid,club,season,team]);
+ await assert.rejects(roster('manager',mid),/access denied/);await assert.rejects(save(manual(),crypto.randomUUID(),'manager',mid),/access denied/);
+ assert.equal((await asUser(db,'manager','select * from pilot_players where match_id=$1',[mid])).rows.length,0);
 });
