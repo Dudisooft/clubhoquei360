@@ -85,7 +85,7 @@ test('anonymous callers cannot execute commands or read analytics',async()=>{
 test('future verified federation import creates context by IDs and leaves all manual observations intact',async()=>{
  const competition='60000000-0000-4000-8000-000000000001',entry='60000000-0000-4000-8000-000000000002',match='60000000-0000-4000-8000-000000000003';
  await asOwner(db,'insert into federation_competitions values($1,$2,$3,$4,$5)',[competition,ID.club,ID.season,'FECAPA','4802']);
- await asOwner(db,'insert into federation_team_entries values($1,$2,$3,$4,$5)',[entry,ID.team,competition,'12419',JSON.stringify({season_id:'41'})]);
+ await asOwner(db,'insert into federation_team_entries(id,club_team_id,competition_id,external_team_id,raw_data) values($1,$2,$3,$4,$5)',[entry,ID.team,competition,'12419',JSON.stringify({season_id:'41'})]);
  await asOwner(db,"insert into pilot_matches(id,title) values($1,'Nou partit fictici')",[match]);
  const before=JSON.stringify((await asOwner(db,'select * from stats_events order by id')).rows);
  await asOwner(db,"insert into federation_match_sources(match_id,federation,competition_id,season_id,official_data,import_status) values($1,'FECAPA','4802','41',$2,'verified')",[match,JSON.stringify({home_team_id:'12419',away_team_id:'fictici',home_score:2})]);
