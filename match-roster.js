@@ -1,7 +1,7 @@
 // One match-local editor for both modes; historical incidents keep their UUIDs.
 const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 export const provisional=p=>!p.federation_player_id&&!String(p.official_source||'').includes('#lineup=');
-export const identityLabel=p=>provisional(p)?'Provisional · no verificat':'Identitat federativa · convocatòria no certificada';
+export const identityLabel=p=>provisional(p)?'Provisional · no verificat':p.federation_player_id?'Identitat federativa · convocatòria no certificada':'Consta a l’acta · codi individual no publicat';
 export function rosterRequest(match,player,mutation=crypto.randomUUID()) {return {p_match:match,p_mutation:mutation,p_player:player};}
 export async function saveRoster(db,request){const r=await db.rpc('match_roster_save',request);if(r.error)throw r.error;if(!r.data?.id)throw Error('El servidor no ha confirmat el jugador.');return r.data;}
 export function mountMatchRoster({db,root,onSaved=async()=>{},storage=localStorage}){
@@ -30,7 +30,7 @@ export function mountMatchRoster({db,root,onSaved=async()=>{},storage=localStora
   finally{if(token===generation){busy=false;lock();}}
  }
  button.onclick=()=>{if(!context)return;$('dialog').showModal();if(pending())tell('Recupera o descarta la petició pendent abans de continuar.');};
- $('close').onclick=()=>$('dialog').close();$('side').onchange=choices;$('person').onchange=fields;$('candidate').onchange=fields;
+ $('close').onclick=()=>$('dialog').close();$('dialog').addEventListener('cancel',e=>{if(busy)e.preventDefault();});$('side').onchange=choices;$('person').onchange=fields;$('candidate').onchange=fields;
  $('refresh').onclick=async()=>{try{await refresh();tell('Fonts importades actualitzades. No es modifica cap incidència.');}catch(e){tell('No s’han actualitzat les fonts: '+e.message);}};
  $('retry').onclick=()=>send(pending());$('discard').onclick=()=>{storage.removeItem(key());lock();tell('Petició descartada. Si el servidor ja l’havia desat, el jugador es recuperarà en actualitzar les fonts.');};
  $('form').onsubmit=e=>{e.preventDefault();if(busy||pending())return;const p=person(),candidate=$('candidate').value;

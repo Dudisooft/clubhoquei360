@@ -1,4 +1,4 @@
-import {mountStats,normalizeVideoUrl} from './stats-ui.js?v=20261024.video1';
+import {mountStats,normalizeVideoUrl} from './stats-ui.js?v=20261024.roster1';
 import {db} from './app-client.js';
 import {mountRoster} from './advanced-roster.js';
 import {mountMatchRoster} from './match-roster.js';

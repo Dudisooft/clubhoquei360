@@ -41,3 +41,11 @@ test('lost roster acknowledgement is recoverable after reload and retries one se
  await editor(page);await page.locator('[data-roster-name]').fill('Pendent FICTICI');await page.locator('[data-roster-shirt]').fill('9');await page.locator('[data-roster-save]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Petició conservada');
  await page.reload();await editor(page);await page.locator('[data-roster-dialog] [data-roster-retry]').click();await expect(page.locator('[data-roster-dialog] [data-roster-message]')).toContainText('Jugador desat');expect((await snap(request)).players.filter(p=>p.match_id===match)).toHaveLength(1);
 });
+test('roster editor fits phone, tablet and desktop, including the dark theme and touch targets',async({page})=>{
+ await page.goto('/clubhoquei360/avancat.html?match='+match);await editor(page);
+ for(const [width,height] of [[390,844],[820,1180],[1440,1000]]){
+  await page.setViewportSize({width,height});expect(await page.locator('[data-roster-dialog]').evaluate(el=>el.scrollWidth<=el.clientWidth)).toBe(true);
+  const box=await page.locator('[data-roster-save]').boundingBox();expect(box.height).toBeGreaterThanOrEqual(44);expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+ }
+ await page.setViewportSize({width:390,height:844});await page.evaluate(()=>document.body.classList.add('dark'));await page.screenshot({path:'work/visitor-editor-dark-mobile.png'});
+});
