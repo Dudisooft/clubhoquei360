@@ -38,3 +38,7 @@ En una còpia local o entorn de revisió autoritzat del frontend:
 6. Repetir a mòbil/tauleta/escriptori. Per verificar dades o cues de registre, usar només fixtures o un partit de prova autoritzat, no anotacions de demostració als partits reals.
 
 No desplegar ni fusionar sense autorització. Els futurs sense context RFEP i la lectura restringida del catàleg són límits explícits d'aquesta fase, no permisos nous pendents d'activar silenciosament.
+
+PR de revisió: https://github.com/Dudisooft/clubhoquei360/pull/28 . CI del checkpoint `05592a1`: https://github.com/Dudisooft/clubhoquei360/actions/runs/40415203816 (consultar el resultat; no es pressuposa superat). No hi ha vista publicada nova.
+
+Per inspeccionar visualment el selector amb dades fictícies en una còpia local de la branca, després de `npm ci` i `npx playwright install chromium`: `PLAYWRIGHT_BUNDLED=1 npx playwright test tests/browser/navigation.spec.mjs --debug`. L'Inspector permet avançar pas a pas pels quatre nivells; les rutes de prova substitueixen Auth/catàleg i no escriuen a producció.
