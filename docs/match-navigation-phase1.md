@@ -22,7 +22,7 @@ La visibilitat continua depenent de les polítiques de lectura existents. Si un 
 
 Node: suite completa 115/115 PASS, inclosos tres casos nous de model (26 jornades, context existent sense duplicar, absència de correspondències per identitat buida i activació Base existent). Check/build: 34 fitxers correctes. Reforç de sintaxi/model/interfície executat després dels últims ajustos.
 
-Chromium: cinc casos nous de selector (Dashboard/dues entrades buides sense peticions d'escriptura/import, quatre nivells/calendari/canvis/recàrrega, 390/820/1440 px). Cas nou amb PostgreSQL/PGlite d'enllaç autoritzat sense font, identitat preservada i absència de rellotge/incidències/estadístiques noves. La suite completa final es registra al CODEX_PROGRESS abans de tancar.
+Chromium: cinc casos nous de selector (Dashboard/dues entrades buides sense peticions d'escriptura/import, quatre nivells/calendari/canvis/recàrrega, 390/820/1440 px). Cas nou amb PostgreSQL/PGlite d'enllaç autoritzat sense font, identitat preservada i absència de rellotge/incidències/estadístiques noves. La suite completa final ha passat: **43/43 Chromium**, zero fallides/omeses, al codi `295ae29`.
 
 Regressions detectades i corregides: ocultar el contenidor Base amagava l'activació existent; ara només s'amaga el selector antic. CSS `.flex` feia visible l'antic selector Avançat malgrat `hidden`; ocultació reforçada. Les proves que navegaven per controls antics s'han adaptat a URL explícita. S'ha repetit la suite en sèrie després de col·lisions d'artefactes de dos llançaments Playwright. Les dades de navegador són fictícies; el transport local usa la base PostgreSQL de proves. No són dades federatives reals ni proves al pavelló.
 
