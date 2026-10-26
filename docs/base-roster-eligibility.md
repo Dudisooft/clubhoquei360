@@ -47,3 +47,5 @@ La reproducció automatitzada fictícia de FEM11 és a `tests/browser/basic.spec
 ## Estat i continuïtat
 
 Filtratge d'habituals, presentació i preservació: implementats i verificats localment. Certificació reglamentària dels reforços: **bloquejada per evidència oficial i dades personals esportives insuficients**; no simular-la. Pendent revisar la PR esborrany, validar visualment i verificar normativa/dades abans d'habilitar reforços nous. No fusionar ni publicar sense autorització expressa.
+
+Punt de recuperació remot: codi verificat `b709f93f0498774d8c5a79248c145f7d1425ca6d`, [PR #29 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/29). La primera consulta de CI encara no mostrava execucions: els resultats anteriors són locals, no una afirmació de CI superada.
