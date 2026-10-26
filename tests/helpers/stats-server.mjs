@@ -60,6 +60,7 @@ const server=http.createServer((req,res)=>{
   await asOwner(db,"update pilot_matches set title='Igualada – Vic · PROVA FICTÍCIA' where id=$1",[vic]);
   vicCalendar=[row,{...row,round:'JORNADA 6',date:'31/10/2026',away_team_id:'99999',away_name:'Futur rival · FICTICI'}];json(res,{ok:true});
  });return;}
+ if(url.pathname==='/__test/vic-without-source'){serial=serial.then(async()=>{await asOwner(db,'delete from federation_match_sources where match_id=$1',[vic]);json(res,{ok:true});});return;}
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
  const relative=url.pathname.replace(/^\/clubhoquei360\//,'/').replace(/^\//,'')||'index.html';const filename=path.resolve(cwd,relative);
  if(!filename.startsWith(cwd+'/')||relative.includes('.git')||relative.endsWith('.sql')){res.writeHead(404);res.end();return;}
