@@ -3,7 +3,7 @@ import {basicState,makeRow,cards,comparison,playerTotals,benchTotals} from './ba
 import {score,fromRow} from './federation-model.js';
 import {BasicStore,syncFederation} from './basic-store.js';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=5';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=eligibility1';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -20,16 +20,16 @@ const recordFor=id=>players.find(p=>p.id===id)||state().playerRecords.find(p=>p.
 const eventName=row=>row.payload?.details?.player_snapshot?.full_name||recordFor(row.payload?.actor)?.full_name||row.player_label||'Jugador no disponible';
 const jersey=(p,side)=>{const kit=kitFor(side,source?.official_data?.[side+'_team_id']||teamName(side),p.position==='goalkeeper'?'goalie':'player');return `<span class="jersey" style="--kit-background:${kit.background};--kit-ink:${kit.ink}" aria-label="${p.dorsal?'Dorsal '+esc(p.dorsal):'Dorsal desconegut'}">${esc(p.dorsal??'—')}</span>`;};
 const countsText=totals=>[totals.goals?`${totals.goals} gol${totals.goals===1?'':'s'}`:'',...Object.entries(cards).filter(([k])=>totals[k]).map(([k,label])=>`${totals[k]} ${label.toLowerCase()}`)].filter(Boolean).join(' · ');
-const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null});
+const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null,selection_basis:p.selection_basis||null,origin_reference:p.origin_reference||null,callup_reference:p.callup_reference||null});
 
 function renderPreparation(){
- $('rosterNotice').textContent=rosterNotice;
+ $('rosterNotice').textContent=rosterNotice+(needsRosterReview()?' Convocatòria desada preservada: hi ha participants sense evidència actual suficient; revisa’ls sense perdre les incidències.':'');
  const selected=state().playerRecords;
  const candidates=[...players];
  for(const p of selected)if(!candidates.some(x=>x.id===p.id))candidates.push({...p,selectable:false,origin:'Convocat desat anteriorment',eligibility:'No consta a la plantilla actual: revisa’l'});
  $('rosterGrid').innerHTML=['home','away'].map(side=>{
   const list=candidates.filter(p=>p.team===side);
-  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3>${list.length?list.map(p=>`<label class="roster-option"><input type="checkbox" data-player="${esc(p.id)}" ${draft.has(p.id)?'checked':''} ${busy||role!=='operator'||(!p.selectable&&!state().participants.includes(p.id))||advancedFinished||state().finished?'disabled':''}><span><strong>${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</strong><span class="player-details">${p.reinforcement?'Reforç · ':''}${esc(p.origin||'Plantilla del partit')} · ${esc(p.eligibility||'Elegibilitat no acreditada')}${p.otherTeams?.length?'<br>També consta a: '+esc(p.otherTeams.join(', ')):''}</span></span></label>`).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}</div>`;
+  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3>${list.length?[["Jugadors de l’equip",list.filter(p=>!p.reinforcement)],["Possibles reforços",list.filter(p=>p.reinforcement)]].map(([label,items])=>'<h4>'+label+'</h4>'+(items.length?items.map(p=>`<label class="roster-option"><input type="checkbox" data-player="${esc(p.id)}" ${draft.has(p.id)?'checked':''} ${busy||role!=='operator'||(!p.selectable&&!state().participants.includes(p.id))||advancedFinished||state().finished?'disabled':''}><span><strong>${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</strong><span class="player-details">${p.reinforcement?'Reforç · ':''}${esc(p.origin||'Plantilla del partit')} · ${esc(p.eligibility||'Elegibilitat no acreditada')}${p.otherTeams?.length?'<br>També consta a: '+esc(p.otherTeams.join(', ')):''}</span></span></label>`).join(''):'<p class="muted">Cap candidat amb evidència suficient.</p>')).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}</div>`;
  }).join('');
  $('cancelPreparation').hidden=!state().confirmed;
  $('cancelPreparation').disabled=busy;
@@ -81,7 +81,7 @@ function render(){
  if(s.finished)$('federationDetails').open=true;
  renderPreparation();renderPlayers();renderHistory();renderSummary();
  const saved=store?.pending.length?`${store.pending.flat().length} anotacions pendents de sincronitzar${store.error?' · '+store.error:''}`:'Dades confirmades al servidor';
- $('status').textContent=!store?(activationNeeded?'Partit del catàleg · cal activar el desament compartit':'Selecciona un partit i inicia sessió si cal.'):`${flash?flash+' · ':''}${practiceId?'PROVA COMPARTIDA':role==='operator'?'Operador':'Només consulta'} · ${s.finished?'Registre local finalitzat':advancedFinished?'Finalitzat al Mode Avançat':setup?'Preparant convocatòries':'Registre obert'} · ${saved}`;
+ $('status').textContent=!store?(activationNeeded?'Partit del catàleg · cal activar el desament compartit':'Selecciona un partit i inicia sessió si cal.'):`${flash?flash+' · ':''}${practiceId?'PROVA COMPARTIDA':role==='operator'?'Operador':'Només consulta'} · ${s.finished?'Registre local finalitzat':advancedFinished?'Finalitzat al Mode Avançat':setup?'Preparant convocatòries':'Registre obert'} · ${saved}${needsRosterReview()?' · Avís: convocatòria desada preservada; evidència actual incompleta.':''}`;
 }
 function federationText(prefix=''){
  const official=source?.federation==='FECAPA'?source.official_data:null;
@@ -112,7 +112,7 @@ async function open(id){
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
- draft=new Set(state().participants);preparing=!state().confirmed||needsRosterReview();activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
  history.replaceState(null,'','?match='+encodeURIComponent(id));render();
 }
 async function openCatalogue(id,training){
@@ -125,7 +125,7 @@ async function openCatalogue(id,training){
  if(!training&&fixture?.raw_data?.report_status==='verified'&&fixture.raw_data?.report_data?.official_status==='FINALIZAT'){await openCatalogue(id,true);return;}
  if(context.data){const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;}
  if(training){const legacy=new PracticeStore(localStorage);await legacy.open(id,uid);legacyRows=legacy.all();}
- draft=new Set(state().participants);preparing=!state().confirmed||needsRosterReview();activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
  if(!window.basicAvailableMatches?.has(id))$('match').innerHTML=`<option value="${esc(id)}">${esc(teamName('home'))} – ${esc(teamName('away'))}</option>`;
  $('fixtureNotice').textContent=(training?'PROVA COMPARTIDA · Incidències separades de l’històric. ':'Partit real del catàleg. ')+(context.error?'La persistència de catàleg necessita instal·lar la migració del Mode Base.':'Activa el registre si encara no té context operatiu.');
  history.replaceState(null,'','?'+(training?'practice':'catalogue')+'='+encodeURIComponent(id));
@@ -147,13 +147,14 @@ function actionRow(kind,team,actor=null,details={}){
 }
 async function confirmRosters(){
  if(!editable())throw Error('No tens permís per confirmar les convocatòries.');
+ if(state().confirmed&&draft.size===state().participants.length&&state().participants.every(id=>draft.has(id))){preparing=false;flash='Convocatòria desada conservada sense canvis';return;}
  const pool=[...players,...state().playerRecords.filter(p=>!players.some(x=>x.id===p.id))];
  const selected=pool.filter(p=>draft.has(p.id));
  const identities=selected.map(p=>p.catalog_player_id||p.federation_player_id||p.id);
  if(new Set(identities).size!==identities.length)throw Error('Un mateix jugador no pot estar convocat als dos equips.');
  const prior=new Set(state().participants);
- if(selected.some(p=>!players.some(current=>current.id===p.id)))throw Error('Desmarca els convocats anteriors que ja no consten a la plantilla filtrada. Les seves incidències es conserven.');
- if(selected.some(p=>p.selectable===false&&(!prior.has(p.id)||p.scopeChecked)))throw Error('Hi ha un reforç sense elegibilitat verificada.');
+ if(selected.some(p=>!players.some(current=>current.id===p.id)&&!prior.has(p.id)))throw Error('Desmarca els convocats anteriors que ja no consten a la plantilla filtrada. Les seves incidències es conserven.');
+ if(selected.some(p=>p.selectable===false&&!prior.has(p.id)))throw Error('Hi ha un reforç sense elegibilitat verificada.');
  const converted=await materializePlayers(db,match,selected,false);
  const newIds=new Map(selected.map((p,i)=>[p.id,converted[i]]));
  players=players.map(p=>newIds.get(p.id)||p);

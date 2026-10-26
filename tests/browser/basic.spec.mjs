@@ -110,7 +110,9 @@ test('Alpicat-like catalogue fixture opens without an acta code, keeps unknown o
 test('saved out-of-scope infant selection requires review while keeping its goal',async({page})=>{
  await setup(page,'?catalogue=20000000-0000-4000-8000-000000000002');await prepare(page,['catalog:home:CP1']);await incident(page,'Jugador local','Gol');
  await page.evaluate(()=>localStorage.setItem('synthetic-retired-player','p1'));await page.reload();
- await expect(page.locator('#preparation')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
- await page.locator('#confirmRosters').click();await expect(page.locator('#status')).toContainText('Desmarca');
+ await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#status')).toContainText('preservada');await expect(page.locator('#score')).toHaveText('1 – 0');
+ await page.locator('#editRosters').click();await page.locator('#confirmRosters').click();await expect(page.locator('#status')).toContainText('sense canvis');await page.locator('#editRosters').click();
  await page.locator('#rosterGrid input:checked').uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
 });
+
+test('FEM11 mobile: own players first, no whole-club list, blocked lower candidates and selection survives reload',async({page})=>{await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=fem11');await expect(page.locator('#rosterGrid')).toContainText('Jugadors de l’equip');await expect(page.locator('#rosterGrid')).toContainText('Possibles reforços');await expect(page.locator('#rosterGrid')).not.toContainText('Mateixa categoria exclosa');await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();await expect(page.locator('#rosterGrid')).toContainText('any de naixement');await page.locator('[data-player=p1]').check();await page.locator('[data-player=p1]').uncheck();await expect(page.locator('[data-player=p1]')).not.toBeChecked();await prepare(page,['p1']);await page.reload();await page.locator('#editRosters').click();await expect(page.locator('[data-player=p1]')).toBeChecked();});
