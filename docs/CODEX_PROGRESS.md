@@ -1,6 +1,8 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+**26/10/2026 — AUDITORIA, NO DESENVOLUPAMENT.** Informe actual: [AUDITORIA_GLOBAL_2026-10-26.md](AUDITORIA_GLOBAL_2026-10-26.md), branca documental `docs/auditoria-global-2026-10-26`, base `a5e54e7`. Contrasta 30 branques, 27 PR, CI, Pages i Supabase només en lectura. Quatre PR continuen draft; #27 no publicada; #11 només backend instal·lat. **Novetats respecte del 24/10:** Alpicat ja té 8 alineacions visitants amb dorsal a l'acta 152043; Vic ja té codi de calendari 35559 però la ingesta d'acta falla per manca de privilegis del servidor a `federation_match_events`, i el pilot continua amb font pendent. No atribuir-ho tot a la xarxa ni repetir importacions antigues sense llegir l'informe. Cap codi funcional, dada de producció, migració, fusió o desplegament modificat. **No reprendre el pla de desenvolupament fins que el responsable revisi i aprovi la primera tasca.** Recomanació única: entrada jeràrquica explícita de temporada/competició/equip/partit, sense obrir partits antics automàticament. Els blocs següents són checkpoints històrics; preval aquest límit de l'encàrrec d'auditoria.
+
+Actualitzat: 26/10/2026, Europe/Madrid, només auditoria documental. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**, subjecta a la revisió i aprovació de la primera tasca indicada a l'informe actual.
 
 **Treball paral·lel conservat de `main`: redisseny del Mode Base per a l’Infantil D–Alpicat, documentat al bloc final i a [l’informe del redisseny](base-mobile-redesign.md). En aquesta branca la prioritat és la publicació autoritzada de la correcció Igualada–Vic.**
 
