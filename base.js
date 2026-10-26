@@ -239,8 +239,6 @@ async function init(){
  $('fixtureNotice').textContent='Partits operatius i catàleg federatiu accessible. L’activació de nous registres manté els permisos d’operador existents.';
  const requested=new URLSearchParams(location.search).get('match');
  if(requested&&!matches.some(m=>m.id===requested))throw Error('El partit sol·licitat no està activat o no és accessible amb aquest usuari.');
- const upcoming=matches.filter(m=>m.starts_at&&Date.parse(m.starts_at)>=Date.now()).sort((a,b)=>Date.parse(a.starts_at)-Date.parse(b.starts_at));
- const id=requested||upcoming[0]?.id||matches.slice().sort((a,b)=>String(b.starts_at).localeCompare(String(a.starts_at)))[0]?.id;
- if(!id)throw Error('No hi ha partits accessibles.');$('match').value=id;if(window.basicAvailableMatches.get(id))await openCatalogue(id,false);else await open(id);
+ const id=requested;if(!id){location.replace('./partit.html?mode=base');return;}$('match').value=id;if(window.basicAvailableMatches.get(id))await openCatalogue(id,false);else await open(id);
 }
-action(init);
+if(new URLSearchParams(location.search).get('match')||catalogueId)action(init);
