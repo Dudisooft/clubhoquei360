@@ -21,6 +21,13 @@ const live='20000000-0000-4000-8000-000000000002';
 data.federation_matches.push({id:live,group_id:'G',external_match_id:null,home_team:'Igualada fictici',away_team:'Alpicat fictici',home_score:null,away_score:null,federation_start_at:'2026-10-24T16:15:00Z',raw_data:{source_url:url,home_crest:source.home_crest_url,away_crest:null,home_team_id:'10',away_team_id:'20'}});
 data.federation_match_teams.push({id:'live-link',match_id:live,entry_id:'EH',side:'home'});
 if(new URLSearchParams(location.search).get('fixture')==='fem11'||sessionStorage.getItem('synthetic-fem11')==='true'){sessionStorage.setItem('synthetic-fem11','true');data.teams.find(t=>t.id==='TH').category='FEM11';data.teams.find(t=>t.id==='TY').category='FEM9';source.home_name='FEM11 IHC FICTICI';source.away_name='Barberà FICTICI';data.federation_team_roster.push({id:'same',entry_id:'EO',player_id:'OTHER',role:'player',display_name:'Mateixa categoria exclosa FICTÍCIA',raw_data:{observed_match_id:'OTHER'}});data.teams.find(t=>t.id==='TO').category='FEM11';}
+// Two selectable report-backed reinforcements, explicitly synthetic; no eligibility rule override.
+if(new URLSearchParams(location.search).get('fixture')==='reinforcement-toggle'||sessionStorage.getItem('synthetic-reinforcement-toggle')==='true'){
+ sessionStorage.setItem('synthetic-reinforcement-toggle','true');
+ data.federation_players.push({id:'CP6',federation:'FECAPA',external_player_id:'E6'});
+ data.federation_team_roster.push({id:'r6',entry_id:'EY',player_id:'CP6',role:'player',display_name:'Segon reforç FICTICI',raw_data:{}});
+ data.federation_match_lineups.push({id:'l6',match_id:match,player_id:'CP6',side:'home',shirt_number:'6',display_name:'Segon reforç FICTICI',raw_data:{}});
+}
 window.basicFixture={fail:false,syncFail:false,syncCalls:0,remoteWrites:0,playerWrites:0,delay:0};
 export const db={rpc:async(name,args)=>{
  if(name!=='basic_open_catalogue_match')return {error:{message:'Unknown fixture RPC'}};
@@ -34,6 +41,7 @@ export const db={rpc:async(name,args)=>{
   let rows=load(table)||structuredClone(data[table]||[]);
   if(inserted){if(table==='pilot_events')window.basicFixture.remoteWrites++;if(table==='pilot_players')window.basicFixture.playerWrites++;if(window.basicFixture.fail)return {error:{message:'Connexió tallada'}};if(inserted.some(r=>rows.some(x=>x.id===r.id)))return {error:{code:'23505',message:'duplicate key'}};rows.push(...inserted);save(table,rows);return {data:inserted,error:null};}
   if(localStorage.getItem('synthetic-retired-player')==='p1'){if(table==='pilot_players')rows=rows.filter(r=>r.id!=='p1');if(['federation_team_roster','federation_match_lineups'].includes(table))rows=rows.filter(r=>r.player_id!=='CP1');}
+  if(localStorage.getItem('synthetic-retired-reinforcement')==='CP3'){if(table==='pilot_players')rows=rows.filter(r=>r.federation_player_id!=='E3');if(['federation_team_roster','federation_match_lineups'].includes(table))rows=rows.filter(r=>r.player_id!=='CP3');}
   rows=rows.filter(r=>filters.every(f=>f(r))).slice(offset,end+1);
   return {data:single?rows[0]||null:rows,error:null};
  })().then(resolve,reject);}};return query;

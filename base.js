@@ -12,6 +12,9 @@ let practiceId=requestedPractice,catalogueId=requestedPractice||new URLSearchPar
 let restrictedSides=[];
 let uid,match,store,source,fixture,players=[],role=null,busy=false,advancedFinished=false;
 let activeSide='home',preparing=true,draft=new Set(),sheet=null,flash='',rosterNotice='';
+const expandedReinforcements=new Set();
+const isReinforcement=p=>!!p.reinforcement||p.selection_basis==='unverified_reinforcement'||String(p.origin||'').startsWith('Possible reforç');
+const selectionCount=count=>count?' · '+count+(count===1?' seleccionat':' seleccionats'):'';
 const state=()=>basicState(store?.all()||[]);
 const teamName=side=>source?.[side+'_name']||sideLabel(side);
 const editable=()=>!!store&&role==='operator'&&!state().finished&&!advancedFinished;
@@ -20,16 +23,18 @@ const recordFor=id=>players.find(p=>p.id===id)||state().playerRecords.find(p=>p.
 const eventName=row=>row.payload?.details?.player_snapshot?.full_name||recordFor(row.payload?.actor)?.full_name||row.player_label||'Jugador no disponible';
 const jersey=(p,side)=>{const kit=kitFor(side,source?.official_data?.[side+'_team_id']||teamName(side),p.position==='goalkeeper'?'goalie':'player');return `<span class="jersey" style="--kit-background:${kit.background};--kit-ink:${kit.ink}" aria-label="${p.dorsal?'Dorsal '+esc(p.dorsal):'Dorsal desconegut'}">${esc(p.dorsal??'—')}</span>`;};
 const countsText=totals=>[totals.goals?`${totals.goals} gol${totals.goals===1?'':'s'}`:'',...Object.entries(cards).filter(([k])=>totals[k]).map(([k,label])=>`${totals[k]} ${label.toLowerCase()}`)].filter(Boolean).join(' · ');
-const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null,selection_basis:p.selection_basis||null,origin_reference:p.origin_reference||null,callup_reference:p.callup_reference||null});
+const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null,selection_basis:p.selection_basis||null,origin_reference:p.origin_reference||null,callup_reference:p.callup_reference||null,reinforcement:isReinforcement(p)||state().playerRecords.some(saved=>saved.id===p.id&&isReinforcement(saved))});
 
 function renderPreparation(){
  $('rosterNotice').textContent=rosterNotice+(needsRosterReview()?' Convocatòria desada preservada: hi ha participants sense evidència actual suficient; revisa’ls sense perdre les incidències.':'');
  const selected=state().playerRecords;
- const candidates=[...players];
- for(const p of selected)if(!candidates.some(x=>x.id===p.id))candidates.push({...p,selectable:false,origin:'Convocat desat anteriorment',eligibility:'No consta a la plantilla actual: revisa’l'});
+ const candidates=players.map(p=>({...p,reinforcement:isReinforcement(p)||selected.some(saved=>saved.id===p.id&&isReinforcement(saved))}));
+ for(const p of selected)if(!candidates.some(x=>x.id===p.id))candidates.push({...p,reinforcement:isReinforcement(p),selectable:false,origin:'Convocat desat anteriorment',eligibility:'No consta a la plantilla actual: revisa’l'});
+ const option=p=>`<label class="roster-option"><input type="checkbox" data-player="${esc(p.id)}" ${draft.has(p.id)?'checked':''} ${busy||role!=='operator'||(!p.selectable&&!state().participants.includes(p.id))||advancedFinished||state().finished?'disabled':''}><span><strong>${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</strong><span class="player-details">${isReinforcement(p)?'Reforç · ':''}${esc(p.origin||'Plantilla del partit')} · ${esc(p.eligibility||'Elegibilitat no acreditada')}${p.otherTeams?.length?'<br>També consta a: '+esc(p.otherTeams.join(', ')):''}</span></span></label>`;
  $('rosterGrid').innerHTML=['home','away'].map(side=>{
-  const list=candidates.filter(p=>p.team===side);
-  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3>${list.length?[["Jugadors de l’equip",list.filter(p=>!p.reinforcement)],["Possibles reforços",list.filter(p=>p.reinforcement)]].map(([label,items])=>'<h4>'+label+'</h4>'+(items.length?items.map(p=>`<label class="roster-option"><input type="checkbox" data-player="${esc(p.id)}" ${draft.has(p.id)?'checked':''} ${busy||role!=='operator'||(!p.selectable&&!state().participants.includes(p.id))||advancedFinished||state().finished?'disabled':''}><span><strong>${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</strong><span class="player-details">${p.reinforcement?'Reforç · ':''}${esc(p.origin||'Plantilla del partit')} · ${esc(p.eligibility||'Elegibilitat no acreditada')}${p.otherTeams?.length?'<br>També consta a: '+esc(p.otherTeams.join(', ')):''}</span></span></label>`).join(''):'<p class="muted">Cap candidat amb evidència suficient.</p>')).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}</div>`;
+  const list=candidates.filter(p=>p.team===side),reinforcements=list.filter(isReinforcement),regular=list.filter(p=>!isReinforcement(p));
+  const expanded=expandedReinforcements.has(side),count=reinforcements.filter(p=>draft.has(p.id)).length;
+  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3><h4>Jugadors de l’equip</h4>${regular.length?regular.map(option).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}<button type="button" class="reinforcement-toggle wide" data-reinforcements="${side}" aria-expanded="${expanded}" aria-controls="reinforcements-${side}"><span>Possibles reforços (${reinforcements.length})</span><span class="muted" data-reinforcement-count="${side}" aria-live="polite">${selectionCount(count)}</span><span aria-hidden="true"> ${expanded?'▴':'▾'}</span></button><div id="reinforcements-${side}" ${expanded?'':'hidden'}>${reinforcements.length?reinforcements.map(option).join(''):'<p class="muted">Cap candidat amb evidència suficient.</p>'}</div></div>`;
  }).join('');
  $('cancelPreparation').hidden=!state().confirmed;
  $('cancelPreparation').disabled=busy;
@@ -112,7 +117,7 @@ async function open(id){
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
- draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';expandedReinforcements.clear();
  history.replaceState(null,'','?match='+encodeURIComponent(id));render();
 }
 async function openCatalogue(id,training){
@@ -125,7 +130,7 @@ async function openCatalogue(id,training){
  if(!training&&fixture?.raw_data?.report_status==='verified'&&fixture.raw_data?.report_data?.official_status==='FINALIZAT'){await openCatalogue(id,true);return;}
  if(context.data){const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;}
  if(training){const legacy=new PracticeStore(localStorage);await legacy.open(id,uid);legacyRows=legacy.all();}
- draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';
+ draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';expandedReinforcements.clear();
  if(!window.basicAvailableMatches?.has(id))$('match').innerHTML=`<option value="${esc(id)}">${esc(teamName('home'))} – ${esc(teamName('away'))}</option>`;
  $('fixtureNotice').textContent=(training?'PROVA COMPARTIDA · Incidències separades de l’històric. ':'Partit real del catàleg. ')+(context.error?'La persistència de catàleg necessita instal·lar la migració del Mode Base.':'Activa el registre si encara no té context operatiu.');
  history.replaceState(null,'','?'+(training?'practice':'catalogue')+'='+encodeURIComponent(id));
@@ -190,7 +195,16 @@ async function sync(){
  flash='Contrast amb FECAPA actualitzat';
 }
 
-$('rosterGrid').addEventListener('change',e=>{if(e.target.matches('[data-player]')){if(e.target.checked)draft.add(e.target.dataset.player);else draft.delete(e.target.dataset.player);}});
+$('rosterGrid').addEventListener('click',e=>{
+ const button=e.target.closest('[data-reinforcements]');if(!button)return;
+ const side=button.dataset.reinforcements,expanded=!expandedReinforcements.has(side);
+ if(expanded)expandedReinforcements.add(side);else expandedReinforcements.delete(side);
+ button.setAttribute('aria-expanded',String(expanded));button.lastElementChild.textContent=expanded?' ▴':' ▾';$('reinforcements-'+side).hidden=!expanded;
+});
+$('rosterGrid').addEventListener('change',e=>{if(e.target.matches('[data-player]')){
+ if(e.target.checked)draft.add(e.target.dataset.player);else draft.delete(e.target.dataset.player);
+ for(const side of ['home','away']){const count=$('reinforcements-'+side).querySelectorAll('input:checked').length;document.querySelector('[data-reinforcement-count="'+side+'"]').textContent=selectionCount(count);}
+}});
 $('activateContext').onclick=()=>action(activateContext);
 $('exportLegacy').onclick=()=>{const blob=new Blob([JSON.stringify({catalogue_match_id:catalogueId,origin:'legacy-device-practice',events:legacyRows},null,2)],{type:'application/json'});const link=document.createElement('a');link.href=URL.createObjectURL(blob);link.download='clubhoquei360-prova-local-anterior.json';link.click();setTimeout(()=>URL.revokeObjectURL(link.href),1000);};
 $('confirmRosters').onclick=()=>action(confirmRosters);

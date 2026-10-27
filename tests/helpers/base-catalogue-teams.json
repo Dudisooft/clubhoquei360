@@ -1,0 +1,152 @@
+[
+  {
+    "id": "9385f410-c5ec-6de6-796a-738371a91b30",
+    "name": "IGUALADA HC A",
+    "category": "ALEVÍ"
+  },
+  {
+    "id": "f1aaac4e-13fd-a8fa-0df9-c87414d5e929",
+    "name": "IGUALADA HC B",
+    "category": "ALEVÍ"
+  },
+  {
+    "id": "2c6f30c0-2345-4ab0-6416-2c4eb1213926",
+    "name": "IGUALADA HC C",
+    "category": "ALEVÍ"
+  },
+  {
+    "id": "75a038d4-cbc6-4da3-989c-1ef894e8ec1d",
+    "name": "IGUALADA HC D",
+    "category": "ALEVÍ"
+  },
+  {
+    "id": "35d785ae-cd8b-b174-8f4c-8831fbd784fa",
+    "name": "IGUALADA HC A",
+    "category": "BENJAMÍ"
+  },
+  {
+    "id": "6b8545db-eb77-186e-2f91-dc9ca19ec5ef",
+    "name": "IGUALADA HC B",
+    "category": "BENJAMÍ"
+  },
+  {
+    "id": "c0febd5f-96b6-c734-5d33-c6d7bb5e8958",
+    "name": "IGUALADA HC C",
+    "category": "BENJAMÍ"
+  },
+  {
+    "id": "db4c3453-dbfe-b91b-cc27-20c215e3f5e8",
+    "name": "IGUALADA HC D",
+    "category": "BENJAMÍ"
+  },
+  {
+    "id": "3b3f6fb5-bbc5-7467-5d3f-320be8003686",
+    "name": "IGUALADA HC",
+    "category": "FEM 11"
+  },
+  {
+    "id": "9f268c67-ea26-ec18-c445-512b3829c772",
+    "name": "IGUALADA HC",
+    "category": "FEM 13"
+  },
+  {
+    "id": "b2641ae4-d1e3-c98f-0c89-72a074e3c151",
+    "name": "Igualada HC · FEM15",
+    "category": "FEM15"
+  },
+  {
+    "id": "c2d46fe9-9573-ea1d-84f1-3ba80b104c27",
+    "name": "IGUALADA HC A",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "cc90b135-b53d-2227-648d-07d242e571a4",
+    "name": "IGUALADA HC B",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "d624830b-8b79-2c97-f052-a88788a8a523",
+    "name": "IGUALADA HC C",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "85b5541c-0c5b-ee6d-a23f-368a8cd38fae",
+    "name": "IGUALADA HC D",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "7e8a22b1-39ec-d5e9-df00-121fa4b28aac",
+    "name": "IGUALADA HC E",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "4357e8e7-30d2-a17b-f1eb-4e8a7d6afe5f",
+    "name": "IGUALADA HC F",
+    "category": "INFANTIL"
+  },
+  {
+    "id": "dba1679b-4688-a3b9-0f3c-8ac52aa4bf48",
+    "name": "IGUALADA HC A",
+    "category": "JÚNIOR"
+  },
+  {
+    "id": "8cfde442-be75-321d-ac5c-cff4f95b7a38",
+    "name": "IGUALADA HC B",
+    "category": "JÚNIOR"
+  },
+  {
+    "id": "020cf94a-ab92-f435-2fbd-9db438c2a120",
+    "name": "IGUALADA HC C",
+    "category": "JÚNIOR"
+  },
+  {
+    "id": "11aead52-9c21-3425-01d4-4b6915b0b8aa",
+    "name": "IGUALADA HC D",
+    "category": "JÚNIOR"
+  },
+  {
+    "id": "3b838f5f-8fe2-715b-616c-754178055007",
+    "name": "IGUALADA HC A",
+    "category": "JUVENIL"
+  },
+  {
+    "id": "8142727e-2bfd-d9a7-5ca6-d47b68fa48a0",
+    "name": "IGUALADA HC B",
+    "category": "JUVENIL"
+  },
+  {
+    "id": "c726e180-1364-eabb-97d5-4eda236a3312",
+    "name": "IGUALADA HC C",
+    "category": "JUVENIL"
+  },
+  {
+    "id": "f7c79aa2-5f04-712c-5124-92c965baa492",
+    "name": "IGUALADA HC D",
+    "category": "JUVENIL"
+  },
+  {
+    "id": "174df2fc-5530-f172-e535-cce1f2455da8",
+    "name": "IGUALADA HC E",
+    "category": "JUVENIL"
+  },
+  {
+    "id": "793a0cd7-eae9-e5c6-c76e-0fb429a337cb",
+    "name": "IGUALADA HC A",
+    "category": "PREBENJAMI"
+  },
+  {
+    "id": "fb6c48ff-e7b4-6983-d6cf-4068e7bd1f83",
+    "name": "IGUALADA HC B",
+    "category": "PREBENJAMI"
+  },
+  {
+    "id": "978e00aa-648c-98f1-6a7b-fbdd603eba30",
+    "name": "IGUALADA HC A",
+    "category": "PREBENJAMI INICIACIO"
+  },
+  {
+    "id": "a6496b1a-9b8c-67e3-6f52-9aa6e2ef21ce",
+    "name": "IGUALADA HC B",
+    "category": "PREBENJAMI INICIACIO"
+  }
+]

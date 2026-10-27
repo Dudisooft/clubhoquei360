@@ -10,7 +10,7 @@ async function setup(page,query=''){
  await expect(page.locator('#status')).toContainText('Preparant convocatòries');
 }
 async function prepare(page,ids=['p1','p2','a1','a2']){
- for(const id of ids)await page.locator(`[data-player="${id}"]`).check();
+ for(const id of ids){const input=page.locator(`[data-player="${id}"]`);if(!await input.isVisible()){const panel=await input.evaluate(el=>el.closest('[id^="reinforcements-"]').id);await page.locator(`[aria-controls="${panel}"]`).click();}await input.check();}
  await page.locator('#confirmRosters').click();
  await expect(page.locator('#recording')).toBeVisible();
 }
@@ -115,4 +115,31 @@ test('saved out-of-scope infant selection requires review while keeping its goal
  await page.locator('#rosterGrid input:checked').uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');
 });
 
-test('FEM11 mobile: own players first, no whole-club list, blocked lower candidates and selection survives reload',async({page})=>{await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=fem11');await expect(page.locator('#rosterGrid')).toContainText('Jugadors de l’equip');await expect(page.locator('#rosterGrid')).toContainText('Possibles reforços');await expect(page.locator('#rosterGrid')).not.toContainText('Mateixa categoria exclosa');await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();await expect(page.locator('#rosterGrid')).toContainText('any de naixement');await page.locator('[data-player=p1]').check();await page.locator('[data-player=p1]').uncheck();await expect(page.locator('[data-player=p1]')).not.toBeChecked();await prepare(page,['p1']);await page.reload();await page.locator('#editRosters').click();await expect(page.locator('[data-player=p1]')).toBeChecked();});
+test('FEM11 mobile: own players first, no whole-club list, blocked lower candidates and selection survives reload',async({page})=>{await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=fem11');await expect(page.locator('#rosterGrid')).toContainText('Jugadors de l’equip');await expect(page.locator('#rosterGrid')).toContainText('Possibles reforços');await expect(page.locator('#rosterGrid')).not.toContainText('Mateixa categoria exclosa');await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();await page.locator('[data-reinforcements=home]').click();await expect(page.locator('#rosterGrid')).toContainText('any de naixement');await page.locator('[data-player=p1]').check();await page.locator('[data-player=p1]').uncheck();await expect(page.locator('[data-player=p1]')).not.toBeChecked();await prepare(page,['p1']);await page.reload();await page.locator('#editRosters').click();await expect(page.locator('[data-player=p1]')).toBeChecked();});
+
+
+test('reinforcement disclosure supports touch, keyboard, multiple or no selections, collapse and persistence',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=reinforcement-toggle');
+ const toggle=page.locator('[data-reinforcements=home]'),panel=page.locator('#reinforcements-home');
+ await expect(toggle).toContainText('Possibles reforços (3)');await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(panel).toBeHidden();
+ expect((await toggle.boundingBox()).height).toBeGreaterThanOrEqual(48);await expect(page.locator('[data-player=p1]')).toBeVisible();
+ await toggle.focus();await page.keyboard.press('Enter');await expect(toggle).toHaveAttribute('aria-expanded','true');await expect(panel).toBeVisible();
+ const first=page.locator('[data-player="catalog:home:CP3"]'),second=page.locator('[data-player="catalog:home:CP6"]');await first.check();await second.check();await expect(toggle).toContainText('2 seleccionats');
+ await expect(page.locator('[data-player="catalog:home:CP4"]')).toBeDisabled();await page.locator('[data-reinforcements=away]').click();await expect(panel).toBeVisible();
+ await toggle.click();await expect(panel).toBeHidden();await expect(toggle).toContainText('2 seleccionats');await toggle.click();await expect(first).toBeChecked();await expect(second).toBeChecked();
+ await first.uncheck();await second.uncheck();await expect(toggle).not.toContainText('seleccionats');await first.check();await second.check();await toggle.click();await page.locator('[data-player=p1]').check();
+ await page.locator('#confirmRosters').click();await expect(page.locator('#recording')).toBeVisible();await page.reload();await page.locator('#editRosters').click();
+ await expect(panel).toBeHidden();await expect(toggle).toContainText('2 seleccionats');await toggle.click();await expect(panel.locator('input:checked')).toHaveCount(2);
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'work/reinforcement-toggle-mobile.png',fullPage:true});
+});
+
+for(const legacy of [false,true])test('a saved historical reinforcement remains in the collapsed section when its current catalogue disappears; legacy='+legacy,async({page})=>{
+ await setup(page);await prepare(page,['p1','catalog:home:CP3']);await incident(page,'Reforç verificat','Gol');
+ if(legacy)await page.evaluate(()=>{const key='synthetic-basic-pilot_events',rows=JSON.parse(localStorage.getItem(key));for(const row of rows)for(const player of row.payload?.details?.players||[]){if(player.federation_player_id==='E3'){delete player.reinforcement;player.selection_basis=null;player.origin='Possible reforç · Equip fictici';}}localStorage.setItem(key,JSON.stringify(rows));});
+ const before=await stored(page);await page.evaluate(()=>localStorage.setItem('synthetic-retired-reinforcement','CP3'));await page.reload();
+ await expect(page.locator('#recording')).toBeVisible();await expect(page.locator('#score')).toHaveText('1 – 0');await page.locator('#editRosters').click();
+ const toggle=page.locator('[data-reinforcements=home]');await expect(page.locator('#reinforcements-home')).toBeHidden();await expect(toggle).toContainText('1 seleccionat');await toggle.click();
+ const checked=page.locator('#reinforcements-home input:checked');await expect(checked).toHaveCount(1);await expect(checked).toBeEnabled();
+ await toggle.click();await page.locator('#confirmRosters').click();expect(await stored(page)).toEqual(before);await expect(page.locator('#events')).toContainText('Reforç verificat');
+ await page.locator('#editRosters').click();await toggle.click();await checked.uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#score')).toHaveText('1 – 0');await expect(page.locator('#events')).toContainText('Reforç verificat');
+});
