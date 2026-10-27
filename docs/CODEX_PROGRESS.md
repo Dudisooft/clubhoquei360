@@ -2,9 +2,23 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 2A, selecció de plantilla pròpia IHC al Mode Base. Sense fusió, publicació ni canvis de producció. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 2B, desplegable de reforços i validació general al Mode Base. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
-## Fase vigent · 2A autoritzada
+## Fase vigent · 2B autoritzada
+
+Branca **`feat/base-roster-reinforcement-toggle`**, checkout `/workspace/work/clubhoquei360-reinforcement-toggle`, creada des de `main` **`314ecb0`**, després de comprovar la fusió de la PR #29. PR #28/#29 conservades; no incorporar #10/#11/#22/#27.
+
+- **Completat:** botó desplegable per costat amb total i seleccionats, llista inicialment plegada, selecció conservada en plegar, teclat/tacte i ARIA. Snapshots nous conserven marcador opcional de reforç i s'accepta procedència antiga explícita. Convocatòries històriques i incidències no se substitueixen. Regles d'elegibilitat, catàleg, navegació i Avançat idèntics a main.
+- **Validació real de només lectura:** catàleg IHC 2026/27, 30 equips de base, 60 mostres (següent partit i última acta): filtre verificat sense incidències tècniques. FEM9/FEM17 absents: pendent per manca de dades. 592 files de jugadors al catàleg IHC, 0 birth_year i 0 sex; normativa no verificada, reforços prospectius continuen bloquejats. Un context de l'Infantil D amb 6 esdeveniments/1 convocatòria; les lectures anterior/posterior de 36 equips tenen recomptes i empremtes iguals, zero canvis. Altres equips sense context en el subconjunt consultat: preservació real pendent, coberta amb fixtures. No confondre reproducció local del catàleg amb navegador Auth real.
+- **Proves executades:** Node complet 153/153 PASS; Chromium final 47/47 PASS (17 Base), sense fallades ni omissions, inclòs snapshot històric antic. Logs `/tmp/reinforcements-final-browser.log` i `/tmp/reinforcements-final-node.log`. Check/build 35 i diff correctes. Captura mòbil fictícia inspeccionada. Error inicial d'import del helper de proves extret corregit, 33 casos afectats PASS.
+- **Fitxers:** `base.js`, versions d'entrada `base.html`, `basic.css`; proves/helper Base, helper propi reutilitzat, 30 proves d'equips; `scripts/inspect-base-roster-readonly.sql`, `scripts/inspect-base-history-readonly.sql`, `scripts/validate-base-roster-snapshot.mjs`; informe `docs/base-roster-reinforcement-toggle.md`, matriu MD/JSON `docs/base-roster-validation-20261027.*`, aquest registre. Còpia de lectura minimitzada a `work/` ignorat, sense noms de jugadors; no publicar-la. `node_modules` és un enllaç temporal a eines existents, no versionar-lo.
+- **Límits:** cap migració, canvi de permisos ni escriptura de producció. Consultes `BEGIN READ ONLY`/`ROLLBACK`. Xarxa política 139 vigent; changelog Supabase rebutjat CONNECT 403. MCP de dades de només lectura operatiu. No s'ha creat cap equip, jugador o compte real.
+- **Pendents:** commit/push i PR esborrany; revisió visual humana. Elegibilitat reglamentària real pendent de normativa/edat/sexe. No desenvolupar coordinació ni rivals.
+- **Últim commit base verificat:** `314ecb0`; el nou checkpoint funcional es registrarà al commit d'aquesta fase. No repetir les proves del codi intacte de fases anteriors.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: llegeix docs/CODEX_PROGRESS.md a feat/base-roster-reinforcement-toggle, comprova Git i logs Node/Chromium finals, completa només el primer pendent de fase 2B i actualitza el punt de recuperació. No fusionis, despleguis ni modifiquis dades de producció.»
+
+## Antecedents · fase 2A (PR #29 ja fusionada a main)
+
 
 Branca **`feat/base-roster-eligibility`**, checkout `/workspace/work/clubhoquei360-eligibility`, creada des de `main` **`428f166`**, després de la fusió de la PR #28. Referències llegides: auditoria `c03f039` i `docs/match-navigation-phase1.md`. Aquesta fase substitueix la prioritat indicada als antecedents, que es conserven a continuació com a historial.
 
