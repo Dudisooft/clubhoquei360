@@ -23,3 +23,23 @@ jobs:
       - run: npm run test:browser
         env:
           PLAYWRIGHT_BUNDLED: '1'
+      # Review #31 + #32 together without merging backend SQL into this branch.
+      - name: Checkout reviewed server dependency for cross-PR verification
+        if: github.event.pull_request.head.ref == 'fix/match-mode-access'
+        uses: actions/checkout@v4
+        with:
+          ref: 241587db951deade0be34bb4a3258eb12cd8ce6c
+          path: work/mode-server-dependency
+          persist-credentials: false
+      - name: Native PostgreSQL and Chromium cross-PR scenarios
+        if: github.event.pull_request.head.ref == 'fix/match-mode-access' || hashFiles('supabase/migrations/*temporary_match_operators.sql') != ''
+        env:
+          PLAYWRIGHT_BUNDLED: '1'
+        run: |
+          if [ -f supabase/migrations/20261027183214_temporary_match_operators.sql ]; then
+            MODE_SQL_ROOT=supabase/migrations
+          else
+            MODE_SQL_ROOT=work/mode-server-dependency/supabase/migrations
+          fi
+          node scripts/verify-match-mode-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql"
+          node scripts/verify-temporary-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql"

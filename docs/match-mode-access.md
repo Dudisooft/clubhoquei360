@@ -17,6 +17,9 @@ Lectures SQL delimitades amb `BEGIN READ ONLY`/`ROLLBACK`: 36 equips IHC 2026/27
 
 ## Política funcional
 
+Ampliació aprovada 3A.1: [accés temporal per partit](temporary-match-operators.md), només amb autorització estricta del servidor de #31. La política ordinària i les guardes oficials següents es conserven.
+
+
 Política del servidor basada en franja d'edat estructurada: sènior/júnior Base+Avançat; juvenil i inferiors Base; excepció només platform_superadmin habilitat o general_coordinator del club sense team_id. La disponibilitat no atorga permisos operatius. Consulta de calendari sense escriptures i activació explícita/idempotent amb permisos verificats. Metadades desconegudes: no deduir sènior pel nom d'una divisió.
 
 Canvis de servidor/RLS aniran en PR separada i no s'aplicaran a producció. No modificar plantilles, desplegable, elegibilitat, convocatòries, imports ni registres existents. El detall de la implementació, les proves i la matriu consta a continuació.

@@ -1,14 +1,14 @@
 // Local cross-PR integration, never production. Caller supplies reviewed local SQL.
 import {spawn} from 'node:child_process';import {chromium} from '@playwright/test';import assert from 'node:assert/strict';import path from 'node:path';
-const migration=process.argv[2];if(!migration)throw Error('Supply the local server migration path; no SQL is fetched automatically.');
-const server=spawn(process.execPath,['tests/helpers/stats-server.mjs'],{cwd:process.cwd(),env:{...process.env,MATCH_MODE_SERVER_MIGRATION:path.resolve(migration)},stdio:['ignore','pipe','pipe']});
+const migrations=process.argv.slice(2);if(!migrations.length)throw Error('Supply the local server migration path; no SQL is fetched automatically.');
+const server=spawn(process.execPath,['tests/helpers/stats-server.mjs'],{cwd:process.cwd(),env:{...process.env,MATCH_MODE_SERVER_MIGRATION:JSON.stringify(migrations.map(p=>path.resolve(p)))},stdio:['ignore','pipe','pipe']});
 let output='';server.stdout.on('data',b=>output+=b);server.stderr.on('data',b=>output+=b);
 let browser;
 try{
  for(let i=0;i<100;i++){try{if((await fetch('http://127.0.0.1:4173/health')).ok)break;}catch{}if(server.exitCode!==null)throw Error(output);await new Promise(r=>setTimeout(r,100));if(i===99)throw Error('Local server unavailable: '+output);}
  const api=async p=>(await fetch('http://127.0.0.1:4173'+p)).json();
  await api('/__test/reset');await api('/__test/rfep-vic');const {id}=await api('/__test/mode-future');assert.ok(id);
- browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
+ browser=await chromium.launch({executablePath:process.env.PLAYWRIGHT_BUNDLED?undefined:process.env.CHROMIUM_PATH||'/usr/bin/chromium',args:['--no-sandbox']});
  const context=await browser.newContext({viewport:{width:390,height:844}});
  const uid='40000000-0000-4000-8000-000000000006';
  const token=Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:uid,role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
