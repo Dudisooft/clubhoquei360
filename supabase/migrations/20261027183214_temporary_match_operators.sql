@@ -11,7 +11,7 @@ create table public.match_temporary_operators(
  permissions text[] not null default array['match_read','stats_record','analysis_session'] check(permissions=array['match_read','stats_record','analysis_session']::text[]),
  granted_by uuid not null references auth.users(id),created_at timestamptz not null default now(),
  revoked_at timestamptz,revoked_by uuid references auth.users(id),
- check(isfinite(starts_at) and isfinite(expires_at) and expires_at>starts_at and expires_at<=starts_at+interval '7 days'),
+ check(isfinite(starts_at) and isfinite(expires_at) and expires_at>starts_at and expires_at<=starts_at+interval '168 hours'),
  check((revoked_at is null)=(revoked_by is null))
 );
 create index temporary_operator_user_match on public.match_temporary_operators(user_id,match_id,expires_at) where revoked_at is null;
@@ -61,7 +61,7 @@ declare mid uuid:=(p_grant->>'match_id')::uuid; target uuid:=(p_grant->>'user_id
  if p_grant->>'club_id' is distinct from ctx.club_id::text or not exists(select 1 from public.teams t where t.id=tid and t.club_id=ctx.club_id and t.season_id=ctx.season_id and tid in(ctx.home_team_id,ctx.away_team_id)) then raise exception 'Club/team/match mismatch' using errcode='42501';end if;
  if not exists(select 1 from auth.users where id=target) then raise exception 'Existing authenticated account required' using errcode='22023';end if;
  ends:=coalesce((p_grant->>'expires_at')::timestamptz,starts+interval '24 hours');
- if not isfinite(starts) or not isfinite(ends) or ends<=starts or ends<=statement_timestamp() or ends>starts+interval '7 days' then raise exception 'Finite authorization of at most 168 hours required' using errcode='22023';end if;
+ if not isfinite(starts) or not isfinite(ends) or ends<=starts or ends<=statement_timestamp() or ends>starts+interval '168 hours' then raise exception 'Finite authorization of at most 168 hours required' using errcode='22023';end if;
  select coalesce(array_agg(distinct value order by value),'{}') into codes from jsonb_array_elements_text(coalesce(p_grant->'actions','[]'));
  select coalesce(array_agg(distinct value order by value),'{}') into sides_list from jsonb_array_elements_text(coalesce(p_grant->'sides','["home","away","disputed"]'));
  select coalesce(array_agg(distinct value::uuid order by value::uuid),'{}') into persons from jsonb_array_elements_text(coalesce(p_grant->'player_ids','[]'));

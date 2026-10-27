@@ -8,7 +8,7 @@ La migració additiva `20261027183214_temporary_match_operators.sql`, posterior 
 
 Només `is_platform_superadmin()` habilitat o `club_memberships.role='general_coordinator'` del mateix club amb `team_id IS NULL` poden concedir/revocar. Administrador de club, coordinador de secció, entrenador i delegat no poden. El superadministrador conserva la seva autoritat de plataforma; un coordinador no travessa clubs. El destinatari ha d’existir a Auth; no es creen comptes ni contrasenyes.
 
-Proposta per defecte: **24 hores**. Inici i final configurables; servidor i constraint imposen dates finites, final posterior a inici i al present, màxim **168 hores**. Estats derivats: programada, activa, caducada o revocada. L’operador no pot allargar ni canviar l’àmbit. Per corregir-lo, l’autoritzador revoca i concedeix una nova autorització.
+Proposta per defecte: **24 hores**. Inici i final configurables; servidor i constraint imposen dates finites, final posterior a inici i al present, màxim **168 hores exactes**, també travessant un canvi d’horari. Estats derivats: programada, activa, caducada o revocada. L’operador no pot allargar ni canviar l’àmbit. Per corregir-lo, l’autoritzador revoca i concedeix una nova autorització.
 
 ## Contractes i seguretat
 

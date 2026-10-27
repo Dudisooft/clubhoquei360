@@ -80,6 +80,7 @@ test('expiry and future start are checked at the server on every request',async(
 });
 test('indefinite/oversized/empty/unknown or client-escalated permissions are rejected',async()=>{
  for(const changes of [{expires_at:'infinity'},{expires_at:new Date(Date.now()+8*86400000).toISOString()},{actions:[]},{actions:['unknown_action']},{mode:'base'},{permissions:['admin']},{granted_by:ID.external},{user_id:crypto.randomUUID()}])await assert.rejects(grant('secondary',payload(changes)));
+ await db.exec("set timezone='Europe/Madrid'");try{await assert.rejects(grant('secondary',payload({starts_at:'2027-10-30T10:00:00Z',expires_at:'2027-11-06T11:00:00Z'})),/168 hours/);}finally{await db.exec("set timezone='UTC'");}
  await grant();await assert.rejects(asUser(db,'external',"update match_temporary_operators set expires_at=expires_at+interval '1 day'"),/permission denied/);await assert.rejects(asUser(db,'external','delete from match_temporary_operator_audit'),/permission denied/);
 });
 test('overlapping scopes are prevented without modifying existing assignments',async()=>{
