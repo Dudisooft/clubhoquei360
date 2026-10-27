@@ -63,3 +63,10 @@ Fer les comprovacions en un entorn de revisió amb el servidor preparat i dades 
 ## Estat i pendents
 
 Codi frontend implementat i verificat localment; servidor preparat en branca independent. **Producció pendent** de revisió/autorització i instal·lació del servidor/metadades, seguida de prova autenticada real. No fusionar ni publicar aquesta branca sola. Les funcionalitats de jugadors, imports, reforços i coordinació continuen fora d'abast.
+
+
+## Prova conjunta local amb el servidor preparat
+
+**PASS**: `node scripts/verify-match-mode-integration.mjs /workspace/work/clubhoquei360-mode-server/supabase/migrations/20261027170248_match_mode_access.sql`. El fitxer de migració es llegeix només del checkout local autoritzat; no es copia en aquesta branca ni es descarrega automàticament. La fixture opcional usa el contracte real PostgreSQL en lloc de simular-lo. S'ha corregit el transport local perquè un argument JSON nul sigui SQL NULL, no el text «null».
+
+Escenari complet fictici: sènior RFEP futur → consulta sense context ni escriptures → activació explícita amb operador de la mateixa competició → Avançat → activació estadística pròpia explícita → passada d'equip en directe → recàrrega. Resultat: **1 context, 1 membre, 1 estadística, 0 incidències oficials**, sense duplicats ni errors de pàgina. Captura local `work/match-mode-integration-future.png`, log `/tmp/mode-joint-integration.log`. No substitueix una prova Auth de producció. La fixture general de PostgreSQL admet aquesta migració externa només si s'indica expressament `MATCH_MODE_SERVER_MIGRATION`; el funcionament ordinari i la CI independent no la carreguen.

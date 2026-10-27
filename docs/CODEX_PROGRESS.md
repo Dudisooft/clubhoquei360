@@ -16,7 +16,9 @@ Servidor separat: migració local/RLS/contracte i proposta de metadades a `feat/
 
 Fitxers frontend: `match-mode-access.js`, `match-preview.js`, `partit-consulta.html`, `match-navigation*`, versions HTML, guardes/consulta de `federation-client.js`, RFEP operatiu de `base.js`, bootstrap de recuperació de `stats-ui.js`, proves de contracte/UI i dos scripts SELECT d'auditoria; informes i aquest registre. Cap migració a la branca frontend. No incorporar altres PR pendents.
 
-Pendents: commits/push i PRs esborrany separades; CI de totes dues; revisió de servidor/metadades, instal·lació autoritzada i validació Auth real/visual abans de desplegar. No executar aquestes dependències sense autorització. Checkpoint funcional anterior heretat `61afb27` i checkpoint d'auditoria `05da705`; el següent commit conté el codi verificat. En reprendre, llegir aquest registre i el de la branca de servidor, revisar Git/logs/CI i no repetir proves de codi intacte.
+Frontend funcional desat a `26fcd28`; servidor a `74a88e5`, PR #31. Prova conjunta **PASS** amb migració real local i Chromium: futur RFEP -> activació explícita -> estadística live -> recàrrega, 1 context/1 membre/1 acció/0 incidències oficials. Script `scripts/verify-match-mode-integration.mjs`, log `/tmp/mode-joint-integration.log`. No és Auth de producció.
+
+Pendents: PR frontend esborrany i punts documentals amb enllaços; CI de totes dues; revisió de servidor/metadades, instal·lació autoritzada i validació Auth real/visual abans de desplegar. No executar aquestes dependències sense autorització. Checkpoint funcional anterior heretat `61afb27` i checkpoint d'auditoria `05da705`; el següent commit conté el codi verificat. En reprendre, llegir aquest registre i el de la branca de servidor, revisar Git/logs/CI i no repetir proves de codi intacte.
 
 Represa exacta: «CONTINUA CLUBHOQUEI360: recupera docs/CODEX_PROGRESS.md a fix/match-mode-access i feat/match-mode-access-server, comprova els checkpoints i les proves finals, continua només el primer pendent de revisió de fase 3A. No fusionis, despleguis ni modifiquis producció; fixtures i SET ROLE no són validació Auth real.»
 
