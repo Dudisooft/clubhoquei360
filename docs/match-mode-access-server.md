@@ -4,6 +4,9 @@
 
 ## Política i causes
 
+**Ampliació aprovada 3A.1:** [autorització temporal per partit](temporary-match-operators-server.md). Afegeix una excepció estadística explícita per a operadors externs, concedida només pels dos rols autoritzadors, sense ampliar els permisos oficials. El comportament de 3A documentat a continuació es conserva com a base; una assignació antiga sola continua sense habilitar el pilot.
+
+
 El servidor existent no separa franja esportiva i divisió; l'activació Base només admet FECAPA, sense completar el context estadístic. Una pertinença a `pilot_members` no especifica disponibilitat esportiva. `stats_club_manager` admet administradors i coordinadors de secció, de manera que no identifica exclusivament el coordinador principal.
 
 La migració afegeix `teams.age_group` (`senior`, `junior`, `youth`, o nul/desconegut) i `age_group_source`. Cap llista de divisions ni excepció per identificador d'equip decideix els permisos. Franja desconeguda: Base disponible amb accés de dades, Avançat ordinari denegat. Les franges s'han de preparar com a **metadades revisades**, no deduir-les d'una divisió desconeguda.

@@ -55,7 +55,7 @@ test('team and individual observations are idempotent and session resumes withou
  const after=(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(e) from pilot_events e),'clock',(select jsonb_agg(s) from pilot_operator_state s),'assignments',(select jsonb_agg(a) from stats_assignments a),'teams',(select jsonb_agg(t) from teams t)) a")).rows[0].a;assert.deepEqual(after,before);
 });
 test('official goals/cards/rosters/players/clocks and delegation remain denied',async()=>{
- await grant();
+ const original=await grant();
  await assert.rejects(asUser(db,'external',"insert into pilot_events(id,match_id,user_id,event_type,payload) values(gen_random_uuid(),$1,$2,'goal',$3)",[ID.match,ID.external,JSON.stringify({kind:'gol',details:{origin:'basic'}})]),/row-level security/);
  await assert.rejects(asUser(db,'external','select pilot_roster_catalogue($1)',[ID.match]),/denied|operator|preparation|access/i);
  await assert.rejects(asUser(db,'external',"insert into pilot_players(id,match_id,team,full_name) values(gen_random_uuid(),$1,'home','FORBIDDEN')",[ID.match]),/permission denied|row-level security/);
@@ -65,6 +65,8 @@ test('official goals/cards/rosters/players/clocks and delegation remain denied',
  await assert.rejects(write(db,'external',event({action:'goal',source_event_id:ID.officialGoal,origin:'official_reference'})),/observations only/);
  await assert.rejects(write(db,'external',event({validation:'validated'})),/Validation/);
  await assert.rejects(write(db,'external',event({action:'goal',player_id:ID.player,assist_player_id:ID.goalie})),/scope/);
+ await asUser(db,'secondary','select match_temporary_revoke($1)',[original.id]);const withAssist=await grant('secondary',payload({actions:['goal','assist']}));const goal=event({action:'goal',player_id:ID.player,assist_player_id:ID.goalie});await write(db,'external',goal);
+ await asUser(db,'secondary','select match_temporary_revoke($1)',[withAssist.id]);await grant('secondary',payload({actions:['goal']}));await assert.rejects(write(db,'external',{...goal,mutation_id:crypto.randomUUID(),assist_player_id:null},1),/assist outside temporary scope/);
 });
 test('revocation is immediate, idempotent, audited and preserves legitimate statistics',async()=>{
  const a=await grant(),e=event();await write(db,'external',e);const before=(await asOwner(db,'select * from stats_events where id=$1',[e.id])).rows;
