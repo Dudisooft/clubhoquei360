@@ -65,6 +65,9 @@ test('prepare real call-ups, select both starting fives, record official play an
  expect(state.players).toHaveLength(10);expect(state.players.filter(p=>p.on)).toHaveLength(10);expect(state.players.every(p=>/^[0-9a-f-]{36}$/i.test(p.id))).toBe(true);
  expect(official.filter(e=>e.event_type==='lineup')).toHaveLength(1);expect(official.every(e=>e.payload.details.origin==='operator_prepared')).toBe(true);expect(after.events).toEqual(before.events);expect(after.authUsers).toBe(before.authUsers);expect(errors).toEqual([]);
  for(const width of [390,820,1440]){await page.setViewportSize({width,height:1000});expect(await page.evaluate(()=>document.documentElement.scrollWidth)).toBe(width);}
+ const consultations=await snapshot(request);let writes=0;page.on('request',r=>{const p=new URL(r.url()).pathname;if(r.method()==='POST'&&(/pilot_save_operator_state|stats_save_session|stats_write_event|functions\/v1/.test(p)||p.endsWith('/pilot_events')))writes++;});
+ await page.reload();await expect(page.locator('#homeScore')).toHaveText('1');await page.waitForTimeout(1100);expect(writes).toBe(0);const afterConsult=await snapshot(request);expect(afterConsult.official).toEqual(consultations.official);expect(afterConsult.clock).toEqual(consultations.clock);expect(afterConsult.events).toEqual(consultations.events);
+
 });
 
 test('a lost roster acknowledgement survives reload and retries the original mutation once',async({page,context,request})=>{

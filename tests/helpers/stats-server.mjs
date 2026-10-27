@@ -19,6 +19,11 @@ async function api(req,res,url){
  try{
   const name=url.pathname.split('/').at(-1);
   if(url.pathname.includes('/rpc/')){
+   // Frontend contract fixture only. Real sporting/RLS policy is tested in the separate server PR.
+   if(name==='match_mode_access'){
+    const visible=await asUser(db,uid,'select id from pilot_matches where id=$1',[body.p_match]);const read=!!visible.rows.length;
+    return json(res,{read,base:read,advanced:read,operational_read:read,operational:read?body.p_match:null,catalogue_id:null,activate_base:false,activate_advanced:false});
+   }
    const commands={pilot_roster_catalogue:['p_match'],pilot_prepare_players:['p_match','p_mutation','p_players'],pilot_confirm_lineup:['p_match','p_mutation','p_revision','p_state'],pilot_save_operator_state:['p_match','p_revision','p_state'],stats_access:['p_match'],stats_write_event:['p_event','p_expected'],stats_save_session:['p_match','p_state','p_expected'],stats_grant:['p_grant'],stats_revoke:['p_id'],stats_set_coverage:['p_match','p_side','p_category','p_complete']};
    if(!commands[name])return json(res,{code:'PGRST202',message:'Unimplemented fixture RPC'},404);
    const keys=commands[name],args=keys.map((k,i)=>`$${i+1}`),vals=keys.map(k=>typeof body[k]==='object'?JSON.stringify(body[k]):body[k]);
