@@ -41,3 +41,5 @@ Les proves de navegador afegeixen obertura inicial plegada, teclat, diversos/cap
 Reproducció automatitzada visual: `npx playwright test tests/browser/basic.spec.mjs --grep 'reinforcement disclosure' --headed` en un entorn amb pantalla. Captura local fictícia: `work/reinforcement-toggle-mobile.png`. La còpia de catàleg a `work/` no es publica ni s'inclou a l'artefacte Pages.
 
 No fusionar ni desplegar sense autorització expressa. Coordinació, rivals i importacions segueixen fora d'abast.
+
+Punt de recuperació: codi verificat `54ec8df5247b066a7d279f10d26dd42d27312985`, [PR #30 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/30). Proves locals superades; CI pendent de verificar. Cap desplegament d’aquesta fase.
