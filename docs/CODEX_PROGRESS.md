@@ -2,7 +2,19 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 2B, desplegable de reforços i validació general al Mode Base. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A, accés als modes i partits futurs. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A autoritzada
+
+Branca `fix/match-mode-access`, checkout `/workspace/work/clubhoquei360-mode-access`, main `e009f4d` després de PR #30. Auditoria llegida; causes a [match-mode-access.md](match-mode-access.md). Servidor separat `feat/match-mode-access-server`, checkout `/workspace/work/clubhoquei360-mode-server`.
+
+Completat: auditats selector/accés Base/Avançat i funcions/polítiques reals amb SQL només lectura; inventari real 36 equips, zero club_memberships i 1 superadministrador habilitat. Detectades restricció FECAPA de l'activació, manca de franja esportiva estructurada, bloqueig calendari sense context i autosave d'Avançat en consulta. Cap canvi de producció.
+
+En curs: contracte de permisos verificat al servidor, consulta genèrica de calendari, activació explícita/idempotent i guardes d'URL. Backend/RLS/metadades només en PR separada no aplicada. Pendents: codi, proves Node/Chromium, matriu 36 equips, guies, PR esborrany i CI. No modificar plantilles/reforços/imports. Últim checkpoint funcional verificat heretat `61afb27`, CI 40493246421; no repetir proves de fases anteriors sense canvis. `git log -1` identifica checkpoint d'auditoria.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: recupera docs/CODEX_PROGRESS.md a fix/match-mode-access, comprova també feat/match-mode-access-server, continua el primer pendent de fase 3A i desa checkpoints. No fusionis, despleguis ni modifiquis producció; no atribueixis validació Auth real a fixtures o SET ROLE.»
+
+## Antecedents · fase 2B (PR #30 fusionada)
 
 ## Fase vigent · 2B autoritzada
 
