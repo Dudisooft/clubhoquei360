@@ -1,10 +1,25 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 24/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Treball paral·lel conservat de `main`: redisseny del Mode Base per a l’Infantil D–Alpicat, documentat al bloc final i a [l’informe del redisseny](base-mobile-redesign.md). En aquesta branca la prioritat és la publicació autoritzada de la correcció Igualada–Vic.**
+**Fase vigent: 2A, selecció de plantilla pròpia IHC al Mode Base. Sense fusió, publicació ni canvis de producció. Els blocs anteriors es conserven com a historial.**
 
-## Objectiu i fase actual
+## Fase vigent · 2A autoritzada
+
+Branca **`feat/base-roster-eligibility`**, checkout `/workspace/work/clubhoquei360-eligibility`, creada des de `main` **`428f166`**, després de la fusió de la PR #28. Referències llegides: auditoria `c03f039` i `docs/match-navigation-phase1.md`. Aquesta fase substitueix la prioritat indicada als antecedents, que es conserven a continuació com a historial.
+
+- **Completat i verificat localment:** filtratge de jugadors propis IHC per equip/temporada/federació i actes anteriors verificades; deduplicació per identificador; procedència i dorsal coneguts; seccions habituals/reforços; candidats sense evidència desactivats; convocatòries desades preservades amb avís, sense reconfirmació forçada ni canvi en confirmar la mateixa selecció. Snapshots preparats per conservar una futura referència de convocatòria, sense desenvolupar coordinació.
+- **Proves:** Node 123/123 PASS; vuit casos nous repetits després de l'últim ajust d'àmbit. Chromium complet 44/44 PASS (14 Base i resta Avançat/navegació), zero omissions. Check/build 35 fitxers i diff PASS. Logs locals `/tmp/eligibility-final-node.log` i `/tmp/eligibility-final-browser.log`. Regressió inicial de reforç històric promogut a habitual corregida; antiga expectativa de retirar convocat històric ajustada a la preservació requerida.
+- **Fitxers:** `basic-eligibility.js` nou, `basic-roster.js`, `base.js`, versió d'entrada `base.html`, dues suites Node noves, proves/helper Base, `docs/base-roster-eligibility.md` i aquest registre. Cap canvi a Avançat, selector jeràrquic, esquema o permisos. PR #10/#11/#22/#27 no incorporades. Cap dada de producció consultada de nou ni modificada.
+- **Bloqueig conegut:** FECAPA/RFEP denegats amb CONNECT 403 del proxy (26/10 23:25 UTC; política 138), cerques web sense resultats utilitzables. Cap normativa 2026/27 real verificada. Falten també dades verificables d'edat/sexe/altres condicions en els inputs consumits. La successió de categories només limita la presentació i no certifica elegibilitat. **Cap reforç prospectiu nou queda habilitat**. El cas positiu de prova és un contracte fictici, no validació normativa.
+- **GitHub:** [PR #29](https://github.com/Dudisooft/clubhoquei360/pull/29), oberta en esborrany; no fusionada ni desplegada. Primera consulta Actions del commit sense execucions disponibles: CI encara no acreditada.
+- **Pendent per ordre:** revisar PR esborrany i CI; validació visual en entorn de revisió; obtenir i verificar normativa oficial/dades esportives necessàries abans d'habilitar reforços. No iniciar rivals, provisionals, importacions generals o coordinació.
+- **Punt de recuperació:** codi i proves verificats al commit **`b709f93f0498774d8c5a79248c145f7d1425ca6d`**, publicat a la branca remota i recuperable; `git log -1` i la PR identifiquen el checkpoint documental més recent. Base recuperable `428f166`; veure informe [base-roster-eligibility.md](base-roster-eligibility.md). No repetir les suites vàlides si el codi no ha canviat.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: llegeix docs/CODEX_PROGRESS.md a feat/base-roster-eligibility, comprova Git i la PR esborrany, recupera les proves vàlides i continua només la primera tasca pendent de fase 2A. No fusionis, despleguis, modifiquis producció o habilitis reforços sense normativa i dades verificades.»
+
+## Antecedents conservats · objectius de fases anteriors
+
+
 
 **FASE 1 AUTORITZADA — selecció explícita de partits.** Branca `feat/explicit-match-navigation`, checkout `/workspace/work/clubhoquei360-navigation`, base main `a5e54e7`. Referència obligatòria: auditoria `c03f039` de `docs/auditoria-global-2026-10-26`. Implementats selector comú de quatre nivells, entrada sense partit automàtic, calendari disponible complet i enllaços directes sense substitució, inclòs context autoritzat sense font. No s'han incorporat #10/#11/#22/#27 ni modificat producció/SQL/permisos. Node 115/115, check/build 34; Chromium final **43/43 PASS**, zero fallides/omeses, amb enllaç autoritzat sense font i preservació de dades. Codi verificat `295ae29`. Informe/validació visual: [match-navigation-phase1.md](match-navigation-phase1.md). En reprendre, comprovar `/tmp/navigation-final-browser.log` i Git abans de repetir suites. PR de revisió [#28](https://github.com/Dudisooft/clubhoquei360/pull/28), sense fusió ni publicació. CI `40415203816` iniciada al checkpoint `05592a1`; consultar resultat/HEAD a la PR, no donar-la per superada abans de comprovar-ho. Aquest checkpoint només afegeix enllaços i guia de visualització fictícia. Pendent: revisió de la PR d’aquesta branca; no repetir les suites locals vàlides. No fusionar ni desplegar; les fases de plantilles/provisionals/imports continuen fora d'abast.
 
