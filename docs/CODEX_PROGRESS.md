@@ -2,7 +2,19 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A servidor separat, no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.1 autorització temporal, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.1 autorització externa temporal
+
+Encàrrec vigent: ampliar les PR #31 (servidor) i #32 (frontend) sense fusionar main ni tocar producció. Checkpoints recuperats `327b06d` servidor i `5f08545` frontend, arbres nets abans de començar. Skills Supabase/entorn llegits; xarxa 139 vigent, changelog 403, documentació RLS via MCP accessible.
+
+Disseny: taula separada d'autoritzacions per club/equip/partit/compte autenticat, accions/costats/jugadors explícits, inici/caducitat, emissor i revocació auditada. Proposta 24 h, màxim servidor 168 h. Cap modificació d'assignacions, rols o age_group existents. Excepció afegida només a capacitats i estadístiques; la guarda d'operacions oficials de PR #31 es manté separada. Només superadmin habilitat/general_coordinator del club poden concedir/revocar. API i RLS comproven vigència cada operació.
+
+En curs: migració nova versionada al servidor, integració al panell d'operadors i accés temporal del selector. Pendents: proves PostgreSQL/Node/Chromium completes, prova conjunta FEM15 amb identitats fictícies, documentació, commits i actualització de PR/CI. No crear comptes ni concedir cap permís real; procediment d'invitació només documentat.
+
+Represa: «CONTINUA CLUBHOQUEI360: llegeix aquest registre a feat/match-mode-access-server i fix/match-mode-access, revisa Git i continua el primer pendent de 3A.1. No fusionis, despleguis ni modifiquis producció. No repeteixis suites del codi intacte.»
+
+## Antecedents · fase 3A
 
 ## Fase vigent · 3A servidor separat, no instal·lat
 
