@@ -106,6 +106,18 @@ create function app_private.mode_basic_correction_target(p_match uuid,p_related 
 $$;
 create policy pilot_event_mode_gate on public.pilot_events as restrictive for insert to authenticated with check(app_private.match_advanced_allowed(match_id) or
  (app_private.mode_basic_payload(payload,event_type) and (event_type<>'correction' or (payload->>'kind'='correction' and app_private.mode_basic_correction_target(match_id,related_event_id)))));
+-- Legacy INSERT also allows statisticians to submit notes. A note's payload
+-- must not disguise an official goal/card, lineup, closure or Base command.
+create function app_private.mode_official_operator(p_match uuid) returns boolean language sql stable security definer set search_path='' as $$
+ select auth.uid() is not null and exists(select 1 from public.pilot_members m where m.match_id=p_match and m.user_id=auth.uid() and m.role='operator')
+$$;
+create policy pilot_event_semantic_operator on public.pilot_events as restrictive for insert to authenticated with check(
+ app_private.mode_official_operator(match_id) or (
+ event_type not in('goal','team_foul','clock','substitution','lineup','correction','card_blue','card_red')
+ and coalesce(payload->>'kind','nota') not in('gol','gol_resta','falta','groga','blava','vermella','canvi','entrada','titulars_confirmats','clock','correction','basic_participants','basic_finished','basic_reopened','partit_finalitzat')
+ and coalesce(payload#>>'{details,origin}','')<>'basic'));
+revoke all on function app_private.mode_official_operator(uuid) from public,anon;
+grant execute on function app_private.mode_official_operator(uuid) to authenticated;
 create policy pilot_state_mode_insert on public.pilot_operator_state as restrictive for insert to authenticated with check(app_private.match_advanced_allowed(match_id));
 create policy pilot_state_mode_update on public.pilot_operator_state as restrictive for update to authenticated using(app_private.match_advanced_allowed(match_id)) with check(app_private.match_advanced_allowed(match_id));
 create function app_private.mode_basic_calendar_ready(p_match uuid,p_payload jsonb,p_type text) returns boolean language sql stable security definer set search_path='' as $$

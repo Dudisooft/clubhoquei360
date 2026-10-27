@@ -4,6 +4,18 @@ Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Fase vigent: 3A.1 autorització temporal, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
+## Fase vigent · 3A.2 auditoria final
+
+Inici: recuperats els checkpoints remots #31 `58a1ff8` i #32 `762797a`, main `e009f4d`; esborranys, sense fusió. Informes 3A/3A.1, migracions i proposta 36 equips revisats. Supabase accessible: només projecte de producció i zero branques staging; no crear comptes ni permisos reals. Changelog i fonts federatives directes denegats CONNECT 403, documentació RLS via MCP accessible.
+
+Auditoria independent local: reproduïdes dues denegacions que abans FALLAVEN (notes de statistician amb marques Base/goal camuflades) usant el predicat INSERT real llegit de producció. Correcció restrictiva addicional a la migració 3A encara no instal·lada: exigeix operador oficial per tipus, kind o origen oficial, sense ampliar drets. Regressió RED 2 fallades/2 PASS → GREEN 32/32 (4 auditoria + 28 modes/temporals), `/tmp/audit3A2-red.log` i `/tmp/audit3A2-target.log`. Empremta inicial agregada de dades/permisos presa amb BEGIN READ ONLY/ROLLBACK; pendent comparar al final. Cap SQL mutatiu remot.
+
+Pendents: tancar regressions, preflight i recuperació sense pèrdua, matriu 36 equips amb evidència i incerteses, suites completes de les dues branques i integració nativa, CI, informe i checkpoints. No fusionar/desplegar ni alterar comptes, metadades o dades reals.
+
+Represa: «CONTINUA CLUBHOQUEI360: llegeix el registre a les branques #31/#32, revisa Git i continua el primer pendent de 3A.2 sense repetir suites vigents ni modificar producció.»
+
+## Antecedents conservats · 3A.1
+
 ## Fase vigent · 3A.1 autorització externa temporal
 
 Objectiu completat en desenvolupament: operador extern autenticat, autoritzat per un partit concret, sense membres ni rols generals. Només superadmin habilitat o general_coordinator del club sense equip concedeixen/revoquen. Inici/final finits, proposta 24 h i màxim absolut 168 h. Àmbits d’accions/costats/jugadors; revocació/caducitat verificades al servidor. Les guardes oficials de #31 queden separades. Cap assignació, age_group o registre esportiu existent alterat.
