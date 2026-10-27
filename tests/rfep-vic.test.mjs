@@ -17,6 +17,7 @@ test.before(async()=>{
  await db.query('insert into federation_groups values($1,$2)',[VIC.group,VIC.competition]);
  await db.query("insert into federation_team_entries(id,club_team_id,competition_id,external_team_id,raw_data) values($1,$2,$3,'3697',$4)",[VIC.entry,ID.team,VIC.competition,JSON.stringify({season_id:'41',verification:'official'})]);
  await db.query("insert into federation_matches(id,group_id,external_match_id,match_fingerprint,raw_data,federation_start_at,home_team,away_team,home_score,away_score,fetched_at) values($1,$2,null,'RFEP:41:3575:3575:JORNADA 5:3697:3727',$3,'2026-10-24 18:30Z','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC',null,null,'2026-10-23 23:17Z')",[VIC.calendar,VIC.group,JSON.stringify(calendar)]);
+ await db.query("insert into federation_match_teams values($1,$2,'home')",[VIC.calendar,VIC.entry]);
  await db.query("insert into pilot_matches values($1,'Igualada – Vic · fixture de prova','SIMAR IGUALADA HC','AUTO VIGATANA PATÍ VIC','2026-10-24 18:30Z','scheduled')",[VIC.pilot]);
 });
 test.after(async()=>db.close());

@@ -2,7 +2,19 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 2B, desplegable de reforços i validació general al Mode Base. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A servidor separat, no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A servidor separat, no instal·lat
+
+Branca `feat/match-mode-access-server`, checkout `/workspace/work/clubhoquei360-mode-server`, main `e009f4d`. Frontend independent `fix/match-mode-access`. No integrar altres PR pendents.
+
+Implementat localment: classificació esportiva estructurada, RPC de capacitats sense escriptures, activació explícita FECAPA/RFEP idempotent i compleció del mateix context Base per Avançat, guards RLS/funcions de mode, excepció només superadmin habilitat/general_coordinator de club. No apliquen drets per etiquetes, divisió o JSON del navegador. Metadades 36 equips en proposta separada amb ROLLBACK, no aplicades.
+
+Verificat: **167/167 Node, 47/47 Chromium**, sense fallades/omissions, ampliació 14/14 Node focalitzades. logs `/tmp/mode-server-all-node.log`, `/tmp/mode-server-new.log`, `/tmp/mode-server-browser.log`. Check/build 35 i diff correctes. Detectades fixtures RFEP sense vincle match_team, corregides explícitament; no s'ha relaxat l'autorització. Cap SQL de producció mutatiu ni migració remota. Informe [match-mode-access-server.md](match-mode-access-server.md).
+
+Pendent: commit/push i PR esborrany de servidor, CI; revisió de migració i metadades. Frontend dependrà d'aquesta PR sense incloure-la. No publicar res. Producció: zero coordinadors principals reals; cap login Auth validat. Represa: llegir aquest registre i el de fix/match-mode-access, comprovar Git/logs, continuar primer pendent, no repetir proves de codi intacte, no aplicar migracions ni dades de configuració sense autorització.
+
+## Antecedents · fase 2B fusionada
 
 ## Fase vigent · 2B autoritzada
 
