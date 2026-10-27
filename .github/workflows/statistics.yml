@@ -28,7 +28,7 @@ jobs:
         if: github.event.pull_request.head.ref == 'fix/match-mode-access'
         uses: actions/checkout@v4
         with:
-          ref: 602e116a25e20a47af9e53cdb2eed9ac75236517
+          ref: ae4efb398518376bce2842978bb404debdf81a67
           path: work/mode-server-dependency
           persist-credentials: false
       - name: Native PostgreSQL and Chromium cross-PR scenarios

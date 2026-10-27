@@ -1,6 +1,6 @@
 # Fase 3A.1 · accés extern temporal al Mode Avançat
 
-27/10/2026. Frontend de la PR #32; servidor dependent a la PR #31, commit `602e116a25e20a47af9e53cdb2eed9ac75236517`. Cap fusió, desplegament, migració remota, correu enviat o compte real modificat en aquesta fase. No s’incorporen altres PR pendents.
+27/10/2026. Frontend de la PR #32; servidor dependent a la PR #31, commit `ae4efb398518376bce2842978bb404debdf81a67`. Cap fusió, desplegament, migració remota, correu enviat o compte real modificat en aquesta fase. No s’incorporen altres PR pendents.
 
 ## Canvis i límits
 
