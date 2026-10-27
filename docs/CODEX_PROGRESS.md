@@ -12,7 +12,9 @@ Implementat localment: classificació esportiva estructurada, RPC de capacitats 
 
 Verificat: **167/167 Node, 47/47 Chromium**, sense fallades/omissions, ampliació 14/14 Node focalitzades. logs `/tmp/mode-server-all-node.log`, `/tmp/mode-server-new.log`, `/tmp/mode-server-browser.log`. Check/build 35 i diff correctes. Detectades fixtures RFEP sense vincle match_team, corregides explícitament; no s'ha relaxat l'autorització. Cap SQL de producció mutatiu ni migració remota. Informe [match-mode-access-server.md](match-mode-access-server.md).
 
-Pendent: commit/push i PR esborrany de servidor, CI; revisió de migració i metadades. Frontend dependrà d'aquesta PR sense incloure-la. No publicar res. Producció: zero coordinadors principals reals; cap login Auth validat. Represa: llegir aquest registre i el de fix/match-mode-access, comprovar Git/logs, continuar primer pendent, no repetir proves de codi intacte, no aplicar migracions ni dades de configuració sense autorització.
+GitHub: [PR #31](https://github.com/Dudisooft/clubhoquei360/pull/31) en esborrany, codi verificat/remot `74a88e5550f906f737347a8f50fc55762142b452`. [CI 40552219184](https://github.com/Dudisooft/clubhoquei360/actions/runs/40552219184) **success**, Node/Chromium/check/build. Frontend [PR #32](https://github.com/Dudisooft/clubhoquei360/pull/32), sense incorporar-se en aquesta branca.
+
+Pendent: revisar PR de servidor i frontend; revisió de migració i metadades. Frontend dependrà d'aquesta PR sense incloure-la. No publicar res. Producció: zero coordinadors principals reals; cap login Auth validat. Represa: llegir aquest registre i el de fix/match-mode-access, comprovar Git/logs, continuar primer pendent, no repetir proves de codi intacte, no aplicar migracions ni dades de configuració sense autorització.
 
 ## Antecedents · fase 2B fusionada
 

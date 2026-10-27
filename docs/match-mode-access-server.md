@@ -36,3 +36,7 @@ Suite Node final **167/167 PASS**, sense fallades ni omissions; suite Chromium c
 Les 14 proves noves cobreixen divisions sèniors obertes i femenines fictícies, Júnior Or i altres divisions, categoria inferior, admin/secció, superadministrador/coordinador principal, JSON falsificat, desconeguts, absència d'escriptura en consultar, Base sense cinc inicial avançat, activació RFEP idempotent, històric separat, denegació anònima i finalització d'un context Base conservant incidències. Són comprovacions reals de PostgreSQL/PGlite amb usuaris **ficticis**, no validació Auth de producció.
 
 Escenari de revisió: instal·lar només en entorn aïllat, revisar metadades, consultar capacitats amb cada rol i executar les suites. No aplicar a producció ni fusionar sense autorització. Comprovar avisos, permisos i empremtes abans/després en el futur desplegament autoritzat.
+
+## Checkpoint remot
+
+[PR #31](https://github.com/Dudisooft/clubhoquei360/pull/31) en esborrany, codi `74a88e5550f906f737347a8f50fc55762142b452`. [CI 40552219184](https://github.com/Dudisooft/clubhoquei360/actions/runs/40552219184) **success**: 167 Node, 47 Chromium i check/build 35, comprovats als logs. Frontend independent [PR #32](https://github.com/Dudisooft/clubhoquei360/pull/32). Prova conjunta local amb aquest codi de servidor i Chromium també PASS: futur RFEP consultat/activat explícitament i una passada conservada després de recarregar, 1 context/1 membre/1 estadística/0 incidències oficials. Sense Auth ni escriptures de producció.
