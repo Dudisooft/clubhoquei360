@@ -4,6 +4,20 @@ Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Fase vigent: 3A.2 auditoria final, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
+## Fase vigent · 3A.3 staging i Auth real
+
+Recuperats #31 `61bf532` i #32 `2665ad7`, arbres nets; dependència funcional servidor 07504fd, cap fusió. Un sol projecte remot productiu, zero branques; no crear recursos externs. Docker 28.4.0 motor local unix, vfs; Supabase CLI 2.121.0 i Chromium disponibles. Skills entorn/Supabase llegits; xarxa 140 enforced, changelog 403, documentació Auth local via MCP.
+
+Bloc verificat: guarda loopback/projecte/ports i rebuig de referències productives, **3/3 proves noves PASS**. Configuració CLI a work/staging-3a3, logs privats; no comptes encara. Imatges oficials Auth v2.197.0, PostgREST v16.4, Kong 2.8.1 i Mailpit v1.31.3 descarregades. PostgreSQL Supabase 17.11.0.004 falla amb no space left on device en extracció vfs; reintents aturats. No s’ha canviat controlador ni reiniciat el daemon. Intent de PostgreSQL oficial 17-alpine lleuger en curs, per pila mínima amb GoTrue/PostgREST reals. No substituir-ho per PGlite ni declarar Auth provat abans d’obtenir JWT reals.
+
+Fitxers en desenvolupament servidor: scripts/staging-safety.mjs, scripts/staging-local.mjs, tests/staging-safety.test.mjs, baseline predecessor fictici tests/staging/baseline.sql (encara no executat, sense crear auth.users ni mock auth.uid). Node_modules és enllaç temporal, no versionar. Docker estava buit abans del treball; només recursos locals del staging poden gestionar-se.
+
+Pendent: arrancar pila local mínima, preparar rols/dades/comptes ficticis a Auth, navegador i RPC amb JWT reals, tests de seguretat/concurrència, evidències sense secrets, commits i actualització PR. Producció intacta: cap SQL remot, compte, permís, migració o publicació.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git i els recursos Docker locals del projecte clubhoquei360-3a3-local; continua el primer pendent sense repetir 3A.2 ni tocar producció.»
+
+## Antecedents conservats · 3A.2
+
 ## Fase vigent · 3A.2 auditoria final
 
 Represa 28/10/2026: arbres i commits examinats abans de cap canvi. Correcció locale preservada `1b6cad8`, encara no pujada a l’inici; PR #31 remota `58a1ff8`, #32 `762797a`, main `e009f4d`, esborranys sense fusió. No hi ha staging accessible: un sol projecte Supabase i zero branques, tornat a confirmar en represa. No tocar comptes ni producció.
