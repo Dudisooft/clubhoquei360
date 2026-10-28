@@ -1,3 +1,5 @@
+> Actualització 3A.4: [matriu i fonts actuals](SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md). Els sis sèniors queden pendents de prova independent i amb SQL desactivat; 6/4/26 continua sent proposta. Auth real local completada a 3A.3, sense certificar dades federatives reals. El contingut següent conserva el checkpoint 3A.2.
+
 # Matriu final 3A.2 · IHC 2026/27
 
 36 equips i 38 inscripcions del catàleg real rellegits en només lectura. Coincideixen ID, club, temporada i categoria amb la proposta. **6 senior, 4 junior i 26 youth són propostes; no estan aplicades.** 31 equips tenen una categoria d’edat explícita al catàleg; cinc propostes sènior només disposen de divisió i queden pendents d’evidència independent. `verification_status=verified` certifica l’estat d’importació, no aprova la franja.

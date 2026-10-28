@@ -667,7 +667,7 @@
       "calendar_matches": 32,
       "verification_status": "verified",
       "proposed_age_group": "senior",
-      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "age_evidence_status": "pending_independent_age_evidence",
       "classification_applied": false
     },
     {
@@ -886,5 +886,11 @@
       "age_evidence_status": "catalogue_explicit_age_pending_human_review",
       "classification_applied": false
     }
-  ]
+  ],
+  "review_3A4": {
+    "date": "2026-10-28",
+    "counts_are_proposals": true,
+    "senior_pending": 6,
+    "report": "SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md"
+  }
 }

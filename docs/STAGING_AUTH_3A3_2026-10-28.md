@@ -1,3 +1,5 @@
+> Actualització documental 3A.4: [sis franges amb contrast independent pendent](SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md). Rigat se suma als cinc pendents independents; les proves Auth locals i el codi de seguretat no canvien.
+
 # ClubHoquei360 · Fase 3A.3 · Staging i Auth real
 
 28/10/2026. Continuació de 3A.2. PR #31 i #32 separades, en esborrany; cap fusió, desplegament o modificació de producció.

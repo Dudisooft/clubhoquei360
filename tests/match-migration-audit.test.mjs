@@ -18,12 +18,13 @@ test('all phase 3A/3A.1 privileged functions use an empty search_path and no ano
  const rows=(await db.query("select n.nspname,p.proname,p.proconfig,has_function_privilege('anon',p.oid,'EXECUTE') anon,has_function_privilege('authenticated',p.oid,'EXECUTE') client from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname='app_private' and (p.proname like 'mode_%' or p.proname like 'match_%' or p.proname like 'temporary_%' or p.proname like '%_before_%')")).rows;assert.ok(rows.length>15);for(const r of rows){assert.ok(r.proconfig?.includes('search_path=""'),r.proname);assert.equal(r.anon,false,r.proname);if(r.proname.includes('_before_')||['mode_context','mode_operator_eligible'].includes(r.proname))assert.equal(r.client,false,r.proname);}
  }finally{await db.close();}
 });
-test('classification proposal refuses unreviewed writes, leaves five unsupported senior claims pending and always rolls back',async()=>{
+test('classification proposal refuses unreviewed writes, leaves all six independently unverified senior claims pending and always rolls back',async()=>{
  const {PGlite}=await import('@electric-sql/pglite'),db=new PGlite();try{
  const proposal=JSON.parse(fs.readFileSync(new URL('docs/match-age-group-review-20261027.json',root),'utf8')),sql=fs.readFileSync(new URL('scripts/prepare-reviewed-age-groups.sql',root),'utf8');
  await db.exec('create table teams(id uuid,club_id uuid,season_id uuid,category text,age_group text,age_group_source text)');for(const t of proposal.teams)await db.query('insert into teams(id,club_id,season_id,category) values($1,$2,$3,$4)',[t.id,t.club_id,t.season_id,t.category]);
  await assert.rejects(db.exec(sql),/Classification review required/);await db.exec('rollback');assert.equal((await db.query('select count(*)::int n from teams where age_group is not null')).rows[0].n,0);
- await db.exec("set ch360.classification_review_approved='yes'");const results=await db.exec(sql.replace('rollback;','select count(*)::int proposed from teams where age_group is not null;rollback;'));assert.equal(results.find(r=>r.rows[0]?.proposed!==undefined).rows[0].proposed,31);assert.equal((await db.query('select count(*)::int n from teams where age_group is not null')).rows[0].n,0);
- assert.equal(proposal.teams.filter(t=>t.age_evidence_status==='pending_independent_age_evidence').length,5);
+ await db.exec("set ch360.classification_review_approved='yes'");const results=await db.exec(sql.replace('rollback;','select count(*)::int proposed from teams where age_group is not null;rollback;'));assert.equal(results.find(r=>r.rows[0]?.proposed!==undefined).rows[0].proposed,30);assert.equal((await db.query('select count(*)::int n from teams where age_group is not null')).rows[0].n,0);
+ const preview=sql.slice(0,sql.lastIndexOf('rollback;'));await db.exec(preview);const seniorIds=proposal.teams.filter(t=>t.proposed_age_group==='senior').map(t=>t.id);assert.equal((await db.query('select count(*)::int n from teams where id=any($1::uuid[]) and age_group is not null',[seniorIds])).rows[0].n,0);await db.exec('rollback');
+ assert.equal(proposal.teams.filter(t=>t.age_evidence_status==='pending_independent_age_evidence').length,6);
  }finally{await db.close();}
 });

@@ -2,7 +2,21 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.3 staging Auth real, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.4 verificació federativa sènior, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.4 verificació federativa sènior
+
+Punt inicial preservat: servidor ed3d785, frontend 25cfa84, arbres nets i remots coincidents. No s’ha repetit 3A.2/3A.3 ni s’han canviat app/RLS/RPC/migracions. Llegits els skills Supabase i runtime; política 140 aplicada, dominis RFEP/FECAPA no permesos: CONNECT 403, sense bypass. Eina web independent: fonts FECAPA no recuperables, RFEP www només carcassa/menú; índex Supercopa 3592 amb Rigat corroboratiu parcial. Bases RFEP 2026/27 de 54 pàgines recuperades via índex oficial FMP, no acrediten individualment els sis equips. Temporalitat i manca d’evidència distingides.
+
+Completat: SELECT de sis candidats/vuit inscripcions i catàleg sencer: 36 UUID/38 claus federatives úniques, metadades iguals a la proposta. Rigat RFEP 3696/3568 (més 3592; FECAPA 12074/4858), SIMAR RFEP 3697/3575 OK LIGA PLATA SUR, Nacional 12077/4774, Segona 12078/4779, Tercera A 12079/4781 i B 12080/4781. No duplicats ni fusió per noms. 6/4/26 conservat com a proposta, no certificat federatiu.
+
+Sis classificacions independents pendents. Rigat conserva etiqueta interna sènior/primer equip, però el seu UPDATE queda també comentat amb el criteri 3A.4: ara sis sènior desactivats i 30 propostes no sènior protegides per revisió/ROLLBACK. Cap canvi de categoria real, jugador o permís. Afectats: proposta JSON, SQL de revisió, matriu JSON/MD, informe de seguretat amb enllaç, nou informe SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md i evidències sanejades. Test afectat match-migration-audit actualitzat: 3/3 PASS, guarda sense aprovació, 30 previews, sis sènior intactes i rollback zero persistència; proves locals PGlite, no Auth nou. 23/23 conjunts de dades/permisos amb empremtes i recomptes iguals en dues transaccions READ ONLY; cap SQL mutatiu. Evidències senior-preservation i senior-validation a docs/evidence. CI del checkpoint següent via PR.
+
+Pendent prioritari: aportar/recuperar font federativa llegible 2026/27 amb categoria d’equip explícita i correspondència a cadascun dels sis IDs; primer equip Rigat també requereix tancar el contrast primari. Després preparar només classificacions acreditades i passar dry-run local. Cap activació automàtica. Aplicació futura exigeix revisió humana i autorització expressa. Europa només documentada com a ampliació futura, cap implementació o participació inventada.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.4 als dos registres i docs/SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md; comprova Git i fonts/evidències. Recupera primer la prova independent que falta per als sis IDs; no repeteixis 3A.2/3A.3 ni canviïs producció. Últim checkpoint remot via git log -1.»
+
+## Antecedents conservats · 3A.3
 
 ## Fase vigent · 3A.3 staging i Auth real
 

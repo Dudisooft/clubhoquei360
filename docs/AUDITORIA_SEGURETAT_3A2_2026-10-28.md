@@ -1,3 +1,5 @@
+> Continuïtat 3A.4: [verificació federativa i sis franges pendents](SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md). La classificació abans executable de Rigat queda també suspesa a la proposta per manca de prova independent; cap canvi de regles o dades productives.
+
 # ClubHoquei360 · Auditoria final 3A.2
 
 
