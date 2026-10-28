@@ -44,12 +44,21 @@
     "supabase/migrations/20261028191801_preserve_partial_federation_rosters.sql": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880",
     "tests/helpers/stats-db.mjs": "a90ad70d8a493f902a53a29ab4205d307bf7c4f94fd63e6570f60675b97049f6"
   },
-  "ci": "Pending PR, local results verified; record CI separately after commit",
+  "ci": {
+    "run_id": 40756623866,
+    "job_id": 123057147448,
+    "conclusion": "success",
+    "node": 169,
+    "chromium": 48,
+    "logs_checked": true
+  },
   "local_full_suite_precedes_final_sql_identity_hardening": true,
   "final_affected_command": "node --test tests/ihc-persistence.test.mjs tests/ihc.test.mjs tests/reports.test.mjs tests/import-transport.test.mjs",
   "final_affected_result": {
     "pass": 25,
     "fail": 0,
     "skip": 0
-  }
+  },
+  "verified_source_commit": "82816c2d58a7d9900bd1ad1ea8a6a038a728fd5b",
+  "final_source_verified_by_ci": true
 }
