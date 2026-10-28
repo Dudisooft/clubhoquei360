@@ -1,0 +1,890 @@
+{
+  "source": "Production catalogue, read-only 2026-10-27; no personal player/account data",
+  "counts": {
+    "senior": 6,
+    "junior": 4,
+    "youth": 26
+  },
+  "teams": [
+    {
+      "id": "020cf94a-ab92-f435-2fbd-9db438c2a120",
+      "name": "IGUALADA HC C",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+          "competition": "JÚNIOR OR",
+          "raw_category": "JÚNIOR",
+          "competition_id": "4782",
+          "external_team_id": "12083"
+        }
+      ],
+      "category": "JÚNIOR",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "junior",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "11aead52-9c21-3425-01d4-4b6915b0b8aa",
+      "name": "IGUALADA HC D",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+          "competition": "JÚNIOR OR",
+          "raw_category": "JÚNIOR",
+          "competition_id": "4782",
+          "external_team_id": "12406"
+        }
+      ],
+      "category": "JÚNIOR",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "junior",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "174df2fc-5530-f172-e535-cce1f2455da8",
+      "name": "IGUALADA HC E",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4785",
+          "competition": "JUVENIL PLATA",
+          "raw_category": "JUVENIL",
+          "competition_id": "4785",
+          "external_team_id": "12409"
+        }
+      ],
+      "category": "JUVENIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4785",
+      "calendar_matches": 13,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "2c6f30c0-2345-4ab0-6416-2c4eb1213926",
+      "name": "IGUALADA HC C",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+          "competition": "ALEVÍ OR",
+          "raw_category": "ALEVÍ",
+          "competition_id": "4789",
+          "external_team_id": "12418"
+        }
+      ],
+      "category": "ALEVÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "35d785ae-cd8b-b174-8f4c-8831fbd784fa",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+          "competition": "BENJAMÍ OR BARCELONA",
+          "raw_category": "BENJAMÍ",
+          "competition_id": "4810",
+          "external_team_id": "12425"
+        }
+      ],
+      "category": "BENJAMÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "3b3f6fb5-bbc5-7467-5d3f-320be8003686",
+      "name": "IGUALADA HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4806",
+          "competition": "FEM 11 OR",
+          "raw_category": "FEM 11",
+          "competition_id": "4806",
+          "external_team_id": "12422"
+        }
+      ],
+      "category": "FEM 11",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4806",
+      "calendar_matches": 13,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "3b838f5f-8fe2-715b-616c-754178055007",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+          "competition": "JUVENIL OR",
+          "raw_category": "JUVENIL",
+          "competition_id": "4784",
+          "external_team_id": "12404"
+        }
+      ],
+      "category": "JUVENIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "4357e8e7-30d2-a17b-f1eb-4e8a7d6afe5f",
+      "name": "IGUALADA HC F",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4787",
+          "competition": "INFANTIL PLATA",
+          "raw_category": "INFANTIL",
+          "competition_id": "4787",
+          "external_team_id": "12415"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4787",
+      "calendar_matches": 13,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "666ba825-830b-4136-b3da-2cb7c5f5ae14",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+          "competition": "TERCERA CATALANA MASCULINA ",
+          "raw_category": "TERCERA CATALANA MASCULINA",
+          "competition_id": "4781",
+          "external_team_id": "12080"
+        }
+      ],
+      "category": "TERCERA CATALANA MASCULINA",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+      "calendar_matches": 24,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "pending_independent_age_evidence",
+      "classification_applied": false
+    },
+    {
+      "id": "6b8545db-eb77-186e-2f91-dc9ca19ec5ef",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+          "competition": "BENJAMÍ OR BARCELONA",
+          "raw_category": "BENJAMÍ",
+          "competition_id": "4810",
+          "external_team_id": "12426"
+        }
+      ],
+      "category": "BENJAMÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "75a038d4-cbc6-4da3-989c-1ef894e8ec1d",
+      "name": "IGUALADA HC D",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4790",
+          "competition": "ALEVÍ PLATA",
+          "raw_category": "ALEVÍ",
+          "competition_id": "4790",
+          "external_team_id": "12423"
+        }
+      ],
+      "category": "ALEVÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4790",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "793a0cd7-eae9-e5c6-c76e-0fb429a337cb",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4813",
+          "competition": "PREBENJAMI OR BARCELONA",
+          "raw_category": "PREBENJAMI",
+          "competition_id": "4813",
+          "external_team_id": "12430"
+        }
+      ],
+      "category": "PREBENJAMI",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4813",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "7e8a22b1-39ec-d5e9-df00-121fa4b28aac",
+      "name": "IGUALADA HC E",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+          "competition": "INFANTIL OR",
+          "raw_category": "INFANTIL",
+          "competition_id": "4786",
+          "external_team_id": "12414"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "8142727e-2bfd-d9a7-5ca6-d47b68fa48a0",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+          "competition": "JUVENIL OR",
+          "raw_category": "JUVENIL",
+          "competition_id": "4784",
+          "external_team_id": "12405"
+        }
+      ],
+      "category": "JUVENIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "85b5541c-0c5b-ee6d-a23f-368a8cd38fae",
+      "name": "IGUALADA HC D",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+          "competition": "INFANTIL OR",
+          "raw_category": "INFANTIL",
+          "competition_id": "4786",
+          "external_team_id": "12413"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 1,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "8cfde442-be75-321d-ac5c-cff4f95b7a38",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+          "competition": "JÚNIOR OR",
+          "raw_category": "JÚNIOR",
+          "competition_id": "4782",
+          "external_team_id": "12082"
+        }
+      ],
+      "category": "JÚNIOR",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "junior",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "9385f410-c5ec-6de6-796a-738371a91b30",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+          "competition": "ALEVÍ OR",
+          "raw_category": "ALEVÍ",
+          "competition_id": "4789",
+          "external_team_id": "12416"
+        }
+      ],
+      "category": "ALEVÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "978e00aa-648c-98f1-6a7b-fbdd603eba30",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4816",
+          "competition": "PREBENJAMI INICIACIO BARCELONA",
+          "raw_category": "PREBENJAMI INICIACIO",
+          "competition_id": "4816",
+          "external_team_id": "12432"
+        }
+      ],
+      "category": "PREBENJAMI INICIACIO",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4816",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "9f268c67-ea26-ec18-c445-512b3829c772",
+      "name": "IGUALADA HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4804",
+          "competition": "FEM 13 OR",
+          "raw_category": "FEM 13",
+          "competition_id": "4804",
+          "external_team_id": "12421"
+        }
+      ],
+      "category": "FEM 13",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4804",
+      "calendar_matches": 20,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "a6496b1a-9b8c-67e3-6f52-9aa6e2ef21ce",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4816",
+          "competition": "PREBENJAMI INICIACIO BARCELONA",
+          "raw_category": "PREBENJAMI INICIACIO",
+          "competition_id": "4816",
+          "external_team_id": "12434"
+        }
+      ],
+      "category": "PREBENJAMI INICIACIO",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4816",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "ad2bbfdd-9b11-c0e2-b335-a0b60b6c68ab",
+      "name": "IGUALADA HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4779",
+          "competition": "SEGONA CATALANA MASCULINA",
+          "raw_category": "SEGONA CATALANA MASCULINA",
+          "competition_id": "4779",
+          "external_team_id": "12078"
+        }
+      ],
+      "category": "SEGONA CATALANA MASCULINA",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4779",
+      "calendar_matches": 24,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "pending_independent_age_evidence",
+      "classification_applied": false
+    },
+    {
+      "id": "b2641ae4-d1e3-c98f-0c89-72a074e3c151",
+      "name": "Igualada HC · FEM15",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4802",
+          "competition": "FEM 15 OR",
+          "raw_category": "FEM15",
+          "competition_id": "4802",
+          "external_team_id": "12419"
+        }
+      ],
+      "category": "FEM15",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": null,
+      "calendar_matches": 24,
+      "verification_status": null,
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "c0febd5f-96b6-c734-5d33-c6d7bb5e8958",
+      "name": "IGUALADA HC C",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+          "competition": "BENJAMÍ OR BARCELONA",
+          "raw_category": "BENJAMÍ",
+          "competition_id": "4810",
+          "external_team_id": "12427"
+        }
+      ],
+      "category": "BENJAMÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4810",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "c2d46fe9-9573-ea1d-84f1-3ba80b104c27",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+          "competition": "INFANTIL OR",
+          "raw_category": "INFANTIL",
+          "competition_id": "4786",
+          "external_team_id": "12410"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "c31eddb5-389e-9487-544d-6bd974e2869b",
+      "name": "IGUALADA HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4774",
+          "competition": "NACIONAL CATALANA MASCULINA",
+          "raw_category": "NACIONAL CATALANA MASCULINA",
+          "competition_id": "4774",
+          "external_team_id": "12077"
+        }
+      ],
+      "category": "NACIONAL CATALANA MASCULINA",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4774",
+      "calendar_matches": 30,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "pending_independent_age_evidence",
+      "classification_applied": false
+    },
+    {
+      "id": "c726e180-1364-eabb-97d5-4eda236a3312",
+      "name": "IGUALADA HC C",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+          "competition": "JUVENIL OR",
+          "raw_category": "JUVENIL",
+          "competition_id": "4784",
+          "external_team_id": "12407"
+        }
+      ],
+      "category": "JUVENIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+      "calendar_matches": 16,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "c7b496b0-2d68-d6ae-5f80-70928f35e903",
+      "name": "IGUALADA RIGAT HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "RFEP",
+          "source_url": "https://hockeypatines.fep.es/league/3568",
+          "competition": "OK LIGA MASCULINA",
+          "raw_category": "OK LIGA MASCULINA",
+          "competition_id": "3568",
+          "external_team_id": "3696"
+        },
+        {
+          "federation": "RFEP",
+          "source_url": "https://hockeypatines.fep.es/league/3592",
+          "competition": "SUPERCOPA DE ESPAÑA MASCULINA",
+          "raw_category": "SUPERCOPA DE ESPAÑA MASCULINA",
+          "competition_id": "3592",
+          "external_team_id": "3696"
+        },
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4858",
+          "competition": "FRIT RAVICH LLIGA CATALANA",
+          "raw_category": "FRIT RAVICH LLIGA CATALANA",
+          "competition_id": "4858",
+          "external_team_id": "12074"
+        }
+      ],
+      "category": "SÈNIOR · primer equip",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4858",
+      "calendar_matches": 32,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "cc90b135-b53d-2227-648d-07d242e571a4",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+          "competition": "INFANTIL OR",
+          "raw_category": "INFANTIL",
+          "competition_id": "4786",
+          "external_team_id": "12411"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "d624830b-8b79-2c97-f052-a88788a8a523",
+      "name": "IGUALADA HC C",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+          "competition": "INFANTIL OR",
+          "raw_category": "INFANTIL",
+          "competition_id": "4786",
+          "external_team_id": "12412"
+        }
+      ],
+      "category": "INFANTIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4786",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "db4c3453-dbfe-b91b-cc27-20c215e3f5e8",
+      "name": "IGUALADA HC D",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4811",
+          "competition": "BENJAMÍ PLATA BARCELONA",
+          "raw_category": "BENJAMÍ",
+          "competition_id": "4811",
+          "external_team_id": "12428"
+        }
+      ],
+      "category": "BENJAMÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4811",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "dba1679b-4688-a3b9-0f3c-8ac52aa4bf48",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+          "competition": "JÚNIOR OR",
+          "raw_category": "JÚNIOR",
+          "competition_id": "4782",
+          "external_team_id": "12081"
+        }
+      ],
+      "category": "JÚNIOR",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4782",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "junior",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "f1aaac4e-13fd-a8fa-0df9-c87414d5e929",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+          "competition": "ALEVÍ OR",
+          "raw_category": "ALEVÍ",
+          "competition_id": "4789",
+          "external_team_id": "12417"
+        }
+      ],
+      "category": "ALEVÍ",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4789",
+      "calendar_matches": 14,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "f46aafd6-0ccb-a3df-14ed-5abafb4109d3",
+      "name": "IGUALADA HC A",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+          "competition": "TERCERA CATALANA MASCULINA ",
+          "raw_category": "TERCERA CATALANA MASCULINA",
+          "competition_id": "4781",
+          "external_team_id": "12079"
+        }
+      ],
+      "category": "TERCERA CATALANA MASCULINA",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+      "calendar_matches": 24,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "pending_independent_age_evidence",
+      "classification_applied": false
+    },
+    {
+      "id": "f7c79aa2-5f04-712c-5124-92c965baa492",
+      "name": "IGUALADA HC D",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+          "competition": "JUVENIL OR",
+          "raw_category": "JUVENIL",
+          "competition_id": "4784",
+          "external_team_id": "12408"
+        }
+      ],
+      "category": "JUVENIL",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4784",
+      "calendar_matches": 12,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    },
+    {
+      "id": "f9eed270-6221-42dc-7ac4-3df490ad65db",
+      "name": "SIMAR IGUALADA HC",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "RFEP",
+          "source_url": "https://hockeypatines.fep.es/league/3575",
+          "competition": "OK LIGA PLATA SUR",
+          "raw_category": "OK LIGA",
+          "competition_id": "3575",
+          "external_team_id": "3697"
+        }
+      ],
+      "category": "OK LIGA",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://hockeypatines.fep.es/league/3575",
+      "calendar_matches": 26,
+      "verification_status": "verified",
+      "proposed_age_group": "senior",
+      "age_evidence_status": "pending_independent_age_evidence",
+      "classification_applied": false
+    },
+    {
+      "id": "fb6c48ff-e7b4-6983-d6cf-4068e7bd1f83",
+      "name": "IGUALADA HC B",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "federation": "FECAPA",
+          "source_url": "https://www.hoqueipatins.fecapa.cat/league/4814",
+          "competition": " PREBENJAMI PLATA BARCELONA ",
+          "raw_category": "PREBENJAMI",
+          "competition_id": "4814",
+          "external_team_id": "12431"
+        }
+      ],
+      "category": "PREBENJAMI",
+      "contexts": 0,
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "source_url": "https://www.hoqueipatins.fecapa.cat/league/4814",
+      "calendar_matches": 13,
+      "verification_status": "verified",
+      "proposed_age_group": "youth",
+      "age_evidence_status": "catalogue_explicit_age_pending_human_review",
+      "classification_applied": false
+    }
+  ]
+}

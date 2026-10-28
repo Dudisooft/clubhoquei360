@@ -2,17 +2,21 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.1 autorització temporal, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.2 auditoria final, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
 ## Fase vigent · 3A.2 auditoria final
 
-Inici: recuperats els checkpoints remots #31 `58a1ff8` i #32 `762797a`, main `e009f4d`; esborranys, sense fusió. Informes 3A/3A.1, migracions i proposta 36 equips revisats. Supabase accessible: només projecte de producció i zero branques staging; no crear comptes ni permisos reals. Changelog i fonts federatives directes denegats CONNECT 403, documentació RLS via MCP accessible.
+Represa 28/10/2026: arbres i commits examinats avant cap canvi. Correcció locale preservada `1b6cad8`, encara no pujada a l’inici; PR #31 remota `58a1ff8`, #32 `762797a`, main `e009f4d`, esborranys sense fusió. No hi ha staging accessible: un sol projecte Supabase i zero branques, tornat a confirmar en represa. No tocar comptes ni producció.
 
-Auditoria independent local: reproduïdes dues denegacions que abans FALLAVEN (notes de statistician amb marques Base/goal camuflades) usant el predicat INSERT real llegit de producció. Correcció restrictiva addicional a la migració 3A encara no instal·lada: exigeix operador oficial per tipus, kind o origen oficial, sense ampliar drets. Regressió RED 2 fallades/2 PASS → GREEN 32/32 (4 auditoria + 28 modes/temporals), `/tmp/audit3A2-red.log` i `/tmp/audit3A2-target.log`. Empremta inicial agregada de dades/permisos presa amb BEGIN READ ONLY/ROLLBACK; pendent comparar al final. Cap SQL mutatiu remot.
+Completat: bypass de notes statistician reproduït (RED 2/4) i corregit amb política restrictiva de semàntica oficial; regressió 32/32. Suite servidor anterior 188 Node PASS segons sortida d’eina de la conversa; logs /tmp perduts en substituir l’entorn. Informe JSON Chromium conservat `work/browser-results.json`: 47/47 servidor, inici 27/10 21:35:56 UTC, zero omissions/fallades, migració del commit 1b6cad8 intacta. Frontend runtime intacte des de 762797a: 158 Node i informe Chromium 67/67, inici 21:39:28 UTC. No repetir aquestes suites locals sense canvis.
 
-Pendents: tancar regressions, preflight i recuperació sense pèrdua, matriu 36 equips amb evidència i incerteses, suites completes de les dues branques i integració nativa, CI, informe i checkpoints. No fusionar/desplegar ni alterar comptes, metadades o dades reals.
+Preflight endurit després de l’última suite completa: detecta columnes/àlies i RPC parcials, ordre incorrecte, dependències i contextos; proves afectades **3/3 PASS** repetides a la represa, `work/audit3A2-migrations-resume.log`. Proves de fault injection i rollback conserven dades històriques. Proposta 36 equips: 6/4/26; 31 amb edat explícita, 5 només divisió queden pendents i UPDATE comentat. Script requereix revisió explícita i acaba en ROLLBACK, provat. Matriu MD/JSON preparada, sense dades personals.
 
-Represa: «CONTINUA CLUBHOQUEI360: llegeix el registre a les branques #31/#32, revisa Git i continua el primer pendent de 3A.2 sense repetir suites vigents ni modificar producció.»
+Dades: resultat inicial de només lectura 27/10 recuperable a la conversa; nova instantània de represa `work/audit-snapshot-resume.json`. 23 conjunts, recomptes iguals; 19 empremtes iguals i 4 conjunts de catàleg federatiu canviats durant la interrupció. Actes, estadístiques, sessions, equips, jugadors operatius, membres, comptes i permisos intactes. Causa dels quatre canvis no acreditada; no afirmar absència total de canvis entre dies. Cap SQL mutatiu remot.
+
+En curs: checkpoint/remot de preflight/metadades, integració nativa amb les dues PR, comparació final de dades i semàntica del catàleg, CI amb el servidor corregit, informe final i pla de recuperació/Auth real. Les dues PR han de continuar esborrany i separades. No fusionar/desplegar, aplicar metadades o crear comptes reals.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest registre a feat/match-mode-access-server i fix/match-mode-access, comprova Git i les evidències de 3A.2, continua només el primer pendent sense repetir proves vigents ni modificar producció.»
 
 ## Antecedents conservats · 3A.1
 
