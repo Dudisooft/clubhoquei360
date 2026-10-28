@@ -2,7 +2,17 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.4 verificació federativa sènior, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.5 consolidació federativa, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.5 bloc A
+
+Inici preservat #31 fe27623 / #32 3f34f95, arbres nets. Evidència nova: participació als portals oficials comunicada per l’usuari, temporada 2026/2027; captures de sis equips no accessibles/no examinades, sense fitxers/hashes inventats. IDs provenen del catàleg 3A.4. Proposta senior dels sis separada de participació i aprovació administrativa, totes apply_approved=false. 36 equips/38 inscripcions i 6/4/26 conservats. Informe docs/SENIOR_CLASSIFICATIONS_3A5.md.
+
+Preparat scripts/review-senior-classifications-3a5.sql: sis UPDATE comentats, preflight exacte UUID/club/temporada/categoria/inscripció amb cardinalitat 1 i ROLLBACK final. No executat sobre producció. Proves afectades 6/6 Node/PGlite PASS; cap canvi RLS/app/migració en #31. Fitxers: proposta JSON, script de revisió, test senior-review-3a5, informe i progrés. Bloc B separat a fix/federation-roster-import-safety, base main e009f4d, sense cap PR pendent incorporada. En curs: correccions d’importador i proves a la seva branca.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix el bloc 3A.5 dels tres registres (#31, #32 i fix/federation-roster-import-safety), revisa Git i les proves vigents. Continua el bloc pendent; no fusionis branques ni toquis producció. Classificacions: aprovació administrativa pendent, captures només comunicades.»
+
+## Antecedents conservats · 3A.4
 
 ## Fase vigent · 3A.4 verificació federativa sènior
 

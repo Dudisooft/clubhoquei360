@@ -201,6 +201,32 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "TERCERA CATALANA MASCULINA",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "FECAPA",
+            "competition_id": "4781",
+            "catalogue_external_team_id": "12080",
+            "entry_id": "1c01a36a-6ca9-d91d-3f85-96c75ded91d8",
+            "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+            "groups": [
+              "4943"
+            ]
+          }
+        ]
       }
     },
     {
@@ -463,6 +489,32 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "SEGONA CATALANA MASCULINA",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "FECAPA",
+            "competition_id": "4779",
+            "catalogue_external_team_id": "12078",
+            "entry_id": "40cb96ff-e62f-9735-0198-bfbd3207a642",
+            "source_url": "https://www.hoqueipatins.fecapa.cat/league/4779",
+            "groups": [
+              "4873"
+            ]
+          }
+        ]
       }
     },
     {
@@ -557,6 +609,32 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "NACIONAL CATALANA MASCULINA",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "FECAPA",
+            "competition_id": "4774",
+            "catalogue_external_team_id": "12077",
+            "entry_id": "1139e3e0-7fa4-4e29-9659-8afa088bb644",
+            "source_url": "https://www.hoqueipatins.fecapa.cat/league/4774",
+            "groups": [
+              "4864"
+            ]
+          }
+        ]
       }
     },
     {
@@ -621,6 +699,53 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "SÈNIOR · primer equip",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "FECAPA",
+            "competition_id": "4858",
+            "catalogue_external_team_id": "12074",
+            "entry_id": "8cb2c664-0a27-c46e-8d14-5caf2908e8b1",
+            "source_url": "https://www.hoqueipatins.fecapa.cat/league/4858",
+            "groups": [
+              "4859",
+              "5093"
+            ]
+          },
+          {
+            "federation": "RFEP",
+            "competition_id": "3568",
+            "catalogue_external_team_id": "3696",
+            "entry_id": "2cd391cf-4fb5-8f00-872e-58390955722c",
+            "source_url": "https://hockeypatines.fep.es/league/3568",
+            "groups": [
+              "3568"
+            ]
+          },
+          {
+            "federation": "RFEP",
+            "competition_id": "3592",
+            "catalogue_external_team_id": "3696",
+            "entry_id": "d6e8bc93-d099-4d8f-16fd-4717ea8e0b68",
+            "source_url": "https://hockeypatines.fep.es/league/3592",
+            "groups": [
+              "3592"
+            ]
+          }
+        ]
       }
     },
     {
@@ -757,6 +882,32 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "TERCERA CATALANA MASCULINA",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "FECAPA",
+            "competition_id": "4781",
+            "catalogue_external_team_id": "12079",
+            "entry_id": "caae119c-b785-1cb4-0008-92c2326cd40e",
+            "source_url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+            "groups": [
+              "4944"
+            ]
+          }
+        ]
       }
     },
     {
@@ -809,6 +960,32 @@
         "sources_file": "docs/evidence/senior-sources-3a4-20261028.json",
         "retained_category": "OK LIGA",
         "reason": "Official direct sources unavailable; cached division/internal labels and general regulations insufficient for independent team age verification."
+      },
+      "participation_review_3A5": {
+        "season": "2026/2027",
+        "proposed_age_group": "senior",
+        "participation_status": "user_reported_official_portal_participation",
+        "identity_status": "catalogue_crosschecked_3A4",
+        "source": "User statement in phase 3A.5; manual official portal season/competition/team selection",
+        "validation_origin": "user_report_and_existing_catalogue_not_direct_image_examination",
+        "images_accessible": false,
+        "images_examined": false,
+        "image_ids_visible": false,
+        "verification_date": "2026-10-28",
+        "administrative_approval": "pending",
+        "apply_approved": false,
+        "entries": [
+          {
+            "federation": "RFEP",
+            "competition_id": "3575",
+            "catalogue_external_team_id": "3697",
+            "entry_id": "3f0368be-a87a-f1a4-66f0-3705f3ab4e7a",
+            "source_url": "https://hockeypatines.fep.es/league/3575",
+            "groups": [
+              "3575"
+            ]
+          }
+        ]
       }
     },
     {
@@ -864,5 +1041,18 @@
     "senior_pending": 6,
     "production_applied": false,
     "note": "Rigat retains explicit internal senior/first-team evidence, but its SQL proposal is now disabled pending independent current-season federal confirmation; no production data reclassified."
+  },
+  "review_3A5": {
+    "date": "2026-10-28",
+    "user_reported_participation_teams": 6,
+    "images_examined": false,
+    "identity_mapping_source": "Existing catalogue, not screenshot IDs",
+    "proposed_counts": {
+      "senior": 6,
+      "junior": 4,
+      "youth": 26
+    },
+    "administratively_approved": 0,
+    "production_applied": false
   }
 }
