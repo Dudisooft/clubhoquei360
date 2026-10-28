@@ -1,3 +1,5 @@
+> Continuïtat 3A.4: [contrast federatiu sènior](SENIOR_FEDERATION_REVIEW_FRONTEND_3A4_2026-10-28.md). Sis franges independents pendents, inclosa Rigat; cap canvi funcional o de permisos.
+
 # ClubHoquei360 · Auditoria frontend 3A.2
 
 

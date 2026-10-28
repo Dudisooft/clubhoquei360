@@ -2,7 +2,19 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.3, staging i Auth real. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.4, contrast federatiu sènior. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.4 contrast federatiu sènior
+
+Inici servidor ed3d785 i frontend 25cfa84, arbres nets i caps remots comprovats. Frontend funcional intacte. 36 equips/38 inscripcions rellegits via SELECT; sis candidats amb vuit entrades, sense duplicats. Rigat RFEP 3696/3568 (també 3592, FECAPA 12074/4858) diferent de SIMAR 3697/3575 OK LIGA PLATA SUR. Nacional 12077/4774, Segona 12078/4779 i Tercera A/B 12079/12080 a 4781 diferenciats per ID/grup.
+
+Sis franges independents pendents. Directe RFEP/FECAPA CONNECT 403; eina web recupera carcasses/índex parcial RFEP i bases generals RFEP 2026/27 via federació FMP. Insuficient per acreditar sis inscripcions. Rigat conserva evidència interna sènior/primer equip, però s’hi suspèn també l’UPDATE pendent de contrast primari; sis sènior comentats i 30 altres propostes intactes. No es canvien metadades productives ni RLS. Matriu/informe/evidències i tests afectats a #31 (3/3 Node/PGlite, guardes, 23/23 conjunts productius iguals). No es repeteix auditoria 3A.2/3A.3 ni navegador perquè no canvia runtime.
+
+Informe local SENIOR_FEDERATION_REVIEW_FRONTEND_3A4_2026-10-28.md, informe/matriu complet a #31. No fusió, comptes, migracions, dades, classificacions o desplegament productius. Europa només futura ampliació documentada.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.4 als dos registres, comprova Git i l’informe federatiu de #31. Primer pendent: recuperar prova primària 2026/27 de franja dels sis IDs i primer equip Rigat; preparar només files acreditades, amb tests afectats locals, sense repetir 3A.2/3A.3 ni modificar producció. Últim checkpoint remot via git log -1.»
+
+## Antecedents conservats · 3A.3
 
 ## Fase vigent · 3A.3 staging i Auth real
 

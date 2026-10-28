@@ -1,3 +1,5 @@
+> Continuïtat 3A.4: [contrast federatiu sènior](SENIOR_FEDERATION_REVIEW_FRONTEND_3A4_2026-10-28.md). Sis franges independents pendents, inclosa Rigat; cap canvi funcional o de permisos.
+
 # ClubHoquei360 · Staging frontend 3A.3
 
 28/10/2026. **Auth real COMPLETADA EN L’ENTORN LOCAL AÏLLAT** per als casos del Centre de partit. Cap canvi als fitxers d’aplicació publicats; no fusió, publicació, migració o compte productiu modificat.
