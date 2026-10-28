@@ -1,5 +1,7 @@
 # Fase 3A.1 · accés extern temporal al Mode Avançat
 
+
+Tancament i precisions d’evidència: [auditoria 3A.2](AUDITORIA_FRONTEND_3A2_2026-10-28.md). Preval sobre qualsevol valoració anterior de preparació per publicar.
 27/10/2026. Frontend de la PR #32; servidor dependent a la PR #31, commit `ae4efb398518376bce2842978bb404debdf81a67`. Cap fusió, desplegament, migració remota, correu enviat o compte real modificat en aquesta fase. No s’incorporen altres PR pendents.
 
 ## Canvis i límits

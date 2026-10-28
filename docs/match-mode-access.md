@@ -1,5 +1,7 @@
 # Fase 3A · Auditoria i correcció d'accés als modes
 
+
+Tancament i precisions d’evidència: [auditoria 3A.2](AUDITORIA_FRONTEND_3A2_2026-10-28.md). Preval sobre qualsevol valoració anterior de preparació per publicar.
 27/10/2026, Europe/Madrid. Base `main` `e009f4d`, després de PR #30. Branca frontend `fix/match-mode-access`; servidor preparat separadament a `feat/match-mode-access-server`. Cap canvi de producció autoritzat ni executat.
 
 ## Causes comprovades

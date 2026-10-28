@@ -1,6 +1,6 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 **Fase vigent: 3A.2, auditoria final. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
@@ -10,11 +10,13 @@ Represa 28/10: Git i canvis locals preservats, PR #32 en esborrany, sense fusion
 
 Servidor separat: correcció `1b6cad8` exigeix operador oficial també per notes amb payloads camuflats; preflight, proposta i matriu guardats/remots a `07504fd6d0f216464115bd026d68ab5467187ea7`. Proves afectades en represa 3/3 PASS; 188 Node i 47 Chromium executats durant l’auditoria anterior. CI frontend fixada al nou SHA servidor, sense copiar SQL ni fusionar branques.
 
-Canvi local recuperat: prova conjunta reforçada amb recàrrega després de revocació i caducitat. Futur RFEP PASS a la represa, work/audit3A2-future.log: consulta sense escriptures, activació explícita, 1 context/1 membre/1 estadística/0 incidències oficials, recuperació sense duplicats. FEM15 en curs, work/audit3A2-fem15.log. Pendent CI de les dues PR i informe final.
+Canvi recuperat desat/remot `9c61ca0e6dbe26c6d9e9e513763005c21cbeeb56`: prova conjunta amb recàrrega després de revocació i caducitat. CI final [40643528800](https://github.com/Dudisooft/clubhoquei360/actions/runs/40643528800) **success**, logs comprovats: 158 Node/67 Chromium, check/build 38 i dos recorreguts natius PGlite+Chromium contra servidor `07504fd`. Futur RFEP: consulta sense escriptures, activació explícita, 1 context/1 membre/1 passada/0 oficials. FEM15: 2 observacions preservades, 0 membres externs/contextos, estat oficial/assignacions intactes i entrada denegada després de recarregar un permís revocat/caducat. Logs locals work/audit3A2-future.log i work/audit3A2-fem15.log PASS. CI servidor [40643271480](https://github.com/Dudisooft/clubhoquei360/actions/runs/40643271480) success: 188 Node/47 Chromium i check/build 35. Els commits documentals posteriors no modifiquen runtime; no repetir suites vàlides.
 
 Classificacions: 36 equips i 38 entrades rellegits al catàleg; semàntica id/club/temporada/categoria/entrades igual a l’instantània anterior. 6 senior/4 junior/26 youth són proposta, no instal·lada. Cinc candidats senior només tenen divisió: metadades pendents i UPDATE comentat. Tots necessiten revisió humana. No existeix staging accessible (1 projecte, 0 branques); Auth real pendent, no crear comptes ni permisos.
 
-Producció: lectures BEGIN READ ONLY/ROLLBACK únicament. 23 recomptes estables des del 27; 4 empremtes federatives canviades durant la interrupció, la resta inclosos actes/estadístiques/permisos iguals. Causa no acreditada; pendent comparació final del tram de represa. Cap escriptura esportiva, compte, migració o desplegament.
+Producció: lectures BEGIN READ ONLY/ROLLBACK únicament. 23 recomptes estables des del 27; 4 empremtes federatives canviades durant la interrupció, la resta inclosos actes/estadístiques/permisos iguals. Causa no acreditada; comparació final del tram de represa **23/23 iguals**. Cap escriptura esportiva, compte, migració o desplegament.
+
+Tancament: informe [AUDITORIA_FRONTEND_3A2_2026-10-28.md](AUDITORIA_FRONTEND_3A2_2026-10-28.md), matriu/evidències i pla complet a #31. **APTE AMB CONDICIONS**; pendents només de revisió/autorització: evidència d’edat dels cinc candidats senior i revisió global de proposta, staging aïllat amb comptes legítims i validació Auth real/concurrència, revisió humana i autorització expressa de desplegament. No crear comptes, assignar permisos, aplicar migracions/metadades, fusionar o desplegar automàticament. PR #31/#32 continuen esborrany.
 
 Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix els registres de feat/match-mode-access-server i fix/match-mode-access, comprova Git i les evidències de 3A.2, continua només el primer pendent de CI/informe/revisió sense repetir proves vàlides ni modificar producció.»
 
