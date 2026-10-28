@@ -4,6 +4,20 @@ Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Fase vigent: 3A.2, auditoria final. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
+## Fase vigent · 3A.3 staging i Auth real
+
+Fonts productives de #32 intactes, branca fix/match-mode-access sense fusió. Escenari local separat: PostgreSQL 17.11, Supabase GoTrue v2.197.0, PostgREST v16.4 i xarxa Docker internal=true. Projecte clubhoquei360-3a3-local, API 127.0.0.1:56321, web 127.0.0.1:56380. Cap projecte remot nou ni dades personals copiades.
+
+**6/6 blocs navegador real PASS**, scripts/staging-site.mjs i verify-staging-auth.mjs, evidència docs/evidence/staging-3a3-browser.json. Vuit comptes ficticis s’autentiquen pel formulari Dashboard real i /user, sense JWT injectats. Base visible en sènior/Júnior i Juvenil/Infantil; restriccions Avançat i excepcions root/principal; URL manipulada denegada. FEM15: UI concedeix 24 h, equip/jugador/vídeo/pausa/reprèn/recàrrega, revocació/caducitat real i denegació després de recarregar. RFEP futur: consulta 0 contextos, activació explícita, una passada, recàrrega i idempotència. Actes preservades, zero pageerror. Referències d’imatges sidgad.cloud bloquejades abans de sortir; zero peticions productives.
+
+Artefacte privat de staging a work/staging-auth-site: app-client i el client duplicat d’historial reconfigurats només a l’artefacte, SDK local; guard rebutja qualsevol ref productiu restant. No s’ha canviat configuració publicada. Credencials fictícies aleatòries només al work privat de #31, mai en evidències. Les operacions ordinàries usen JWT autèntics signats per GoTrue, no service_role ni respostes REST simulades.
+
+Servidor: 9/9 blocs Auth/JWT/RLS reals PASS, incloent concurrència PostgreSQL i nota camuflada 3A.2. Stop/start preserva usuaris i dades; gateway corregit per canvis d’IP interna. No cal repetir suites 158/67 ni 188/47 perquè no hi ha canvis d’app. Pendents: informe final de 3A.3, checkpoints/CI dels nous guard tests i metadades PR. Límit: predecessor mínim sintètic, correu autoconfirm local i Realtime no inclòs; classificacions reals pendents de 3A.2 no es validen amb fixtures.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git i work/staging-3a3 del servidor; continua només informe/CI/revisió pendent sense repetir proves vàlides ni tocar producció.»
+
+## Antecedents conservats · 3A.2
+
 ## Fase vigent · 3A.2 auditoria final
 
 Represa 28/10: Git i canvis locals preservats, PR #32 en esborrany, sense fusionar #31 ni main. Runtime frontend intacte des de `762797a`; es reutilitzen 158 Node de l’execució anterior i informe JSON Chromium de 27/10 21:39:28 UTC: 67/67, zero fallades/omissions. /tmp no persistent, informe conservat a work/browser-results.json. Cap nova funcionalitat.

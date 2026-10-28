@@ -1,0 +1,37 @@
+{
+  "result": "PASS",
+  "environment": "real GoTrue + PostgreSQL + PostgREST + Chromium",
+  "accounts": 8,
+  "checks": [
+    {
+      "name": "all eight accounts sign in through the real Dashboard Auth form and /user",
+      "result": "PASS"
+    },
+    {
+      "name": "browser enforces senior/junior and lower-category roles, including URL forgery",
+      "result": "PASS"
+    },
+    {
+      "name": "FEM15 principal grants 24h in UI, external records team/player and recovers paused analysis after reload",
+      "result": "PASS"
+    },
+    {
+      "name": "revocation with the browser session open blocks new writes and a fresh page; data remains",
+      "result": "PASS"
+    },
+    {
+      "name": "short real authorization expires during a browser session without changing any server clock",
+      "result": "PASS"
+    },
+    {
+      "name": "RFEP future consultation is read-only, activation explicit/idempotent and observation survives reload",
+      "result": "PASS"
+    }
+  ],
+  "productionRequests": 0,
+  "blockedExternalReferences": [
+    "sidgad.cloud"
+  ],
+  "pageErrors": [],
+  "officialPreserved": true
+}
