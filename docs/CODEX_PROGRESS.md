@@ -2,7 +2,23 @@
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.1, autorització externa temporal. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.2, auditoria final. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.2 auditoria final
+
+Represa 28/10: Git i canvis locals preservats, PR #32 en esborrany, sense fusionar #31 ni main. Runtime frontend intacte des de `762797a`; es reutilitzen 158 Node de l’execució anterior i informe JSON Chromium de 27/10 21:39:28 UTC: 67/67, zero fallades/omissions. /tmp no persistent, informe conservat a work/browser-results.json. Cap nova funcionalitat.
+
+Servidor separat: correcció `1b6cad8` exigeix operador oficial també per notes amb payloads camuflats; preflight, proposta i matriu guardats/remots a `07504fd6d0f216464115bd026d68ab5467187ea7`. Proves afectades en represa 3/3 PASS; 188 Node i 47 Chromium executats durant l’auditoria anterior. CI frontend fixada al nou SHA servidor, sense copiar SQL ni fusionar branques.
+
+Canvi local recuperat: prova conjunta reforçada amb recàrrega després de revocació i caducitat. Futur RFEP PASS a la represa, work/audit3A2-future.log: consulta sense escriptures, activació explícita, 1 context/1 membre/1 estadística/0 incidències oficials, recuperació sense duplicats. FEM15 en curs, work/audit3A2-fem15.log. Pendent CI de les dues PR i informe final.
+
+Classificacions: 36 equips i 38 entrades rellegits al catàleg; semàntica id/club/temporada/categoria/entrades igual a l’instantània anterior. 6 senior/4 junior/26 youth són proposta, no instal·lada. Cinc candidats senior només tenen divisió: metadades pendents i UPDATE comentat. Tots necessiten revisió humana. No existeix staging accessible (1 projecte, 0 branques); Auth real pendent, no crear comptes ni permisos.
+
+Producció: lectures BEGIN READ ONLY/ROLLBACK únicament. 23 recomptes estables des del 27; 4 empremtes federatives canviades durant la interrupció, la resta inclosos actes/estadístiques/permisos iguals. Causa no acreditada; pendent comparació final del tram de represa. Cap escriptura esportiva, compte, migració o desplegament.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix els registres de feat/match-mode-access-server i fix/match-mode-access, comprova Git i les evidències de 3A.2, continua només el primer pendent de CI/informe/revisió sense repetir proves vàlides ni modificar producció.»
+
+## Antecedents conservats · 3A.1
 
 ## Fase vigent · 3A.1 autorització externa temporal
 
