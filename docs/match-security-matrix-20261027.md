@@ -18,7 +18,7 @@ En tots els equips: futur/disputat consultable amb permís, sense escriure; el r
 | IGUALADA HC · FEM 11 | FECAPA 4806 · FEM 11 OR | youth | Base | Base + Avançat | 13 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC A · JUVENIL | FECAPA 4784 · JUVENIL OR | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC F · INFANTIL | FECAPA 4787 · INFANTIL PLATA | youth | Base | Base + Avançat | 13 / 0 | Categoria explícita · revisió humana pendent |
-| IGUALADA HC B · TERCERA CATALANA MASCULINA | FECAPA 4781 · TERCERA CATALANA MASCULINA | senior | Base + Avançat | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
+| IGUALADA HC B · TERCERA CATALANA MASCULINA | FECAPA 4781 · TERCERA CATALANA MASCULINA | senior | Base (Avançat pendent de franja) | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
 | IGUALADA HC B · BENJAMÍ | FECAPA 4810 · BENJAMÍ OR BARCELONA | youth | Base | Base + Avançat | 14 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC D · ALEVÍ | FECAPA 4790 · ALEVÍ PLATA | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC A · PREBENJAMI | FECAPA 4813 · PREBENJAMI OR BARCELONA | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
@@ -30,11 +30,11 @@ En tots els equips: futur/disputat consultable amb permís, sense escriure; el r
 | IGUALADA HC A · PREBENJAMI INICIACIO | FECAPA 4816 · PREBENJAMI INICIACIO BARCELONA | youth | Base | Base + Avançat | 14 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC · FEM 13 | FECAPA 4804 · FEM 13 OR | youth | Base | Base + Avançat | 20 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC B · PREBENJAMI INICIACIO | FECAPA 4816 · PREBENJAMI INICIACIO BARCELONA | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
-| IGUALADA HC · SEGONA CATALANA MASCULINA | FECAPA 4779 · SEGONA CATALANA MASCULINA | senior | Base + Avançat | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
+| IGUALADA HC · SEGONA CATALANA MASCULINA | FECAPA 4779 · SEGONA CATALANA MASCULINA | senior | Base (Avançat pendent de franja) | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
 | Igualada HC · FEM15 · FEM15 | FECAPA 4802 · FEM 15 OR | youth | Base | Base + Avançat | 24 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC C · BENJAMÍ | FECAPA 4810 · BENJAMÍ OR BARCELONA | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC A · INFANTIL | FECAPA 4786 · INFANTIL OR | youth | Base | Base + Avançat | 14 / 0 | Categoria explícita · revisió humana pendent |
-| IGUALADA HC · NACIONAL CATALANA MASCULINA | FECAPA 4774 · NACIONAL CATALANA MASCULINA | senior | Base + Avançat | Base + Avançat | 30 / 0 | PENDENT · només divisió; SQL desactivat |
+| IGUALADA HC · NACIONAL CATALANA MASCULINA | FECAPA 4774 · NACIONAL CATALANA MASCULINA | senior | Base (Avançat pendent de franja) | Base + Avançat | 30 / 0 | PENDENT · només divisió; SQL desactivat |
 | IGUALADA HC C · JUVENIL | FECAPA 4784 · JUVENIL OR | youth | Base | Base + Avançat | 16 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA RIGAT HC · SÈNIOR · primer equip | RFEP 3568 · OK LIGA MASCULINA; RFEP 3592 · SUPERCOPA DE ESPAÑA MASCULINA; FECAPA 4858 · FRIT RAVICH LLIGA CATALANA | senior | Base + Avançat | Base + Avançat | 32 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC B · INFANTIL | FECAPA 4786 · INFANTIL OR | youth | Base | Base + Avançat | 14 / 0 | Categoria explícita · revisió humana pendent |
@@ -42,9 +42,9 @@ En tots els equips: futur/disputat consultable amb permís, sense escriure; el r
 | IGUALADA HC D · BENJAMÍ | FECAPA 4811 · BENJAMÍ PLATA BARCELONA | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC A · JÚNIOR | FECAPA 4782 · JÚNIOR OR | junior | Base + Avançat | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
 | IGUALADA HC B · ALEVÍ | FECAPA 4789 · ALEVÍ OR | youth | Base | Base + Avançat | 14 / 0 | Categoria explícita · revisió humana pendent |
-| IGUALADA HC A · TERCERA CATALANA MASCULINA | FECAPA 4781 · TERCERA CATALANA MASCULINA | senior | Base + Avançat | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
+| IGUALADA HC A · TERCERA CATALANA MASCULINA | FECAPA 4781 · TERCERA CATALANA MASCULINA | senior | Base (Avançat pendent de franja) | Base + Avançat | 24 / 0 | PENDENT · només divisió; SQL desactivat |
 | IGUALADA HC D · JUVENIL | FECAPA 4784 · JUVENIL OR | youth | Base | Base + Avançat | 12 / 0 | Categoria explícita · revisió humana pendent |
-| SIMAR IGUALADA HC · OK LIGA | RFEP 3575 · OK LIGA PLATA SUR | senior | Base + Avançat | Base + Avançat | 26 / 0 | PENDENT · només divisió; SQL desactivat |
+| SIMAR IGUALADA HC · OK LIGA | RFEP 3575 · OK LIGA PLATA SUR | senior | Base (Avançat pendent de franja) | Base + Avançat | 26 / 0 | PENDENT · només divisió; SQL desactivat |
 | IGUALADA HC B · PREBENJAMI | FECAPA 4814 · PREBENJAMI PLATA BARCELONA | youth | Base | Base + Avançat | 13 / 0 | Categoria explícita · revisió humana pendent |
 
 Els cinc sèniors pendents són SIMAR, Nacional Catalana, Segona Catalana i Tercera Catalana A/B. Els seus UPDATE queden comentats a `prepare-reviewed-age-groups.sql`. La resta d’UPDATE exigeixen revisió explícita i el script acaba en ROLLBACK, provat localment. Cal evidència d’edat independent abans d’habilitar aquests cinc equips com a sènior; no s’utilitza una llista de divisions dins de RLS.

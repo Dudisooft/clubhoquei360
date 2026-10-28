@@ -1,5 +1,7 @@
 # Fase 3A.1 · autorització temporal d’operadors externs
 
+
+Auditoria final i precisions d’evidència: [3A.2 · seguretat i preparació](AUDITORIA_SEGURETAT_3A2_2026-10-28.md). Preval sobre les valoracions de completesa d’aquesta fase anterior.
 27/10/2026. Ampliació de la PR #31; frontend independent a la PR #32. **Només desenvolupament i proves locals: cap migració aplicada, cap compte o permís real modificat, cap desplegament.** El cas FEM15 és fictici i la implementació no conté excepcions per noms d’equip o club.
 
 ## Model i autoritzadors

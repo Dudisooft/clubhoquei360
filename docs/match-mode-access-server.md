@@ -1,5 +1,7 @@
 # Fase 3A · Servidor i RLS (PR separada)
 
+
+Auditoria final i precisions d’evidència: [3A.2 · seguretat i preparació](AUDITORIA_SEGURETAT_3A2_2026-10-28.md). Preval sobre les valoracions de completesa d’aquesta fase anterior.
 27/10/2026, Europe/Madrid. Branca `feat/match-mode-access-server`, base `main` `e009f4d` després de PR #30. **Preparat, no instal·lat ni executat en producció.** El frontend es prepara independentment a `fix/match-mode-access`; aquesta branca no l'incorpora.
 
 ## Política i causes

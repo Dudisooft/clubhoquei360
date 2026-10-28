@@ -1,12 +1,12 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 **Fase vigent: 3A.2 auditoria final, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
 ## Fase vigent · 3A.2 auditoria final
 
-Represa 28/10/2026: arbres i commits examinats avant cap canvi. Correcció locale preservada `1b6cad8`, encara no pujada a l’inici; PR #31 remota `58a1ff8`, #32 `762797a`, main `e009f4d`, esborranys sense fusió. No hi ha staging accessible: un sol projecte Supabase i zero branques, tornat a confirmar en represa. No tocar comptes ni producció.
+Represa 28/10/2026: arbres i commits examinats abans de cap canvi. Correcció locale preservada `1b6cad8`, encara no pujada a l’inici; PR #31 remota `58a1ff8`, #32 `762797a`, main `e009f4d`, esborranys sense fusió. No hi ha staging accessible: un sol projecte Supabase i zero branques, tornat a confirmar en represa. No tocar comptes ni producció.
 
 Completat: bypass de notes statistician reproduït (RED 2/4) i corregit amb política restrictiva de semàntica oficial; regressió 32/32. Suite servidor anterior 188 Node PASS segons sortida d’eina de la conversa; logs /tmp perduts en substituir l’entorn. Informe JSON Chromium conservat `work/browser-results.json`: 47/47 servidor, inici 27/10 21:35:56 UTC, zero omissions/fallades, migració del commit 1b6cad8 intacta. Frontend runtime intacte des de 762797a: 158 Node i informe Chromium 67/67, inici 21:39:28 UTC. No repetir aquestes suites locals sense canvis.
 
@@ -14,7 +14,11 @@ Preflight endurit després de l’última suite completa: detecta columnes/àlie
 
 Dades: resultat inicial de només lectura 27/10 recuperable a la conversa; nova instantània de represa `work/audit-snapshot-resume.json`. 23 conjunts, recomptes iguals; 19 empremtes iguals i 4 conjunts de catàleg federatiu canviats durant la interrupció. Actes, estadístiques, sessions, equips, jugadors operatius, membres, comptes i permisos intactes. Causa dels quatre canvis no acreditada; no afirmar absència total de canvis entre dies. Cap SQL mutatiu remot.
 
-En curs: checkpoint/remot de preflight/metadades, integració nativa amb les dues PR, comparació final de dades i semàntica del catàleg, CI amb el servidor corregit, informe final i pla de recuperació/Auth real. Les dues PR han de continuar esborrany i separades. No fusionar/desplegar, aplicar metadades o crear comptes reals.
+**Tancament 3A.2:** CI [servidor 40643271480](https://github.com/Dudisooft/clubhoquei360/actions/runs/40643271480) success al checkpoint `07504fd6d0f216464115bd026d68ab5467187ea7`: 188 Node/47 Chromium, check/build 35. CI [frontend 40643528800](https://github.com/Dudisooft/clubhoquei360/actions/runs/40643528800) success al checkpoint `9c61ca0e6dbe26c6d9e9e513763005c21cbeeb56`: 158 Node/67 Chromium, check/build 38 i ambdós recorreguts natius contra el servidor corregit. Logs remots comprovats, zero fallades/omissions; proves de preflight finals incloses. No cal repetir suites per als commits documentals posteriors.
+
+Comparació final: represa→final **23/23** recomptes i empremtes iguals; semàntica dels 36 equips/38 entrades igual a l’instantània del 27. Els quatre canvis federatius entre dies es documenten sense atribució causal. Preflight de producció, només lectura: READY_SCHEMA, cap dependència absent, zero contextos d’equip incoherents; migracions noves no instal·lades. Proves natives locals PASS `work/audit3A2-future.log` i `work/audit3A2-fem15.log`, inclosa recàrrega després de perdre el permís. Evidència persistent a docs/evidence, informe [AUDITORIA_SEGURETAT_3A2_2026-10-28.md](AUDITORIA_SEGURETAT_3A2_2026-10-28.md), matriu de 36 equips i pla Auth/desplegament/recuperació sense DROP ni pèrdua d’històric.
+
+**Veredicte APTE AMB CONDICIONS**: defecte reproduït corregit al candidat. Pendents exclusivament de revisió/autorització: aportar evidència d’edat independent dels cinc candidats senior i revisar tota la proposta; habilitar staging aïllat autoritzat i completar Auth real/concurrència; revisar procediment, inclosa revocació de delegacions en cessar l’autoritzador; autorització expressa de desplegament. No fusionar, aplicar migracions/metadades, crear comptes o desplegar automàticament. PR #31/#32 en esborrany, main estable. Els commits documentals finals s’identifiquen amb git log -1 i no canvien el codi verificat.
 
 Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest registre a feat/match-mode-access-server i fix/match-mode-access, comprova Git i les evidències de 3A.2, continua només el primer pendent sense repetir proves vigents ni modificar producció.»
 
