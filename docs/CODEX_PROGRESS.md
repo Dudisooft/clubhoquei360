@@ -2,7 +2,21 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.4, contrast federatiu sènior. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.5, evidències i importació separada. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.5
+
+Inici #32 3f34f95 i #31 fe27623 preservats. Cap canvi funcional de modes. Informe docs/PHASE_3A5_FRONTEND.md: classificacions a #31, importació a nova PR #33 fix/federation-roster-import-safety de main e009f4d. No s’incorpora ni fusiona cap codi d’aquella PR.
+
+Sis participacions comunicades per l’usuari, captures no examinades ni hashes inventats, IDs de catàleg 3A.4. Proposta senior distinta d’aprovació administrativa: sis UPDATE desactivats, preflight estricte i rollback, 6/6 tests afectats PASS a #31. 36/38 i 6/4/26 conservats.
+
+#33: transport, refrescada additiva, rivals com entries amb club_team_id=null, RFEP al component de plantilla, resum separat de persistència i reparació de privilegi tècnic service_role només preparada. No canvia RLS/permisos ordinaris/elegibilitat. Local 169 Node/48 Chromium i 25 últimes afectades PASS; CI pendent. La conciliació del helper de proves de #31/#33 queda explícita per a revisió conjunta futura, sense fusió aquí.
+
+Fonts federatives de l’executor CONNECT 403; eina web només carcassa/menús/retorn. Cookies/tokens, retorn interactiu i reimportació real pendents. Alpicat 8 i Salt 7 rivals al catàleg; Vic 35559 0/0 alineacions i manca de permís tècnic INSERT constatada; Valls ambigu entre categories, SHUM ALEA nom de catàleg. Cap sessió de producció del responsable validada. Empremtes 20/23 iguals amb recomptes iguals als tres conjunts federatius diferents, causa no atribuïda; dades operatives/permisos auditats iguals. No s’ha escrit producció.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.5 a #31, #32 i #33; comprova Git/CI/evidències i continua el primer pendent. No repeteixis auditories vigents, no fusionis ni despleguis; aprovació administrativa i fonts/staging d’importació pendents.»
+
+## Antecedents conservats · 3A.4
 
 ## Fase vigent · 3A.4 contrast federatiu sènior
 
