@@ -2,7 +2,7 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.2, auditoria final. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.3, staging i Auth real. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
 ## Fase vigent · 3A.3 staging i Auth real
 
@@ -12,9 +12,9 @@ Fonts productives de #32 intactes, branca fix/match-mode-access sense fusió. Es
 
 Artefacte privat de staging a work/staging-auth-site: app-client i el client duplicat d’historial reconfigurats només a l’artefacte, SDK local; guard rebutja qualsevol ref productiu restant. No s’ha canviat configuració publicada. Credencials fictícies aleatòries només al work privat de #31, mai en evidències. Les operacions ordinàries usen JWT autèntics signats per GoTrue, no service_role ni respostes REST simulades.
 
-Servidor: 9/9 blocs Auth/JWT/RLS reals PASS, incloent concurrència PostgreSQL i nota camuflada 3A.2. Stop/start preserva usuaris i dades; gateway corregit per canvis d’IP interna. No cal repetir suites 158/67 ni 188/47 perquè no hi ha canvis d’app. Pendents: informe final de 3A.3, checkpoints/CI dels nous guard tests i metadades PR. Límit: predecessor mínim sintètic, correu autoconfirm local i Realtime no inclòs; classificacions reals pendents de 3A.2 no es validen amb fixtures.
+Servidor: 9/9 blocs Auth/JWT/RLS reals PASS, incloent concurrència PostgreSQL i nota camuflada 3A.2. Stop/start preserva usuaris i dades; gateway corregit per canvis d’IP interna. No cal repetir suites 158/67 ni 188/47 perquè no hi ha canvis d’app. Tancament: docs/STAGING_AUTH_FRONTEND_3A3_2026-10-28.md i informe complet a #31. Auth real COMPLETADA EN STAGING LOCAL AÏLLAT. CI regressió 40657730299 success 158 Node/67 Chromium/check/build 38 al commit 4b869114b76f85399d117c7192b4b429e296246c; servidor 40657729410 success 191/47 al commit 4c5fa26c2451bc5d3f2b2beba1534a147191585a. Logs comprovats; Auth real és local i no es confon amb PGlite CI. Commits documentals posteriors via git log -1, cap canvi de runtime. Pendents la revisió del baseline i les classificacions reals, revisió humana i autorització expressa abans de producció. Límit: predecessor mínim sintètic, correu autoconfirm local i Realtime no inclòs; classificacions reals pendents de 3A.2 no es validen amb fixtures.
 
-Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git i work/staging-3a3 del servidor; continua només informe/CI/revisió pendent sense repetir proves vàlides ni tocar producció.»
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git i work/staging-3a3 del servidor; el primer pendent és revisar classificacions reals i baseline de desplegament, sense repetir proves vàlides ni tocar producció.»
 
 ## Antecedents conservats · 3A.2
 

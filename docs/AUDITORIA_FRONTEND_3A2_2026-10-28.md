@@ -1,5 +1,7 @@
 # ClubHoquei360 · Auditoria frontend 3A.2
 
+
+Actualització: [3A.3 · Auth real local](STAGING_AUTH_FRONTEND_3A3_2026-10-28.md) completada. Els pendents Auth d’aquest informe són l’estat anterior de 3A.2; les condicions de classificació i desplegament continuen vigents.
 28/10/2026. PR [#32](https://github.com/Dudisooft/clubhoquei360/pull/32) en esborrany, separada del servidor [#31](https://github.com/Dudisooft/clubhoquei360/pull/31), sense fusió o publicació. Cap dada, compte o permís de producció modificat.
 
 ## VERD — verificat
