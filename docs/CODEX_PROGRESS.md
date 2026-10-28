@@ -1,8 +1,29 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 2B, desplegable de reforços i validació general al Mode Base. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.5 bloc B, importació independent de #31/#32. Sense fusió, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.5 bloc B
+
+Branca fix/federation-roster-import-safety, creada de main e009f4d; sense altres PR pendents. #31 bloc A separat, #32 només documentació. Llegits skills Supabase/runtime, política 140. Portals directes CONNECT 403; eina web només carcasses/menús/control Tornar a competicions. Cookies/tokens/handlers i seqüència interactiva no verificats; no goBack, bypass o login federatiu.
+
+Incidències: lectura real Alpicat 152043 8/8 i Salt 152035 8/7 ja importats; Vic 35559 resum verified però 0/0 alineacions, service_role sense INSERT a federation_match_events (authenticated tampoc); Valls ambigu entre Tercera sense acta i Juvenil 151311 amb 8/8; Júnior rival es diu SHUM ALEA al catàleg, no s’ha fusionat/corregit per nom. Dades personals no exportades.
+
+Correccions: transport d’ihc-sync amb estats i scope/timeout, rebuig d’HTML buit/manteniment/identitats ambigües/acta unilateral; roster incomplet no és buit/no publicat oficial; refrescada additiva sense desactivar absents; resum separat de report_status de participants persistits; errors produeixen partial i no success cache. Rivals del calendari propi com entries amb club_team_id=null i identitats per federació/temporada/competició/grup/club/equip; no crea equips, usuaris, convocatòries o permisos ordinaris. Basic-roster usa la federació real, reproduït RFEP ID nul abans / correcte després. Elegibilitat #29/#30 intacta.
+
+Migració versionada 20261028191801_preserve_partial_federation_rosters.sql: funció additiva, preflight de taules i SELECT/INSERT només service_role per a incidències. Cap aplicació productiva. SQL local prova rollback del permís absent, recuperació sense duplicats i denegació a authenticated. Fixture estadístic exclou aquesta única migració perquè té predecessor d’importació propi, provat a ihc-persistence. Possible conciliació de filtre del helper de tests amb #31 s’explica a l’informe, sense fusionar.
+
+Proves RED 4 casos reproduïts en main; primers 168 Node i 47 Chromium PASS; SQL afectat final 3/3 i nou navegador mòbil RFEP 1/1 PASS. Un intent de navegador va fallar en arrencada perquè el fixture estadístic no té les taules predecessores d’importació; carregador separat explícitament, sense amagar la migració dels seus tests propis. Suites finals locals: **169/169 Node i 48/48 Chromium PASS**, zero fallades/omissions; check/build 35. Enduriment posterior d’identitat legacy del rival i missatges: 25/25 proves afectades PASS; pendent CI completa del checkpoint. Logs privats work/3a5-*; dades fictícies. Informe docs/FEDERATION_NAVIGATION_IMPORT_3A5.md i evidència sanejada docs/evidence/federation-3a5-readonly.json.
+
+Comparació productiva READ ONLY: **20/23 empremtes iguals**. Tres conjunts de catàleg (federation_matches, federation_team_entries, federation_team_roster) han canviat durant la fase, amb recomptes iguals 558/38/939. No s’atribueix la causa sense evidència ni s’afirma que tot producció s’hagi mantingut immutable; actes operatives, estadístiques, sessions, permisos, equips i comptes entre els conjunts auditats són iguals. Cap ordre mutativa productiva executada. L’inventari propi continua 36 equips/38 inscripcions. Evidència federation-3a5-preservation.json.
+
+Pendents: resultats finals/CI, checkpoint i PR en esborrany; integració sobre staging amb predecessor d’importació complet/Auth si s’autoritza; font federativa accessible per provar retorn propi, cookies, buit/no publicat inequívocs i reimportació Vic. No declarar plantilles reals recuperades. No fusionar/desplegar ni alterar permisos reals.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.5 a #31, #32 i fix/federation-roster-import-safety; comprova Git, work/3a5-* i evidències. Continua primer resultats finals/PR o la primera dependència pendent, sense repetir proves vigents ni escriure producció.»
+
+## Antecedents conservats · Fase 2B
+
 
 ## Fase vigent · 2B autoritzada
 

@@ -10,7 +10,7 @@ export function category(name:string){return name.replace(/\s+(OR|PLATA|BRONZE)(
 export function parseCompetition(config:any,calendarHtml:string,rosterHtml:string,standingsHtml:string){
  const federation=config.federation as keyof typeof SOURCES;const source=SOURCES[federation];if(!source||!/^\d+$/.test(config.id))throw Error('Invalid source');
  const {document:d}=parseHTML(calendarHtml);const groupNames=new Map([...d.querySelectorAll('select option')].map(e=>[e.getAttribute('value'),text(e)]));
- const teams=new Map<string,any>();const fixtures:any[]=[];
+ const teams=new Map<string,any>(),opponents=new Map<string,any>();const fixtures:any[]=[];
  for(const table of [...d.querySelectorAll('table[id="my_calendar_table"]')]){
   const group=table.className.match(/content_fase_(\d+)/)?.[1];if(!group)throw Error('Unverified group identity');if(!groupNames.has(group)){const heading=d.querySelector('.filter_fase_'+group);if(!heading&&group!==config.id)throw Error('Unverified group name');groupNames.set(group,text(heading)||config.name);}
   let currentRound='';for(const tr of [...table.querySelectorAll('tr')]){
@@ -20,6 +20,9 @@ export function parseCompetition(config:any,calendarHtml:string,rosterHtml:strin
    const own=ids.map((id,i)=>{const u=logos[i]?new URL(logos[i]!):null;return !!u&&['sidgad.cloud','www.sidgad.cloud'].includes(u.hostname)&&new RegExp('/logos_clubes/'+source.club+'(?:_[0-9]+)?\\.(png|gif|jpg)$','i').test(u.pathname);});
    if(!own.some(Boolean))continue;
    own.forEach((yes,i)=>{if(!yes)return;if(!/IGUALADA/i.test(names[i])||/FEMEN[IÍ]/i.test(names[i]))throw Error('Unexpected club identity');let t=teams.get(ids[i]);if(t&&t.name!==names[i])throw Error('Ambiguous team name');if(!t){t={external_team_id:ids[i],name:names[i],short_name:names[i].replace('IGUALADA','IHC').replace(/IHC HC/,'IHC'),category:category(config.name),crest_url:logos[i],group_ids:[],roster:[],status:'active',verification:'official'};teams.set(ids[i],t);}if(!t.group_ids.includes(group))t.group_ids.push(group);});
+   own.forEach((yes,i)=>{if(yes)return;const id=ids[i],u=logos[i]?new URL(logos[i]!):null;const club=u&&['sidgad.cloud','www.sidgad.cloud'].includes(u.hostname)?u.pathname.match(/\/logos_clubes\/(\d+)(?:_\d+)?\.(?:png|gif|jpg)$/i)?.[1]:null;
+    if(!club||!names[i])throw Error('Unverified opponent identity');const prior=opponents.get(id);if(prior&&(prior.name!==names[i]||prior.club_external_id!==club))throw Error('Ambiguous opponent identity');
+    const t=prior||{external_team_id:id,club_external_id:club,name:names[i],group_ids:[],roster:[],verification:'official_calendar',is_opponent:true};if(!t.group_ids.includes(group))t.group_ids.push(group);opponents.set(id,t);});
    const wrapped='<table id="my_calendar_table">'+tr.outerHTML+'</table>';const row=parseCalendar(wrapped)[0];
    const scores=row.result?.match(/^(\d+)\s*-\s*(\d+)$/);const round=row.round||text(tr.querySelector('.jor_in_games'))||currentRound;if(!round)throw Error('Fixture round missing');
    const fixture={...row,date:row.date||null,time:row.time||null,venue:row.date?row.venue:null,round,group_id:group,group_name:groupNames.get(group),home_crest:logos[0],away_crest:logos[1],home_score:scores?Number(scores[1]):null,away_score:scores?Number(scores[2]):null,club_sides:own.map((v,i)=>v?(i?'away':'home'):null).filter(Boolean),fingerprint:`${federation}:41:${config.id}:${group}:${round}:${ids[0]}:${ids[1]}`};
@@ -29,18 +32,25 @@ export function parseCompetition(config:any,calendarHtml:string,rosterHtml:strin
  if(!teams.size||!fixtures.length)throw Error('No verified IHC teams or fixtures');
  if(new Set(fixtures.map(f=>f.fingerprint)).size!==fixtures.length)throw Error('Duplicate fixture identities');
  const {document:r}=parseHTML(rosterHtml);
- for(const team of teams.values()){
+ // A portal shell/error/empty body is not evidence of an unpublished roster.
+ if(!r.querySelector('tr[class*="teamid_"]'))throw Error('navigation_error: Unrecognized official roster response');
+ const explicitCompetition=r.querySelector('[data-competition-id]')?.getAttribute('data-competition-id');
+ const explicitSeason=r.querySelector('[data-season-id]')?.getAttribute('data-season-id');
+ if(explicitCompetition&&explicitCompetition!==config.id||explicitSeason&&explicitSeason!=='41')throw Error('identity_ambiguous: Roster scope mismatch');
+ for(const team of [...teams.values(),...[...opponents.values()].filter(t=>!teams.has(t.external_team_id))]){
   for(const tr of [...r.querySelectorAll('tr.teamid_'+team.external_team_id)]){
+   if((tr.className.match(/(?:^|\s)teamid_\d+(?=\s|$)/g)||[]).length!==1)throw Error('identity_ambiguous: Ambiguous roster team identity');
    const c=[...tr.children],link=tr.querySelector('[id_player]');const external_id=link?.getAttribute('id_player')||tr.id.replace('filaplayer_','');const role=link?'player':'staff';const name=text(link||c[4]);
    if(!/^[1-9]\d*$/.test(external_id)||!name||c.length<5)throw Error('Unverified person identity');
    if(link&&link.getAttribute('team_id')!==team.external_team_id)throw Error('Roster team mismatch');
    const prior=team.roster.find((p:any)=>p.role===role&&p.external_id===external_id);if(prior){if(prior.name!==name)throw Error('Conflicting roster identity');continue;}
    team.roster.push({external_id,role,name,shirt_number:null,position:null,verification:'official_roster',staff_role:role==='staff'?(text(c[5])||null):null,...(role==='player'?{games:num(c[6]),goals:num(c[5]),assists:num(c[8]),blue_cards:num(c[14]),red_cards:num(c[16])}:{})});
   }
-  team.roster_status=team.roster.length?'published':'not_published';
+  team.roster_status=team.roster.some((p:any)=>p.role==='player')?'published':'response_incomplete';
+  team.roster_completeness='not_verified';
  }
  let standings:any[]=[],standings_status='published';try{standings=parseStandings(standingsHtml).map(g=>({...g,rows:g.rows.filter(x=>[...teams.values()].some(t=>t.name===x.team_name))})).filter(g=>g.rows.length);if(!standings.length)standings_status='not_published';}catch{standings_status='unavailable';}
- return {...config,season_id:'41',season_label:'2026/27',club_external_id:source.club,source_url:source.origin+'/league/'+config.id,teams:[...teams.values()],matches:fixtures,standings,standings_status,fetched_at:new Date().toISOString()};
+ return {...config,season_id:'41',season_label:'2026/27',club_external_id:source.club,source_url:source.origin+'/league/'+config.id,teams:[...teams.values()],opponents:[...opponents.values()].filter(t=>!teams.has(t.external_team_id)),matches:fixtures,standings,standings_status,fetched_at:new Date().toISOString()};
 }
 export function enrichFromReport(data:any,fixture:any,html:string){
  const report=parseMatch(html,{federation:data.federation,competition_id:data.id,season_id:'41',federation_match_id:fixture.match_id,federation_url:data.source_url});
@@ -53,7 +63,7 @@ export function enrichFromReport(data:any,fixture:any,html:string){
  }
  for(const staff of report.staff.filter((p:any)=>p.team===side)){if(!staff.name)continue;const found=team.roster.filter((p:any)=>p.role==='staff'&&p.name===staff.name);if(found.length===1)found[0].observed_role=staff.role;else if(!found.length)team.roster.push({external_id:null,internal_key:fixture.match_id+':'+staff.role+':'+staff.name,role:'staff',name:staff.name,staff_role:staff.role,verification:'official_match_participant',identity_status:'no_federative_identifier',observed_match_id:fixture.match_id});}
  }
- fixture.report_status='verified';fixture.report_summary={fetched_at:report.fetched_at,official_status:report.official_status,score_available:report.home_score!==null&&report.away_score!==null};
+ fixture.report_summary_status='verified';fixture.report_summary={fetched_at:report.fetched_at,official_status:report.official_status,score_available:report.home_score!==null&&report.away_score!==null};
  // No opponent-only reports, private statistics or inferred event chronology are retained.
  return data;
 }

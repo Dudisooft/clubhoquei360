@@ -28,6 +28,14 @@ if(new URLSearchParams(location.search).get('fixture')==='reinforcement-toggle'|
  data.federation_team_roster.push({id:'r6',entry_id:'EY',player_id:'CP6',role:'player',display_name:'Segon reforç FICTICI',raw_data:{}});
  data.federation_match_lineups.push({id:'l6',match_id:match,player_id:'CP6',side:'home',shirt_number:'6',display_name:'Segon reforç FICTICI',raw_data:{}});
 }
+// Synthetic RFEP opponent imported as a competition entry, not an IHC club team.
+if(new URLSearchParams(location.search).get('fixture')==='rfep-opponent'){
+ source.federation='RFEP';source.competition_id='3575';source.federation_url='https://hockeypatines.fep.es/league/3575';
+ for(const c of data.federation_competitions)c.federation='RFEP';for(const p of data.federation_players)p.federation='RFEP';
+ data.federation_team_entries.find(e=>e.id==='EA').club_team_id=null;
+ for(const f of data.federation_matches)f.raw_data.source_url=source.federation_url;
+ data.pilot_players=[];data.federation_match_lineups=[];
+}
 window.basicFixture={fail:false,syncFail:false,syncCalls:0,remoteWrites:0,playerWrites:0,delay:0};
 export const db={rpc:async(name,args)=>{
  if(name!=='basic_open_catalogue_match')return {error:{message:'Unknown fixture RPC'}};

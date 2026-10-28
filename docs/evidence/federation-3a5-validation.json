@@ -1,0 +1,55 @@
+{
+  "base_commit": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "node": {
+    "tests": 169,
+    "pass": 169,
+    "fail": 0,
+    "skip": 0
+  },
+  "chromium": {
+    "tests": 48,
+    "pass": 48,
+    "fail": 0,
+    "skip": 0
+  },
+  "check": 35,
+  "build": 35,
+  "test_data": "Fictitious identities/sports data; PostgreSQL via PGlite, browser transport fixture; not new real Auth certification",
+  "live_federation_sequence_verified": false,
+  "user_screenshots_examined": false,
+  "production_mutations": 0,
+  "red_reproductions": {
+    "malformed_or_foreign_roster_and_ambiguous_identity_and_unilateral_report": 4,
+    "rfep_opponent_before_after": {
+      "fixture": "synthetic",
+      "before": {
+        "id": null,
+        "selectable": false
+      },
+      "after": {
+        "id": "90",
+        "selectable": true
+      }
+    },
+    "backend_missing_incident_privilege": "real function denied INSERT and rolled back lineups; local migration recovered once"
+  },
+  "files_sha256": {
+    "basic-roster.js": "3159cf6b56ddef76af799b583e6c370ba91136f6c6d7ff9ff296aca683746463",
+    "supabase/functions/ihc-sync/index.ts": "52acb1405ceeaa58349764579e6bd08c074bc4e5cd0ff488fac250d47dffe36a",
+    "supabase/functions/ihc-sync/parse.ts": "60ddfed320df9c1cee5a377e47aabd5a92ef03c99813dbca5dbb08259f799119",
+    "supabase/functions/ihc-sync/reports.ts": "59b904f1cf3e9a4630f96d5a7b1d0eb3188c372fb51d1b5db4b43d66e4a82315",
+    "supabase/functions/federation-sync/transport.ts": "ca24362dfb412ea0c0eff9b0c0463acf98b027b29ccb44e383ded33029df4b3e",
+    "supabase/ihc-import.sql": "081929de917a3b8913177f6e4bd39b0db5c23ea78d9724ab33713f5346cf8495",
+    "supabase/official-reports.sql": "7469754a6ceace5aab038248b95559c43055093bfa1447e98cadf93114eeaff3",
+    "supabase/migrations/20261028191801_preserve_partial_federation_rosters.sql": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880",
+    "tests/helpers/stats-db.mjs": "a90ad70d8a493f902a53a29ab4205d307bf7c4f94fd63e6570f60675b97049f6"
+  },
+  "ci": "Pending PR, local results verified; record CI separately after commit",
+  "local_full_suite_precedes_final_sql_identity_hardening": true,
+  "final_affected_command": "node --test tests/ihc-persistence.test.mjs tests/ihc.test.mjs tests/reports.test.mjs tests/import-transport.test.mjs",
+  "final_affected_result": {
+    "pass": 25,
+    "fail": 0,
+    "skip": 0
+  }
+}
