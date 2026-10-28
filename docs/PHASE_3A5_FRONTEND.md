@@ -11,4 +11,6 @@ Estat de fonts: CONNECT 403 del túnel de l’executor; eina web veu controls de
 
 #33 té suites locals 169 Node/48 Chromium PASS i últimes 25 afectades PASS, amb dades fictícies/PGlite; no és Auth real nou. #31 té 6 proves afectades de classificació PASS. Les suites de modes/Auth de 3A.2/3A.3 no s’han repetit aquí perquè aquest codi no ha canviat. No es declara desplegament ni plantilles reals recuperades.
 
+CI actual del checkpoint `d6a1c5292385acb6498da62838678d2c66824ecf`: [40757017804](https://github.com/Dudisooft/clubhoquei360/actions/runs/40757017804) success, **158 Node / 67 Chromium** i recorreguts conjunts natius/PGlite amb servidor revisat, logs comprovats. Servidor #31 [40754289438](https://github.com/Dudisooft/clubhoquei360/actions/runs/40754289438) success 194 Node/47 Chromium; importació #33 [40756623866](https://github.com/Dudisooft/clubhoquei360/actions/runs/40756623866) success 169 Node/48 Chromium. Checkpoints posteriors només documentals.
+
 **Pendent:** revisió administrativa i fonts accessibles; revisió de #33/migració en staging d’importació complet, sense permisos o dades productius. Cap compte real modificat.
