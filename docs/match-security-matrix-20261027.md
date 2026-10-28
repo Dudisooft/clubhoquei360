@@ -1,3 +1,5 @@
+> Consolidació 3A.5: [informe A](SENIOR_CLASSIFICATIONS_3A5.md). Participació comunicada pel responsable, IDs del catàleg 3A.4; captures no examinades. Sis propostes sènior pendents d’aprovació administrativa, SQL desactivat; 36/38 i 6/4/26 conservats.
+
 > Actualització 3A.4: [matriu i fonts actuals](SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md). Els sis sèniors queden pendents de prova independent i amb SQL desactivat; 6/4/26 continua sent proposta. Auth real local completada a 3A.3, sense certificar dades federatives reals. El contingut següent conserva el checkpoint 3A.2.
 
 # Matriu final 3A.2 · IHC 2026/27

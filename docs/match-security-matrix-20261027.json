@@ -220,7 +220,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "6b8545db-eb77-186e-2f91-dc9ca19ec5ef",
@@ -508,7 +509,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "b2641ae4-d1e3-c98f-0c89-72a074e3c151",
@@ -604,7 +606,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "c726e180-1364-eabb-97d5-4eda236a3312",
@@ -668,7 +671,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "cc90b135-b53d-2227-648d-07d242e571a4",
@@ -812,7 +816,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "f7c79aa2-5f04-712c-5124-92c965baa492",
@@ -860,7 +865,8 @@
       "verification_status": "verified",
       "proposed_age_group": "senior",
       "age_evidence_status": "pending_independent_age_evidence",
-      "classification_applied": false
+      "classification_applied": false,
+      "participation_review_3A5": "user_reported_official_portal_participation; administrative approval pending"
     },
     {
       "id": "fb6c48ff-e7b4-6983-d6cf-4068e7bd1f83",
@@ -892,5 +898,12 @@
     "counts_are_proposals": true,
     "senior_pending": 6,
     "report": "SENIOR_FEDERATION_REVIEW_3A4_2026-10-28.md"
+  },
+  "review_3A5": {
+    "date": "2026-10-28",
+    "participation_evidence": "User reported manual official-portal inspection; screenshot files not examined",
+    "catalogue_identity_source": "3A.4 catalogue, not IDs visible in images",
+    "administrative_classifications_approved": 0,
+    "counts_unchanged": true
   }
 }

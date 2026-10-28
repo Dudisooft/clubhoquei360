@@ -33,4 +33,4 @@ Proves locals afectades: `senior-review-3a5.test.mjs` i `match-migration-audit.t
 
 Revisió administrativa expressa i, quan sigui necessari, examen de les captures/documents federatius originals amb context de temporada i competició; completar independentment la correspondència d’ID si es requereix aprovació definitiva. No es demana reconstruir el catàleg o introduir jugadors manualment. Qualsevol aplicació futura necessita autorització expressa separada.
 
-La investigació/correcció d’importadors és a una branca basada en main separada de #31/#32. No incorporar-ne el codi aquí. Europa fora d’abast. Sense fusió, desplegament o classificació productiva.
+La investigació/correcció d’importadors és a la [PR #33 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/33), branca basada en main separada de #31/#32. Informe B i empremtes agregades són allà: 20/23 iguals, tres conjunts de catàleg amb recomptes iguals però empremtes diferents durant la fase, causa no atribuïda. Equips, permisos i dades operatives auditades iguals; cap SQL mutatiu. No incorporar-ne el codi aquí. Europa fora d’abast. Sense fusió, desplegament o classificació productiva.
