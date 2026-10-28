@@ -14,6 +14,8 @@ No canvia cap fitxer funcional frontend, navegador, importació, RLS o RPC. Sele
 
 Proves afectades de la proposta a #31: **3/3 Node/PGlite PASS** i comprovacions d’identitat/guardes SQL; empremtes productives **23/23 iguals**, només lectura. No es repeteixen les suites de navegador/Auth 3A.3 perquè no canvia aquest codi. L’Auth real local provat a 3A.3 continua sent real i separat de PGlite; no acredita equips federatius reals.
 
+CI de 3A.4 verificada al codi servidor a90b4225840f5216858c0f04ef58353e5a0c1252 i frontend fec558477d72ae9d7e1d80e7899b5a2b714a714f: [servidor 40722934357](https://github.com/Dudisooft/clubhoquei360/actions/runs/40722934357) success 191 Node/47 Chromium; [frontend 40722934022](https://github.com/Dudisooft/clubhoquei360/actions/runs/40722934022) success 158 Node/67 Chromium i integració habitual. Logs comprovats, zero fallades/omissions; commits següents només documentals. No acredita fonts federatives externes.
+
 Pendent: font federativa llegible 2026/27 que lligui cada inscripció amb categoria sènior i tanqui la confirmació de primer equip Rigat; revisió humana del baseline/classificacions i autorització expressa per a qualsevol aplicació posterior. Futura competició europea només documentada, sense calendari ni implementació.
 
 **Resultat: identitats i competicions contrastades al catàleg; sis classificacions independents TARONJA — PENDENT.** Cap desplegament autoritzat o executat.
