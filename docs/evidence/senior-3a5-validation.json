@@ -18,5 +18,13 @@
     "scripts/review-senior-classifications-3a5.sql": "6a9efd38c3e6e27407d610168ea5fc3563ccecb01f2656c2661045582ced9d27",
     "tests/senior-review-3a5.test.mjs": "126115c0f6a4fabfa21dabafa60a727e254d49e38c0db28061b3b46b3168b0c3",
     "docs/match-age-group-review-20261027.json": "59a3ae2bb552ec94e4517a38dd8d08a8b840b6b61aea3cde54468ea905fff97e"
+  },
+  "ci": {
+    "run_id": 40754289438,
+    "job_id": 123048931748,
+    "conclusion": "success",
+    "node": 194,
+    "chromium": 47,
+    "logs_checked": true
   }
 }

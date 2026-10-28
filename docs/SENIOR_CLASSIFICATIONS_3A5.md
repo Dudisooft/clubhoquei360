@@ -27,7 +27,7 @@ Fonts de participació comunicades: [RFEP 3568](https://www.hockeypatines.fep.es
 
 `prepare-reviewed-age-groups.sql` conserva els sis sèniors desactivats. La resta dels 30 equips no canvia de categoria o identitat. No hi ha canvis de RLS, excepcions per divisió ni comptes nous.
 
-Proves locals afectades: `senior-review-3a5.test.mjs` i `match-migration-audit.test.mjs`, **6/6 PASS**. Identitats simulades en PGlite: cardinalitat correcta, duplicat, competició/ID extern incorrecte, temporada anterior, club/categoria incorrectes i rollback sense classificacions persistides. Les proves no certifiquen l’oficialitat de captures que no s’han examinat.
+Proves locals afectades: `senior-review-3a5.test.mjs` i `match-migration-audit.test.mjs`, **6/6 PASS**. Identitats simulades en PGlite: cardinalitat correcta, duplicat, competició/ID extern incorrecte, temporada anterior, club/categoria incorrectes i rollback sense classificacions persistides. Les proves no certifiquen l’oficialitat de captures que no s’han examinat. CI del codi `cf40ed997027da97923d73993699cbdf5c52382e`: [40754289438](https://github.com/Dudisooft/clubhoquei360/actions/runs/40754289438) success, **194 Node / 47 Chromium**, logs comprovats. Checkpoints posteriors només documentals.
 
 ## Pendent
 
