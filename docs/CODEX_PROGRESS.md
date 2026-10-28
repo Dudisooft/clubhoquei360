@@ -2,7 +2,7 @@
 
 Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.2 auditoria final, servidor separat no instal·lat. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.3 staging Auth real, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
 ## Fase vigent · 3A.3 staging i Auth real
 
@@ -14,9 +14,9 @@ Completat: 8 comptes Auth reals ficticis @ch360.invalid, contrasenyes aleatòrie
 
 Evidències sanejades docs/evidence/staging-3a3-api.json i staging-3a3-migrations.json; navegador a #32. Logs/credencials privats a work/staging-3a3 i work/staging-browser*. L’artefacte de staging reconfigura app-client i el client propi d’historial només a work, SDK servit localment; guard comprova absència de ref productiu a tot l’artefacte. Fonts productives intactes.
 
-Recuperació real PASS: stop/start conserva 8 identitats, estadístiques, sessions i actes; el JWT real anterior continua vàlid i PostgREST aplica RLS després del reinici. Detectat/corregit cache d’IP interna a gateway: ara resol i valida el contenidor marcat a cada petició. Evidència docs/evidence/staging-3a3-restart.json. En curs: checkpoint, informe/reproducció i CI dels nous guard tests. No repetir 188/47 i 158/67 sense canvis de runtime. Limitacions: predecessor mínim sintètic (no clon complet), correu local autoconfirm sense lliurament real, sense Realtime, cinc classificacions reals de 3A.2 encara pendents. Cap dada/compte/permís productiu modificat, cap fusió/desplegament.
+Recuperació real PASS: stop/start conserva 8 identitats, estadístiques, sessions i actes; el JWT real anterior continua vàlid i PostgREST aplica RLS després del reinici. Detectat/corregit cache d’IP interna a gateway: ara resol i valida el contenidor marcat a cada petició. Evidència docs/evidence/staging-3a3-restart.json. Tancament: Auth real COMPLETADA EN STAGING LOCAL AÏLLAT. Informe docs/STAGING_AUTH_3A3_2026-10-28.md amb límits i reproducció. Codi servidor remot 4c5fa26c2451bc5d3f2b2beba1534a147191585a, frontend 4b869114b76f85399d117c7192b4b429e296246c. CI servidor 40657729410 success 191 Node/47 Chromium/check/build 35; frontend 40657730299 success 158 Node/67 Chromium/check/build 38. Logs comprovats. Els 9 blocs API i 6 navegador Auth real són locals, no els mocks de CI. Fonts d’app/migracions intactes, no repetir suites sense canvis. Checkpoints documentals posteriors via git log -1. No repetir 188/47 i 158/67 sense canvis de runtime. Limitacions: predecessor mínim sintètic (no clon complet), correu local autoconfirm sense lliurament real, sense Realtime, cinc classificacions reals de 3A.2 encara pendents. Cap dada/compte/permís productiu modificat, cap fusió/desplegament.
 
-Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git, work/staging-3a3 i els contenidors locals marcats; continua el primer pendent sense repetir proves vigents ni tocar producció. Les contrasenyes/tokens no han d’entrar al repositori.»
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.3 als dos registres, revisa Git, work/staging-3a3 i els contenidors locals marcats; el primer pendent és revisar les classificacions reals i el baseline de desplegament, sense repetir proves vigents ni tocar producció. Les contrasenyes/tokens no han d’entrar al repositori.»
 
 ## Antecedents conservats · 3A.2
 

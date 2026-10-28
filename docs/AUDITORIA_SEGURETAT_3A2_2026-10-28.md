@@ -1,5 +1,7 @@
 # ClubHoquei360 · Auditoria final 3A.2
 
+
+Actualització posterior: [3A.3 · Auth real local](STAGING_AUTH_3A3_2026-10-28.md), completada en pila aïllada. Els pendents d’Auth d’aquest informe es conserven com a estat de 3A.2; les limitacions i condicions de classificació/desplegament continuen vigents.
 Inici 27/10/2026; recuperació i tancament 28/10/2026. Temporada 2026/27. Auditoria del candidat de les PR [#31 servidor](https://github.com/Dudisooft/clubhoquei360/pull/31) i [#32 frontend](https://github.com/Dudisooft/clubhoquei360/pull/32), separades i en esborrany, base `main e009f4d`. No hi ha fusió, desplegament, migració remota, classificació instal·lada, compte o permís real modificat.
 
 **Resultat: APTE AMB CONDICIONS.** El defecte de seguretat reproduït està corregit i les suites finals són verdes. Abans de publicar cal validar Auth en un entorn aïllat autoritzat, aportar/revisar les evidències d’edat pendents i revisar les metadades i el procediment de desplegament. No equival a autorització per publicar.
