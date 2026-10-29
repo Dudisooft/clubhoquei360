@@ -1,0 +1,10 @@
+{
+  "result": "PASS",
+  "users": 8,
+  "officialAndStatisticsAndSessionsPreserved": true,
+  "allPublicTablesCompared": true,
+  "lineupsRostersAssignmentsTemporaryGrantsPreserved": true,
+  "existingRealAuthTokenStillValid": true,
+  "volumeDeleted": false,
+  "dynamicContainerAddressResolution": true
+}

@@ -28,7 +28,7 @@ jobs:
         if: github.event.pull_request.head.ref == 'fix/match-mode-access'
         uses: actions/checkout@v4
         with:
-          ref: 07504fd6d0f216464115bd026d68ab5467187ea7
+          ref: 60d7d1b159e710ca226adad628dc7bf8b9c5059b
           path: work/mode-server-dependency
           persist-credentials: false
       - name: Native PostgreSQL and Chromium cross-PR scenarios
@@ -41,5 +41,5 @@ jobs:
           else
             MODE_SQL_ROOT=work/mode-server-dependency/supabase/migrations
           fi
-          node scripts/verify-match-mode-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql"
-          node scripts/verify-temporary-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql"
+          node scripts/verify-match-mode-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql" "$MODE_SQL_ROOT/20261029040738_revoke_client_truncate.sql"
+          node scripts/verify-temporary-integration.mjs "$MODE_SQL_ROOT/20261027170248_match_mode_access.sql" "$MODE_SQL_ROOT/20261027183214_temporary_match_operators.sql" "$MODE_SQL_ROOT/20261029040738_revoke_client_truncate.sql"

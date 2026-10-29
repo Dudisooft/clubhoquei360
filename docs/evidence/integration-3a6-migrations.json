@@ -10,5 +10,9 @@
   {
     "file": "20261028191801_preserve_partial_federation_rosters.sql",
     "sha256": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880"
+  },
+  {
+    "file": "20261029040738_revoke_client_truncate.sql",
+    "sha256": "a00f2f9ffed479def5a66bf22948c06e39410d7d58ab181c13f50fb3b153771d"
   }
 ]

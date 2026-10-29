@@ -1,0 +1,41 @@
+{
+  "result": "PASS",
+  "environment": "Real PostgreSQL + GoTrue + PostgREST, captured application schema",
+  "sportsData": "Entirely fictitious; numeric competition references are test contracts, not recovered official rosters",
+  "checks": [
+    {
+      "name": "A Rigat-equivalent senior: two modes, query does not create a context",
+      "result": "PASS"
+    },
+    {
+      "name": "B SIMAR-equivalent future: own/opponent import, explicit activation, statistic, reload and idempotence",
+      "result": "PASS"
+    },
+    {
+      "name": "C real temporary operator cannot invoke importers, alter official rows or cross clubs/matches",
+      "result": "PASS"
+    },
+    {
+      "name": "D Alpicat-equivalent: existing eight opponents recovered, no duplicate lineup/context on repeat",
+      "result": "PASS"
+    },
+    {
+      "name": "E Salt-equivalent: eight catalogue people versus seven participants stay distinct, no eighth call-up invented",
+      "result": "PASS"
+    },
+    {
+      "name": "F Vic-equivalent: real missing backend INSERT rolls back lineups; scoped repair recovers once",
+      "result": "PASS"
+    },
+    {
+      "name": "G homonymous Valls fixtures stay bound to competition, category and team identifiers",
+      "result": "PASS"
+    },
+    {
+      "name": "H Junior/Shum Alea: current lower participant stays a reinforcement, another unverified lower candidate stays blocked",
+      "result": "PASS"
+    }
+  ],
+  "officialOperatorEventsPreserved": true,
+  "productionMutations": 0
+}

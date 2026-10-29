@@ -1,0 +1,15 @@
+{
+  "result": "PASS",
+  "environment": "labelled local staging only",
+  "tablesCompared": 76,
+  "dumpSha256": "18503d1cdded15dbfe95b9ed0ec4142d0b14c9f098f5e9be1857e467c705e403",
+  "rowsetSha256": "1076846978824b99fa6a98b9f106dad3261fef0efac8f67e4569d8bc79b9d88e",
+  "sourceUnchanged": true,
+  "restoreIntoNewDatabase": true,
+  "restoredRowsMatch": true,
+  "productionBackupTested": false,
+  "limits": [
+    "Does not establish production PITR, vault, cron, provider configuration or disaster recovery readiness.",
+    "Local fictional account hashes remain only in ignored private dump."
+  ]
+}

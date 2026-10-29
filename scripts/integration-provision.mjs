@@ -12,11 +12,15 @@ for(const name of roles){if(!accounts[name]){accounts[name]={email:name+'@ch360.
 // The standard helper reads only verified PostgREST JWT claims. Never SET these claims in tests.
 sql(`create or replace function auth.uid() returns uuid language sql stable as $$select coalesce(nullif(current_setting('request.jwt.claim.sub',true),''),nullif(current_setting('request.jwt.claims',true),'')::jsonb->>'sub')::uuid$$;`);
 if(sql('select project_id from app_private.integration_baseline')!==LOCAL_PROJECT)throw Error('Captured predecessor marker mismatch');
-const pending=['20261027170248_match_mode_access.sql','20261027183214_temporary_match_operators.sql','20261028191801_preserve_partial_federation_rosters.sql'];
-if(sql("select to_regclass('app_private.integration_applied') is not null")!=='t'){
- const before=sql("select md5(coalesce(jsonb_agg(t)::text,'')) from pilot_events t");
- sql('begin;'+pending.map(f=>fs.readFileSync(path.join(root,'supabase/migrations',f),'utf8').replace(/^begin;$/gm,'').replace(/^commit;$/gm,'')).join('\n')+"\ncreate table app_private.integration_applied(file text primary key,sha256 text not null);"+pending.map(f=>"insert into app_private.integration_applied values('"+f+"','"+crypto.createHash('sha256').update(fs.readFileSync(path.join(root,'supabase/migrations',f))).digest('hex')+"');").join('\n')+'commit;');
- if(sql("select md5(coalesce(jsonb_agg(t)::text,'')) from pilot_events t")!==before)throw Error('Migrations modified official events');
+const pending=['20261027170248_match_mode_access.sql','20261027183214_temporary_match_operators.sql','20261028191801_preserve_partial_federation_rosters.sql','20261029040738_revoke_client_truncate.sql'];
+sql('create table if not exists app_private.integration_applied(file text primary key,sha256 text not null)');
+for(const file of pending){
+ const text=fs.readFileSync(path.join(root,'supabase/migrations',file),'utf8'),hash=crypto.createHash('sha256').update(text).digest('hex');
+ const old=sql("select sha256 from app_private.integration_applied where file='"+file+"'");
+ if(old){if(old!==hash)throw Error('Previously applied migration changed: '+file);continue;}
+ const before=sql("select md5(coalesce(jsonb_agg(t order by id)::text,'')) from pilot_events t");
+ sql('begin;'+text.replace(/^begin;$/gm,'').replace(/^commit;$/gm,'')+"\ninsert into app_private.integration_applied values('"+file+"','"+hash+"');commit;");
+ if(sql("select md5(coalesce(jsonb_agg(t order by id)::text,'')) from pilot_events t")!==before)throw Error('Migration modified official events');
 }
 const referenceSource=fs.readFileSync(path.join(root,'supabase/migrations/20261017005241_match_statistics.sql'),'utf8');const reference=referenceSource.slice(referenceSource.indexOf('insert into public.stats_actions(code,label,category) values'));if(!reference.trim().endsWith(';'))throw Error('Unexpected action reference seed');if(Number(sql('select count(*) from stats_actions'))===0)sql(reference);
 const uid=(n,i)=>n+'0000000-0000-4000-8000-'+String(i).padStart(12,'0'),quote=s=>"'"+String(s).replaceAll("'","''")+"'",j=o=>quote(JSON.stringify(o))+'::jsonb';

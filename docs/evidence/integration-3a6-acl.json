@@ -1,0 +1,22 @@
+{
+  "result": "PASS",
+  "capturedTableGrants": 385,
+  "removedLegacyClientTruncateGrants": 49,
+  "addedBackendOnly": [
+    {
+      "table": "federation_match_events",
+      "grantee": "service_role",
+      "privilege": "INSERT"
+    },
+    {
+      "table": "federation_match_events",
+      "grantee": "service_role",
+      "privilege": "SELECT"
+    }
+  ],
+  "ordinaryTableGrantsOtherwiseUnchanged": true,
+  "roleLevelTruncateDenied": true,
+  "authReal": "User-facing access tested separately with real signed GoTrue JWT; TRUNCATE denial is a PostgreSQL SET ROLE test, not an exposed PostgREST SQL endpoint.",
+  "lineupsPreserved": true,
+  "unsafeLocalDefaults": []
+}
