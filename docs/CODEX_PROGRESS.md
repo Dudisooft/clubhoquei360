@@ -1,4 +1,4 @@
-<!-- 3A.6 checkpoint: dependència CI del servidor actualitzada a 60d7d1b, incloent revocació TRUNCATE. Cap canvi funcional. Suite prèvia d’aquest frontend f7014ab: CI 40814630820 success, 158 Node/67 Chromium i dos recorreguts conjunts (aleshores amb dependència antiga). Nova CI necessària per validar la dependència actual. Informe conjunt a audit/integration-3a6. -->
+<!-- 3A.6 checkpoint: dependència CI del servidor actualitzada a 60d7d1b, incloent revocació TRUNCATE. Cap canvi funcional. Suite prèvia d’aquest frontend f7014ab: CI 40814630820 success, 158 Node/67 Chromium i dos recorreguts conjunts (aleshores amb dependència antiga). CI 40816361610 success al codi 69da6d4: 158 Node/67 Chromium i dos recorreguts conjunts amb servidor 60d7d1b (hardening inclòs). Bloqueig extern a aquest frontend: defaults TRUNCATE del propietari supabase_admin, no modificables pel rol disponible; informe conjunt NO APTE PER A PUBLICACIÓ fins a resolució autoritzada. Informe conjunt a audit/integration-3a6. -->
 # ClubHoquei360 · Continuïtat de Codex
 
 Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
