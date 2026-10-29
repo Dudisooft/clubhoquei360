@@ -1,8 +1,20 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.5 consolidació federativa, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.6 integració conjunta aïllada. Sense fusió de PR, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.6
+
+Fonts: main e009f4d, #31 18a57b2, #32 6838bca, #33 7434ea5, caps remots verificats. Branca audit/integration-3a6; diffs aplicats, sense git merge o actualització de main. Conflictes de docs i helper resolts només aquí conservant les tres intencions. Commit de muntatge final 63ae291. Node conjunt en execució a work/3a6/node-joint.log.
+
+Baseline: captura privada sense files, 45 taules/392 columnes/67 funcions més constraints/ACL/polítiques/triggers/índexs; work/3a6/production-schema-private.json. Perfil staging 3A.6 nou i independent (projecte clubhoquei360-3a6-local, contenidors ch360_3a6_*, API 127.0.0.1:56331, web 56390), no obrir recursos 3A.3 ni remots. Reconstrucció estructural PASS (45/392/67 i tots els constraints/polítiques/triggers capturats); tres migracions pendents aplicades només al perfil local. Fonts de dades: fixtures esportives fictícies, stats_actions de la migració versionada (no files productives). 9/9 blocs API Auth real/RLS i 6/6 navegador real PASS. Dues fixtures compartien empremta FEM15, rebutjades per constraint real: corregit només round fictici. 215 Node PASS; primer Chromium 67/68, cas vídeo acabava abans de carregar; correcció de test a #32, repetida 3/3 PASS, cap canvi d’app. Fonts federatives no permeses (política 141), cap bypass.
+
+Pendents: completar baseline local/diferències, migracions, Auth/RLS/reinici/persistència i navegador conjunts A–H; investigar empremtes de només lectura; pla de desplegament/recuperació; informe/CI/checkpoints. No repetir proves vàlides sense canvis. No executar sis UPDATE de classificació.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix 3A.6 al registre i PHASE_3A6_INTEGRATION_REPORT.md, comprova Git de audit/integration-3a6 i work/3a6; continua el primer bloc pendent. Perfil local 3A.6 exclusiu, cap credencial o dada productiva, no fusionar ni desplegar.»
+
+## Antecedents conservats · 3A.5
 
 ## Fase vigent · 3A.5 bloc A
 

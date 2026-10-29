@@ -129,7 +129,7 @@ test('video URL preference preserves an existing live session until the operator
 
 test('a recording preset stays bound to its requested match when the selector changes',async({page,context,request})=>{
  await setup(context);await page.goto('/clubhoquei360/avancat.html?match='+vic+'&view=stats&analysis=video&video='+encodeURIComponent(recording));await expect(page.locator('#statsTvVideoLink')).toHaveAttribute('href',recording);
- await page.goto('/clubhoquei360/avancat.html?match='+ID.match+'&view=stats');await expect(page.locator('#federationMatch')).toHaveValue(ID.match);await expect(page).not.toHaveURL(/video=/);await expect(page.locator('#statsVideoLink')).toBeHidden();await expect(page.locator('#statsVideoUrl')).toHaveValue('');
+ await page.goto('/clubhoquei360/avancat.html?match='+ID.match+'&view=stats');await expect(page.locator('#federationStatus')).toContainText('resultat oficial');await expect(page.locator('#statsIdentity')).toContainText('FEM15 IHC');await expect(page.locator('#federationMatch')).toHaveValue(ID.match);await expect(page).not.toHaveURL(/video=/);await expect(page.locator('#statsVideoLink')).toBeHidden();await expect(page.locator('#statsVideoUrl')).toHaveValue('');
  expect((await snapshot(request)).sessions).toHaveLength(0);
 });
 

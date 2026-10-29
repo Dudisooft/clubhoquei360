@@ -2,7 +2,7 @@ name: Verify match statistics
 on:
   pull_request:
   push:
-    branches: [feat/match-statistics-2026-27]
+    branches: [feat/match-statistics-2026-27, audit/integration-3a6]
 permissions:
   contents: read
 jobs:

@@ -1,0 +1,14 @@
+[
+  {
+    "file": "20261027170248_match_mode_access.sql",
+    "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32"
+  },
+  {
+    "file": "20261027183214_temporary_match_operators.sql",
+    "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+  },
+  {
+    "file": "20261028191801_preserve_partial_federation_rosters.sql",
+    "sha256": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880"
+  }
+]

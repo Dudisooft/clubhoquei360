@@ -1,0 +1,26 @@
+{
+  "phase": "3A.6",
+  "tables": 45,
+  "columns": 392,
+  "functionsExpected": 67,
+  "functionsMatched": 67,
+  "same": {
+    "tables": true,
+    "columns": true,
+    "policies": true,
+    "triggers": true,
+    "constraints": true,
+    "functions": true
+  },
+  "missingFunctions": [],
+  "sourceMetadataSha256": "85c9f457af87b3ce55741f5c689347d1da004b41a3f49067648aa0b0c6286460",
+  "productionRowsCopied": 0,
+  "auth": "Native GoTrue schema, separate local accounts",
+  "platformNotCloned": [
+    "vault data",
+    "cron jobs",
+    "pg_net workers",
+    "Auth provider configuration",
+    "production sporting/user records"
+  ]
+}
