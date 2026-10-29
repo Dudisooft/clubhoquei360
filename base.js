@@ -114,7 +114,7 @@ async function metadata(){
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
  match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
- const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
+ const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){const provider=await db.from('federation_match_sources').select('federation').eq('match_id',id).maybeSingle();if(provider.error)throw provider.error;if(provider.data?.federation!=='RFEP'){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
  draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';expandedReinforcements.clear();
