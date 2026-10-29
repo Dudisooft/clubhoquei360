@@ -1,3 +1,4 @@
+<!-- 3A.6 checkpoint: dependència CI del servidor actualitzada a 60d7d1b, incloent revocació TRUNCATE. Cap canvi funcional. Suite prèvia d’aquest frontend f7014ab: CI 40814630820 success, 158 Node/67 Chromium i dos recorreguts conjunts (aleshores amb dependència antiga). Nova CI necessària per validar la dependència actual. Informe conjunt a audit/integration-3a6. -->
 # ClubHoquei360 · Continuïtat de Codex
 
 Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
