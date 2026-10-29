@@ -1,0 +1,58 @@
+{
+  "date": "2026-10-29",
+  "method": "Production READ ONLY metadata; no role or schema changes",
+  "preflight": {
+    "stage": "READY_SCHEMA",
+    "markers": {
+      "modes": false,
+      "aliases": 0,
+      "activation": false,
+      "age_column": false,
+      "age_source": false,
+      "semantic_gate": false,
+      "temporary_rpcs": 0,
+      "official_helper": false,
+      "temporary_audit": false,
+      "temporary_table": false
+    },
+    "missing": [],
+    "temporary_rls": null,
+    "public_rpc_security": null,
+    "mismatched_team_contexts": 0
+  },
+  "defaults": {
+    "version": "17.11",
+    "unsafe_defaults": [
+      {
+        "role": "authenticated",
+        "owner": "postgres",
+        "schema": "public",
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "anon",
+        "owner": "postgres",
+        "schema": "public",
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "authenticated",
+        "owner": "supabase_admin",
+        "schema": "public",
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "anon",
+        "owner": "supabase_admin",
+        "schema": "public",
+        "privilege": "TRUNCATE"
+      }
+    ]
+  },
+  "authority": {
+    "current_user": "postgres",
+    "postgres_can_admin_defaults": false,
+    "query_role_superuser": false
+  },
+  "blocker": "Platform-owner supabase_admin retains unsafe TRUNCATE defaults. postgres is not its member/superuser. Local hardening fixes existing grants and postgres defaults only. Require an authorized platform-owner remedy and zero-row preflight before publication."
+}

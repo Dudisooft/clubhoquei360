@@ -1,0 +1,91 @@
+{
+  "date": "2026-10-29",
+  "integrationTestedCode": "8a6eafce8f106706b4d65f2a00c846984d20bc58",
+  "productionMain": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "serverTestedCode": "60d7d1b159e710ca226adad628dc7bf8b9c5059b",
+  "frontendTestedCode": "69da6d4c4d807c0734f35da25d06732f81bc9ad0",
+  "importerCode": "7434ea5f5b03e9bb1592f4304d53b7ab730ee7a3",
+  "local": [
+    {
+      "log": "node-final.log",
+      "sha256": "95219c7d06f04fb1aff12113bad5541eb369f9982b8df78603130e9e4b69137f",
+      "type": "Node/PGlite",
+      "passed": 216,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "chromium-hardened.log",
+      "sha256": "04a7bc94e05155df66c093e08601170ccce7bed09549b040a4f4261d6b8158cd",
+      "type": "Chromium with PostgreSQL/PGlite fixtures",
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "node-server-final.log",
+      "sha256": "02797b10b1d4ccb399a352e0a9490de8de68a24bc4b7f71783a8ced0f17eb46e",
+      "type": "Server Node/PGlite",
+      "passed": 195,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "auth-api-final.log",
+      "sha256": "fa990d063ca568248125ba94c54e99511eaac52895a09275f1a8fac4aebf53bd",
+      "type": "Real GoTrue/PostgreSQL/PostgREST API blocks",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "auth-browser-final.log",
+      "sha256": "e58e4c820b3b51182f359c9c73826b8fe46125f24fb5e2f47c1665e435778cb2",
+      "type": "Real GoTrue/PostgreSQL/PostgREST browser blocks",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    {
+      "log": "federation-final.log",
+      "sha256": "d76b7fb419842e7521ec8d251d39ecc160b16473d61334a1b5d64118a4dfccad",
+      "type": "Combined real Auth/database and fictional federation fixtures",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  ],
+  "ci": [
+    {
+      "branch": "audit/integration-3a6",
+      "run": 40816460858,
+      "job": 123258563471,
+      "node": 216,
+      "chromium": 68,
+      "status": "success",
+      "crossScenarios": 2
+    },
+    {
+      "pr": 31,
+      "run": 40816276462,
+      "job": 123257962649,
+      "node": 195,
+      "chromium": 47,
+      "status": "success"
+    },
+    {
+      "pr": 32,
+      "run": 40816361610,
+      "job": 123258245407,
+      "node": 158,
+      "chromium": 67,
+      "status": "success",
+      "crossScenarios": 2
+    }
+  ],
+  "notes": [
+    "CI job conclusions and counts verified from GitHub job logs.",
+    "Real Auth and captured-schema staging checks ran locally, not in Actions.",
+    "Later documentation-only commits do not change the tested application, migrations or fixtures."
+  ]
+}
