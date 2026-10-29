@@ -4,6 +4,14 @@ Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Fase vigent: 3A.5 consolidació federativa, sense instal·lació productiva. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
 
+## Checkpoint 3A.6 · correcció de permisos del predecessor
+
+29/10/2026. Integració a `audit/integration-3a6` des de #31 18a57b2, #32 6838bca i #33 7434ea5; main preservat. La captura SELECT del predecessor mostra 49 GRANT TRUNCATE a anon/authenticated. Reproduït només al PostgreSQL local etiquetat (TRUNCATE de federation_match_lineups dins BEGIN/ROLLBACK), no a producció. RLS no protegeix aquesta operació; no s’ha demostrat cap endpoint PostgREST que accepti SQL arbitrari.
+
+Correcció mínima versionada `20261029040738_revoke_client_truncate.sql`: revocar TRUNCATE als clients de public i als futurs defaults de postgres; cap fila o permís DML canviat. Backend tècnic preservat. Preflight de només lectura nou, prova PGlite 1/1 PASS (repetició, defaults, RLS i dades preservades), ACL real 49 revocacions i només els dos GRANT SELECT/INSERT de #33 afegits. Suites completes en curs a la branca conjunta i a aquesta branca; no declarar-les acabades encara. No aplicar migració productiva. Les sis classificacions continuen sense aprovació administrativa.
+
+Represa: llegir `docs/PHASE_3A6_INTEGRATION_REPORT.md` a audit/integration-3a6 i els logs work/3a6; acabar suites, reinici/restauració, CI i informe. No fusionar ni desplegar.
+
 ## Fase vigent · 3A.5 bloc A
 
 Inici preservat #31 fe27623 / #32 3f34f95, arbres nets. Evidència nova: participació als portals oficials comunicada per l’usuari, temporada 2026/2027; captures de sis equips no accessibles/no examinades, sense fitxers/hashes inventats. IDs provenen del catàleg 3A.4. Proposta senior dels sis separada de participació i aprovació administrativa, totes apply_approved=false. 36 equips/38 inscripcions i 6/4/26 conservats. Informe docs/SENIOR_CLASSIFICATIONS_3A5.md.
