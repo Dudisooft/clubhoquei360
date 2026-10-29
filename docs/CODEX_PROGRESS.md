@@ -1,8 +1,18 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.5, evidències i importació separada. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+**Fase vigent: 3A.6, verificació conjunta temporal. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**
+
+## Fase vigent · 3A.6
+
+SHA inicial #32 6838bca preservat. Auditoria conjunta a audit/integration-3a6 (main e009f4d + diffs #31 18a57b2, #32 6838bca, #33 7434ea5), sense merge de PR o canvi de main. Conflicte del helper conciliat només a branca temporal. Captura de predecessor productiu només d’esquema: 45 taules/392 columnes/67 funcions; reconstrucció local contrastada amb constraints/polítiques/triggers, sense files productives. Auth real local: 9 blocs API/RLS + 6 navegador PASS en el conjunt.
+
+Correcció de prova a #32: el cas del vídeo preset acabava abans de les lectures inicials de pilot_players, i route.fetch fallava en teardown. Ara espera estat federatiu i identitat estadística carregats abans de comprovar i acabar. Cap canvi funcional. Regressió conjunta repetida 3/3 Chromium PASS; Node conjunt 215 PASS, primera suite 67/68 amb aquest únic error de prova, resta de comprovacions vigents. Resultats finals i informe PHASE_3A6_INTEGRATION_REPORT.md a la branca temporal; no declarar integració completa fins als casos federatius/restauració pendents. No fusionar/desplegar ni tocar producció.
+
+Represa: «CONTINUA CLUBHOQUEI360: llegeix 3A.6 a audit/integration-3a6 i aquest registre, comprova SHA/CI; continua el primer bloc pendent sense repetir proves vigents ni escriure producció.»
+
+## Antecedents conservats · 3A.5
 
 ## Fase vigent · 3A.5
 
