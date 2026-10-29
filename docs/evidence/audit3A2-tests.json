@@ -1,0 +1,94 @@
+{
+  "clubhoquei360-mode-server": {
+    "statistics": {
+      "startTime": "2026-10-27T21:35:56.171Z",
+      "duration": 176625.685,
+      "expected": 47,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "errors": [],
+    "report_sha256": "04febb24d01625530ba140336dd41e664c1e6473dcc4bd429757660e540b8ce9",
+    "runtime_reference_commit": "1b6cad8",
+    "application_files_unchanged_from_reference": true
+  },
+  "clubhoquei360-mode-access": {
+    "statistics": {
+      "startTime": "2026-10-27T21:39:28.987Z",
+      "duration": 163280.363,
+      "expected": 67,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "errors": [],
+    "report_sha256": "34b13b22292805ca9266ca58b5bd7fec3274141c6bc31c344994758bf9d702a3",
+    "runtime_reference_commit": "762797a",
+    "application_files_unchanged_from_reference": true
+  },
+  "server_migrations_sha256": {
+    "20261027170248_match_mode_access.sql": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32",
+    "20261027183214_temporary_match_operators.sql": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+  },
+  "targeted_migration_tests": {
+    "passed": 3,
+    "failed": 0,
+    "log_sha256": "8732928354e10ae36a6aa8e9b70940664c72a90d74197cefd103de81b402fbbd",
+    "log": "work/audit3A2-migrations-resume.log"
+  },
+  "joint_runs": {
+    "future": {
+      "result": "PASS",
+      "environment": "local PostgreSQL/PGlite + Chromium, fictitious accounts",
+      "scenario": "RFEP senior future -> read-only preview -> explicit activation -> live team statistics -> reload",
+      "counts": {
+        "events": 1,
+        "members": 1,
+        "contexts": 1,
+        "official": 0
+      },
+      "productionWrites": 0
+    },
+    "fem15": {
+      "result": "PASS",
+      "scenario": "FEM15 fictitious: coordinator grant, exact-match Advanced, team/player video observations, pause/reload, official/other-match denial, revocation and expiry",
+      "events": 2,
+      "externalMemberships": 0,
+      "existingAssignmentsPreserved": true,
+      "officialPreserved": true,
+      "productionWrites": 0
+    }
+  },
+  "ci": {
+    "server": {
+      "sha": "07504fd6d0f216464115bd026d68ab5467187ea7",
+      "run_id": 40643271480,
+      "job_id": 122666119332,
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40643271480",
+      "conclusion": "success",
+      "node_passed": 188,
+      "chromium_passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "static_files_built": 35,
+      "logs_checked": true
+    },
+    "frontend": {
+      "sha": "9c61ca0e6dbe26c6d9e9e513763005c21cbeeb56",
+      "server_dependency": "07504fd6d0f216464115bd026d68ab5467187ea7",
+      "run_id": 40643528800,
+      "job_id": 122666947303,
+      "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40643528800",
+      "conclusion": "success",
+      "node_passed": 158,
+      "chromium_passed": 67,
+      "failed": 0,
+      "skipped": 0,
+      "static_files_built": 38,
+      "native_future": "PASS",
+      "native_fem15": "PASS",
+      "logs_checked": true
+    }
+  }
+}

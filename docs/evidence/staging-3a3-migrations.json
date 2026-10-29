@@ -1,0 +1,26 @@
+[
+  {
+    "name": "20261017005241_match_statistics.sql",
+    "sha256": "5c5ff1cfda8a83c5f81abc57e680e5417249e2021337c87a864349b85c29d9a1"
+  },
+  {
+    "name": "20261017133038_require_session_revision.sql",
+    "sha256": "7785df5ea7c1a1f3db3d2f529a85fee6a38e7636f19554e51d81e2dc08fff6cc"
+  },
+  {
+    "name": "20261023214042_basic_catalogue_contexts.sql",
+    "sha256": "087e7aa9518158ea8d8d1b1741d3487062b797e67991c5184bd22cf7f3a831b1"
+  },
+  {
+    "name": "20261024105636_advanced_lineup_preparation.sql",
+    "sha256": "8d297dcd45802b891589c337dc8b6d699bcc830784aa57c0005b4b06c546ba4c"
+  },
+  {
+    "name": "20261027170248_match_mode_access.sql",
+    "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32"
+  },
+  {
+    "name": "20261027183214_temporary_match_operators.sql",
+    "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+  }
+]

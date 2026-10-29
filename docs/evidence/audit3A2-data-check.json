@@ -1,0 +1,221 @@
+{
+  "baseline_provenance": "Read-only SQL tool result of 2026-10-27 retained in the conversation; aggregate values transcribed during recovery because volatile /tmp logs were lost.",
+  "comparison_recorded_at_utc": "2026-10-28T06:26:05.818835+00:00",
+  "production_mutations_performed": 0,
+  "relations": [
+    {
+      "relation": "auth.users",
+      "baseline_count": 1,
+      "final_count": 1,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true
+    },
+    {
+      "relation": "permissions",
+      "baseline_count": null,
+      "final_count": null,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "b88ce92e5b8a197f477cd424ba97fb89",
+      "final_fingerprint": "b88ce92e5b8a197f477cd424ba97fb89"
+    },
+    {
+      "relation": "public.basic_match_contexts",
+      "baseline_count": 1,
+      "final_count": 1,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "f609fea8f3ab0f0789a8d8c1a9832071",
+      "final_fingerprint": "f609fea8f3ab0f0789a8d8c1a9832071"
+    },
+    {
+      "relation": "public.club_memberships",
+      "baseline_count": 0,
+      "final_count": 0,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+      "final_fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+      "relation": "public.federation_match_sources",
+      "baseline_count": 31,
+      "final_count": 31,
+      "cross_interruption_fingerprint_equal": false,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "353e45d8e66fcfd889d78bb4f6156cbe",
+      "final_fingerprint": "d6e3bbe05f88f68eee54d19ee0f33ae8"
+    },
+    {
+      "relation": "public.federation_match_teams",
+      "baseline_count": 564,
+      "final_count": 564,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "23907369a9a151c8df6665605783d196",
+      "final_fingerprint": "23907369a9a151c8df6665605783d196"
+    },
+    {
+      "relation": "public.federation_matches",
+      "baseline_count": 558,
+      "final_count": 558,
+      "cross_interruption_fingerprint_equal": false,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "5a8cf395accac0cfd685912bdb0cd740",
+      "final_fingerprint": "1a976490d336fd22835d972a55ff7b98"
+    },
+    {
+      "relation": "public.federation_players",
+      "baseline_count": 237,
+      "final_count": 237,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "9509344e1133b415b0c143c46e91c857",
+      "final_fingerprint": "9509344e1133b415b0c143c46e91c857"
+    },
+    {
+      "relation": "public.federation_team_entries",
+      "baseline_count": 38,
+      "final_count": 38,
+      "cross_interruption_fingerprint_equal": false,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "d09f4c98a8e0a916ed68d1bac188a1e1",
+      "final_fingerprint": "802023457d62135f32519974474a635e"
+    },
+    {
+      "relation": "public.federation_team_roster",
+      "baseline_count": 939,
+      "final_count": 939,
+      "cross_interruption_fingerprint_equal": false,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "f3eca542bcb4ff6c1814649c3af449c4",
+      "final_fingerprint": "774df2bc34292d8af6a078b58dde3526"
+    },
+    {
+      "relation": "public.pilot_events",
+      "baseline_count": 348,
+      "final_count": 348,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "f4ae1eebdc1030fc6a1acd79beca13b2",
+      "final_fingerprint": "f4ae1eebdc1030fc6a1acd79beca13b2"
+    },
+    {
+      "relation": "public.pilot_matches",
+      "baseline_count": 32,
+      "final_count": 32,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "f696ee21b68631d963aa9a55bfd68a43",
+      "final_fingerprint": "f696ee21b68631d963aa9a55bfd68a43"
+    },
+    {
+      "relation": "public.pilot_members",
+      "baseline_count": 32,
+      "final_count": 32,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "e1662324a5c3a054c8d7895930834778",
+      "final_fingerprint": "e1662324a5c3a054c8d7895930834778"
+    },
+    {
+      "relation": "public.pilot_operator_state",
+      "baseline_count": 7,
+      "final_count": 7,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "4e2e0a8814cfd6d8e5e89ed9599b2ae2",
+      "final_fingerprint": "4e2e0a8814cfd6d8e5e89ed9599b2ae2"
+    },
+    {
+      "relation": "public.pilot_players",
+      "baseline_count": 190,
+      "final_count": 190,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "bc8231a01c03c3ba127b3b8869a477e5",
+      "final_fingerprint": "bc8231a01c03c3ba127b3b8869a477e5"
+    },
+    {
+      "relation": "public.platform_admins",
+      "baseline_count": 1,
+      "final_count": 1,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "32e1b690d82e5e3920647e53d70fd49c",
+      "final_fingerprint": "32e1b690d82e5e3920647e53d70fd49c"
+    },
+    {
+      "relation": "public.stats_assignments",
+      "baseline_count": 3,
+      "final_count": 3,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "6068751ec0388f4e333c2be3eb5e70a3",
+      "final_fingerprint": "6068751ec0388f4e333c2be3eb5e70a3"
+    },
+    {
+      "relation": "public.stats_coverage",
+      "baseline_count": 0,
+      "final_count": 0,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "d41d8cd98f00b204e9800998ecf8427e",
+      "final_fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    },
+    {
+      "relation": "public.stats_event_audit",
+      "baseline_count": 3,
+      "final_count": 3,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "1d657c645eed721203e931bb7d8880e4",
+      "final_fingerprint": "1d657c645eed721203e931bb7d8880e4"
+    },
+    {
+      "relation": "public.stats_events",
+      "baseline_count": 3,
+      "final_count": 3,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "95139311089a29a699bed9d27e9a82ed",
+      "final_fingerprint": "95139311089a29a699bed9d27e9a82ed"
+    },
+    {
+      "relation": "public.stats_matches",
+      "baseline_count": 30,
+      "final_count": 30,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "e9c3a0ed9f119ed12bedccecc9b248a7",
+      "final_fingerprint": "e9c3a0ed9f119ed12bedccecc9b248a7"
+    },
+    {
+      "relation": "public.stats_sessions",
+      "baseline_count": 1,
+      "final_count": 1,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "cf810772fb29fabef8197379b7a34ea2",
+      "final_fingerprint": "cf810772fb29fabef8197379b7a34ea2"
+    },
+    {
+      "relation": "public.teams",
+      "baseline_count": 36,
+      "final_count": 36,
+      "cross_interruption_fingerprint_equal": true,
+      "resume_final_fingerprint_equal": true,
+      "baseline_fingerprint": "af21ac59500b27c546349c2164ab368c",
+      "final_fingerprint": "af21ac59500b27c546349c2164ab368c"
+    }
+  ],
+  "cross_interruption_changed": [
+    "public.federation_match_sources",
+    "public.federation_matches",
+    "public.federation_team_entries",
+    "public.federation_team_roster"
+  ],
+  "cause_of_cross_interruption_changes": "Not established from aggregate fingerprints; no claim that they are timestamps only.",
+  "catalogue_identity_category_and_entries_unchanged": true,
+  "temporary_authorization_tables_in_production": false
+}

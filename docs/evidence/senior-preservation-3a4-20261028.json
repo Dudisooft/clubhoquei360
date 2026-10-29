@@ -1,0 +1,332 @@
+{
+  "consulted_at": "2026-10-28T16:06:28.989Z",
+  "method": "Two read-only aggregate fingerprint transactions; no record bodies or personal data",
+  "sql": "scripts/audit-match-security-readonly.sql",
+  "mutation_performed": false,
+  "relations": 23,
+  "unchanged": 23,
+  "comparison": [
+    {
+      "relation": "auth.users",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "auth.users",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>712d9cf1295091a8bdb45b56dad27195</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "auth.users",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>712d9cf1295091a8bdb45b56dad27195</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "permissions",
+      "unchanged": true,
+      "before": {
+        "rls": null,
+        "relation": "permissions",
+        "aggregate": "b88ce92e5b8a197f477cd424ba97fb89"
+      },
+      "after": {
+        "rls": null,
+        "relation": "permissions",
+        "aggregate": "b88ce92e5b8a197f477cd424ba97fb89"
+      }
+    },
+    {
+      "relation": "public.basic_match_contexts",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.basic_match_contexts",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>f609fea8f3ab0f0789a8d8c1a9832071</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.basic_match_contexts",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>f609fea8f3ab0f0789a8d8c1a9832071</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.club_memberships",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.club_memberships",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>0</n>\n  <fingerprint>d41d8cd98f00b204e9800998ecf8427e</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.club_memberships",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>0</n>\n  <fingerprint>d41d8cd98f00b204e9800998ecf8427e</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_match_sources",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_match_sources",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>31</n>\n  <fingerprint>d6e3bbe05f88f68eee54d19ee0f33ae8</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_match_sources",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>31</n>\n  <fingerprint>d6e3bbe05f88f68eee54d19ee0f33ae8</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_match_teams",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_match_teams",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>564</n>\n  <fingerprint>23907369a9a151c8df6665605783d196</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_match_teams",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>564</n>\n  <fingerprint>23907369a9a151c8df6665605783d196</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_matches",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>558</n>\n  <fingerprint>4b6c478e4360451f6dabeffe501ebbde</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>558</n>\n  <fingerprint>4b6c478e4360451f6dabeffe501ebbde</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_players",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_players",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>237</n>\n  <fingerprint>9509344e1133b415b0c143c46e91c857</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_players",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>237</n>\n  <fingerprint>9509344e1133b415b0c143c46e91c857</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_team_entries",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_team_entries",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>38</n>\n  <fingerprint>09f2e1d4b8fc62a5f8b30336c44c3fb7</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_team_entries",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>38</n>\n  <fingerprint>09f2e1d4b8fc62a5f8b30336c44c3fb7</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.federation_team_roster",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.federation_team_roster",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>939</n>\n  <fingerprint>9308052c7b8eb0f3aa01b5cfca750d6d</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.federation_team_roster",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>939</n>\n  <fingerprint>9308052c7b8eb0f3aa01b5cfca750d6d</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.pilot_events",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.pilot_events",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>348</n>\n  <fingerprint>f4ae1eebdc1030fc6a1acd79beca13b2</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.pilot_events",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>348</n>\n  <fingerprint>f4ae1eebdc1030fc6a1acd79beca13b2</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.pilot_matches",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.pilot_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>32</n>\n  <fingerprint>f696ee21b68631d963aa9a55bfd68a43</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.pilot_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>32</n>\n  <fingerprint>f696ee21b68631d963aa9a55bfd68a43</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.pilot_members",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.pilot_members",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>32</n>\n  <fingerprint>e1662324a5c3a054c8d7895930834778</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.pilot_members",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>32</n>\n  <fingerprint>e1662324a5c3a054c8d7895930834778</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.pilot_operator_state",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.pilot_operator_state",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>7</n>\n  <fingerprint>4e2e0a8814cfd6d8e5e89ed9599b2ae2</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.pilot_operator_state",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>7</n>\n  <fingerprint>4e2e0a8814cfd6d8e5e89ed9599b2ae2</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.pilot_players",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.pilot_players",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>190</n>\n  <fingerprint>bc8231a01c03c3ba127b3b8869a477e5</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.pilot_players",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>190</n>\n  <fingerprint>bc8231a01c03c3ba127b3b8869a477e5</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.platform_admins",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.platform_admins",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>32e1b690d82e5e3920647e53d70fd49c</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.platform_admins",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>32e1b690d82e5e3920647e53d70fd49c</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_assignments",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_assignments",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>6068751ec0388f4e333c2be3eb5e70a3</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_assignments",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>6068751ec0388f4e333c2be3eb5e70a3</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_coverage",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_coverage",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>0</n>\n  <fingerprint>d41d8cd98f00b204e9800998ecf8427e</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_coverage",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>0</n>\n  <fingerprint>d41d8cd98f00b204e9800998ecf8427e</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_event_audit",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_event_audit",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>1d657c645eed721203e931bb7d8880e4</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_event_audit",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>1d657c645eed721203e931bb7d8880e4</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_events",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_events",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>95139311089a29a699bed9d27e9a82ed</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_events",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>3</n>\n  <fingerprint>95139311089a29a699bed9d27e9a82ed</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_matches",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>30</n>\n  <fingerprint>e9c3a0ed9f119ed12bedccecc9b248a7</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_matches",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>30</n>\n  <fingerprint>e9c3a0ed9f119ed12bedccecc9b248a7</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.stats_sessions",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.stats_sessions",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>cf810772fb29fabef8197379b7a34ea2</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.stats_sessions",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>1</n>\n  <fingerprint>cf810772fb29fabef8197379b7a34ea2</fingerprint>\n</row>\n\n"
+      }
+    },
+    {
+      "relation": "public.teams",
+      "unchanged": true,
+      "before": {
+        "rls": true,
+        "relation": "public.teams",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>36</n>\n  <fingerprint>af21ac59500b27c546349c2164ab368c</fingerprint>\n</row>\n\n"
+      },
+      "after": {
+        "rls": true,
+        "relation": "public.teams",
+        "aggregate": "<row xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\">\n  <n>36</n>\n  <fingerprint>af21ac59500b27c546349c2164ab368c</fingerprint>\n</row>\n\n"
+      }
+    }
+  ]
+}
