@@ -8,7 +8,7 @@ const vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';let vicCalendar=null;
 const token=id=>Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:id,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
 function userOf(req){try{return JSON.parse(Buffer.from((req.headers.authorization||'').replace('Bearer ','').split('.')[1],'base64url')).sub;}catch{return null;}}
 const json=(res,data,status=200)=>{res.writeHead(status,{'content-type':'application/json','access-control-allow-origin':'*','access-control-allow-headers':'*','access-control-expose-headers':'content-range'});res.end(JSON.stringify(data));};
-const tables=new Set(['stats_matches','stats_events','stats_assignments','stats_actions','stats_event_audit','stats_coverage','stats_sessions','pilot_matches','pilot_members','pilot_players','pilot_operator_state','pilot_events','federation_match_sources','federation_calendar_cache']);
+const tables=new Set(['stats_matches','stats_events','stats_assignments','stats_actions','stats_event_audit','stats_coverage','stats_sessions','pilot_matches','pilot_members','pilot_players','pilot_operator_state','pilot_events','federation_match_sources','federation_calendar_cache','federation_matches']);
 const identifier=s=>{if(!/^[a-z_][a-z0-9_]*$/.test(s))throw Error('Invalid identifier');return '"'+s+'"';};
 async function api(req,res,url){
  const uid=userOf(req);const body=await new Promise(resolve=>{let raw='';req.on('data',b=>raw+=b);req.on('end',()=>resolve(raw?JSON.parse(raw):{}));});
@@ -19,12 +19,17 @@ async function api(req,res,url){
  try{
   const name=url.pathname.split('/').at(-1);
   if(url.pathname.includes('/rpc/')){
-   const commands={pilot_roster_catalogue:['p_match'],pilot_prepare_players:['p_match','p_mutation','p_players'],pilot_confirm_lineup:['p_match','p_mutation','p_revision','p_state'],pilot_save_operator_state:['p_match','p_revision','p_state'],stats_access:['p_match'],stats_write_event:['p_event','p_expected'],stats_save_session:['p_match','p_state','p_expected'],stats_grant:['p_grant'],stats_revoke:['p_id'],stats_set_coverage:['p_match','p_side','p_category','p_complete']};
+   // Frontend contract fixture only. Real sporting/RLS policy is tested in the separate server PR.
+   if(name==='match_mode_access'&&!process.env.MATCH_MODE_SERVER_MIGRATION){
+    const visible=await asUser(db,uid,'select id from pilot_matches where id=$1',[body.p_match]);const read=!!visible.rows.length;
+    return json(res,{read,base:read,advanced:read,operational_read:read,operational:read?body.p_match:null,catalogue_id:null,activate_base:false,activate_advanced:false});
+   }
+   const commands={match_temporary_grant:['p_grant'],match_temporary_revoke:['p_id'],match_temporary_list:['p_match'],match_mode_access:['p_catalogue','p_match'],match_activate_catalogue:['p_catalogue','p_mode','p_practice'],pilot_roster_catalogue:['p_match'],pilot_prepare_players:['p_match','p_mutation','p_players'],pilot_confirm_lineup:['p_match','p_mutation','p_revision','p_state'],pilot_save_operator_state:['p_match','p_revision','p_state'],stats_access:['p_match'],stats_write_event:['p_event','p_expected'],stats_save_session:['p_match','p_state','p_expected'],stats_grant:['p_grant'],stats_revoke:['p_id'],stats_set_coverage:['p_match','p_side','p_category','p_complete']};
    if(!commands[name])return json(res,{code:'PGRST202',message:'Unimplemented fixture RPC'},404);
-   const keys=commands[name],args=keys.map((k,i)=>`$${i+1}`),vals=keys.map(k=>typeof body[k]==='object'?JSON.stringify(body[k]):body[k]);
+   const keys=commands[name],args=keys.map((k,i)=>`$${i+1}`),vals=keys.map(k=>body[k]!==null&&typeof body[k]==='object'?JSON.stringify(body[k]):body[k]??null);
    const response=await asUser(db,uid,`select * from public.${identifier(name)}(${args.join(',')})`,vals);
    if(name==='pilot_save_operator_state')return json(res,response.rows);
-   return json(res,['pilot_roster_catalogue','pilot_prepare_players','pilot_confirm_lineup','stats_access','stats_revoke','stats_set_coverage'].includes(name)?Object.values(response.rows[0]||{})[0]:response.rows[0]);
+   return json(res,['match_temporary_list','match_temporary_revoke','match_mode_access','match_activate_catalogue','pilot_roster_catalogue','pilot_prepare_players','pilot_confirm_lineup','stats_access','stats_revoke','stats_set_coverage'].includes(name)?Object.values(response.rows[0]||{})[0]:response.rows[0]);
   }
   if(name==='federation_calendar_cache'){const data=vicCalendar&&url.searchParams.get('federation')==='eq.RFEP'?{data:vicCalendar}:null;return json(res,req.headers.accept?.includes('vnd.pgrst.object+json')?data:data?[data]:[]);}
   if(!tables.has(name))return json(res,{message:'Table not in local fixture'},404);
@@ -60,6 +65,21 @@ const server=http.createServer((req,res)=>{
   await asOwner(db,"update pilot_matches set title='Igualada – Vic · PROVA FICTÍCIA' where id=$1",[vic]);
   vicCalendar=[row,{...row,round:'JORNADA 6',date:'31/10/2026',away_team_id:'99999',away_name:'Futur rival · FICTICI'}];json(res,{ok:true});
  });return;}
+ // Optional real PostgreSQL mode contract integration. Still entirely local/fictitious.
+ if(url.pathname==='/__test/mode-future'&&process.env.MATCH_MODE_SERVER_MIGRATION){serial=serial.then(async()=>{
+  const future='80000000-0000-4000-8000-000000000001';
+  await asOwner(db,"update teams set age_group='senior',age_group_source='FICTITIOUS SENIOR INTEGRATION' where id=$1",[ID.team]);
+  await asOwner(db,"insert into federation_matches(id,group_id,home_team,away_team,federation_start_at,match_fingerprint,raw_data) select $1,group_id,'Sènior FUTUR FICTICI','Rival FUTUR FICTICI','2027-01-01T12:00Z','RFEP:41:3575:FICTICI-FUTUR:3697:3727',raw_data||$3::jsonb from federation_matches where id=$2",[future,'51894d05-c323-f3e1-8534-fa79e062c448',JSON.stringify({source_url:'https://hockeypatines.fep.es/league/3575'})]);
+  await asOwner(db,"insert into federation_match_teams(match_id,entry_id,side) select $1,entry_id,side from federation_match_teams where match_id=$2",[future,'51894d05-c323-f3e1-8534-fa79e062c448']);
+  await asOwner(db,'grant select on federation_matches to authenticated');json(res,{id:future});
+ });return;}
+ if(url.pathname==='/__test/mode-counts'&&process.env.MATCH_MODE_SERVER_MIGRATION){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('contexts',(select count(*) from basic_match_contexts where catalogue_match_id='80000000-0000-4000-8000-000000000001'),'events',(select count(*) from stats_events where match_id='80000000-0000-4000-8000-000000000001'),'official',(select count(*) from pilot_events where match_id='80000000-0000-4000-8000-000000000001'),'members',(select count(*) from pilot_members where match_id='80000000-0000-4000-8000-000000000001')) state")).rows[0].state));return;}
+ if(url.pathname==='/__test/temporary-pilot'&&process.env.MATCH_MODE_SERVER_MIGRATION){serial=serial.then(async()=>{
+  await asOwner(db,"update teams set age_group='youth',age_group_source='FEM15 FICTICI' where id=$1",[ID.team]);
+  await asOwner(db,"insert into club_memberships(user_id,club_id,team_id,role) values($1,$2,null,'general_coordinator')",[ID.principal,ID.club]);json(res,{ok:true});
+ });return;}
+ if(url.pathname==='/__test/temporary-state'&&process.env.MATCH_MODE_SERVER_MIGRATION){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('grants',(select coalesce(jsonb_agg(a),'[]') from match_temporary_operators a),'events',(select count(*) from stats_events where operator_id=$1),'external_members',(select count(*) from pilot_members where user_id=$1),'assignments',(select count(*) from stats_assignments),'contexts',(select count(*) from basic_match_contexts)) state",[ID.external])).rows[0].state));return;}
+ if(url.pathname==='/__test/temporary-expire'&&process.env.MATCH_MODE_SERVER_MIGRATION){serial=serial.then(async()=>{await asOwner(db,"update match_temporary_operators set starts_at=now()-interval '2 hours',expires_at=now()-interval '1 hour' where revoked_at is null");json(res,{ok:true});});return;}
  if(url.pathname==='/__test/vic-without-source'){serial=serial.then(async()=>{await asOwner(db,'delete from federation_match_sources where match_id=$1',[vic]);json(res,{ok:true});});return;}
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
  const relative=url.pathname.replace(/^\/clubhoquei360\//,'/').replace(/^\//,'')||'index.html';const filename=path.resolve(cwd,relative);

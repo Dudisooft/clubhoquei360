@@ -1,0 +1,1786 @@
+{
+  "captured_at": "2026-10-27T16:58:54.180737+00:00",
+  "season": "2026/27",
+  "club": "IHC",
+  "scope": "Read-only catalogue inventory + proposed sporting metadata; no production Auth verification",
+  "production_modified": false,
+  "server_contract_installed": false,
+  "actual_age_group_rows": 0,
+  "actual_club_memberships": 0,
+  "actual_enabled_superadmins": 1,
+  "teams": [
+    {
+      "team_id": "020cf94a-ab92-f435-2fbd-9db438c2a120",
+      "team": "IGUALADA HC C",
+      "category": "JÚNIOR",
+      "competitions": [
+        {
+          "id": "c3cd6991-e331-b8bb-acb7-7bf3896517cf",
+          "name": "JÚNIOR OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4782"
+        }
+      ],
+      "proposed_age_group": "junior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "020cf94a-ab92-f435-2fbd-9db438c2a120",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "11aead52-9c21-3425-01d4-4b6915b0b8aa",
+      "team": "IGUALADA HC D",
+      "category": "JÚNIOR",
+      "competitions": [
+        {
+          "id": "c3cd6991-e331-b8bb-acb7-7bf3896517cf",
+          "name": "JÚNIOR OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4782"
+        }
+      ],
+      "proposed_age_group": "junior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "11aead52-9c21-3425-01d4-4b6915b0b8aa",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "174df2fc-5530-f172-e535-cce1f2455da8",
+      "team": "IGUALADA HC E",
+      "category": "JUVENIL",
+      "competitions": [
+        {
+          "id": "5e04c4db-d7b0-8508-b8a1-9e362b7c2f2b",
+          "name": "JUVENIL PLATA",
+          "federation": "FECAPA",
+          "external_competition_id": "4785"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "174df2fc-5530-f172-e535-cce1f2455da8",
+        "matches": 13,
+        "future": 9,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "2c6f30c0-2345-4ab0-6416-2c4eb1213926",
+      "team": "IGUALADA HC C",
+      "category": "ALEVÍ",
+      "competitions": [
+        {
+          "id": "8156a36e-2531-c6f5-8812-fec2821bd6a5",
+          "name": "ALEVÍ OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4789"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "2c6f30c0-2345-4ab0-6416-2c4eb1213926",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "35d785ae-cd8b-b174-8f4c-8831fbd784fa",
+      "team": "IGUALADA HC A",
+      "category": "BENJAMÍ",
+      "competitions": [
+        {
+          "id": "652a7f1d-dfe6-d81a-0333-7c822b5a2081",
+          "name": "BENJAMÍ OR BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4810"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "35d785ae-cd8b-b174-8f4c-8831fbd784fa",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "3b3f6fb5-bbc5-7467-5d3f-320be8003686",
+      "team": "IGUALADA HC",
+      "category": "FEM 11",
+      "competitions": [
+        {
+          "id": "6cb68aef-db9f-365b-fd7d-814a85bab351",
+          "name": "FEM 11 OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4806"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "3b3f6fb5-bbc5-7467-5d3f-320be8003686",
+        "matches": 13,
+        "future": 9,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "3b838f5f-8fe2-715b-616c-754178055007",
+      "team": "IGUALADA HC A",
+      "category": "JUVENIL",
+      "competitions": [
+        {
+          "id": "a14add40-b71c-a1e9-7a3c-6d9703b9ae7c",
+          "name": "JUVENIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4784"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "3b838f5f-8fe2-715b-616c-754178055007",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "4357e8e7-30d2-a17b-f1eb-4e8a7d6afe5f",
+      "team": "IGUALADA HC F",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "1d16090d-bedb-56b8-4b5f-da6fe7973383",
+          "name": "INFANTIL PLATA",
+          "federation": "FECAPA",
+          "external_competition_id": "4787"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "4357e8e7-30d2-a17b-f1eb-4e8a7d6afe5f",
+        "matches": 13,
+        "future": 8,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "666ba825-830b-4136-b3da-2cb7c5f5ae14",
+      "team": "IGUALADA HC B",
+      "category": "TERCERA CATALANA MASCULINA",
+      "competitions": [
+        {
+          "id": "b7e982ef-1d1f-fa01-200c-4a3305472bd6",
+          "name": "TERCERA CATALANA MASCULINA ",
+          "federation": "FECAPA",
+          "external_competition_id": "4781"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "666ba825-830b-4136-b3da-2cb7c5f5ae14",
+        "matches": 24,
+        "future": 21,
+        "results": 3,
+        "verified_reports": 3,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "6b8545db-eb77-186e-2f91-dc9ca19ec5ef",
+      "team": "IGUALADA HC B",
+      "category": "BENJAMÍ",
+      "competitions": [
+        {
+          "id": "652a7f1d-dfe6-d81a-0333-7c822b5a2081",
+          "name": "BENJAMÍ OR BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4810"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "6b8545db-eb77-186e-2f91-dc9ca19ec5ef",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "75a038d4-cbc6-4da3-989c-1ef894e8ec1d",
+      "team": "IGUALADA HC D",
+      "category": "ALEVÍ",
+      "competitions": [
+        {
+          "id": "da2ca4d8-33d8-2e17-9c37-e02ec58811c2",
+          "name": "ALEVÍ PLATA",
+          "federation": "FECAPA",
+          "external_competition_id": "4790"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "75a038d4-cbc6-4da3-989c-1ef894e8ec1d",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "793a0cd7-eae9-e5c6-c76e-0fb429a337cb",
+      "team": "IGUALADA HC A",
+      "category": "PREBENJAMI",
+      "competitions": [
+        {
+          "id": "2759f91a-742d-cf09-9d58-8bbb2e89fe1f",
+          "name": "PREBENJAMI OR BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4813"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "793a0cd7-eae9-e5c6-c76e-0fb429a337cb",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "7e8a22b1-39ec-d5e9-df00-121fa4b28aac",
+      "team": "IGUALADA HC E",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "30d49fa7-9050-4375-d7eb-90461c260d69",
+          "name": "INFANTIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4786"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "7e8a22b1-39ec-d5e9-df00-121fa4b28aac",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "8142727e-2bfd-d9a7-5ca6-d47b68fa48a0",
+      "team": "IGUALADA HC B",
+      "category": "JUVENIL",
+      "competitions": [
+        {
+          "id": "a14add40-b71c-a1e9-7a3c-6d9703b9ae7c",
+          "name": "JUVENIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4784"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "8142727e-2bfd-d9a7-5ca6-d47b68fa48a0",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "85b5541c-0c5b-ee6d-a23f-368a8cd38fae",
+      "team": "IGUALADA HC D",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "30d49fa7-9050-4375-d7eb-90461c260d69",
+          "name": "INFANTIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4786"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "85b5541c-0c5b-ee6d-a23f-368a8cd38fae",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 1,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "8cfde442-be75-321d-ac5c-cff4f95b7a38",
+      "team": "IGUALADA HC B",
+      "category": "JÚNIOR",
+      "competitions": [
+        {
+          "id": "c3cd6991-e331-b8bb-acb7-7bf3896517cf",
+          "name": "JÚNIOR OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4782"
+        }
+      ],
+      "proposed_age_group": "junior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "8cfde442-be75-321d-ac5c-cff4f95b7a38",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "9385f410-c5ec-6de6-796a-738371a91b30",
+      "team": "IGUALADA HC A",
+      "category": "ALEVÍ",
+      "competitions": [
+        {
+          "id": "8156a36e-2531-c6f5-8812-fec2821bd6a5",
+          "name": "ALEVÍ OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4789"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "9385f410-c5ec-6de6-796a-738371a91b30",
+        "matches": 12,
+        "future": 7,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "978e00aa-648c-98f1-6a7b-fbdd603eba30",
+      "team": "IGUALADA HC A",
+      "category": "PREBENJAMI INICIACIO",
+      "competitions": [
+        {
+          "id": "85b4535b-1a11-3424-861e-d279d0280572",
+          "name": "PREBENJAMI INICIACIO BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4816"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "978e00aa-648c-98f1-6a7b-fbdd603eba30",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "9f268c67-ea26-ec18-c445-512b3829c772",
+      "team": "IGUALADA HC",
+      "category": "FEM 13",
+      "competitions": [
+        {
+          "id": "881b60d3-9758-4e36-6e20-3f24e0008696",
+          "name": "FEM 13 OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4804"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "9f268c67-ea26-ec18-c445-512b3829c772",
+        "matches": 20,
+        "future": 16,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "a6496b1a-9b8c-67e3-6f52-9aa6e2ef21ce",
+      "team": "IGUALADA HC B",
+      "category": "PREBENJAMI INICIACIO",
+      "competitions": [
+        {
+          "id": "85b4535b-1a11-3424-861e-d279d0280572",
+          "name": "PREBENJAMI INICIACIO BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4816"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "a6496b1a-9b8c-67e3-6f52-9aa6e2ef21ce",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "ad2bbfdd-9b11-c0e2-b335-a0b60b6c68ab",
+      "team": "IGUALADA HC",
+      "category": "SEGONA CATALANA MASCULINA",
+      "competitions": [
+        {
+          "id": "9ee625e9-174f-87a1-14e8-cb723d26dbce",
+          "name": "SEGONA CATALANA MASCULINA",
+          "federation": "FECAPA",
+          "external_competition_id": "4779"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "ad2bbfdd-9b11-c0e2-b335-a0b60b6c68ab",
+        "matches": 24,
+        "future": 19,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "b2641ae4-d1e3-c98f-0c89-72a074e3c151",
+      "team": "Igualada HC · FEM15",
+      "category": "FEM15",
+      "competitions": [
+        {
+          "id": "134b8d5f-833f-9f50-c1c9-bae4e3356fed",
+          "name": "FEM 15 OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4802"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "b2641ae4-d1e3-c98f-0c89-72a074e3c151",
+        "matches": 24,
+        "future": 19,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "c0febd5f-96b6-c734-5d33-c6d7bb5e8958",
+      "team": "IGUALADA HC C",
+      "category": "BENJAMÍ",
+      "competitions": [
+        {
+          "id": "652a7f1d-dfe6-d81a-0333-7c822b5a2081",
+          "name": "BENJAMÍ OR BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4810"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "c0febd5f-96b6-c734-5d33-c6d7bb5e8958",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "c2d46fe9-9573-ea1d-84f1-3ba80b104c27",
+      "team": "IGUALADA HC A",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "30d49fa7-9050-4375-d7eb-90461c260d69",
+          "name": "INFANTIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4786"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "c2d46fe9-9573-ea1d-84f1-3ba80b104c27",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "c31eddb5-389e-9487-544d-6bd974e2869b",
+      "team": "IGUALADA HC",
+      "category": "NACIONAL CATALANA MASCULINA",
+      "competitions": [
+        {
+          "id": "32cddacf-c8ab-8b74-51ea-a16fc1ef840c",
+          "name": "NACIONAL CATALANA MASCULINA",
+          "federation": "FECAPA",
+          "external_competition_id": "4774"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "c31eddb5-389e-9487-544d-6bd974e2869b",
+        "matches": 30,
+        "future": 25,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "c726e180-1364-eabb-97d5-4eda236a3312",
+      "team": "IGUALADA HC C",
+      "category": "JUVENIL",
+      "competitions": [
+        {
+          "id": "a14add40-b71c-a1e9-7a3c-6d9703b9ae7c",
+          "name": "JUVENIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4784"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "c726e180-1364-eabb-97d5-4eda236a3312",
+        "matches": 16,
+        "future": 12,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "c7b496b0-2d68-d6ae-5f80-70928f35e903",
+      "team": "IGUALADA RIGAT HC",
+      "category": "SÈNIOR · primer equip",
+      "competitions": [
+        {
+          "id": "1869718f-3c96-abca-b06e-202bb340e4e1",
+          "name": "FRIT RAVICH LLIGA CATALANA",
+          "federation": "FECAPA",
+          "external_competition_id": "4858"
+        },
+        {
+          "id": "3c47352a-817a-bc5a-640f-467af62f553a",
+          "name": "OK LIGA MASCULINA",
+          "federation": "RFEP",
+          "external_competition_id": "3568"
+        },
+        {
+          "id": "590110b9-f56d-f2fe-0489-1a3770f03192",
+          "name": "SUPERCOPA DE ESPAÑA MASCULINA",
+          "federation": "RFEP",
+          "external_competition_id": "3592"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "c7b496b0-2d68-d6ae-5f80-70928f35e903",
+        "matches": 32,
+        "future": 23,
+        "results": 6,
+        "verified_reports": 6,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "cc90b135-b53d-2227-648d-07d242e571a4",
+      "team": "IGUALADA HC B",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "30d49fa7-9050-4375-d7eb-90461c260d69",
+          "name": "INFANTIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4786"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "cc90b135-b53d-2227-648d-07d242e571a4",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "d624830b-8b79-2c97-f052-a88788a8a523",
+      "team": "IGUALADA HC C",
+      "category": "INFANTIL",
+      "competitions": [
+        {
+          "id": "30d49fa7-9050-4375-d7eb-90461c260d69",
+          "name": "INFANTIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4786"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "d624830b-8b79-2c97-f052-a88788a8a523",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "db4c3453-dbfe-b91b-cc27-20c215e3f5e8",
+      "team": "IGUALADA HC D",
+      "category": "BENJAMÍ",
+      "competitions": [
+        {
+          "id": "39949720-ff65-82f4-0f59-3abb1a01d91e",
+          "name": "BENJAMÍ PLATA BARCELONA",
+          "federation": "FECAPA",
+          "external_competition_id": "4811"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "db4c3453-dbfe-b91b-cc27-20c215e3f5e8",
+        "matches": 12,
+        "future": 9,
+        "results": 3,
+        "verified_reports": 3,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "dba1679b-4688-a3b9-0f3c-8ac52aa4bf48",
+      "team": "IGUALADA HC A",
+      "category": "JÚNIOR",
+      "competitions": [
+        {
+          "id": "c3cd6991-e331-b8bb-acb7-7bf3896517cf",
+          "name": "JÚNIOR OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4782"
+        }
+      ],
+      "proposed_age_group": "junior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "dba1679b-4688-a3b9-0f3c-8ac52aa4bf48",
+        "matches": 12,
+        "future": 9,
+        "results": 3,
+        "verified_reports": 3,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "f1aaac4e-13fd-a8fa-0df9-c87414d5e929",
+      "team": "IGUALADA HC B",
+      "category": "ALEVÍ",
+      "competitions": [
+        {
+          "id": "8156a36e-2531-c6f5-8812-fec2821bd6a5",
+          "name": "ALEVÍ OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4789"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "f1aaac4e-13fd-a8fa-0df9-c87414d5e929",
+        "matches": 14,
+        "future": 9,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "f46aafd6-0ccb-a3df-14ed-5abafb4109d3",
+      "team": "IGUALADA HC A",
+      "category": "TERCERA CATALANA MASCULINA",
+      "competitions": [
+        {
+          "id": "b7e982ef-1d1f-fa01-200c-4a3305472bd6",
+          "name": "TERCERA CATALANA MASCULINA ",
+          "federation": "FECAPA",
+          "external_competition_id": "4781"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "f46aafd6-0ccb-a3df-14ed-5abafb4109d3",
+        "matches": 24,
+        "future": 20,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "f7c79aa2-5f04-712c-5124-92c965baa492",
+      "team": "IGUALADA HC D",
+      "category": "JUVENIL",
+      "competitions": [
+        {
+          "id": "a14add40-b71c-a1e9-7a3c-6d9703b9ae7c",
+          "name": "JUVENIL OR",
+          "federation": "FECAPA",
+          "external_competition_id": "4784"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "f7c79aa2-5f04-712c-5124-92c965baa492",
+        "matches": 12,
+        "future": 8,
+        "results": 4,
+        "verified_reports": 4,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "f9eed270-6221-42dc-7ac4-3df490ad65db",
+      "team": "SIMAR IGUALADA HC",
+      "category": "OK LIGA",
+      "competitions": [
+        {
+          "id": "064b22e1-c31f-1952-da26-1c221df66a5e",
+          "name": "OK LIGA PLATA SUR",
+          "federation": "RFEP",
+          "external_competition_id": "3575"
+        }
+      ],
+      "proposed_age_group": "senior",
+      "ordinary_modes": [
+        "base",
+        "advanced"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "f9eed270-6221-42dc-7ac4-3df490ad65db",
+        "matches": 26,
+        "future": 19,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 1,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    },
+    {
+      "team_id": "fb6c48ff-e7b4-6983-d6cf-4068e7bd1f83",
+      "team": "IGUALADA HC B",
+      "category": "PREBENJAMI",
+      "competitions": [
+        {
+          "id": "24d7b7cd-cc72-ab49-5f2d-05aaaaa8ea92",
+          "name": " PREBENJAMI PLATA BARCELONA ",
+          "federation": "FECAPA",
+          "external_competition_id": "4814"
+        }
+      ],
+      "proposed_age_group": "youth",
+      "ordinary_modes": [
+        "base"
+      ],
+      "superadmin_modes": [
+        "base",
+        "advanced"
+      ],
+      "principal_coordinator_modes": [
+        "base",
+        "advanced"
+      ],
+      "operational_condition": "Authenticated server permissions; mode availability alone does not grant recording",
+      "future": "Read-only preview; explicit authorized idempotent activation",
+      "played": "Read existing records; finalized official report requires explicit separate analysis for new recording",
+      "context": "Consultation needs no operative context; recording needs one; Base-only context can be completed explicitly for Advanced",
+      "catalogue": {
+        "team_id": "fb6c48ff-e7b4-6983-d6cf-4068e7bd1f83",
+        "matches": 13,
+        "future": 8,
+        "results": 5,
+        "verified_reports": 5,
+        "basic_contexts": 0,
+        "linked_source_contexts": 0,
+        "actual_age_group": null
+      },
+      "verification": {
+        "catalogue": "verified read-only",
+        "local_policy": "tested with fictitious PostgreSQL roles",
+        "production_auth": "pending: new RPC/RLS and age-group metadata not installed",
+        "principal_account": "pending: no real membership present"
+      }
+    }
+  ],
+  "absent_from_current_catalogue": [
+    "FEM9",
+    "FEM17",
+    "Primera Catalana senior",
+    "senior female team"
+  ],
+  "integrity_unchanged": true,
+  "integrity_after": [
+    {
+      "name": "pilot_events",
+      "rows": 348,
+      "fingerprint": "f15b35ad2f94b23674f5300d0682c0ef"
+    },
+    {
+      "name": "pilot_operator_state",
+      "rows": 6,
+      "fingerprint": "265b3a576978d026076092d3fa777e97"
+    },
+    {
+      "name": "stats_events",
+      "rows": 3,
+      "fingerprint": "b9ea918c541ef18425a8c76ce90b10d0"
+    },
+    {
+      "name": "stats_sessions",
+      "rows": 1,
+      "fingerprint": "ebb70b704b48eda8478e70034785eb62"
+    },
+    {
+      "name": "stats_assignments",
+      "rows": 3,
+      "fingerprint": "2a69b723210d4619b110b7101ceb85d3"
+    },
+    {
+      "name": "pilot_members",
+      "rows": 31,
+      "fingerprint": "e67c18848c744598b501ddf4bbede645"
+    },
+    {
+      "name": "pilot_players",
+      "rows": 170,
+      "fingerprint": "f64eab3215e642ece6c87d5614290abd"
+    },
+    {
+      "name": "basic_match_contexts",
+      "rows": 1,
+      "fingerprint": "9fedb95addf574639edbe2e0648efd9f"
+    },
+    {
+      "name": "federation_matches",
+      "rows": 558,
+      "fingerprint": "6a3ce86730db6641fea692338c55780d"
+    },
+    {
+      "name": "federation_team_roster",
+      "rows": 939,
+      "fingerprint": "2b74cfce256eeabb346a60b46b793fde"
+    },
+    {
+      "name": "teams",
+      "rows": 36,
+      "fingerprint": "0e45c22998b9d4b600c47f9e5f1a509d"
+    },
+    {
+      "name": "club_memberships",
+      "rows": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  ],
+  "integrity_before": [
+    {
+      "name": "pilot_events",
+      "rows": 348,
+      "fingerprint": "f15b35ad2f94b23674f5300d0682c0ef"
+    },
+    {
+      "name": "pilot_operator_state",
+      "rows": 6,
+      "fingerprint": "265b3a576978d026076092d3fa777e97"
+    },
+    {
+      "name": "stats_events",
+      "rows": 3,
+      "fingerprint": "b9ea918c541ef18425a8c76ce90b10d0"
+    },
+    {
+      "name": "stats_sessions",
+      "rows": 1,
+      "fingerprint": "ebb70b704b48eda8478e70034785eb62"
+    },
+    {
+      "name": "stats_assignments",
+      "rows": 3,
+      "fingerprint": "2a69b723210d4619b110b7101ceb85d3"
+    },
+    {
+      "name": "pilot_members",
+      "rows": 31,
+      "fingerprint": "e67c18848c744598b501ddf4bbede645"
+    },
+    {
+      "name": "pilot_players",
+      "rows": 170,
+      "fingerprint": "f64eab3215e642ece6c87d5614290abd"
+    },
+    {
+      "name": "basic_match_contexts",
+      "rows": 1,
+      "fingerprint": "9fedb95addf574639edbe2e0648efd9f"
+    },
+    {
+      "name": "federation_matches",
+      "rows": 558,
+      "fingerprint": "6a3ce86730db6641fea692338c55780d"
+    },
+    {
+      "name": "federation_team_roster",
+      "rows": 939,
+      "fingerprint": "2b74cfce256eeabb346a60b46b793fde"
+    },
+    {
+      "name": "teams",
+      "rows": 36,
+      "fingerprint": "0e45c22998b9d4b600c47f9e5f1a509d"
+    },
+    {
+      "name": "club_memberships",
+      "rows": 0,
+      "fingerprint": "d41d8cd98f00b204e9800998ecf8427e"
+    }
+  ]
+}

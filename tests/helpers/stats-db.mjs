@@ -57,6 +57,9 @@ export async function createDatabase({skipModes=false}={}){
  const migrations=new URL('../../supabase/migrations/',import.meta.url);for(const file of fs.readdirSync(migrations).filter(n=>n.endsWith('.sql')&&(!skipModes||!/^20261027.*(?:match_mode_access|temporary_match_operators)/.test(n))).sort())await db.exec(fs.readFileSync(new URL(file,migrations),'utf8'));
  // Explicit synthetic sporting metadata; legacy display labels are not authorization.
  if(!skipModes)await db.exec("update public.teams set age_group='junior',age_group_source='Synthetic fixture, not a federative classification'");
+ // Optional local cross-PR verification; no server SQL is vendored into this branch.
+ if(process.env.MATCH_MODE_SERVER_MIGRATION){const files=process.env.MATCH_MODE_SERVER_MIGRATION.startsWith('[')?JSON.parse(process.env.MATCH_MODE_SERVER_MIGRATION):[process.env.MATCH_MODE_SERVER_MIGRATION];for(const file of files)if(!fs.existsSync(new URL('../../supabase/migrations/'+file.split('/').at(-1),import.meta.url)))await db.exec(fs.readFileSync(file,'utf8'));await db.exec("update teams set age_group='junior',age_group_source='Synthetic cross-PR fixture'");}
+
  for(const [match,team] of [[ID.match,ID.team],[ID.otherMatch,ID.otherTeam]])await db.query('insert into public.stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,$5,$6)',[match,ID.club,ID.season,team,'12419','fictici']);
  await db.query("insert into public.stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);
  return db;
