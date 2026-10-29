@@ -1,0 +1,195 @@
+{
+  "method": "GET select=*&limit=0, public publishable API key only; no returned production rows",
+  "openapiRoot": "401 Secret API key required; not escalated",
+  "results": [
+    {
+      "table": "club_match_schedule_history",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table club_match_schedule_history",
+      "routeConfirmed": true
+    },
+    {
+      "table": "club_match_schedules",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table club_match_schedules",
+      "routeConfirmed": true
+    },
+    {
+      "table": "club_memberships",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table club_memberships",
+      "routeConfirmed": true
+    },
+    {
+      "table": "clubs",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table clubs",
+      "routeConfirmed": true
+    },
+    {
+      "table": "discipline_reviews",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table discipline_reviews",
+      "routeConfirmed": true
+    },
+    {
+      "table": "discipline_rule_sets",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table discipline_rule_sets",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_calendar_cache",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_calendar_cache",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_competitions",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_competitions",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_groups",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_groups",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_import_runs",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_import_runs",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_match_events",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_match_events",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_match_lineups",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_match_lineups",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_match_sources",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_match_sources",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_matches",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_matches",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_player_competition_stats",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_player_competition_stats",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_players",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_players",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_sync_runs",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_sync_runs",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_team_entries",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_team_entries",
+      "routeConfirmed": true
+    },
+    {
+      "table": "federation_team_roster",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table federation_team_roster",
+      "routeConfirmed": true
+    },
+    {
+      "table": "pilot_events",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table pilot_events",
+      "routeConfirmed": true
+    },
+    {
+      "table": "pilot_matches",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table pilot_matches",
+      "routeConfirmed": true
+    },
+    {
+      "table": "pilot_members",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table pilot_members",
+      "routeConfirmed": true
+    },
+    {
+      "table": "pilot_operator_state",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table pilot_operator_state",
+      "routeConfirmed": true
+    },
+    {
+      "table": "pilot_players",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table pilot_players",
+      "routeConfirmed": true
+    },
+    {
+      "table": "profiles",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table profiles",
+      "routeConfirmed": true
+    },
+    {
+      "table": "seasons",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table seasons",
+      "routeConfirmed": true
+    },
+    {
+      "table": "teams",
+      "http": 401,
+      "code": "42501",
+      "message": "permission denied for table teams",
+      "routeConfirmed": true
+    }
+  ]
+}

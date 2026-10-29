@@ -2,7 +2,21 @@
 
 Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.6 integració conjunta aïllada. Sense fusió de PR, desplegament o escriptura productiva.**
+**Fase vigent: 3A.7 auditoria de privilegis només lectura. Sense fusió de PR, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.7 · diagnòstic de privilegis (només lectura)
+
+29/10/2026. Branca audit/supabase-privileges-3a7 des de 11e8bfc. Fonts remotes verificades: #31 3cce758, #32 b76afcd, #33 7434ea5, main e009f4d. Cap canvi local pendent preexistent. Prohibicions diagnòstiques: no executar GRANT/REVOKE/ALTER OWNER/ALTER DEFAULT PRIVILEGES/TRUNCATE, ni migracions, canvis RLS, comptes, rols o dades esportives. Ni tan sols cal reproduir les escriptures de staging de 3A.6: hi ha còpies aïllades abans/després per inspeccionar.
+
+Bloc 1 verificat: inventari aclexplode actual exacte, 49 concessions explícites sobre 27 taules public, 22 anon + 27 authenticated; totes propietat/grantor postgres, RLS activa, privilegi efectiu, cap concessió del propietari ni herència cap a administrador. Rols client NOLOGIN sense CREATE public ni pertinença a postgres/supabase_admin/service_role. Defaults separats per propietari, no 49 defaults. pg_default_acl no conserva qui/quan va crear la concessió històrica. Fonts oficials PostgreSQL 17 recuperades del repositori oficial; docs Supabase MCP i anunci maintainer 28/04/2026. Changelog.md directe CONNECT403, no bypass.
+
+Exposició: GET limit=0 de les 27 rutes public confirma existència però denega SELECT anònim (42501), sense files; OpenAPI arrel exigeix secret key (no utilitzada). Accept-Profile app_private retorna406, només public i graphql_public exposats. 67 funcions aplicatives actuals idèntiques a la captura 3A.6, més placeholder GraphQL sense extensió; cap TRUNCATE o SQL arbitrari detectat. Únic EXECUTE dinàmic: rls_auto_enable, event trigger no callable pels clients, identificadors escapats. Revisió completa RPC/Edge/secrets pendent de tancar. Llegides tres Edge Functions desplegades sense cridar-les; temporary-access no és al directori funcional d’aquest main, font desplegada disponible per revisar.
+
+Staging existent inspeccionat sense mutacions: còpia íntegra amb 3 migracions/49 grants i còpia amb4 migracions/0; PostgreSQL real, mateix projecte local etiquetat, cap reproducció destructiva nova. Proves negatives de capacitat/API i classificació de l’auditoria pendents; preservar conclusions 3A.6 sense prometre desbloqueig.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix el bloc 3A.7 i docs/PHASE_3A7_SUPABASE_PRIVILEGE_AUDIT.md; comprova Git a audit/supabase-privileges-3a7. Completa revisió de vies d’invocació i proves locals no destructives, proposta mínima, consulta Support no enviada i veredicte. Cap escriptura productiva ni SQL de permisos/destructiu durant diagnòstic.»
+
+## Antecedent conservat · 3A.6
 
 ## Fase vigent · 3A.6
 
