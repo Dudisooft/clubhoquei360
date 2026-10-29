@@ -1,0 +1,9 @@
+{
+  "result": "PASS",
+  "users": 8,
+  "officialAndStatisticsAndSessionsPreserved": true,
+  "existingRealAuthTokenStillValid": true,
+  "volumeDeleted": false,
+  "dynamicContainerAddressResolution": true,
+  "realPostgrestRlsStillAppliedAfterRestart": true
+}
