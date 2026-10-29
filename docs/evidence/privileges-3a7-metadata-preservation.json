@@ -1,0 +1,13 @@
+{
+  "comparison": {
+    "actor": true,
+    "roles": true,
+    "version": true,
+    "defaults": true,
+    "inventory": true,
+    "memberships": true,
+    "api_settings": true
+  },
+  "productionMutations": 0,
+  "methods": "READ ONLY catalog snapshots; GET table routes with limit=0; deployed source reads; no production Auth/account/email operations"
+}

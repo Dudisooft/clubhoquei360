@@ -1,0 +1,153 @@
+{
+  "method": "Strictly READ ONLY PostgreSQL catalogs, no SET ROLE or destructive statement executed",
+  "roles": [
+    {
+      "role": "postgres",
+      "public_usage": true,
+      "public_create": true,
+      "service_member": true,
+      "postgres_member": true,
+      "database_connect": true,
+      "supabase_admin_member": false
+    },
+    {
+      "role": "authenticated",
+      "public_usage": true,
+      "public_create": false,
+      "service_member": false,
+      "postgres_member": false,
+      "database_connect": true,
+      "supabase_admin_member": false
+    },
+    {
+      "role": "anon",
+      "public_usage": true,
+      "public_create": false,
+      "service_member": false,
+      "postgres_member": false,
+      "database_connect": true,
+      "supabase_admin_member": false
+    },
+    {
+      "role": "service_role",
+      "public_usage": true,
+      "public_create": false,
+      "service_member": true,
+      "postgres_member": false,
+      "database_connect": true,
+      "supabase_admin_member": false
+    },
+    {
+      "role": "supabase_admin",
+      "public_usage": true,
+      "public_create": true,
+      "service_member": true,
+      "postgres_member": true,
+      "database_connect": true,
+      "supabase_admin_member": true
+    },
+    {
+      "role": "authenticator",
+      "public_usage": true,
+      "public_create": false,
+      "service_member": true,
+      "postgres_member": false,
+      "database_connect": true,
+      "supabase_admin_member": false
+    }
+  ],
+  "examples": [
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=arDxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "postgres",
+      "owner": "postgres",
+      "table": "pilot_events",
+      "memberOfOwner": true,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=arDxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "authenticated",
+      "owner": "postgres",
+      "table": "pilot_events",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=arDxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "anon",
+      "owner": "postgres",
+      "table": "pilot_events",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=arDxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "service_role",
+      "owner": "postgres",
+      "table": "pilot_events",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=arDxtm/postgres,service_role=Dxtm/postgres}",
+      "role": "supabase_admin",
+      "owner": "postgres",
+      "table": "pilot_events",
+      "memberOfOwner": true,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=rDxtm/postgres,service_role=arwDxtm/postgres}",
+      "role": "postgres",
+      "owner": "postgres",
+      "table": "federation_match_lineups",
+      "memberOfOwner": true,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=rDxtm/postgres,service_role=arwDxtm/postgres}",
+      "role": "authenticated",
+      "owner": "postgres",
+      "table": "federation_match_lineups",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=rDxtm/postgres,service_role=arwDxtm/postgres}",
+      "role": "anon",
+      "owner": "postgres",
+      "table": "federation_match_lineups",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=rDxtm/postgres,service_role=arwDxtm/postgres}",
+      "role": "service_role",
+      "owner": "postgres",
+      "table": "federation_match_lineups",
+      "memberOfOwner": false,
+      "effectiveTruncate": true
+    },
+    {
+      "acl": "{postgres=arwdDxtm/postgres,anon=Dxtm/postgres,authenticated=rDxtm/postgres,service_role=arwDxtm/postgres}",
+      "role": "supabase_admin",
+      "owner": "postgres",
+      "table": "federation_match_lineups",
+      "memberOfOwner": true,
+      "effectiveTruncate": true
+    }
+  ],
+  "effective": [
+    {
+      "role": "authenticated",
+      "publicTruncateAcls": 0,
+      "effectivePublicTables": 27
+    },
+    {
+      "role": "anon",
+      "publicTruncateAcls": 0,
+      "effectivePublicTables": 22
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {assessPrivilege,currentGrantGate} from '../scripts/privilege-audit-model.mjs';
+test('explicit effective ACL is B without a demonstrated invocation, not automatically A',()=>assert.deepEqual(assessPrivilege({effective:true,explicitAcl:true}),{risk:'B',kind:'explicit_client_acl',currentObjectGrant:true,exploitationProven:false}));
+test('a demonstrated nonprivileged client path is A',()=>assert.equal(assessPrivilege({effective:true,clientInvocationProven:true}).risk,'A'));
+test('owner authority is administrative, not a revocable ordinary client assignment',()=>assert.equal(assessPrivilege({effective:true,ownerEntry:true}).kind,'owner_authority'));
+test('managed administrative authority is C',()=>assert.equal(assessPrivilege({effective:true,administrativeRole:true}).risk,'C'));
+test('effective role membership is distinguished from explicit ACL',()=>assert.equal(assessPrivilege({effective:true}).kind,'role_membership'));
+test('PUBLIC grant is distinguished from direct grant',()=>assert.equal(assessPrivilege({effective:true,viaPublic:true}).kind,'public_acl'));
+test('a default granting clients rights is future B, not a current-object grant',()=>assert.deepEqual(assessPrivilege({defaultOnly:true,clientBeneficiary:true}),{risk:'B',kind:'future_default',currentObjectGrant:false,exploitationProven:false}));
+test('administrative defaults are not counted as current exposed objects',()=>assert.equal(assessPrivilege({defaultOnly:true}).risk,'C'));
+test('no effective privilege is D',()=>assert.equal(assessPrivilege({effective:false,explicitAcl:true}).risk,'D'));
+test('gate counts 49 grants as grants, never as 49 demonstrated vulnerabilities',()=>assert.deepEqual(currentGrantGate(Array.from({length:49},()=>({effective:true,explicitAcl:true,clientBeneficiary:true}))),{ready:false,unsafeCurrentClientGrants:49,demonstratedClientPaths:0}));
+test('owner/default/backend rows do not block the ordinary current-grant gate',()=>assert.equal(currentGrantGate([{effective:true,ownerEntry:true},{effective:true,administrativeRole:true},{defaultOnly:true,clientBeneficiary:true,effective:true}]).ready,true));
+test('gate cannot become green while an ordinary effective client grant remains',()=>assert.equal(currentGrantGate([{effective:true,clientBeneficiary:true}]).ready,false));

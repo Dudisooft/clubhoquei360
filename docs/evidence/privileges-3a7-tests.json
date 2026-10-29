@@ -1,0 +1,32 @@
+{
+  "newNodeTests": {
+    "passed": 12,
+    "failed": 0,
+    "skipped": 0,
+    "type": "Pure audit model; no DB mutation or PGlite fixture setup",
+    "logSha256": "a27164eb7e593e1cbfc6fb6280e2cd4c66f3e6e91960cac05972e1462ed14704"
+  },
+  "newRealAuthApiChecks": {
+    "clientIdentities": 9,
+    "authenticatedFictitiousUsers": 8,
+    "passed": 9,
+    "failed": 0,
+    "sqlDestructiveOperations": 0
+  },
+  "readOnlyProposalGenerator": {
+    "beforeAndAfterSnapshots": 2,
+    "passed": 2,
+    "commandsExecuted": 0
+  },
+  "previousFunctionalEvidenceReused": {
+    "phase": "3A.6",
+    "integrationCode": "8a6eafce8f106706b4d65f2a00c846984d20bc58",
+    "node": 216,
+    "chromium": 68,
+    "authApiBlocks": 9,
+    "authBrowserBlocks": 6,
+    "ci": "https://github.com/Dudisooft/clubhoquei360/actions/runs/40816460858",
+    "rerunIn3a7": false,
+    "reason": "Application and migration code unchanged; only diagnostic scripts/tests/docs added."
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "edges": [
+    {
+      "name": "federation-sync",
+      "version": 6,
+      "verifyJwt": false,
+      "deployedDigest": "66f2d545498e7c116dd468aa92a1df0abee578a5079329d12d3939232576cab6",
+      "files": [
+        {
+          "name": "index.ts",
+          "length": 6909
+        },
+        {
+          "name": "parser.ts",
+          "length": 5168
+        },
+        {
+          "name": "fem15.ts",
+          "length": 8447
+        }
+      ],
+      "rpcTargets": [
+        "federation_scheduler_authorized",
+        "federation_prepare_match",
+        "federation_claim_sync",
+        "federation_commit_snapshot",
+        "federation_commit_fem15"
+      ],
+      "genericSqlInputFound": false,
+      "productionInvocations": 0
+    },
+    {
+      "name": "ihc-sync",
+      "version": 3,
+      "verifyJwt": false,
+      "deployedDigest": "5e5466005f5fb231c77d0b67f0bb2930e18df06cb96ff3d22dda7f353f9f7d99",
+      "files": [
+        {
+          "name": "ihc-sync/index.ts",
+          "length": 6873
+        },
+        {
+          "name": "ihc-sync/report-sync.ts",
+          "length": 1697
+        },
+        {
+          "name": "ihc-sync/reports.ts",
+          "length": 4720
+        },
+        {
+          "name": "ihc-sync/manifest.json",
+          "length": 1929
+        },
+        {
+          "name": "ihc-sync/parse.ts",
+          "length": 7491
+        },
+        {
+          "name": "federation-sync/parser.ts",
+          "length": 5168
+        }
+      ],
+      "rpcTargets": [
+        "federation_scheduler_authorized",
+        "federation_refresh_published_stats",
+        "federation_commit_ihc",
+        "federation_commit_official_report"
+      ],
+      "genericSqlInputFound": false,
+      "productionInvocations": 0
+    },
+    {
+      "name": "temporary-access",
+      "version": 1,
+      "verifyJwt": false,
+      "deployedDigest": "c7cdc2e1c8d4dfc371ecd0d8355298d863856eadb35ad7ac607eba10f0b680d4",
+      "files": [
+        {
+          "name": "index.ts",
+          "length": 1952
+        },
+        {
+          "name": "handler.js",
+          "length": 4074
+        }
+      ],
+      "rpcTargets": [
+        "temporary_reserve_email",
+        "temporary_admin_access",
+        "temporary_email_target"
+      ],
+      "genericSqlInputFound": false,
+      "productionInvocations": 0
+    }
+  ],
+  "review": "Downloaded deployed source read-only; verify_jwt=false is complemented by code-level Auth/scheduler/token checks, not automatically an unauthenticated admin endpoint.",
+  "notes": [
+    "temporary-access deployed v1 reviewed independently; absent from this main's functions directory.",
+    "No production mail, invite, account creation, scheduler or import invoked."
+  ]
+}

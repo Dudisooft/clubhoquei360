@@ -1,0 +1,1040 @@
+{
+  "applicationFunctions": 67,
+  "graphQlPlaceholderFunctions": 1,
+  "applicationDefinitionsComparedWith3a6": 67,
+  "applicationDefinitionsChanged": 0,
+  "truncateStatementsFound": 0,
+  "arbitrarySqlEntrypointsIdentified": 0,
+  "onlyDynamicSql": {
+    "function": "public.rls_auto_enable",
+    "purpose": "Enable RLS on CREATE TABLE event, identifiers quoted with format %I",
+    "anonExecute": false,
+    "authenticatedExecute": false,
+    "callableAsOrdinaryRpc": false
+  },
+  "graphQl": "Extension absent; invoker placeholder returns pg_graphql extension is not enabled",
+  "limits": [
+    "Static function/Edge review plus negative tests is evidence within the reviewed surface, not a universal proof that no future SQL injection can exist.",
+    "No runtime invocation of production Edge Functions or privileged RPCs."
+  ],
+  "functions": [
+    {
+      "args": "p_catalogue uuid, p_reference uuid, p_practice boolean",
+      "name": "basic_open_catalogue",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_club uuid, p_roles text[]",
+      "name": "has_club_role",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": true,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_team uuid, p_roles text[]",
+      "name": "has_team_role",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": true,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "is_platform_superadmin",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "pilot_calendar_ready",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "pilot_can_prepare",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_match uuid, p_mutation uuid, p_revision bigint, p_state jsonb",
+      "name": "pilot_confirm_lineup",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_mutation uuid, p_players jsonb",
+      "name": "pilot_prepare_players",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "pilot_roster_catalogue",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "stats_can_manage",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "stats_can_read",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_action text, p_side text, p_player uuid",
+      "name": "stats_can_record",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "stats_club_manager",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "stats_context_from_source",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_grant jsonb",
+      "name": "stats_grant",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_team uuid",
+      "name": "stats_register_match",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_id uuid",
+      "name": "stats_revoke",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_state jsonb, p_expected integer",
+      "name": "stats_save_session",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_side text, p_category text, p_complete boolean",
+      "name": "stats_set_coverage",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_event jsonb, p_expected integer",
+      "name": "stats_write_event",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_token text",
+      "name": "temporary_accept",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "temporary_admin",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "i temporary_invitations, mid uuid",
+      "name": "temporary_attach",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "i temporary_invitations, p_action text, p_old jsonb",
+      "name": "temporary_audit",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_id uuid, p_token text",
+      "name": "temporary_email_target",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_token text",
+      "name": "temporary_hash",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": false,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_command text, p_value jsonb",
+      "name": "temporary_manage",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "temporary_new_match",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_bucket text, p_max integer",
+      "name": "temporary_rate",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "temporary_require_superoperator",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_email text, p_token text, p_address_hash text",
+      "name": "temporary_reserve_email",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "i temporary_invitations",
+      "name": "temporary_snapshot",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": false,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "i temporary_invitations",
+      "name": "temporary_sync",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "temporary_touch",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "app_private",
+      "definer": true,
+      "anon_schema": false,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "\"operationName\" text, query text, variables jsonb, extensions jsonb",
+      "name": "graphql",
+      "owner": "supabase_admin",
+      "config": null,
+      "schema": "graphql_public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": true,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_catalogue uuid, p_reference uuid, p_practice boolean",
+      "name": "basic_open_catalogue_match",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "check_match_schedule_club",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": true,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_force boolean",
+      "name": "federation_claim_sync",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_data jsonb, p_actor uuid",
+      "name": "federation_commit_fem15",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_data jsonb",
+      "name": "federation_commit_ihc",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_match uuid, p_report jsonb",
+      "name": "federation_commit_official_report",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_match uuid, p_data jsonb",
+      "name": "federation_commit_snapshot",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_reference uuid, p_external text, p_user uuid",
+      "name": "federation_prepare_match",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "federation_refresh_published_stats",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_token text",
+      "name": "federation_scheduler_authorized",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "is_platform_superadmin",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": true,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "log_club_match_schedule_changes",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": true,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "pilot_claim_eduard_access",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": true,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_mutation uuid, p_revision bigint, p_state jsonb",
+      "name": "pilot_confirm_lineup",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_mutation uuid, p_players jsonb",
+      "name": "pilot_prepare_players",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid",
+      "name": "pilot_roster_catalogue",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_revision bigint, p_state jsonb",
+      "name": "pilot_save_operator_state",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "pilot_validate_event",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": true,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "rls_auto_enable",
+      "owner": "postgres",
+      "config": [
+        "search_path=pg_catalog"
+      ],
+      "schema": "public",
+      "definer": true,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "p_match uuid",
+      "name": "stats_access",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_grant jsonb",
+      "name": "stats_grant",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_team uuid",
+      "name": "stats_register_match",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_id uuid",
+      "name": "stats_revoke",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_state jsonb, p_expected integer",
+      "name": "stats_save_session",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_match uuid, p_side text, p_category text, p_complete boolean",
+      "name": "stats_set_coverage",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_event jsonb, p_expected integer",
+      "name": "stats_write_event",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_token text",
+      "name": "temporary_accept",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "temporary_admin",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "",
+      "name": "temporary_admin_access",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_id uuid, p_token text",
+      "name": "temporary_email_target",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_command text, p_value jsonb",
+      "name": "temporary_manage",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    },
+    {
+      "args": "p_email text, p_token text, p_address_hash text",
+      "name": "temporary_reserve_email",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": true,
+      "authenticated_schema": true,
+      "authenticated_execute": false
+    },
+    {
+      "args": "",
+      "name": "temporary_touch",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "schema": "public",
+      "definer": false,
+      "anon_schema": true,
+      "anon_execute": false,
+      "service_execute": false,
+      "authenticated_schema": true,
+      "authenticated_execute": true
+    }
+  ]
+}

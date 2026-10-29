@@ -1,0 +1,79 @@
+{
+  "date": "2026-10-29",
+  "sources": [
+    {
+      "title": "PostgreSQL privileges/ownership/RLS",
+      "documentation": "https://www.postgresql.org/docs/17/ddl-priv.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/ddl.sgml",
+      "sha256": "cea060a26fddc0b9b401e1a478941854d7e4bd9c1340f1d91f4beaa8a17207ed"
+    },
+    {
+      "title": "PostgreSQL role membership",
+      "documentation": "https://www.postgresql.org/docs/17/role-membership.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/user-manag.sgml",
+      "sha256": "c0c9c1a8a0cc3c91ebbd1814ce0a0987d6419bc840db3b4657155e7dda3ef6b3"
+    },
+    {
+      "title": "PostgreSQL default privileges",
+      "documentation": "https://www.postgresql.org/docs/17/sql-alterdefaultprivileges.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/ref/alter_default_privileges.sgml",
+      "sha256": "80a37f9b20fa6c9f8cfb70ee10fcfb7a915c5e5000de0e5f1f0ea1f2e86fd91d"
+    },
+    {
+      "title": "PostgreSQL TRUNCATE",
+      "documentation": "https://www.postgresql.org/docs/17/sql-truncate.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/ref/truncate.sgml",
+      "sha256": "b58be92169029b60049f8405e9488964f9d8e7abcd27316ad3e5def15331055e"
+    },
+    {
+      "title": "PostgreSQL SECURITY DEFINER",
+      "documentation": "https://www.postgresql.org/docs/17/sql-createfunction.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/postgres/postgres/REL_17_STABLE/doc/src/sgml/ref/create_function.sgml",
+      "sha256": "cfc79ae72e900ae6899a12315db8e305faf39de73ae466a9993bfee5213bcc13"
+    },
+    {
+      "title": "PostgREST table operations",
+      "documentation": "https://docs.postgrest.org/en/stable/references/api/tables_views.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/PostgREST/postgrest/main/docs/references/api/tables_views.rst",
+      "sha256": "ef69a70aab286a2bccd6b388e09bd34024f2402176f2904f63ecfef176f0df49"
+    },
+    {
+      "title": "PostgREST function RPC",
+      "documentation": "https://docs.postgrest.org/en/stable/references/api/functions.html",
+      "retrievedFromOfficialRepository": "https://raw.githubusercontent.com/PostgREST/postgrest/main/docs/references/api/functions.rst",
+      "sha256": "ef67da6410c969351762b849242f392b1d67435884778d6bd37068e8e6e7ce3e"
+    },
+    {
+      "title": "Supabase maintainer announcement 2026-04-28",
+      "documentation": "https://github.com/orgs/supabase/discussions/45329",
+      "retrievedFromOfficialRepository": "https://github.com/orgs/supabase/discussions/45329",
+      "sha256": "46fc7b2efa891952e6e0c12259e85b14ddf3bb2e736df527c8cf85db559373d3"
+    },
+    {
+      "title": "Managed roles",
+      "documentation": "https://supabase.com/docs/guides/database/postgres/roles",
+      "retrieval": "Supabase MCP search_docs (current official documentation)"
+    },
+    {
+      "title": "Cloud superuser limitations",
+      "documentation": "https://supabase.com/docs/guides/database/postgres/roles-superuser",
+      "retrieval": "Supabase MCP search_docs (current official documentation)"
+    },
+    {
+      "title": "Securing the API",
+      "documentation": "https://supabase.com/docs/guides/api/securing-your-api",
+      "retrieval": "Supabase MCP search_docs (current official documentation)"
+    },
+    {
+      "title": "RLS",
+      "documentation": "https://supabase.com/docs/guides/database/postgres/row-level-security",
+      "retrieval": "Supabase MCP search_docs (current official documentation)"
+    }
+  ],
+  "limits": [
+    "Direct supabase.com/changelog.md and postgresql.org fetches blocked by CONNECT403; no bypass attempted.",
+    "PostgreSQL and PostgREST sources obtained from allowed official GitHub repositories.",
+    "Maintainer announcement reviewed; community replies about supabase_admin are not treated as official support resolution.",
+    "The entire latest Supabase changelog index could not be retrieved."
+  ]
+}

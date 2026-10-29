@@ -1,0 +1,19 @@
+{
+  "checks": [
+    {
+      "snapshot": "before hardening",
+      "result": "PASS",
+      "expectedStatus": "PROPOSAL_ONLY_MATCHES_49_REVIEWED_CLIENT_GRANTS",
+      "sqlExecuted": "Read-only generator SELECT, not returned commands",
+      "changedPrivilegeOrRows": false
+    },
+    {
+      "snapshot": "after hardening",
+      "result": "PASS",
+      "expectedStatus": "STOP_DRIFT_OR_ALREADY_REMEDIATED",
+      "sqlExecuted": "Read-only generator SELECT, not returned commands",
+      "changedPrivilegeOrRows": false
+    }
+  ],
+  "actualPrivilegeChanges": 0
+}

@@ -1,0 +1,141 @@
+{
+  "result": "PASS",
+  "environment": "Existing isolated PostgreSQL 17.11 + GoTrue + PostgREST, not PGlite",
+  "fictitiousAuthenticatedUsers": 8,
+  "results": [
+    {
+      "role": "anonymous",
+      "sqlRole": "anon",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 401,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "root",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "principal",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "section",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "coach",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "delegate",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "external",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "ordinary",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    },
+    {
+      "role": "otherclub",
+      "sqlRole": "authenticated",
+      "genericSqlRpcsAbsent": 5,
+      "backendImportDenied": true,
+      "eventTriggerUnavailable": true,
+      "capabilityReadStatus": 200,
+      "actualTruncateAttempted": false
+    }
+  ],
+  "technicalAndAdministrativeSqlCapabilities": [
+    {
+      "role": "postgres",
+      "login": true,
+      "superuser": true,
+      "publicCreate": true,
+      "lineupTruncate": true
+    },
+    {
+      "role": "anon",
+      "login": false,
+      "superuser": false,
+      "publicCreate": false,
+      "lineupTruncate": false
+    },
+    {
+      "role": "authenticated",
+      "login": false,
+      "superuser": false,
+      "publicCreate": false,
+      "lineupTruncate": false
+    },
+    {
+      "role": "service_role",
+      "login": false,
+      "superuser": false,
+      "publicCreate": false,
+      "lineupTruncate": true
+    }
+  ],
+  "priorRestorationsReadOnly": [
+    {
+      "tables": 47,
+      "migrations": 3,
+      "clientTruncate": 49
+    },
+    {
+      "tables": 47,
+      "migrations": 4,
+      "clientTruncate": 0
+    }
+  ],
+  "publicSportsAndConfigurationUnchanged": true,
+  "publicDataFingerprint": "9517a49e4eabc16f83e7f88159dbc100",
+  "sqlPrivilegeMutations": 0,
+  "sqlDestructiveOperations": 0,
+  "productionRequests": 0,
+  "authNotes": "Local password logins create Auth sessions/audit and update login metadata of pre-existing fictitious users. No accounts are created and no memberships or role assignments are changed.",
+  "limits": [
+    "No direct SQL TRUNCATE attempted in this phase. has_table_privilege is the SQL authorization evidence.",
+    "No fake user JWT, service JWT or administrative SQL endpoint is used to impersonate an ordinary user.",
+    "Local postgres is a superuser, unlike Cloud postgres; it is only used for catalog reads."
+  ]
+}
