@@ -1,8 +1,26 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 29/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 30/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.7 auditoria de privilegis només lectura. Sense fusió de PR, desplegament o escriptura productiva.**
+**Fase vigent: 3A.8 correcció i validació exclusivament local. Sense fusió de PR, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.8 · correcció local i regressions en curs
+
+30/10/2026. Branca audit/truncate-remediation-staging-3a8 des de a46c872. Remots main e009f4d/#31 3cce758/#32 b76afcd/#33 7434ea5 verificats, sense canvis ni fusió. Consulta productiva única READONLY de49 ACL i20 defaults de postgres/public; cap modificació remota. Skills runtime/Supabase/Postgres llegits; xarxa existent restringida, sense nova investigació de portals.
+
+Perfil nou clubhoquei360-3a8-local: quatre contenidors ch360_3a8_*, volum/xarxa interna propis, API127.0.0.1:56431, web56490, DB a127.0.0.1:5432 dins contenidor via Dockerexec (binding56432 configurat però no publicat pel motor). Guardes comproveu etiqueta, digest imatge, volum, xarxa, host/port reals, DBpostgres, sentinel de projecte, usuari i rolsuper abans de cada SQL. postgres local és NOSUPERUSER/BYPASSRLS com Cloud; supervisor fictici separat només bootstrap/backup/restore. Cap supabase_admin creat/tocat.
+
+Contenidors antics no disponibles en aquest entorn; restaurat dump local3A.6 de77 conjunts amb8 comptes@ch360.invalid, hash del backup validat contra evidència. Baseline aplicatiu derivat de captura verificable, amb migracions pendents i dades íntegrament fictícies; ACLlegacy49 i defaults20 reconstruïts literalment des d’inventari SELECT. Historial del dump conserva4 migracions (inclosa correcció antiga); no afirmar que és estat productiu o predecessor sense migrar. Només es reprodueix el risc d’ACL rellevant. Defaults de propietaris gestionats i plataforma no clonats.
+
+Bloc core VALIDAT: backup previ recuperat,49 revocacions mínimes exactes,0 afegits, dades/altres permisos/funcions/RLS/rols invariants; default de futurs objectes encara deficient després de només ACL, retirades2 entrades postgres/public en pas separat20→18. Prova futura amb taula de prova dins rollback, owner/backend intactes.49 denegacions SQL directes, repetides després de segona aplicació idempotent sense canvis. Backup corregit i restauració legacy en còpia independent, reaplicació i49 denegacions de recuperació:77 conjunts/metadata lògica coincideixen. Paquet ops/truncate-3a8 requereix acknowledgement i postgres no-super; STOP amb48 parcials o51 externes sense canvis. Evidència remediation-3a8-core.json.
+
+Errors de harness corregits sense relaxar guardes: Docker intern no publica bindings (comprovat config+transportSQLreal), inet_server_addr retorna/32, catàleg físic de nom DB exclòs de comparació lògica entre còpies. Fixture defaults inicial12/20 no incloïa8 entrades explícites de l’owner; el paquet ho va rebutjar correctament, intent conservat privat, fixture reconstruïda20 i validació completa repetida. No cap error silenciat de dades ni de paquet.
+
+Proves:228 Node previs del mateix codi app+auditoria3A.7 PASS,6 guardes noves PASS; suite final234 en curs. Chromium68 en curs.9 blocsAuth/RLS reals sobre perfil corregit PASS ambpostgres no-super,8 usuarisficticis;6 blocs navegador reals en curs. Pendents A–H, Basegols/targetes reals ambrecàrrega, selector/consulta, idempotència final després de funcionals, pla operatiu i informe definitiu. No repetir core ja verificat: checkpoint privat work/staging-3a8/core-checkpoint-private.json. No executar scripts d’inicialització3A.6/3A.7 o migracióbroad per confondre aquest paquet mínim.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix bloc3A.8 i PHASE_3A8_TRUNCATE_REMEDIATION_STAGING.md; comprova Git, work/3a8 i checkpoint privat. Perfil local3A.8 exclusiu, continua primer pendent sense sobreescriure còpies/evidències. No aplicar cap SQL, canvi de compte o migració a producció; no fusionar ni desplegar.»
+
+## Antecedents conservats · 3A.7
 
 ## Fase vigent · 3A.7 · auditoria tancada, bloqueig acotat
 

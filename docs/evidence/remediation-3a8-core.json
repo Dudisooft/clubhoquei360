@@ -1,0 +1,111 @@
+{
+  "environment": {
+    "projectId": "clubhoquei360-3a8-local",
+    "host": "127.0.0.1",
+    "configuredHostPort": 56432,
+    "sqlTransport": "local Docker exec to 127.0.0.1:5432",
+    "hostPortPublished": false,
+    "database": "postgres",
+    "user": "postgres",
+    "superuser": false,
+    "networkInternal": true,
+    "volume": "ch360_3a8_pgdata"
+  },
+  "steps": [
+    {
+      "name": "inventory_snapshot_backup_restore",
+      "result": "PASS"
+    },
+    {
+      "name": "acknowledgement_and_drift_fail_closed",
+      "result": "PASS"
+    },
+    {
+      "name": "apply_exact49_preserve_everything_else",
+      "result": "PASS"
+    },
+    {
+      "name": "prove_future_default_then_correct_separately",
+      "result": "PASS"
+    },
+    {
+      "name": "49_direct_denials_and_idempotence",
+      "result": "PASS"
+    },
+    {
+      "name": "corrected_backup_legacy_restore_reapply_recover",
+      "result": "PASS"
+    }
+  ],
+  "productionMutations": 0,
+  "before": {
+    "grants": 49,
+    "tables": 27,
+    "privileges": 909,
+    "defaults": 20,
+    "rowsets": 77,
+    "version": "17.11",
+    "migrations": [
+      {
+        "file": "20261027170248_match_mode_access.sql",
+        "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32"
+      },
+      {
+        "file": "20261027183214_temporary_match_operators.sql",
+        "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+      },
+      {
+        "file": "20261028191801_preserve_partial_federation_rosters.sql",
+        "sha256": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880"
+      },
+      {
+        "file": "20261029040738_revoke_client_truncate.sql",
+        "sha256": "a00f2f9ffed479def5a66bf22948c06e39410d7d58ab181c13f50fb3b153771d"
+      }
+    ],
+    "dumpSha256": "eb2e0c738100ad4263d1b5aff9d5ba2088095a980ee9d3815f0ffc42503a75aa",
+    "fullSnapshotSha256": "156e4b86cef0dfff052d6d3bb043ac15235c2c3d2b8a2ef5e72f7c7d50c2d45e",
+    "restoredFullSnapshotSha256": "156e4b86cef0dfff052d6d3bb043ac15235c2c3d2b8a2ef5e72f7c7d50c2d45e"
+  },
+  "guards": {
+    "missingAcknowledgementRejected": true,
+    "partial48RejectedAtomically": true,
+    "outsideInventory51RejectedAtomically": true,
+    "allFailureTransactionsRolledBack": true
+  },
+  "afterCurrent": {
+    "removed": 49,
+    "added": 0,
+    "defaultsStillContainClientTruncate": 2
+  },
+  "defaults": {
+    "before": 20,
+    "after": 18,
+    "removedOnlyTwoPostgresPublicClientTruncate": true,
+    "futureTableBeforeClientTruncate": true,
+    "futureTableAfterClientTruncate": false,
+    "ownerAndBackendStillAuthorized": true,
+    "noManagedOwnerModified": true
+  },
+  "directRoleDenials": 49,
+  "secondApplication": {
+    "unexpectedErrors": 0,
+    "aclChanges": 0,
+    "defaultChanges": 0,
+    "rowsFunctionsRlsRolesChanged": false,
+    "negativeTestsRepeated": 49
+  },
+  "recovery": {
+    "beforeDumpRecoveredExactly": true,
+    "correctedDumpRecoveredExactly": true,
+    "reappliedOnIndependentLegacyCopy": true,
+    "fullSnapshotMatchesCorrected": true,
+    "criticalDirectRoleDenials": 49,
+    "sourceUnchanged": true,
+    "rowsetsCompared": 77,
+    "correctedDumpSha256": "e0ee8597af3a91996dbe20a2e27defeec2f3453a53fb136ca5ebf283547beb6b",
+    "correctedSnapshotSha256": "fdfc42c75851b53bef6765788f8b41f0e1c08fca4e96a15272661934414358bb",
+    "productionRecoveryClaimed": false
+  },
+  "result": "PASS"
+}
