@@ -2,7 +2,21 @@
 
 Actualitzat: 30/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.9 preflight productiu READ ONLY i prova local SIMAR–Vic. Sense fusió de PR, desplegament o escriptura productiva.**
+**Fase vigent: 3A.10 automatització federativa i convocatòries, només desenvolupament/staging. Sense fusió de PR, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.10 · desenvolupament i regressions en curs
+
+30/10/2026. Branca feat/federation-automation-callups-3a10 des de00db330. main e009f4d/#31 3cce758/#32 b76afcd/#33 1b83921 comprovats i preservats; cap fusió/desplegament/escriptura productiva. Paquet ops/truncate-3a8 intacte, bloqueig49/27+2 defaults continua. Skill Supabase/runtime i documentació RLS consultats; portals/changelog CONNECT403 (sense bypass), no dades oficials Vic noves. No comptes reals utilitzats.
+
+Implementat bloc B: callup-model.js, callup-ui.js, convocatoria.html amb format oficial original, club/equip/partit, camps manuals separats, Maps allowlist, preview/còpia sense enviament, preferències personals per equip protegides RLS. Enllaços contextuals selector/Base/Avançat/consulta i substitució del placeholder Convocatòries al Dashboard. RPCs filtren clubs/equips/partits per rols autenticats; section_coordinator/coach/delegate només equip explícit, admin/general_coordinator àmbitclub, superadmin habilitat. No nou accés a dades esportives. Preferències no són convocatòries confirmades ni plantilla compartida global.
+
+Implementat bloc A: parser existent accepta scope federatiu explícit (club/temporada) i clubs femenins, conserva camí legacy. Cua opt-in configurable per competicions ja vinculades, leases SKIP LOCKED/backend-only, peticions manuals autoritzades i estat visible, registre de canvis, hash incremental, pressupost4 actes, reintents diferits limitats/40324h. Nou worker club-federation-sync integra transport/parser/report-sync existents i persistència genèrica derivada de33, preservant IDs/clubs i rebutjant ambigüitats. Migracions noves20261030142034/142117/142337 preparades, aplicades només al local3A.8 físicament verificat. Cap cron o Edge instal·lats a producció. Importació oficial real i alineacions Vic segueixen bloquejades; fixtures no les substitueixen.
+
+Proves completades:10 noves Node afectades PASS; suite246 Node completa PASS,0fail/skip. Nou recorregut Auth/PostgreSQL/PostgREST amb HTML fictici:7 blocs PASS (dos clubs/equips/rivals, no-op hash, data/hora/resultat i roster parcial,403/backoff, denegacions i RLSpreferències, dades oficials/estadístiques inalterades). Service_role només al backend de proves, usuaris ordinaris amb GoTrue real. Harness inicial rebutjat pel gateway per apikey tècnica, corregit a APIkey local anon+Bearer tècnic, sense relaxar guardes. Primera FK a auth.users es va rebutjar per REFERENCES del propietari local; models nous no depenen de propietats gestionades, identitat validada per auth.uid/RLS. Canvis a helper stats per excloure migracions del predecessor d’importador, test nou específic i staging real les aplica. Chromium complet incloses5 noves proves en curs. Pendent navegador/Auth real del generador, més negatives de leases/reconciliació, informes i CI.
+
+Recuperació: work/3a10 conté logs/node/api/affected i fixtures locals; docs/evidence/phase-3a10-api.json sanejat. Runtimelocal3A.8 conserva dades; node scripts/phase3a10-site.mjs . serveix artefacte privat amb banner. No reinicialitzar clúster ni repetir proves246 si codi corresponent no canvia. Primer pendent: comprovar Chromium i executar nou flux realcallups. Represa: «CONTINUA CLUBHOQUEI360: llegeix aquest bloc3A.10, Git/logs work/3a10 i primer pendent. No tocar producció, paquet3A.8, PR31–33, fusionar o desplegar.»
+
+## Antecedents conservats · 3A.9
 
 ## Fase vigent · 3A.9 · preflight superat, prova real bloquejada per alineacions
 

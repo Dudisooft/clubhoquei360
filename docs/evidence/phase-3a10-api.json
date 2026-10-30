@@ -1,0 +1,17 @@
+{
+  "result": "PASS",
+  "realAuth": true,
+  "realPostgreSQL": true,
+  "federationResponses": "fictional controlled HTML, not live official import",
+  "checks": [
+    "two clubs with same competition/team/person codes persist separately; rivals are not managed teams",
+    "identical payload skips persistence; pending reports still retried within budget",
+    "date/time/result changes update stable match, missing roster preserves people",
+    "403 keeps valid data, records failure and backs off for a day",
+    "real Auth denies other club, temporary operator and ordinary user; SQL queue is backend only",
+    "personal per-team preferences persisted; forged identity rejected by RLS",
+    "official events, advanced statistics and call-ups unchanged by sync"
+  ],
+  "requestCount": 17,
+  "productionMutations": 0
+}
