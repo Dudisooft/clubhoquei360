@@ -54,13 +54,13 @@ actual as(select n.nspname schema_name,c.relname table_name,g.rolname beneficiar
 from pg_class c join pg_namespace n on n.oid=c.relnamespace join pg_roles o on o.oid=c.relowner
 cross join lateral aclexplode(c.relacl) a join pg_roles g on g.oid=a.grantee join pg_roles gr on gr.oid=a.grantor
 where n.nspname='public' and c.relkind in('r','p') and a.privilege_type='TRUNCATE' and g.rolname in('anon','authenticated'))
-select jsonb_build_object('actor',current_user,'actor_superuser',(select rolsuper from pg_roles where rolname=current_user),
+select jsonb_build_object('database',current_database(),'session_user',session_user,'server_address',inet_server_addr()::text,'server_port',inet_server_port(),'actor',current_user,'actor_superuser',(select rolsuper from pg_roles where rolname=current_user),
  'expected',49,'actual',(select count(*) from actual),
  'unexpected',(select count(*) from(select * from actual except select * from expected) d),
  'missing',(select count(*) from(select * from expected except select * from actual) d),
  'wrong_or_missing_objects',(select count(*) from(select distinct schema_name,table_name,owner_name from expected) e left join pg_namespace n on n.nspname=e.schema_name left join pg_class c on c.relnamespace=n.oid and c.relname=e.table_name left join pg_roles o on o.oid=c.relowner where c.oid is null or c.relkind not in('r','p') or o.rolname<>e.owner_name),
  'effective_client_tables',(select count(*) from pg_class c cross join pg_roles r where c.relnamespace='public'::regnamespace and c.relkind in('r','p') and r.rolname in('anon','authenticated') and has_table_privilege(r.oid,c.oid,'TRUNCATE')),
- 'cases',(select jsonb_agg(to_jsonb(e)||jsonb_build_object('present',exists(select 1 from actual a where a.schema_name=e.schema_name and a.table_name=e.table_name and a.beneficiary=e.beneficiary)) order by table_name,beneficiary) from expected e)
+ 'cases',(select jsonb_agg(to_jsonb(e)||jsonb_build_object('actual_owner',(select pg_get_userbyid(c.relowner) from pg_class c where c.oid=to_regclass(format('%I.%I',e.schema_name,e.table_name))),'rls',(select c.relrowsecurity from pg_class c where c.oid=to_regclass(format('%I.%I',e.schema_name,e.table_name))),'effective_truncate',case when to_regclass(format('%I.%I',e.schema_name,e.table_name)) is not null then has_table_privilege(e.beneficiary,to_regclass(format('%I.%I',e.schema_name,e.table_name)),'TRUNCATE') else null end,'present',exists(select 1 from actual a where a.schema_name=e.schema_name and a.table_name=e.table_name and a.beneficiary=e.beneficiary)) order by table_name,beneficiary) from expected e)
 ) preflight;
 select o.rolname creator,n.nspname schema,coalesce(g.rolname,'PUBLIC') beneficiary,a.privilege_type,a.is_grantable from pg_default_acl d join pg_roles o on o.oid=d.defaclrole left join pg_namespace n on n.oid=d.defaclnamespace cross join lateral aclexplode(d.defaclacl) a left join pg_roles g on g.oid=a.grantee where d.defaclobjtype='r' and o.rolname='postgres' and (d.defaclnamespace=0 or n.nspname='public') order by creator,schema,beneficiary,a.privilege_type;
 rollback;

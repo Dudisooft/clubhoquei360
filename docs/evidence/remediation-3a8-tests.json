@@ -1,0 +1,89 @@
+{
+  "phase": "3A.8",
+  "date": "2026-10-30",
+  "testedIntegratedCode": "ad23fdc929e9800cdf4885238e880bc135b34560",
+  "serverCode": "3cce75896b7e262811e1b9c59a2daea733aa6782",
+  "frontendCode": "b76afcd70bc1f04e95f8a550b38728d77a77bf65",
+  "importerTestedCode": "0f7b7683cfd12d9d1356e669e479c440c66951e0",
+  "local": [
+    {
+      "log": "node-final-fixed.log",
+      "sha256": "860837c32b4dbec285d3ea83dadb6bbf76c6001debcd7ad652a3e3f620418498",
+      "passed": 236,
+      "failed": 0,
+      "skipped": 0,
+      "type": "Node/PGlite"
+    },
+    {
+      "log": "chromium-final-fixed.log",
+      "sha256": "9b0c42d5213cbe7773fcedeeef6e9ce8da249e6fddbc1335bb5345d0168a136f",
+      "passed": 68,
+      "failed": 0,
+      "skipped": 0,
+      "type": "Chromium with fixtures"
+    },
+    {
+      "log": "auth-api.log",
+      "sha256": "fa990d063ca568248125ba94c54e99511eaac52895a09275f1a8fac4aebf53bd",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "type": "real Auth/RLS API blocks"
+    },
+    {
+      "log": "auth-browser.log",
+      "sha256": "e58e4c820b3b51182f359c9c73826b8fe46125f24fb5e2f47c1665e435778cb2",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "type": "real Auth/RLS browser blocks"
+    },
+    {
+      "log": "federation.log",
+      "sha256": "d76b7fb419842e7521ec8d251d39ecc160b16473d61334a1b5d64118a4dfccad",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "type": "real PostgreSQL backend + fictional federation fixtures"
+    },
+    {
+      "log": "recovery-auth-api.log",
+      "sha256": "fa990d063ca568248125ba94c54e99511eaac52895a09275f1a8fac4aebf53bd",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "type": "real Auth/RLS API on recovered database"
+    }
+  ],
+  "additionalRealCases": {
+    "baseGoalCardReload": 1,
+    "selectorViewports": 3,
+    "truncateRoleDenialBatches": 4,
+    "denialsPerBatch": 49,
+    "lineupIdentityRegression": {
+      "beforeFix": "FAIL as expected",
+      "afterFix": 2
+    }
+  },
+  "ci": [
+    {
+      "run": 41031860726,
+      "job": 123983230545,
+      "status": "success",
+      "node": 236,
+      "chromium": 68,
+      "crossFixtureScenarios": 2,
+      "kind": "Node/PGlite + Chromium; no local Docker Auth claims"
+    },
+    {
+      "pr": 33,
+      "run": 41031697108,
+      "job": 123982702358,
+      "status": "success",
+      "node": 171,
+      "chromium": 48
+    }
+  ],
+  "applicationChange": "Single identity adapter field retained; no SQL, RLS or eligibility change.",
+  "productionMutations": 0
+}

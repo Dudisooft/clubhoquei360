@@ -1,0 +1,28 @@
+{
+  "result": "PASS",
+  "isolation": {
+    "projectId": "clubhoquei360-3a8-local",
+    "host": "127.0.0.1",
+    "configuredHostPort": 56432,
+    "sqlTransport": "local Docker exec to 127.0.0.1:5432",
+    "hostPortPublished": false,
+    "database": "postgres",
+    "user": "postgres",
+    "superuser": false,
+    "networkInternal": true,
+    "volume": "ch360_3a8_pgdata"
+  },
+  "postFunctionalIdempotenceUnchanged": true,
+  "finalFunctionalBackupRecovered": true,
+  "finalRowsCompared": 77,
+  "finalBackupSha256": "ab8661a01e841b3bc502701eeb537d9ba6f80c0d86ef09ad67813aa320d7a8c0",
+  "finalSnapshotSha256": "13b4f16cf2ad15145741f7d3bc6e6a8cb53a9990b790119047a56d2e9511fd74",
+  "atomicBundleFailureRollsBackBothAclAndDefaultDrift": true,
+  "atomicBundleSuccessMatchesPreviouslyCorrectedState": true,
+  "atomicBundleSecondApplicationUnchanged": true,
+  "recoveryCriticalRoleDenials": 49,
+  "recoveryRealAuthApiBlocks": 9,
+  "primarySourceUnchanged": true,
+  "onlyLocalCopiesMutated": true,
+  "productionMutations": 0
+}

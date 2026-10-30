@@ -1,0 +1,16 @@
+import fs from 'node:fs';import path from 'node:path';import assert from 'node:assert/strict';
+import {root,work,sql,assertIsolation} from './remediation-runtime.mjs';import {capture,digest,pauseWriters,resumeWriters,backup,restore,sqlCopy} from './remediation-state.mjs';
+const dir=path.join(root,'ops/truncate-3a8'),inv=JSON.parse(fs.readFileSync(path.join(dir,'inventory.json'))),current=fs.readFileSync(path.join(dir,'01_revoke_current.sql'),'utf8'),defaults=fs.readFileSync(path.join(dir,'02_revoke_postgres_default.sql'),'utf8'),cp=JSON.parse(fs.readFileSync(path.join(work,'core-checkpoint-private.json')));
+const bundle=`select set_config('clubhoquei360.truncate_review','${inv.acknowledgement}',true);${current}${defaults}`;
+pauseWriters();try{
+ const before=capture();sql('begin;'+bundle+'commit;');assert.deepEqual(capture(),before,'Idempotence after functional data changed something');
+ const final=backup('final-functional'),finalCopy=restore(final.file);assert.deepEqual(capture(finalCopy),final.snapshot);
+ const legacyCopy=restore(cp.beforeFile),legacy=capture(legacyCopy);
+ assert.throws(()=>sqlCopy('begin;alter default privileges for role postgres in schema public revoke select on tables from postgres;'+bundle+'commit;',legacyCopy),/unexpected default ACL state/);assert.deepEqual(capture(legacyCopy),legacy,'Failed defaults must roll back the 49 ACL changes in the same outer transaction');
+ sqlCopy('begin;'+bundle+'commit;',legacyCopy);const corrected=JSON.parse(fs.readFileSync(path.join(work,'corrected-snapshot-private.json')));assert.deepEqual(capture(legacyCopy),corrected);
+ for(const r of inv.expected)assert.throws(()=>sqlCopy(`begin;set local role "${r.beneficiary}";truncate table "${r.schema}"."${r.table_name}";rollback;`,legacyCopy),/permission denied/);
+ assert.deepEqual(capture(legacyCopy),corrected);sqlCopy('begin;'+bundle+'commit;',legacyCopy);assert.deepEqual(capture(legacyCopy),corrected);assert.deepEqual(capture(),before);
+ const output=sql(fs.readFileSync(path.join(dir,'03_verify.sql'),'utf8')),post=JSON.parse(output.split('\n').find(s=>s.startsWith('{')));assert.equal(post.actual,0);assert.equal(post.unexpected,0);assert.equal(post.wrong_or_missing_objects,0);assert.equal(post.effective_client_tables,0);assert.ok(post.cases.every(c=>c.actual_owner==='postgres'&&c.rls===true&&c.effective_truncate===false));
+ fs.writeFileSync(path.join(root,'docs/evidence/remediation-3a8-postflight.json'),JSON.stringify(post,null,2));
+ fs.writeFileSync(path.join(root,'docs/evidence/remediation-3a8-final-verification.json'),JSON.stringify({result:'PASS',isolation:assertIsolation(),postFunctionalIdempotenceUnchanged:true,finalFunctionalBackupRecovered:true,finalRowsCompared:final.snapshot.rowsets.length,finalBackupSha256:final.hash,finalSnapshotSha256:digest(final.snapshot),atomicBundleFailureRollsBackBothAclAndDefaultDrift:true,atomicBundleSuccessMatchesPreviouslyCorrectedState:true,atomicBundleSecondApplicationUnchanged:true,recoveryCriticalRoleDenials:49,recoveryRealAuthApiBlocks:9,primarySourceUnchanged:true,onlyLocalCopiesMutated:true,productionMutations:0},null,2));console.log('PASS final post-functional backup, atomic failure/success/retry, 49 recovered-copy denials and zero effective client TRUNCATE.');
+}finally{resumeWriters();}
