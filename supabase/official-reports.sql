@@ -11,6 +11,8 @@ create policy federation_match_staff_read on public.federation_match_staff for s
 revoke all on public.federation_match_staff from anon,authenticated;
 grant select on public.federation_match_staff to authenticated;
 grant select,insert,update on public.federation_match_staff to service_role;
+-- Backend report transaction also persists incidents; no client grant.
+grant select,insert on public.federation_match_events to service_role;
 create or replace function public.federation_commit_official_report(p_match uuid,p_report jsonb)
 returns jsonb language plpgsql security invoker set search_path='' as $$
 declare m public.federation_matches; fed text; comp uuid; person jsonb; pid uuid; lid uuid; item jsonb; count_players int:=0; count_staff int:=0;
