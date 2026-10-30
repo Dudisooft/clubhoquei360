@@ -4,6 +4,13 @@ Actualitzat: 28/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINU
 
 **Fase vigent: 3A.5 bloc B, importació independent de #31/#32. Sense fusió, desplegament o escriptura productiva.**
 
+## Checkpoint 3A.8 · regressió d’identitat detectada en validació real
+
+30/10/2026. Partida d’aquesta PR7434ea5, cap altra PR incorporada. La prova real Base en staging de la fase3A.8 detecta que readCatalogueFixture descartava raw_data.external_id: un jugador d’alineació i el mateix pilot_player desat no coincidien, i seleccionar-los podia fallar amb pilot_players_match_id_team_dorsal_key. El camp ja venia de la font importada; no cal inventar cap ID o canviar elegibilitat. Correcció mínima a basic-practice.js conserva només IDs numèrics positius, els altres continuen desconeguts i l’ID d’alineació queda preservat. No toca RLS, migracions, dorsals o registres històrics.
+
+Regressió nova tests/catalogue-lineup-identity.test.mjs: fallada demostrada abans del canvi i2/2PASS després. Suite Node d’aquesta branca171PASS,0fallades/omissions. Prova conjunta real ambGoTrue/PostgREST/PostgreSQL17.11 i rolpostgres no-super: operador fictici Base confirma convocatòria, desa gol i groga i recupera després de recarregar; categoria inferior manté Avançat denegat. No són dades productives ni validació federativa real. Suite Chromium local/CI en curs; informe global3A.8 a audit/truncate-remediation-staging-3a8. Canvi justificat per completar una regressió funcional crítica, no funcionalitat nova. No fusionar/desplegar/aplicar SQL productiu.
+
+
 ## Fase vigent · 3A.5 bloc B
 
 Branca fix/federation-roster-import-safety, creada de main e009f4d; sense altres PR pendents. #31 bloc A separat, #32 només documentació. Llegits skills Supabase/runtime, política 140. Portals directes CONNECT 403; eina web només carcasses/menús/control Tornar a competicions. Cookies/tokens/handlers i seqüència interactiva no verificats; no goBack, bypass o login federatiu.
