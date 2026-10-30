@@ -1,0 +1,25 @@
+{
+  "vic": {
+    "away": "AUTO VIGATANA PATÍ VIC",
+    "code": "35559",
+    "home": "SIMAR IGUALADA HC",
+    "away_score": 1,
+    "home_score": 1,
+    "calendar_id": "51894d05-c323-f3e1-8534-fa79e062c448",
+    "away_lineups": 0,
+    "home_lineups": 0,
+    "report_status": "verified"
+  },
+  "clubs": [
+    {
+      "id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "name": "Igualada Hoquei Club",
+      "teams": 36,
+      "competitions": 22
+    }
+  ],
+  "new_features_installed": {
+    "queue": false,
+    "callups": false
+  }
+}

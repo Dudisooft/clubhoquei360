@@ -1,0 +1,64 @@
+{
+  "phase": "3A.10",
+  "date": "2026-10-30",
+  "testedCode": "93c52a992a7437cced243f6a8691ccf1a1583e5e",
+  "pr": 34,
+  "base": "audit/production-preflight-vic-3a9",
+  "productionMutations": 0,
+  "deployments": 0,
+  "liveFederationExtractionVerified": false,
+  "sourceHashes": {
+    "callup-model.js": "7ca8f4533767a9b2c56c44085f4114ed87e4cee9b186e3c6f2099e16cff98e2d",
+    "callup-ui.js": "48f2185b97f5e8ee9a43b68cde1f0b905bd4f7d291045005504572158aa2ce3b",
+    "convocatoria.html": "ef1b4647621bbfb4152b26d79d86a4409766f49656b3f4d6fdad79c60e81789c",
+    "supabase/functions/club-federation-sync/index.ts": "47f4580b16773bbec67aece247e94126f59299c834851959b83179c18ee8e5dd",
+    "supabase/functions/club-federation-sync/worker.ts": "76c6248aa520f8ecd8c940b4e532247938bd9220cab9bba2721f163cf53bc307",
+    "supabase/functions/ihc-sync/parse.ts": "6cf1953867c405e3fa32a827ba86453235f422487e93bddae44aa59508da503b",
+    "supabase/functions/ihc-sync/report-sync.ts": "58d2ae5da0cdf269c455fc3b4437b87fae4738dc691f97ec69ee573e13e45d2e",
+    "supabase/migrations/20261030142117_scoped_federation_jobs.sql": "d6d3c5ab6e4cb9aaeeaa6eca8748ead6c0469112152019d6d4e5d9b97d0e818b",
+    "supabase/migrations/20261030142337_scoped_federation_commit.sql": "1d7eabe162fde6700c38e50b8d55c8e0bff085a64874fc78de88845fe664920d",
+    "supabase/migrations/20261030142034_federation_automation_callup_preferences.sql": "f21359a39f474e94348501a968d1b6087cfe70aad5257a95a6342d36295e4199"
+  },
+  "local": {
+    "node": 247,
+    "chromium": 73,
+    "failed": 0,
+    "skipped": 0,
+    "note": "Full local suites plus seven final affected model tests; complete final SHA separately verified in CI.",
+    "newRealAuthApiBlocks": 10,
+    "newRealClipboardViewports": 3,
+    "regressionRealApiBlocks": 9,
+    "regressionRealBrowserBlocks": 6,
+    "federationScenarios": 8,
+    "backupRestoredRowsets": 80,
+    "physicalWhatsAppPasteTested": false
+  },
+  "ci": {
+    "run": 41076122133,
+    "job": 124132650952,
+    "conclusion": "success",
+    "logsInspected": true,
+    "node": 247,
+    "chromium": 73,
+    "crossFixtureScenarios": 2,
+    "realDockerAuthInCI": false
+  },
+  "logs": {
+    "node-complete.log": "88aaddbf2c702e5579c0eeb90c2a8899103880e2f212a0c30e4573cbf0d9e7ac",
+    "chromium-release.log": "a0faef8c294fd8e8e361d5ac34fb1ff86e8bc5c4a4fe50b4a6649f56ccc226e6",
+    "callup-release.log": "9927e79488c1ad300e889585c5f8128c2aff0c5081cc293aeb98118e8051ed7d",
+    "api-release.log": "f21b880362658fafb1d11f68e7ef4d30bca50610c9ee1eeb40768cd515c22d92",
+    "browser-release.log": "54b4e1bc82bb8ee706e8d9cd53a3c31d0429da4e93c0b8344b0ff66593d3eedd",
+    "regression-api.log": "fa990d063ca568248125ba94c54e99511eaac52895a09275f1a8fac4aebf53bd",
+    "regression-auth-final.log": "e58e4c820b3b51182f359c9c73826b8fe46125f24fb5e2f47c1665e435778cb2",
+    "regression-federation.log": "d76b7fb419842e7521ec8d251d39ecc160b16473d61334a1b5d64118a4dfccad",
+    "backup.log": "c7f78b6fd2f91502ffb4f91b293870384a680fb6591ff44f01729bc87732f8ac"
+  },
+  "limits": [
+    "Official sources blocked from executor; no documented API contract verified",
+    "SIMAR–Vic official lineups still 0/0",
+    "Manresa only fictitious local validation",
+    "New migrations, backend schedule and Edge Function not installed in production",
+    "TRUNCATE production blocker remains open"
+  ]
+}
