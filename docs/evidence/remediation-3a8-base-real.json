@@ -1,0 +1,20 @@
+{
+  "result": "PASS",
+  "environment": "Real GoTrue + PostgreSQL + PostgREST + Chromium, fictional sports",
+  "authenticatedRole": "delegate with explicit fictitious exact-match operator fixture assignment",
+  "tablesRead": {
+    "teams": 13,
+    "pilot_players": 22,
+    "federation_competitions": 12,
+    "federation_matches": 19,
+    "pilot_matches": 8
+  },
+  "baseAvailable": true,
+  "advancedOrdinaryYouthDenied": true,
+  "existingLineupSelectable": true,
+  "newGoalAndYellowCardSaved": true,
+  "reloadPreservedScoreAndAllMatchEvents": true,
+  "officialWrites": "Expected authorized Base writes on this fictitious match only",
+  "productionRequests": 0,
+  "pageErrors": []
+}

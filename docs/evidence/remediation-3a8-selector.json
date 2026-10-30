@@ -1,0 +1,53 @@
+{
+  "result": "PASS",
+  "auth": "Real GoTrue login form",
+  "data": "Fictitious catalogue imported through real backend RPC",
+  "checks": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "result": "PASS",
+      "scenarios": [
+        "Rigat-equivalent calendar consultation",
+        "SIMAR-equivalent existing context",
+        "four explicit levels",
+        "both modes",
+        "no preselection on reload",
+        "no operational writes"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "result": "PASS",
+      "scenarios": [
+        "Rigat-equivalent calendar consultation",
+        "SIMAR-equivalent existing context",
+        "four explicit levels",
+        "both modes",
+        "no preselection on reload",
+        "no operational writes"
+      ]
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 900
+      },
+      "result": "PASS",
+      "scenarios": [
+        "Rigat-equivalent calendar consultation",
+        "SIMAR-equivalent existing context",
+        "four explicit levels",
+        "both modes",
+        "no preselection on reload",
+        "no operational writes"
+      ]
+    }
+  ],
+  "pageErrors": []
+}
