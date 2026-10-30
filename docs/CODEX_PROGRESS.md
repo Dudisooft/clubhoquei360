@@ -2,7 +2,33 @@
 
 Actualitzat: 30/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.8 correcció i validació exclusivament local. Sense fusió de PR, desplegament o escriptura productiva.**
+**Fase vigent: 3A.9 preflight productiu READ ONLY i prova local SIMAR–Vic. Sense fusió de PR, desplegament o escriptura productiva.**
+
+## Fase vigent · 3A.9 · preflight superat, prova real bloquejada per alineacions
+
+30/10/2026. Branca `audit/production-preflight-vic-3a9` des de `932e505a33ee1a901903774d4ed42662a6ddcbee`. main e009f4d, #31 3cce758, #32 b76afcd, #33 1b83921 comprovats al remot; PR obertes/esborrany i sense fusionar. Cap canvi de codi esportiu, migració, paquet mínim de 3A.8 o PR31–33. Skills Supabase/runtime llegits, política142 enforced. Cap escriptura productiva, login real d’usuari, importació o smoke històric amb writes/rollback executat.
+
+Bloc A COMPLETAT: 00_preflight.sql i diagnòstic de rols/defaults executats amb BEGIN READ ONLY/ROLLBACK. 49 concessions exactes/27 taules, 22 anon+27 authenticated, owner/grantor postgres, RLS activa, 0 diferències/objectes incorrectes. Defaults postgres/public 20 exactes, incloses les 2 entrades client TRUNCATE; totes les altres preservades a la comparació. Executor postgres NOSUPERUSER propietari; anon/authenticated sense LOGIN/CREATE public ni pertinença al propietari. Manifest SHA256 del paquet ops/truncate-3a8 verificat sense canviar-lo. `scripts/verify-preflight-3a9.py` compara evidències locals i no connecta a DB. Veredicte: PREFLIGHT SUPERAT, PENDENT D’AUTORITZACIÓ; el bloqueig 3A.7 continua obert a producció.
+
+Bloc B AUDITAT: catàleg RFEP3575/temporada41 identifica 35559, calendari51894d05-c323-f3e1-8534-fa79e062c448, local3697 SIMAR, visitant3727 AUTO VIGATANA PATÍ VIC; 24/10 20:30 Madrid, Les Comes, 1–1 i resum finalitzat importats30/10 09:17 UTC. Club propi federatiu69; club federatiu rival no verificat. SIMAR és f9eed270-6221-42dc-7ac4-3df490ad65db, no Rigat. Alineacions0/0; plantilla SIMAR19 jugadors amb ID,13 dorsals,3 porters segons camp raw i10 staff separats. Vic sense inscripció/plantilla RFEP3727 al catàleg consultat. No confondre plantilla general amb convocats.
+
+Pilot18fa0a6e-e5c6-487e-8315-5bc371e22cb1 encara scheduled, font pending amb federation_match_id NULL i snapshot antic24/10; consulta per codi35559 sola l’omet, revisat també per UUID. 0 jugadors/incidències/estadístiques/sessions del pilot. Manca INSERT backend federation_match_events encara present; correcció33 no instal·lada. RPC match_mode_access(uuid,uuid) absent en producció. No creat/reparat context ni importada acta. Evidències agregades sense identitats de persones a docs/evidence/phase-3a9-*.json, SQL a inspect-vic-3a9-readonly.sql.
+
+Accés actual: RFEP/SIDGAD/Pages CONNECT403 del túnel; eina web RFEP només carcassa i VOLVER A COMPETICIONES, cap acta. Sense bypass/goBack. Últim Pages confirmat per llistat i logs: run40498968602, deploy122171699070 success, pages_build_version e009f4d, Reported success27/10 11:49:38.673UTC. No equival a inspecció actual de CDN/navegador o compte d’usuari. PR31–33 no publicades. No s’ha pogut validar el compte real ni les alineacions publicades.
+
+Alternativa LOCAL: perfil aïllat físicament verificat3A.8 reutilitzat (API56431/web56490). Fixture nova a3900000-0000-4000-8000-000000000001 amb títol PROVA LOCAL FICTÍCIA SIMAR–VIC, context review, sense codi federatiu oficial i10 participants inventats explícitament per a la prova; no és l’acta35559. Banner visible només a artefacte privat. Scripts prepare-vic-3a9-staging.mjs (segona execució sense duplicar participants), vic-3a9-staging-site.mjs i verify-vic-3a9-staging.mjs. Navegador390x844+Auth/PostgreSQL/PostgREST reals PASS: Dashboard, quatre selectors, Avançat, vídeo, ajust/inici/pausa, estadística equip+visitant individual, desament/recàrrega real, 0 duplicats i dades oficials fixture invariants. Errors del harness inicials documentats, no presentats com èxits. Check/build38 PASS; suites236/68 de3A.8 reutilitzades com a evidència anterior del mateix codi aplicatiu, no reexecutades aquí. Captura final work/3a9/vic-fictional-mobile.png revisada després de carregar les dades.
+
+Checkpoint local3A.9: backup/restauració nova PASS, 77 conjunts i metadades coincidents, SHA256 c25ce27fa916937ee9185ea627ef09c4275c533a214b90c5f5d027b535a0ac35. Punter privat work/3a9/checkpoint-private.json. Sis observacions fictícies conservades dels intents amb registre, sense duplicats; recàrrega/context nou no afegeixen dades.
+
+Validació addicional fresh-browser PASS: nou context sense còpia local, temps del servidor i sessió de vídeo pausada recuperats, observacions individuals i recompte invariants. Evidència phase-3a9-fresh-browser.json.
+
+Informe docs/PHASE_3A9_PRODUCTION_PREFLIGHT_AND_VIC_TEST.md: paquet manual de seguretat, inventari, identitats/alineacions, estat publicat, guia local, criteris de preparació i bloquejos. Scripts locals no accepten connexió remota; no comptes/credencials ficticis publicats. Els nous registres locals s’afegeixen a la DB3A.8; no assumir que l’empremta global actual és la del backup històric3A.8. Cap URL remota de staging preparada: loopback no és accessible des dels dispositius personals de l’usuari.
+
+PENDENTS ordenats: (1) recuperar acta/alineacions oficials35559 dels dos equips per canal accessible autoritzat o export verificable, amb IDs/dorsals/porters; (2) revisió humana i autorització diferenciada de qualsevol SQL productiu, backup real recuperable i camí únic de hardening respecte la migració broad31; (3) autorització d’instal·lació/importació/vinculació al pilot existent, sense duplicar contextos; (4) entorn integrat accessible a l’usuari i validació del compte real; només després prova real amb vídeoTV. Ni el preflight ni el PASS fictici autoritzen aquests passos.
+
+Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix PHASE_3A9_PRODUCTION_PREFLIGHT_AND_VIC_TEST.md i aquest bloc; verifica Git, SHA remots i evidències phase-3a9. Reutilitza les validacions vigents, no repeteixis suites/auditories sense canvis. Continua el primer pendent autoritzat: falta acta/alineacions oficials i accessibilitat d’usuari. No executar correcció, importació, vinculació, migracions o comptes en producció, fusionar ni desplegar sense autorització expressa diferenciada.»
+
+## Antecedents conservats · 3A.8
 
 ## Fase vigent · 3A.8 · validació de staging completada
 

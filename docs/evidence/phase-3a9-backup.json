@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "scope": "isolated local fixtures only",
+  "sha256": "c25ce27fa916937ee9185ea627ef09c4275c533a214b90c5f5d027b535a0ac35",
+  "rowsets": 77,
+  "restoredMetadataAndRowsMatch": true,
+  "productionBackupTested": false
+}

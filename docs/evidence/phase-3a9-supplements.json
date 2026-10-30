@@ -1,0 +1,36 @@
+{
+  "pilot_counts": {
+    "stats": 0,
+    "events": 0,
+    "players": 0,
+    "sessions": 0
+  },
+  "catalogue_events": 0,
+  "backend_event_owner": "postgres",
+  "home_entry_metadata": {
+    "fetched_at": "2026-10-30T09:17:02.915+00:00",
+    "verification": "official",
+    "roster_status": "published",
+    "club_external_id": "69"
+  },
+  "home_roster_by_role": [
+    {
+      "n": 10,
+      "role": "staff",
+      "dorsals": 0,
+      "player_ids": 0,
+      "raw_goalkeepers": 0
+    },
+    {
+      "n": 19,
+      "role": "player",
+      "dorsals": 13,
+      "player_ids": 19,
+      "raw_goalkeepers": 3
+    }
+  ],
+  "client_create_public": {
+    "anon": false,
+    "authenticated": false
+  }
+}

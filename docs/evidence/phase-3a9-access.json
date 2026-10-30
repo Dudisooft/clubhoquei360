@@ -1,0 +1,27 @@
+{
+  "date": "2026-10-30",
+  "networkPolicyRevision": "142",
+  "workspaceRequests": {
+    "pages": "CONNECT 403 before origin",
+    "rfep": "CONNECT 403 before origin",
+    "sidgad": "CONNECT 403 before origin",
+    "supabaseChangelog": "CONNECT 403 before origin"
+  },
+  "independentWeb": {
+    "rfep": "Shell only: season list and VOLVER A COMPETICIONES; no report or participants",
+    "sidgad": "Not accessible",
+    "pages": "Not accessible"
+  },
+  "latestPages": {
+    "sha": "e009f4df40d9ed353cb7d865beafed99d736892d",
+    "run": 40498968602,
+    "job": 122171699070,
+    "conclusion": "success",
+    "reportedSuccess": "2026-10-27T11:49:38.6730752Z",
+    "url": "https://dudisooft.github.io/clubhoquei360/",
+    "evidence": "GitHub workflow listing and deployment logs; not a live browser/Auth acceptance"
+  },
+  "realUserAuthSessionAvailable": false,
+  "remoteStagingUrlAvailable": false,
+  "productionMutations": 0
+}

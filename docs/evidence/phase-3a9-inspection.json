@@ -1,0 +1,254 @@
+{
+  "source": null,
+  "matches": [
+    {
+      "id": "51894d05-c323-f3e1-8534-fa79e062c448",
+      "away": "AUTO VIGATANA PATÍ VIC",
+      "home": "SIMAR IGUALADA HC",
+      "round": "JORNADA 5",
+      "start": "2026-10-24T18:30:00+00:00",
+      "venue": "COMPLEJO DEPORTIVO LES COMES - IGUALADA",
+      "club_id": "a48efe2f-c218-633e-6be6-4ce26e61f5cd",
+      "entries": [
+        {
+          "name": "SIMAR IGUALADA HC",
+          "side": "home",
+          "entry_id": "3f0368be-a87a-f1a4-66f0-3705f3ab4e7a",
+          "raw_keys": [
+            "name",
+            "status",
+            "category",
+            "importer",
+            "crest_url",
+            "group_ids",
+            "season_id",
+            "standings",
+            "short_name",
+            "verification",
+            "roster_status",
+            "club_external_id",
+            "external_team_id",
+            "standings_status"
+          ],
+          "source_url": "https://hockeypatines.fep.es/league/3575",
+          "club_team_id": "f9eed270-6221-42dc-7ac4-3df490ad65db",
+          "roster_count": 29,
+          "roster_with_id": 19,
+          "external_team_id": "3697"
+        }
+      ],
+      "lineups": null,
+      "raw_keys": [
+        "date",
+        "time",
+        "round",
+        "venue",
+        "result",
+        "group_id",
+        "match_id",
+        "away_name",
+        "home_name",
+        "away_crest",
+        "away_score",
+        "club_sides",
+        "data_layer",
+        "group_name",
+        "home_crest",
+        "home_score",
+        "source_url",
+        "fingerprint",
+        "away_team_id",
+        "home_team_id",
+        "report_status",
+        "report_summary",
+        "external_id_status"
+      ],
+      "season_id": "94b6c5ab-ecc9-b4a5-4a2a-ad8d5446ff2e",
+      "away_score": 1,
+      "federation": "RFEP",
+      "fetched_at": "2026-10-30T09:17:02.915+00:00",
+      "home_score": 1,
+      "fingerprint": "RFEP:41:3575:3575:JORNADA 5:3697:3727",
+      "raw_identity": {
+        "source_url": "https://hockeypatines.fep.es/league/3575",
+        "away_team_id": "3727",
+        "home_team_id": "3697",
+        "report_status": "verified",
+        "report_summary": {
+          "fetched_at": "2026-10-30T09:17:03.110Z",
+          "official_status": "FINALIZADO COMPLETED FINALE FINALIZAT",
+          "score_available": true
+        },
+        "official_status": null
+      },
+      "competition_id": "3575",
+      "competition_name": "OK LIGA PLATA SUR",
+      "external_match_id": "35559"
+    }
+  ],
+  "defaults": [
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "anon",
+      "is_grantable": false,
+      "privilege_type": "MAINTAIN"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "anon",
+      "is_grantable": false,
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "anon",
+      "is_grantable": false,
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "anon",
+      "is_grantable": false,
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "authenticated",
+      "is_grantable": false,
+      "privilege_type": "MAINTAIN"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "authenticated",
+      "is_grantable": false,
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "authenticated",
+      "is_grantable": false,
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "authenticated",
+      "is_grantable": false,
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "DELETE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "INSERT"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "MAINTAIN"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "SELECT"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "postgres",
+      "is_grantable": false,
+      "privilege_type": "UPDATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "service_role",
+      "is_grantable": false,
+      "privilege_type": "MAINTAIN"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "service_role",
+      "is_grantable": false,
+      "privilege_type": "REFERENCES"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "service_role",
+      "is_grantable": false,
+      "privilege_type": "TRIGGER"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "beneficiary": "service_role",
+      "is_grantable": false,
+      "privilege_type": "TRUNCATE"
+    }
+  ],
+  "backend_event_insert": false,
+  "new_server_installed": false,
+  "ordinary_event_insert": false
+}

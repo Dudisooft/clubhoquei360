@@ -1,0 +1,55 @@
+{
+  "result": "PASS",
+  "isolation": {
+    "projectId": "clubhoquei360-3a8-local",
+    "host": "127.0.0.1",
+    "configuredHostPort": 56432,
+    "sqlTransport": "local Docker exec to 127.0.0.1:5432",
+    "hostPortPublished": false,
+    "database": "postgres",
+    "user": "postgres",
+    "superuser": false,
+    "networkInternal": true,
+    "volume": "ch360_3a8_pgdata"
+  },
+  "fixture": {
+    "fixtureOnly": true,
+    "notOfficialMatch35559": true,
+    "id": "a3900000-0000-4000-8000-000000000001",
+    "referenceMatch": "35559",
+    "season": "81000000-0000-4000-8000-000000000001",
+    "competition": "064b22e1-c31f-1952-da26-1c221df66a5e",
+    "team": "49e183ba-8a55-7759-5497-d5be940dc2cf",
+    "playersPerSide": 5,
+    "officialLineupsVerified": false,
+    "mode": "video",
+    "localUrl": "http://127.0.0.1:56490/clubhoquei360/dashboard.html"
+  },
+  "realAuth": true,
+  "viewport": {
+    "width": 390,
+    "height": 844
+  },
+  "checks": [
+    "Dashboard login with fictitious GoTrue account",
+    "four explicit selector levels",
+    "completed catalogue match and review context",
+    "advanced mode",
+    "ten fictional participants, five per side",
+    "video clock adjust/start/pause/save",
+    "team observation",
+    "away individual observation",
+    "reload preserves session and observations",
+    "no duplicate mutations",
+    "official match/source/events/participants unchanged"
+  ],
+  "eventsAdded": 2,
+  "officialSnapshotUnchanged": true,
+  "pageErrors": [],
+  "externalRequestsExecuted": 0,
+  "externalHostsBlocked": [
+    "sidgad.cloud"
+  ],
+  "userAccessibleRemotely": false,
+  "productionMutations": 0
+}

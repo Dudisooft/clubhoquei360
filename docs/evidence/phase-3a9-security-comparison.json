@@ -1,0 +1,18 @@
+{
+  "date": "2026-10-30",
+  "result": "PASS_READ_ONLY_PREFLIGHT",
+  "explicit_grants": 49,
+  "tables": 27,
+  "default_entries": 20,
+  "client_truncate_defaults": 2,
+  "tuple_differences": 0,
+  "defaults_differences": 0,
+  "owner": "postgres",
+  "executor": "postgres NOSUPERUSER",
+  "client_elevated_memberships": false,
+  "all_target_rls": true,
+  "correction_applied": false,
+  "production_mutations": 0,
+  "package_manifest_verified": true,
+  "caveat": "Actual execution still requires separate authorization, fresh preflight and recoverable production backup; no mutation used to prove capability."
+}

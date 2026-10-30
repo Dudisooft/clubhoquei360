@@ -1,0 +1,66 @@
+{
+  "pilot": {
+    "id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+    "title": "Pilot 24/10 · Simar Igualada – Patí Vic",
+    "venue": "Complex Esportiu Les Comes, Igualada",
+    "status": "scheduled",
+    "away_team": "AUTO VIGATANA PATÍ VIC",
+    "home_team": "SIMAR IGUALADA HC",
+    "starts_at": "2026-10-24T18:30:00+00:00",
+    "created_at": "2026-10-13T21:26:50.14695+00:00"
+  },
+  "sources": [
+    {
+      "url": "https://hockeypatines.fep.es/league/3575",
+      "code": null,
+      "season": "41",
+      "status": "pending",
+      "match_id": "18fa0a6e-e5c6-487e-8315-5bc371e22cb1",
+      "federation": "RFEP",
+      "competition": "3575",
+      "last_imported": "2026-10-24T06:26:51.187458+00:00",
+      "official_keys": [
+        "date",
+        "time",
+        "round",
+        "venue",
+        "result",
+        "group_id",
+        "match_id",
+        "away_name",
+        "home_name",
+        "away_crest",
+        "away_score",
+        "club_sides",
+        "data_layer",
+        "group_name",
+        "home_crest",
+        "home_score",
+        "source_url",
+        "fingerprint",
+        "source_kind",
+        "away_team_id",
+        "home_team_id",
+        "roster_status",
+        "calendar_match_id",
+        "external_id_status",
+        "calendar_checked_at",
+        "calendar_fingerprint"
+      ],
+      "official_status": null
+    }
+  ],
+  "server_rpc": false,
+  "status_raw": {
+    "result": "1 - 1",
+    "match_id": "35559",
+    "report_summary": {
+      "fetched_at": "2026-10-30T09:17:03.110Z",
+      "official_status": "FINALIZADO COMPLETED FINALE FINALIZAT",
+      "score_available": true
+    }
+  },
+  "pilot_counts": null,
+  "rival_candidates": null,
+  "basic_context_table": true
+}

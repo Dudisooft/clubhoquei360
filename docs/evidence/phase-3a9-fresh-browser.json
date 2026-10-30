@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "freshBrowserContext": true,
+  "serverClockMs": 136464,
+  "displayClock": "02:16",
+  "serverMode": "video",
+  "serverObservationCount": 6,
+  "reloadWithoutLocalClock": true,
+  "sessionUnchanged": true,
+  "productionMutations": 0
+}
