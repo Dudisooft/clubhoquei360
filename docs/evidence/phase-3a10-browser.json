@@ -1,0 +1,42 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "result": "PASS",
+      "realClipboard": true,
+      "realGoTrue": true,
+      "personalPreferencesReload": true,
+      "clubIsolation": true
+    },
+    {
+      "viewport": {
+        "width": 820,
+        "height": 1180
+      },
+      "result": "PASS",
+      "realClipboard": true,
+      "realGoTrue": true,
+      "personalPreferencesReload": true,
+      "clubIsolation": true
+    },
+    {
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "result": "PASS",
+      "realClipboard": true,
+      "realGoTrue": true,
+      "personalPreferencesReload": true,
+      "clubIsolation": true
+    }
+  ],
+  "pageErrors": [],
+  "officialDataUnchanged": true,
+  "whatsappAppOrPhysicalDevicesTested": false,
+  "productionMutations": 0
+}

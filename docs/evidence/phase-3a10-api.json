@@ -4,14 +4,16 @@
   "realPostgreSQL": true,
   "federationResponses": "fictional controlled HTML, not live official import",
   "checks": [
-    "two clubs with same competition/team/person codes persist separately; rivals are not managed teams",
+    "concurrent claims are exclusive; stale lease and foreign report are denied without writes",
+    "two clubs with same competition/team codes stay scoped; federation player IDs remain canonical and rivals are not managed teams",
     "identical payload skips persistence; pending reports still retried within budget",
     "date/time/result changes update stable match, missing roster preserves people",
     "403 keeps valid data, records failure and backs off for a day",
+    "fictional published report recovers both lineups with IDs, goalkeeper and jersey; repeat has no duplicates",
     "real Auth denies other club, temporary operator and ordinary user; SQL queue is backend only",
     "personal per-team preferences persisted; forged identity rejected by RLS",
     "official events, advanced statistics and call-ups unchanged by sync"
   ],
-  "requestCount": 17,
+  "requestCount": 24,
   "productionMutations": 0
 }

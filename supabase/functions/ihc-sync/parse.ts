@@ -8,7 +8,7 @@ export function discover(html:string,federation:keyof typeof SOURCES){
 }
 export function category(name:string){return name.replace(/\s+(OR|PLATA|BRONZE)(\s.*)?$/,'').replace(/\s+BARCELONA$/,'').trim();}
 export function parseCompetition(config:any,calendarHtml:string,rosterHtml:string,standingsHtml:string){
- const federation=config.federation as keyof typeof SOURCES;const source=SOURCES[federation]&&{...SOURCES[federation],club:config.external_club_id||SOURCES[federation].club};const season=config.external_season_id||'41';if(!/^[1-9][0-9]*$/.test(season)||!source||!/^[1-9][0-9]*$/.test(source.club)||!/^\d+$/.test(config.id))throw Error('Invalid source');
+ const federation=config.federation as keyof typeof SOURCES;const source=SOURCES[federation]&&{...SOURCES[federation],club:config.external_club_id||SOURCES[federation].club};const season=config.external_season_id||'41';if(config.external_season_id&&season!=='41'&&!config.season_label)throw Error('Verified season label required');if(!/^[1-9][0-9]*$/.test(season)||!source||!/^[1-9][0-9]*$/.test(source.club)||!/^\d+$/.test(config.id))throw Error('Invalid source');
  const {document:d}=parseHTML(calendarHtml);const groupNames=new Map([...d.querySelectorAll('select option')].map(e=>[e.getAttribute('value'),text(e)]));
  const teams=new Map<string,any>(),opponents=new Map<string,any>();const fixtures:any[]=[];
  for(const table of [...d.querySelectorAll('table[id="my_calendar_table"]')]){

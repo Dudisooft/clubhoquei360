@@ -2,7 +2,7 @@
 begin;
 create or replace function public.federation_commit_scoped(p_scope uuid,p_data jsonb)
 returns jsonb language plpgsql security invoker set search_path='' as $$
-declare job public.federation_sync_scopes; prior_ids uuid[]; ns text; c uuid; s uuid; comp uuid; grp uuid; tid uuid; ent uuid; pid uuid; staffid uuid; mid uuid; ownentry uuid;
+declare change_before jsonb; change_after jsonb; changes jsonb:='[]'; job public.federation_sync_scopes; prior_ids uuid[]; ns text; c uuid; s uuid; comp uuid; grp uuid; tid uuid; ent uuid; pid uuid; staffid uuid; mid uuid; ownentry uuid;
  personkey text; team jsonb; person jsonb; fixture jsonb; gid text; fed text; cid text; side_label text; stamp timestamptz; roster_id uuid; existing_count int;
  nteams int:=0; npeople int:=0; nmatches int:=0;
 begin
@@ -90,9 +90,12 @@ begin
   if cardinality(prior_ids)>1 then raise exception 'Ambiguous match reconciliation';end if;
   mid:=coalesce(prior_ids[1],md5(ns||'match:'||(fixture->>'fingerprint'))::uuid);
   if exists(select 1 from public.federation_matches where id=mid and ((raw_data->>'home_team_id') is distinct from (fixture->>'home_team_id') or (raw_data->>'away_team_id') is distinct from (fixture->>'away_team_id'))) then raise exception 'Match sides mismatch';end if;
+  select jsonb_build_object('date',federation_start_at,'venue',venue,'home_score',home_score,'away_score',away_score,'code',external_match_id) into change_before from public.federation_matches where id=mid;
   insert into public.federation_matches(id,group_id,external_match_id,match_fingerprint,round_label,home_team,away_team,federation_start_at,venue,home_score,away_score,fetched_at,raw_data)
   values(mid,grp,fixture->>'match_id',fixture->>'fingerprint',fixture->>'round',fixture->>'home_name',fixture->>'away_name',case when nullif(fixture->>'date','') is not null and nullif(fixture->>'time','') is not null then (to_date(fixture->>'date','DD/MM/YYYY')+coalesce(nullif(fixture->>'time',''),'00:00')::time) at time zone 'Europe/Madrid' else null end,nullif(fixture->>'venue',''),(fixture->>'home_score')::integer,(fixture->>'away_score')::integer,stamp,fixture||jsonb_build_object('source_url',p_data->>'source_url','data_layer','public_federation','external_id_status',case when fixture->>'match_id' is null then 'not_published' else 'verified' end))
   on conflict(id) do update set group_id=excluded.group_id,match_fingerprint=excluded.match_fingerprint,round_label=excluded.round_label,external_match_id=coalesce(excluded.external_match_id,public.federation_matches.external_match_id),federation_start_at=coalesce(excluded.federation_start_at,public.federation_matches.federation_start_at),venue=coalesce(excluded.venue,public.federation_matches.venue),home_score=coalesce(excluded.home_score,public.federation_matches.home_score),away_score=coalesce(excluded.away_score,public.federation_matches.away_score),fetched_at=excluded.fetched_at,raw_data=public.federation_matches.raw_data||jsonb_strip_nulls(excluded.raw_data);
+  select jsonb_build_object('date',federation_start_at,'venue',venue,'home_score',home_score,'away_score',away_score,'code',external_match_id) into change_after from public.federation_matches where id=mid;
+  if change_before is distinct from change_after then changes:=changes||jsonb_build_array(jsonb_build_object('match_id',mid,'before',change_before,'after',change_after));end if;
   for side_label in select unnest(array['home','away']) loop
    if side_label not in ('home','away') then raise exception 'Invalid side';end if;
    select id into ownentry from public.federation_team_entries where competition_id=comp and external_team_id=fixture->>(side_label||'_team_id');
@@ -100,8 +103,23 @@ begin
    insert into public.federation_match_teams(match_id,entry_id,side) values(mid,ownentry,side_label) on conflict do nothing;
   end loop;nmatches:=nmatches+1;
  end loop;
- return jsonb_build_object('status','verified','teams',nteams,'roster_entries',npeople,'matches',nmatches);
+ return jsonb_build_object('status','verified','teams',nteams,'roster_entries',npeople,'matches',nmatches,'changes',changes);
 end $$;
 revoke all on function public.federation_commit_scoped(uuid,jsonb) from public,anon,authenticated;
 grant execute on function public.federation_commit_scoped(uuid,jsonb) to service_role;
+
+create function public.federation_commit_scoped_report(p_scope uuid,p_lease uuid,p_match uuid,p_report jsonb) returns jsonb language plpgsql security invoker set search_path='' as $$begin
+ perform 1 from public.federation_sync_scopes s join public.federation_groups g on g.competition_id=s.competition_id join public.federation_matches m on m.group_id=g.id
+ where s.id=p_scope and s.enabled and s.lease_id=p_lease and s.locked_until>now() and m.id=p_match for update of s;
+ if not found then raise exception 'Expired or foreign report lease' using errcode='42501';end if;
+ return public.federation_commit_official_report(p_match,p_report);
+end$$;
+create function public.federation_note_report_attempt(p_scope uuid,p_lease uuid,p_match uuid,p_error text) returns void language plpgsql security invoker set search_path='' as $$begin
+ perform 1 from public.federation_sync_scopes s join public.federation_groups g on g.competition_id=s.competition_id join public.federation_matches m on m.group_id=g.id
+ where s.id=p_scope and s.enabled and s.lease_id=p_lease and s.locked_until>now() and m.id=p_match for update of s;
+ if not found then raise exception 'Expired or foreign report lease' using errcode='42501';end if;
+ update public.federation_matches set raw_data=raw_data||jsonb_build_object('report_attempted_at',now(),'report_error',left(p_error,200)) where id=p_match;
+end$$;
+revoke all on function public.federation_commit_scoped_report(uuid,uuid,uuid,jsonb),public.federation_note_report_attempt(uuid,uuid,uuid,text) from public,anon,authenticated;
+grant execute on function public.federation_commit_scoped_report(uuid,uuid,uuid,jsonb),public.federation_note_report_attempt(uuid,uuid,uuid,text) to service_role;
 commit;
