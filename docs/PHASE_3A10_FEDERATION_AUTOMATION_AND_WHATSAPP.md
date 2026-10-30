@@ -30,7 +30,9 @@ Tres migracions noves, creades amb Supabase CLI i només aplicades al clúster l
 
 `federation_sync_scopes` vincula club, temporada interna, competició interna, federació, club federatiu i temporada federativa revisats. L’administrador/coordinador principal pot configurar en un sol pas totes les competicions ja vinculades del club/temporada/federació (`federation_configure_club`); no es configura rival per rival. La cua també detecta noves competicions que apareguin al catàleg, amb una única correspondència revisada de club/temporada; les correspondències contradictòries no es fusionen. No es creen competicions absents basant-se en noms.
 
-La nova Edge Function `club-federation-sync` és un hook **exclusiu de backend**, amb el mateix mecanisme de token de planificador existent. Una invocació reclama una competició amb `FOR UPDATE SKIP LOCKED`, lease de deu minuts i UUID de lease. El client no veu el token/lease ni pot reclamar/acabar treballs o invocar persistència tècnica.
+La nova Edge Function `club-federation-sync` és un hook **exclusiu de backend**, amb el mateix mecanisme de token de planificador existent. Cal mantenir la verificació JWT de la plataforma i configurar una crida backend autenticada, a més de x-federation-scheduler; no s’ha desactivat la verificació JWT ni creat configuració de desplegament automàtica.
+
+Una invocació reclama una competició amb `FOR UPDATE SKIP LOCKED`, lease de deu minuts i UUID de lease. El client no veu el token/lease ni pot reclamar/acabar treballs o invocar persistència tècnica.
 
 No s’ha instal·lat cap cron, Edge Function o servei de pagament. El sistema està preparat per a un planificador autoritzat; fins que s’instal·li no s’afirma sincronització automàtica operativa. No conviure amb el cron legacy per als mateixos àmbits: cal escollir un camí en el desplegament revisat.
 
@@ -102,9 +104,9 @@ Cap secret al client. Les noves taules revoquen els privilegis de client heretat
 
 Resultats detallats i SHA al registre de tancament/evidències:
 
-- 246 Node complets (236 anteriors + 10 nous), 0 fallades/omissions.
+- 247 Node complets (236 anteriors + 11 nous), 0 fallades/omissions.
 - 73 Chromium complets (68 anteriors + 5 nous), incloent selector, preferències, canvi de club, Maps invàlid, còpia/fallback i tres resolucions.
-- PostgreSQL/GoTrue/PostgREST reals locals: persistència genèrica multiclub, rivals, hash/no-op, canvis de calendari/resultat, resposta parcial, 403/backoff, concessió de jobs concurrent i denegacions de lease/club; acta fictícia amb dues alineacions i repetició idempotent; RLS de preferències.
+- 10 blocs nous PostgreSQL/GoTrue/PostgREST reals locals: persistència genèrica multiclub, rivals, hash/no-op, canvis de calendari/resultat, resposta parcial, 403/backoff, concessió de jobs concurrent i denegacions de lease/club; acta fictícia amb dues alineacions i repetició idempotent; RLS de preferències.
 - Navegador real amb Auth i portapapers: tres resolucions, dos clubs, previsualització=còpia, preferències desades/recàrrega i absència de canvis a calendaris/actes/estadístiques.
 - Auditoria de noves ACL/RLS/EXECUTE/search_path només local; anon no pot invocar RPC i funcions tècniques no accessibles a authenticated.
 - Regressions #31–#33 repetides sobre PostgreSQL/Auth reals: 9 blocs API, 6 blocs de navegador i 8 escenaris federatius A–H PASS. El primer intent de navegador sobre una fixture reutilitzada va detectar solapament amb una autorització de prova acabada dins del mateix minut; s’ha repetit el recorregut complet sobre un partit FEM15 fictici independent, sense esborrar històrics ni canviar la protecció del servidor. CI: veure tancament. No confondre PGlite/HTML fictici amb extracció federativa o Auth real de producció.
@@ -129,6 +131,8 @@ El predecessor local és l’esquema aplicatiu capturat + integració #31–#33 
 4. Confirmar accés/condicions federatives i configurar fonts verificades del club/temporada. No crear Manresa real o alterar comptes per provar.
 5. Instal·lar la nova Edge i un planificador backend amb token protegit en Vault/secrets; invocar una competició per torn, supervisar pressupost i no duplicar el cron legacy. Cap secret al SQL públic o navegador.
 6. Validació funcional amb comptes legítims, portapapers/dispositius i dades oficials autoritzades; desplegar frontend només amb autorització expressa.
+
+Checkpoint local: backup amb 80 conjunts de files i metadades restaurat en una còpia independent, amb igualtat completa ([evidència](evidence/phase-3a10-backup.json)). Punter privat `work/3a10/checkpoint-private.json`; no és un backup ni recuperació productius.
 
 Recuperació: desactivar el worker/planificador nou davant anomalies, conservar log/configuracions/preferències i dades importades legítimes, corregir endavant. No DROP de taules, restauració cega o reintroducció de TRUNCATE. El camí legacy es conserva però no s’ha de reactivar en paral·lel sense revisar els àmbits.
 

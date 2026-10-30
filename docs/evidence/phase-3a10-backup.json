@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "scope": "isolated local schema and fictional data only",
+  "sha256": "f4f0d56d43818ba95cbb79f9176494358467f10ca771fa0559195e0f66b7444d",
+  "rowsets": 80,
+  "restoredRowsAndMetadataMatch": true,
+  "productionBackupTested": false
+}

@@ -9,11 +9,12 @@
     "identical payload skips persistence; pending reports still retried within budget",
     "date/time/result changes update stable match, missing roster preserves people",
     "403 keeps valid data, records failure and backs off for a day",
+    "manual refresh cannot override a source failure backoff, even after normal cooldown",
     "fictional published report recovers both lineups with IDs, goalkeeper and jersey; repeat has no duplicates",
     "real Auth denies other club, temporary operator and ordinary user; SQL queue is backend only",
     "personal per-team preferences persisted; forged identity rejected by RLS",
     "official events, advanced statistics and call-ups unchanged by sync"
   ],
-  "requestCount": 24,
+  "requestCount": 20,
   "productionMutations": 0
 }
