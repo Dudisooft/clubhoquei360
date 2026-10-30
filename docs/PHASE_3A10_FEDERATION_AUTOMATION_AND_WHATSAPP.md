@@ -102,7 +102,11 @@ Cap secret al client. Les noves taules revoquen els privilegis de client heretat
 
 ## 12. Proves i evidències
 
-Resultats detallats i SHA al registre de tancament/evidències:
+Codi final verificat `93c52a992a7437cced243f6a8691ccf1a1583e5e`. [Manifest de validació i empremtes](evidence/phase-3a10-validation.json). [PR #34 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/34), base de revisió apilada 3A.9.
+
+[CI 41076122133](https://github.com/Dudisooft/clubhoquei360/actions/runs/41076122133), job124132650952: **success, 247 Node/73 Chromium**, check/build41 i dos recorreguts conjunts PASS; logs examinats. La CI usa PGlite i fixtures; les proves GoTrue/PostgreSQL/PostgREST reals s’han executat localment, no s’atribueixen a CI. Les suites locals completes es complementen amb set proves finals del model després d’endurir Maps; el SHA final té la suite completa en CI.
+
+Resultats detallats:
 
 - 247 Node complets (236 anteriors + 11 nous), 0 fallades/omissions.
 - 73 Chromium complets (68 anteriors + 5 nous), incloent selector, preferències, canvi de club, Maps invàlid, còpia/fallback i tres resolucions.
