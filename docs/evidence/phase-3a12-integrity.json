@@ -1,0 +1,732 @@
+{
+  "counts": [
+    {
+      "row_count": 1,
+      "table_name": "identities",
+      "schema_name": "auth"
+    },
+    {
+      "row_count": 8,
+      "table_name": "sessions",
+      "schema_name": "auth"
+    },
+    {
+      "row_count": 1,
+      "table_name": "users",
+      "schema_name": "auth"
+    },
+    {
+      "row_count": 1,
+      "table_name": "basic_match_contexts",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "club_match_schedule_history",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "club_match_schedules",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "club_memberships",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 238,
+      "table_name": "club_staff_people",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 1,
+      "table_name": "clubs",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "discipline_reviews",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 1,
+      "table_name": "discipline_rule_sets",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 3,
+      "table_name": "federation_calendar_cache",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 22,
+      "table_name": "federation_competitions",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 36,
+      "table_name": "federation_groups",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 397,
+      "table_name": "federation_import_runs",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 422,
+      "table_name": "federation_match_events",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 2342,
+      "table_name": "federation_match_lineups",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 31,
+      "table_name": "federation_match_sources",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 746,
+      "table_name": "federation_match_staff",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 566,
+      "table_name": "federation_match_teams",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 560,
+      "table_name": "federation_matches",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 500,
+      "table_name": "federation_player_competition_stats",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 237,
+      "table_name": "federation_players",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 43,
+      "table_name": "federation_sync_runs",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 38,
+      "table_name": "federation_team_entries",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 942,
+      "table_name": "federation_team_roster",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 348,
+      "table_name": "pilot_events",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 32,
+      "table_name": "pilot_matches",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 32,
+      "table_name": "pilot_members",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 7,
+      "table_name": "pilot_operator_state",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 190,
+      "table_name": "pilot_players",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "pilot_preparation_audit",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "pilot_prepared_lineups",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "platform_admin_audit",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 1,
+      "table_name": "platform_admins",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "profiles",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 1,
+      "table_name": "seasons",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 3,
+      "table_name": "stats_access_audit",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 55,
+      "table_name": "stats_actions",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 3,
+      "table_name": "stats_assignments",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "stats_coverage",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 3,
+      "table_name": "stats_event_audit",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 3,
+      "table_name": "stats_events",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 30,
+      "table_name": "stats_matches",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 1,
+      "table_name": "stats_sessions",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 36,
+      "table_name": "teams",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "temporary_invitation_audit",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "temporary_invitations",
+      "schema_name": "public"
+    },
+    {
+      "row_count": 0,
+      "table_name": "buckets",
+      "schema_name": "storage"
+    },
+    {
+      "row_count": 0,
+      "table_name": "objects",
+      "schema_name": "storage"
+    }
+  ],
+  "captured_at": "2026-10-31T11:46:38.290954+00:00",
+  "foreign_keys": [
+    {
+      "table_name": "basic_match_contexts",
+      "orphan_count": 0,
+      "constraint_name": "basic_match_contexts_catalogue_match_id_fkey"
+    },
+    {
+      "table_name": "basic_match_contexts",
+      "orphan_count": 0,
+      "constraint_name": "basic_match_contexts_owner_id_fkey"
+    },
+    {
+      "table_name": "basic_match_contexts",
+      "orphan_count": 0,
+      "constraint_name": "basic_match_contexts_pilot_match_id_fkey"
+    },
+    {
+      "table_name": "club_match_schedule_history",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedule_history_changed_by_fkey"
+    },
+    {
+      "table_name": "club_match_schedule_history",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedule_history_club_id_fkey"
+    },
+    {
+      "table_name": "club_match_schedule_history",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedule_history_match_id_fkey"
+    },
+    {
+      "table_name": "club_match_schedules",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedules_club_id_fkey"
+    },
+    {
+      "table_name": "club_match_schedules",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedules_coordinator_confirmed_by_fkey"
+    },
+    {
+      "table_name": "club_match_schedules",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedules_match_id_fkey"
+    },
+    {
+      "table_name": "club_match_schedules",
+      "orphan_count": 0,
+      "constraint_name": "club_match_schedules_updated_by_fkey"
+    },
+    {
+      "table_name": "club_memberships",
+      "orphan_count": 0,
+      "constraint_name": "club_memberships_club_id_fkey"
+    },
+    {
+      "table_name": "club_memberships",
+      "orphan_count": 0,
+      "constraint_name": "club_memberships_team_id_club_id_fkey"
+    },
+    {
+      "table_name": "club_memberships",
+      "orphan_count": 0,
+      "constraint_name": "club_memberships_user_id_fkey"
+    },
+    {
+      "table_name": "club_staff_people",
+      "orphan_count": 0,
+      "constraint_name": "club_staff_people_club_id_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_club_id_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_competition_id_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_match_id_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_player_id_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_reviewed_by_fkey"
+    },
+    {
+      "table_name": "discipline_reviews",
+      "orphan_count": 0,
+      "constraint_name": "discipline_reviews_season_id_fkey"
+    },
+    {
+      "table_name": "discipline_rule_sets",
+      "orphan_count": 0,
+      "constraint_name": "discipline_rule_sets_verified_by_fkey"
+    },
+    {
+      "table_name": "federation_competitions",
+      "orphan_count": 0,
+      "constraint_name": "federation_competitions_club_id_fkey"
+    },
+    {
+      "table_name": "federation_competitions",
+      "orphan_count": 0,
+      "constraint_name": "federation_competitions_season_id_club_id_fkey"
+    },
+    {
+      "table_name": "federation_groups",
+      "orphan_count": 0,
+      "constraint_name": "federation_groups_competition_id_fkey"
+    },
+    {
+      "table_name": "federation_match_events",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_events_match_id_fkey"
+    },
+    {
+      "table_name": "federation_match_events",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_events_player_id_fkey"
+    },
+    {
+      "table_name": "federation_match_lineups",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_lineups_match_id_fkey"
+    },
+    {
+      "table_name": "federation_match_lineups",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_lineups_player_id_fkey"
+    },
+    {
+      "table_name": "federation_match_sources",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_sources_match_id_fkey"
+    },
+    {
+      "table_name": "federation_match_staff",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_staff_match_id_fkey"
+    },
+    {
+      "table_name": "federation_match_staff",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_staff_staff_person_id_fkey"
+    },
+    {
+      "table_name": "federation_match_teams",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_teams_entry_id_fkey"
+    },
+    {
+      "table_name": "federation_match_teams",
+      "orphan_count": 0,
+      "constraint_name": "federation_match_teams_match_id_fkey"
+    },
+    {
+      "table_name": "federation_matches",
+      "orphan_count": 0,
+      "constraint_name": "federation_matches_group_id_fkey"
+    },
+    {
+      "table_name": "federation_player_competition_stats",
+      "orphan_count": 0,
+      "constraint_name": "federation_player_competition_stats_competition_id_fkey"
+    },
+    {
+      "table_name": "federation_player_competition_stats",
+      "orphan_count": 0,
+      "constraint_name": "federation_player_competition_stats_player_id_fkey"
+    },
+    {
+      "table_name": "federation_sync_runs",
+      "orphan_count": 0,
+      "constraint_name": "federation_sync_runs_match_id_fkey"
+    },
+    {
+      "table_name": "federation_team_entries",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_entries_club_team_id_fkey"
+    },
+    {
+      "table_name": "federation_team_entries",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_entries_competition_id_fkey"
+    },
+    {
+      "table_name": "federation_team_entries",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_entries_group_id_fkey"
+    },
+    {
+      "table_name": "federation_team_roster",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_roster_entry_id_fkey"
+    },
+    {
+      "table_name": "federation_team_roster",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_roster_player_id_fkey"
+    },
+    {
+      "table_name": "federation_team_roster",
+      "orphan_count": 0,
+      "constraint_name": "federation_team_roster_staff_person_id_fkey"
+    },
+    {
+      "table_name": "pilot_events",
+      "orphan_count": 0,
+      "constraint_name": "pilot_events_match_id_fkey"
+    },
+    {
+      "table_name": "pilot_events",
+      "orphan_count": 0,
+      "constraint_name": "pilot_events_related_event_id_fkey"
+    },
+    {
+      "table_name": "pilot_events",
+      "orphan_count": 0,
+      "constraint_name": "pilot_events_user_id_fkey"
+    },
+    {
+      "table_name": "pilot_members",
+      "orphan_count": 0,
+      "constraint_name": "pilot_members_match_id_fkey"
+    },
+    {
+      "table_name": "pilot_members",
+      "orphan_count": 0,
+      "constraint_name": "pilot_members_user_id_fkey"
+    },
+    {
+      "table_name": "pilot_operator_state",
+      "orphan_count": 0,
+      "constraint_name": "pilot_operator_state_match_id_fkey"
+    },
+    {
+      "table_name": "pilot_operator_state",
+      "orphan_count": 0,
+      "constraint_name": "pilot_operator_state_updated_by_fkey"
+    },
+    {
+      "table_name": "pilot_players",
+      "orphan_count": 0,
+      "constraint_name": "pilot_players_match_id_fkey"
+    },
+    {
+      "table_name": "pilot_preparation_audit",
+      "orphan_count": 0,
+      "constraint_name": "pilot_preparation_audit_actor_id_fkey"
+    },
+    {
+      "table_name": "pilot_preparation_audit",
+      "orphan_count": 0,
+      "constraint_name": "pilot_preparation_audit_match_id_fkey"
+    },
+    {
+      "table_name": "pilot_prepared_lineups",
+      "orphan_count": 0,
+      "constraint_name": "pilot_prepared_lineups_confirmed_by_fkey"
+    },
+    {
+      "table_name": "pilot_prepared_lineups",
+      "orphan_count": 0,
+      "constraint_name": "pilot_prepared_lineups_match_id_fkey"
+    },
+    {
+      "table_name": "platform_admin_audit",
+      "orphan_count": 0,
+      "constraint_name": "platform_admin_audit_actor_id_fkey"
+    },
+    {
+      "table_name": "platform_admin_audit",
+      "orphan_count": 0,
+      "constraint_name": "platform_admin_audit_club_id_fkey"
+    },
+    {
+      "table_name": "platform_admins",
+      "orphan_count": 0,
+      "constraint_name": "platform_admins_user_id_fkey"
+    },
+    {
+      "table_name": "profiles",
+      "orphan_count": 0,
+      "constraint_name": "profiles_user_id_fkey"
+    },
+    {
+      "table_name": "seasons",
+      "orphan_count": 0,
+      "constraint_name": "seasons_club_id_fkey"
+    },
+    {
+      "table_name": "stats_access_audit",
+      "orphan_count": 0,
+      "constraint_name": "stats_access_audit_actor_id_fkey"
+    },
+    {
+      "table_name": "stats_access_audit",
+      "orphan_count": 0,
+      "constraint_name": "stats_access_audit_match_id_fkey"
+    },
+    {
+      "table_name": "stats_assignments",
+      "orphan_count": 0,
+      "constraint_name": "stats_assignments_granted_by_fkey"
+    },
+    {
+      "table_name": "stats_assignments",
+      "orphan_count": 0,
+      "constraint_name": "stats_assignments_invitation_id_fkey"
+    },
+    {
+      "table_name": "stats_assignments",
+      "orphan_count": 0,
+      "constraint_name": "stats_assignments_match_id_fkey"
+    },
+    {
+      "table_name": "stats_assignments",
+      "orphan_count": 0,
+      "constraint_name": "stats_assignments_user_id_fkey"
+    },
+    {
+      "table_name": "stats_coverage",
+      "orphan_count": 0,
+      "constraint_name": "stats_coverage_match_id_fkey"
+    },
+    {
+      "table_name": "stats_coverage",
+      "orphan_count": 0,
+      "constraint_name": "stats_coverage_updated_by_fkey"
+    },
+    {
+      "table_name": "stats_event_audit",
+      "orphan_count": 0,
+      "constraint_name": "stats_event_audit_actor_id_fkey"
+    },
+    {
+      "table_name": "stats_event_audit",
+      "orphan_count": 0,
+      "constraint_name": "stats_event_audit_event_id_fkey"
+    },
+    {
+      "table_name": "stats_event_audit",
+      "orphan_count": 0,
+      "constraint_name": "stats_event_audit_match_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_action_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_assist_player_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_club_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_match_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_operator_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_player_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_season_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_source_event_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_team_id_fkey"
+    },
+    {
+      "table_name": "stats_events",
+      "orphan_count": 0,
+      "constraint_name": "stats_events_updated_by_fkey"
+    },
+    {
+      "table_name": "stats_matches",
+      "orphan_count": 0,
+      "constraint_name": "stats_matches_away_team_id_fkey"
+    },
+    {
+      "table_name": "stats_matches",
+      "orphan_count": 0,
+      "constraint_name": "stats_matches_club_id_fkey"
+    },
+    {
+      "table_name": "stats_matches",
+      "orphan_count": 0,
+      "constraint_name": "stats_matches_home_team_id_fkey"
+    },
+    {
+      "table_name": "stats_matches",
+      "orphan_count": 0,
+      "constraint_name": "stats_matches_match_id_fkey"
+    },
+    {
+      "table_name": "stats_matches",
+      "orphan_count": 0,
+      "constraint_name": "stats_matches_season_id_fkey"
+    },
+    {
+      "table_name": "stats_sessions",
+      "orphan_count": 0,
+      "constraint_name": "stats_sessions_match_id_fkey"
+    },
+    {
+      "table_name": "stats_sessions",
+      "orphan_count": 0,
+      "constraint_name": "stats_sessions_user_id_fkey"
+    },
+    {
+      "table_name": "teams",
+      "orphan_count": 0,
+      "constraint_name": "teams_club_id_fkey"
+    },
+    {
+      "table_name": "teams",
+      "orphan_count": 0,
+      "constraint_name": "teams_season_id_club_id_fkey"
+    },
+    {
+      "table_name": "temporary_invitation_audit",
+      "orphan_count": 0,
+      "constraint_name": "temporary_invitation_audit_invitation_id_fkey"
+    },
+    {
+      "table_name": "temporary_invitations",
+      "orphan_count": 0,
+      "constraint_name": "temporary_invitations_accepted_by_fkey"
+    },
+    {
+      "table_name": "temporary_invitations",
+      "orphan_count": 0,
+      "constraint_name": "temporary_invitations_club_id_fkey"
+    },
+    {
+      "table_name": "temporary_invitations",
+      "orphan_count": 0,
+      "constraint_name": "temporary_invitations_created_by_fkey"
+    },
+    {
+      "table_name": "temporary_invitations",
+      "orphan_count": 0,
+      "constraint_name": "temporary_invitations_team_id_fkey"
+    }
+  ]
+}

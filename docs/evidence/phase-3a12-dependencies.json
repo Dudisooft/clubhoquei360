@@ -1,0 +1,184 @@
+{
+  "roles": [
+    {
+      "name": "anon",
+      "login": false,
+      "inherit": true,
+      "bypassrls": false,
+      "superuser": false
+    },
+    {
+      "name": "authenticated",
+      "login": false,
+      "inherit": true,
+      "bypassrls": false,
+      "superuser": false
+    },
+    {
+      "name": "postgres",
+      "login": true,
+      "inherit": true,
+      "bypassrls": true,
+      "superuser": false
+    },
+    {
+      "name": "service_role",
+      "login": false,
+      "inherit": true,
+      "bypassrls": true,
+      "superuser": false
+    },
+    {
+      "name": "supabase_admin",
+      "login": true,
+      "inherit": true,
+      "bypassrls": true,
+      "superuser": true
+    }
+  ],
+  "cron_jobs": 1,
+  "default_acls": [
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "DELETE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "INSERT",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "SELECT",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "UPDATE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "service_role"
+    }
+  ],
+  "active_cron_jobs": 1,
+  "partial_null_match_full_fks": 0
+}

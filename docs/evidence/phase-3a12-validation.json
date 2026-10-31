@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-31",
+  "sourceCheckpoint": "7f01fa7fc0bc345aba7d98ed652d23b48db25094",
+  "readOnlyQueriesExecuted": true,
+  "foreignKeyChecks": 95,
+  "foreignKeyOrphans": 0,
+  "managedRelationOrphans": 0,
+  "jsonValidated": 9,
+  "sqlReadonlyGuardValidated": 3,
+  "publicProjectRefMasked": true,
+  "secretsPatternScan": "PASS",
+  "localReportLinks": "PASS",
+  "functionalSuitesRepeated": false,
+  "productionBackupExported": false,
+  "productionRestoreAttempted": false,
+  "productionMutations": 0,
+  "files": [
+    {
+      "path": "docs/evidence/phase-3a12-readiness.json",
+      "sha256": "d3d5dbfdbed297a2e312e8311ad7b25ef3b209678d190a4092bf3e858529fa75"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-managed-integrity.json",
+      "sha256": "daa1dc3163c9292f20e3c92839ffdca469a05b3198346caceb7f5ddf947af066"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-semantic-integrity.json",
+      "sha256": "77eab8af4c2f7d960ae071e2203b026bdad74065cc360474c58082d68cffa152"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-production-inventory.json",
+      "sha256": "d4b0b977ec1e0e41c84ae029b9eacbc0f56321f675332b4f7ceaf355acec84e7"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-dependencies.json",
+      "sha256": "5cd1bd0f7a6a28ef2eeb845699565f2131a5b8568c076bd63684b3f7a855a713"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-preflight.json",
+      "sha256": "89e48734a33d9a70c908c0aceeb2be1032a54d52827fd5f1bdc87a9f5fff927c"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-edge-inventory.json",
+      "sha256": "243cd549d55f02bc362510ec052b291f51b56a0b6a216a24f1822689b7d0daf6"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-integrity.json",
+      "sha256": "d3c97e88b78a81124dd21666e973389c48fd363acc6cdbe74efabd70f3e0cd97"
+    },
+    {
+      "path": "docs/evidence/phase-3a12-pr-status.json",
+      "sha256": "050d534325ab9935db3bda97923386ffc14b93c67e2a4eac4444b9c10fa0197d"
+    },
+    {
+      "path": "scripts/inspect-phase3a12-semantic-readonly.sql",
+      "sha256": "e75b62af5fc77978179c982f0e465479bbff259665fb88c5a80d24c93ba4a096"
+    },
+    {
+      "path": "scripts/inspect-phase3a12-integrity-readonly.sql",
+      "sha256": "02ce269580f0ca9900959e833a08b629074e70730b1176ef9a8f6453cf1d1022"
+    },
+    {
+      "path": "scripts/inspect-phase3a12-managed-readonly.sql",
+      "sha256": "84c2c220d6bf0bdfdd0766d3b9d1d07d79e77a35eb0b4bbfd2dc571fc423d5d5"
+    },
+    {
+      "path": "docs/PHASE_3A12_PRODUCTION_BACKUP_READINESS.md",
+      "sha256": "695aabf8fcd8bcdcd825a2f0fadff60523698374bacc1f73e2eef217d81447f1"
+    }
+  ]
+}

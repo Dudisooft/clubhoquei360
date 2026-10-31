@@ -1,10 +1,28 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 31/10/2026 UTC. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 31/10/2026 UTC. Instrucció única: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.11 — consolidació, preparació de publicació i investigació federativa. Només auditoria/staging. NO FUSIONAR, DESPLEGAR NI MODIFICAR PRODUCCIÓ.**
+**Fase vigent: 3A.12 — auditoria de backups tancada amb bloqueig verificable. NO modificar producció, permisos, configuració o disponibilitat. NO exportar dades reals sense garanties. NO fusionar ni desplegar.**
 
-## Fase 3A.11 · COMPLETADA tècnicament; publicació i accés federatiu pendents
+## Fase 3A.12 · COMPLETADES totes les comprovacions accessibles de lectura
+
+Branca `audit/production-backup-readiness-3a12` des de `7f01fa7fc0bc345aba7d98ed652d23b48db25094`, últim checkpoint anterior verificat. Checkpoint actual: `git log -1` i SHA del remot d'aquesta branca (el commit conté el registre). main e009f4d, PR31 3cce758, PR32 b76afcd, PR33 1b83921, PR34 c7e9879 confirmats per ls-remote i gestió GitHub: quatre draft/open/unmerged, sense canvis. Informes3A.8/9/11 i paquet mínim recuperats; cap prova funcional repetida perquè el codi no ha canviat.
+
+VERIFICAT: projecte productiu públicament emmascarat oevp…pnvy, Supabase Cloud eu-central-1, release17.11.0.003 / SQL17.11, organització Free/tier_free, DB24.966.835bytes a la consulta. 45taules public +3Auth +2Storage comptades en READ ONLY/REPEATABLE READ. 95FKpublic sense orfes;0constraints sense validar.0duplicats en claus federatives examinades i0discrepàncies club/temporada/equip/jugador estadístic. Auth identitats/sessions i Storage objectes/buckets sense orfes. Comptes/persones només recomptes, cap email/password/token/hash d'Auth exportat. 399partits sense external_match_id i20fonts sense federation_match_id documentats com a completesa pendent, no corregits ni declarats corruptes.
+
+SEGURETAT: preflight fresc49/27exactes,0drift,20defaults exactes amb2TRUNCATEclients; manifest3A.8 immutable. Roles/cron/Edge només metadades. Un cron actiu i tres Edge versionades; cap invocació/aturada/configuració. Correcció49+2 continua pendent. No s'ha confós compatibilitat del paquet amb una autorització per aplicar-lo.
+
+BLOQUEIG: no hi ha prova de backup productiu recuperable. Pla Free no garanteix els backups diaris recuperables de la documentació dels plans de pagament. Llistat/última data/estat/retenció/PITR/dret de restore DESCONeguts, no s'ha afirmat que no existeixi cap còpia interna. Connector sense list-backups; CLI2.121.0 sense access token; cap credencial de gestió/PG directa configurada a l'entorn. Gestió OAuth MCP no s'ha extret/reutilitzat. Destí xifrat, custodi de clau, accessos i retenció no acreditats: NO dump ni restauració de dades reals. Espai local24GiB i gitignore no són garanties suficients. Changelog CONNECT403; docs actuals backups/API/CLI/restore i PostgreSQL17 consultats.
+
+LLIURAMENT: docs/PHASE_3A12_PRODUCTION_BACKUP_READINESS.md amb inventari, cinc estats de backup diferenciats, cobertura/exclusions, flux de dump xifrat preparat NO executat, quarantena/restore, recuperació codi/permisos/dades/configuració i portes d'autorització. Evidències docs/evidence/phase-3a12-*.json, consultes scripts/inspect-phase3a12-{integrity,semantic,managed}-readonly.sql executades. No hi ha dumps/credencials/dades personals al commit. Proves: lectures reals agregades, validació JSON/enllaços/hash immutable i sintaxi read-only. Suites247/73 i restauració80 fictícia de3A.11 reutilitzades només com a antecedent, NO prova de backup productiu.
+
+VEREDICTE: **BACKUP NO VERIFICAT — INTERVENCIÓ BLOQUEJADA.** Zero exports/restauracions/escriptures productives, canvis de permisos/configuració, fusions o desplegaments.
+
+PENDENTS per dependència: (1) via de lectura Dashboard/Management API per identificar còpies reals i cobertura/retenció; si no n'hi ha d'accessibles, definir host/destí xifrat/custodi/accessos/retenció i connexió de lectura aprovats per generar backup; (2) autorització i garanties per restaurar una còpia real en quarantena, validar integritat/Auth/configuració i mesurar RPO/RTO; (3) responsable executor i finestra; (4) només després, autorització diferenciada del paquet49+2 i passos3A.11. No contractar pla/PITR ni crear recursos de pagament. No demanar passwords per conversa.
+
+REPRESA EXACTA: «CONTINUA CLUBHOQUEI360: llegeix el bloc3A.12, l'informe i les evidències; comprova Git/remots i reutilitza les comprovacions invariants. No repetir suites ni auditoria general. Identifica si hi ha un canal de backups o garanties noves autoritzades; continua només la comprovació dependent possible. No exportar/restaurar dades reals sense garanties ni modificar producció, permisos, configuració, cron, PR o desplegaments sense autorització expressa.»
+
+## Antecedent · Fase 3A.11 · COMPLETADA tècnicament; publicació i accés federatiu pendents
 
 Branca `audit/integration-release-3a11` des de c7e9879. main e009f4d, #31 3cce758, #32 b76afcd, #33 1b83921 i #34 c7e9879 comprovats amb ls-remote/connector; esborranys preservats. #34 apilada sobre audit/production-preflight-vic-3a9 (00db330), no tractar-la com a PR independent de main. Cap canvi funcional a les PR originals. Últim commit verificat de producte c7e9879; primer checkpoint remot verificat d'auditoria153751a. Checkpoint final que conté aquest registre: `git log -1`, també al remot audit/integration-release-3a11.
 

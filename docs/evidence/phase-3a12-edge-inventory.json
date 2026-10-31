@@ -1,0 +1,20 @@
+[
+  {
+    "slug": "federation-sync",
+    "version": 6,
+    "status": "ACTIVE",
+    "verifyJwt": false
+  },
+  {
+    "slug": "ihc-sync",
+    "version": 3,
+    "status": "ACTIVE",
+    "verifyJwt": false
+  },
+  {
+    "slug": "temporary-access",
+    "version": 1,
+    "status": "ACTIVE",
+    "verifyJwt": false
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "pending_tables": {
+    "scoped_sync_installed": false,
+    "temporary_operators_installed": false
+  },
+  "membership_roles": null,
+  "stats_foreign_team": 0,
+  "duplicate_entry_ids": 0,
+  "duplicate_match_ids": 0,
+  "duplicate_player_ids": 0,
+  "stats_foreign_player": 0,
+  "duplicate_fingerprints": 0,
+  "null_match_external_id": 399,
+  "null_source_match_link": 20,
+  "null_player_external_id": 0,
+  "duplicate_lineup_players": 0,
+  "duplicate_roster_players": 0,
+  "entry_club_season_mismatch": 0,
+  "stats_club_season_mismatch": 0
+}

@@ -1,0 +1,65 @@
+{
+  "date": "2026-10-31",
+  "projectRefMasked": "oevp\u2026pnvy",
+  "region": "eu-central-1",
+  "hosting": "Supabase Cloud managed",
+  "postgresRelease": "17.11.0.003",
+  "postgresSqlVersion": "17.11",
+  "organizationPlan": "free",
+  "organizationTier": "tier_free",
+  "databaseBytes": 24966835,
+  "extensions": [
+    {
+      "name": "pg_cron",
+      "schema": "pg_catalog",
+      "version": "1.6.4"
+    },
+    {
+      "name": "pg_net",
+      "schema": "public",
+      "version": "0.20.4"
+    },
+    {
+      "name": "pg_stat_statements",
+      "schema": "extensions",
+      "version": "1.11"
+    },
+    {
+      "name": "pgcrypto",
+      "schema": "extensions",
+      "version": "1.3"
+    },
+    {
+      "name": "plpgsql",
+      "schema": "pg_catalog",
+      "version": "1.0"
+    },
+    {
+      "name": "supabase_vault",
+      "schema": "vault",
+      "version": "0.3.1"
+    },
+    {
+      "name": "uuid-ossp",
+      "schema": "extensions",
+      "version": "1.1"
+    }
+  ],
+  "publicTables": 45,
+  "authTablesCounted": 3,
+  "storageTablesCounted": 2,
+  "unvalidatedConstraints": 0,
+  "activeCronJobsCount": 1,
+  "backupListApiExposedByConnector": false,
+  "backupExistence": "unverified",
+  "latestBackupAt": null,
+  "latestBackupStatus": null,
+  "retention": null,
+  "pitrEnabled": "unverified; not included in documented Free plan",
+  "exportExecuted": false,
+  "productionBackupRestored": false,
+  "productionMutations": 0,
+  "cronJobsCount": 1,
+  "projectName": "ClubHoquei360",
+  "projectStatus": "ACTIVE_HEALTHY"
+}
