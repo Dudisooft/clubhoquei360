@@ -15,6 +15,14 @@ test('scope rejection remains recoverable and never masquerades as a saved event
  const local=storage(),s=store({rpc:async()=>({error:{code:'42501',message:'Scope denied'},data:null})},local);await s.enqueue(event());assert.equal(s.pending.length,1);assert.equal(s.pending[0].blocked,true);assert.equal(s.events.length,0);assert.equal(s.optimistic().length,0);
  const next=store({},local);next.pending=JSON.parse(local.getItem(s.key()));assert.equal(next.pending[0].event.mutation_id,s.pending[0].event.mutation_id);assert.equal(next.pending[0].error,'Scope denied');
 });
+test('revocation refreshes server capabilities and keeps the rejected mutation for exact recovery',async()=>{
+ const local=storage(),calls=[];const s=store({rpc:async name=>{calls.push(name);return name==='stats_access'?{data:{read:false,temporary:{active:false,status:'revoked'}},error:null}:{data:null,error:{code:'42501',message:'Access revoked'}};}},local);
+ s.access={read:true};const e=event();await s.enqueue(e);assert.deepEqual(calls,['stats_write_event','stats_access']);assert.equal(s.access.read,false);assert.equal(s.access.temporary.status,'revoked');assert.equal(s.pending[0].blocked,true);assert.equal(s.pending[0].event.mutation_id,e.mutation_id);assert.equal(JSON.parse(local.getItem(s.key()))[0].event.id,e.id);assert.equal(s.events.length,0);
+});
+test('expired session denial preserves the local analysis clock and fails closed if capability refresh is unavailable',async()=>{
+ const local=storage();const s=store({rpc:async name=>{if(name==='stats_access')throw Error('Offline');return {error:{code:'42501',message:'Expired'},data:null};}},local);s.access={read:true};const clock={period:1,ms:42000,mode:'video'};
+ await assert.rejects(s.saveSession(clock),{code:'42501',message:'Expired'});assert.equal(s.access.read,false);assert.deepEqual(s.localClock().state,clock);assert.equal(s.session,null);
+});
 test('full local storage stops registration before sending an unsafe nonrecoverable write',async()=>{
  let calls=0;const s=store({rpc:async()=>{calls++;}},{getItem:()=>null,setItem:()=>{throw Error('QuotaExceeded');}});assert.throws(()=>s.enqueue(event()),/conservar la cua/);assert.equal(calls,0);assert.equal(s.pending.length,0);
 });

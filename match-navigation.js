@@ -9,5 +9,10 @@ export function navigationRows(data){
  return {...f,season:c.season_id,competition:c.id,teams,operational:operational?.id||null,federation:c.federation};
  }).filter(Boolean).sort((a,b)=>String(a.federation_start_at||'9999').localeCompare(String(b.federation_start_at||'9999'))||a.id.localeCompare(b.id));
 }
-export function matchHref(row,mode){if(row.operational)return './'+(mode==='base'?'base':'avancat')+'.html?match='+encodeURIComponent(row.operational);if(mode==='base'&&row.federation==='FECAPA')return './base.html?catalogue='+encodeURIComponent(row.id);return null;}
+export function matchHref(row,mode,access){
+ if(access?.read!==true||!(mode==='base'?access.base===true:mode==='advanced'&&access.advanced===true))return null;
+ if(access.operational_read&&access.operational&&(mode!=='advanced'||access.advanced_context_ready!==false))return './'+(mode==='base'?'base':'avancat')+'.html?match='+encodeURIComponent(access.operational);
+ if(['FECAPA','RFEP'].includes(row.federation))return './partit-consulta.html?catalogue='+encodeURIComponent(row.id)+'&mode='+mode;
+ return null;
+}
 export function filteredRows(rows,{season='',competition='',team=''}){return rows.filter(r=>r.season===season&&r.competition===competition&&r.teams.includes(team));}
