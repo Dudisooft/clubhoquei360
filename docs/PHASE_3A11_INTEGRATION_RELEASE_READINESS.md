@@ -18,7 +18,7 @@
 
 ## 2. Integració independent i conflictes
 
-Reconstrucció en worktree separat des de main, branca local `audit/replay-3a11`, mitjançant aplicació seqüencial dels diffs funcionals #31 → #32 → #33 → #34. Cap `git merge` ni actualització de main. Commit de reconstrucció `9e0354aace81d4f44080318fc8726d7fadfed271`.
+Reconstrucció en worktree separat des de main, branca local `audit/replay-3a11`, mitjançant aplicació seqüencial dels diffs funcionals #31 → #32 → #33 → #34. Cap `git merge` ni actualització de main. Checkpoint funcional de reconstrucció `9e0354aace81d4f44080318fc8726d7fadfed271`; fixture JSON de classificacions de #31 conservat després a `df8d16236a2fe9d08c3359b2cfd7ec913c487d25` (sense canvi de codi funcional).
 
 Conflictes: `tests/helpers/stats-db.mjs` en combinar els fixtures de servidor/frontend i l'exclusió de migracions que requereixen predecessor complet; `.github/workflows/statistics.yml` en combinar les branques de CI. Resolució: conservar suport SQL extern/skipModes, franges fictícies, exclusions de l'importador i condicions de CI compatibles. Cap conflicte en codi esportiu ni en SQL de les set migracions.
 
@@ -48,7 +48,7 @@ Ordre provat, amb postgres NOSUPERUSER i el paquet mínim de seguretat aplicat a
 
 **No assumir que les migracions es poden repetir:** algunes CREATE POLICY/funcions no són rerunnable. Les primeres migracions no inclouen embolcall transaccional propi: el procediment executor haurà d'aplicar cadascuna atòmicament, amb ON_ERROR_STOP i registre de versió/hash. La prova local d'error intencionat després de la primera migració, dins d'una transacció externa, torna exactament a l'estat inicial. Sense aquest embolcall no es promet absència d'instal·lació parcial.
 
-**Diferència de ledger que cal conciliar:** Cloud té 30 versions; tres dels quatre fitxers històrics de main tenen un timestamp diferent del registre amb el mateix nom (match_statistics, basic_catalogue_contexts, advanced_lineup_preparation). [Comparació](evidence/phase-3a11-ledger-comparison.json). El nom igual NO prova SQL idèntic. No fer `supabase db push`, no executar les migracions antigues ni reparar el ledger automàticament. Abans d'una intervenció cal contrastar definicions/registre aplicat i aprovar un manifest que contingui exclusivament les set noves.
+**Diferència de ledger conciliada només en lectura:** Cloud té 30 versions; tres dels quatre fitxers històrics de main tenen un timestamp diferent del registre amb el mateix nom (match_statistics, basic_catalogue_contexts, advanced_lineup_preparation). S'han consultat també les sentències realment registrades de les quatre versions: **SQL byte a byte idèntic** al repositori en tots quatre casos, amb SHA256 igual. [Comparació i correspondències](evidence/phase-3a11-ledger-comparison.json). No és una inferència pel nom. Es documenten els tres àlies, sense modificar el ledger. No fer `supabase db push` ni executar les migracions antigues: el manifest futur ha de contenir exclusivament les set noves versions, amb aquestes dependències ja acreditades.
 
 ## 4. Seguretat i classificacions
 
@@ -70,6 +70,7 @@ Es conserven les propostes de 36 equips / 38 inscripcions: sis sèniors, quatre 
 |---|---|
 | Suite Node conjunta amb eines d'auditoria | 247 PASS, 0 fallades, 0 omeses |
 | Chromium conjunt | 73 PASS, 0 fallades, 0 omeses |
+| Reconstrucció independent des de main | 229 Node / 73 Chromium finals PASS; 18 tests exclusius d’auditoria no hi formen part |
 | API noves de #34 | 10 blocs PASS, Auth/PostgreSQL/PostgREST reals; respostes federatives fictícies |
 | Convocatòries amb navegador/Auth/clipboard | PASS a 390×844, 820×1180, 1440×1000; dos clubs ficticis i preferències aïllades |
 | API regressió #31–#33 | 9 blocs PASS, incloses concurrència, CAS, revocació, caducitat i bypass de notes |
@@ -80,7 +81,9 @@ Es conserven les propostes de 36 equips / 38 inscripcions: sis sèniors, quatre 
 | Check/build | 41 fitxers, sintaxi/IDs/enllaços i artefacte Pages PASS |
 | CI del commit funcional auditat | [run 41077189934](https://github.com/Dudisooft/clubhoquei360/actions/runs/41077189934), success; no és CI del nou checkpoint documental |
 
-Incidències del harness conservades: assignació històrica solapada denegada correctament; repetició completa sobre context FEM15 fictici independent PASS. Un primer clon va col·lidir amb la clau única de procedència i es va revertir íntegrament; s'ha emprat un ID fictici nou. Cap relaxació de permisos ni eliminació d'històrics per fer passar proves. La reconstrucció independent s'avalua també sense els fitxers d'auditoria; resultat addicional al manifest final.
+Incidències del harness conservades: assignació històrica solapada denegada correctament; repetició completa sobre context FEM15 fictici independent PASS. Un primer clon va col·lidir amb la clau única de procedència i es va revertir íntegrament; s'ha emprat un ID fictici nou. Cap relaxació de permisos ni eliminació d'històrics per fer passar proves. La reconstrucció independent exclou eines d'auditoria, però ha de conservar el JSON de classificació consumit pels tests: s'ha restaurat el blob exacte de #31 després d'un primer intent incomplet que va bloquejar el procés de prova. Prova afectada 3/3 i suite final independent 229 Node PASS, 0 fallades/omissions. Un primer Chromium d'aquest replay va donar 71 PASS/2 errors route.fetch (ECONNRESET i petició en acabar test); repetició dirigida 2/2 PASS i repetició completa final 73/73 PASS, sense canviar codi ni controls. Es conserva aquesta inestabilitat del harness com a límit de diagnòstic, sense atribuir-la a càrrega o al producte sense evidència.
+
+La CI de #32 encara fixa el servidor 60d7d1b; s'ha comprovat que migracions i scripts d'integració d'aquell pin són idèntics als del head #31 auditat 3cce758. No s'ha usat el pin com a substitut de la reconstrucció amb els heads actuals. Les quatre CI de head són success: [estat verificat](evidence/phase-3a11-pr-status.json).
 
 El generador manté el format original: títol/emojis, jornada, grup, data, hora oficial, local/visitant, pista/Maps, hora de convocatòria, samarreta, roba, observacions i tancament. Hora de convocatòria i overrides no modifiquen el partit. Preferències personals per usuari/equip, recuperades després de recarregar; canvi de club neteja la selecció. Comparació exacta text/clipboard i captura mòbil revisada, sense desbordament. Cap enviament, destinatari, API WhatsApp o missatgeria interna. **Enganxat a WhatsApp físic i Safari/iOS no provats.**
 
@@ -96,7 +99,7 @@ El Vic continua amb alineacions oficials 0/0. Cloud arriba al commit de l'acta 3
 
 Cada pas exigeix autorització humana posterior i un responsable executor identificat. No hi ha runner automàtic productiu en aquesta fase.
 
-1. Fixar SHA de les quatre PR i resolucions, revisar PR34 apilada i paquet de lliurament. Reconciliar les tres versions històriques del ledger sense executar-les. Revisar classificacions i aprovar separadament qualsevol UPDATE previst. Aturar davant SHA, definició, owner, cardinalitat o estat parcial inesperat.
+1. Fixar SHA de les quatre PR i resolucions, revisar PR34 apilada i paquet de lliurament. Revalidar els tres àlies històrics del ledger i els hashes conciliats, sense executar-los ni modificar el registre. Revisar classificacions i aprovar separadament qualsevol UPDATE previst. Aturar davant SHA, definició, owner, cardinalitat o estat parcial inesperat.
 2. Preparar finestra; inventariar i suspendre temporalment els escriptors federatius autoritzats per evitar concurrència, conservant la configuració. Backup Cloud verificat amb restauració autoritzada a entorn separat: esquema, dades, ACL, sessions/autoritzacions i configuració externa pertinent; xifrat i accés limitat. Si no es pot demostrar recuperació i preservar els canvis del període, aturar.
 3. Executar només el preflight de `ops/truncate-3a8/00_preflight.sql` i revisar els defaults/roles. Exigir les 49 tuples/27 objectes i dos defaults exactes, no només un total. Autorització específica de seguretat. Aplicació manual transaccional de `01_revoke_current.sql` i `02_revoke_postgres_default.sql`, amb acknowledgement i precondicions del RUNBOOK. `03_verify.sql`: 0 concessions objectiu, 18 defaults legítims preservats, DML/owners/RLS intactes. Qualsevol drift o error obliga a aturar abans de migrar.
 4. Instal·lar exclusivament les set migracions de la taula en ordre, atòmicament cadascuna, amb manifest/hash/registre concordants. No continuar després d'error ni repetir cegament. Verificar RLS, EXECUTE/search_path, dependències Auth, FK/índexs, permisos tècnics i empremtes/cardinalitats després de cada bloc. La migració 4 requereix revisió de no-op després de la correcció mínima. Cap estadística/acta/alineació esborrada.
@@ -113,11 +116,19 @@ Codi/Edge: conservar artefactes i configuracions anteriors verificats; aturar pr
 
 Dades: cap SQL invers automàtic. Correcció endavant revisada preferent; si cal restauració, entorn separat, verificació de còpia, conciliació dels deltes legítims, autorització humana i preservació d'actes/alineacions/estadístiques/sessions/assignacions/autoritzacions/preferències/auditoria. Recuperació de privilegis legítims per inventari exacte, mai GRANT genèric. La recuperació local de prova no és una garantia de recuperació productiva.
 
-## 9. Veredicte
+## 9. Represa tècnica i evidències privades
+
+Consultes preparades: `scripts/inspect-phase3a11-readonly.sql` i preflight immutable de 3A.8. El primer recull metadades/defaults/estat del 35559/ledger sense noms de jugadors; cap script de producció automàtic. Les evidències publicades són agregades i no inclouen tokens, contrasenyes ni SQL amb dades personals.
+
+En aquest workspace, recuperar l'entorn amb `node scripts/remediation-runtime.mjs`; el runtime comprova Docker/volum/sentinel i reutilitza el clúster, no reexecuta migracions instal·lades. API local: `node scripts/remediation-api.mjs`; frontend fictici: `node scripts/phase3a10-site.mjs .`. Per repetir només quan hi hagi canvis: `node scripts/verify-phase3a11-migrations.mjs` crea una altra còpia de predecessor, i `node scripts/verify-phase3a11-recovery.mjs` una altra còpia per provar atomicitat/restauració. Mai apuntar-los a Cloud.
+
+Els scripts necessiten els artefactes privats de predecessor/captura i els comptes ficticis existents a work, no versionats. En un workspace nou cal recuperar el checkpoint local protegit o reconstruir-lo amb captura autoritzada de l'esquema sense files i provisionament fictici de 3A.6–3A.8. El repositori per si sol no constitueix un backup dels secrets locals ni de Cloud. El manifest de hashes permet comprovar si les proves anteriors continuen vàlides.
+
+## 10. Veredicte
 
 **VERD — consolidació funcional validada localment**, incloses migracions, Auth/RLS, convocatòries, preservació i recuperació aïllada. No s'han introduït funcionalitats noves ni modificat les PR originals.
 
-**TARONJA — limitacions:** ledger històric a conciliar, Auth/infraestructura Cloud no clonats completament, classificacions administratives pendents, WhatsApp físic/iOS pendent, evidència històrica d'empremtes incompleta i integració federativa institucional no confirmada.
+**TARONJA — limitacions:** àlies històrics del ledger documentats que impedeixen un db push indiscriminat, Auth/infraestructura Cloud no clonats completament, classificacions administratives pendents, WhatsApp físic/iOS pendent, evidència històrica d'empremtes incompleta i integració federativa institucional no confirmada.
 
 **VERMELL — publicació bloquejada actualment:** 49 concessions + dos defaults encara a producció; còpia/recuperació Cloud i intervenció no autoritzades/executades. El Vic no disposa d'acta completa importada.
 

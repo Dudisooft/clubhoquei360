@@ -32,7 +32,8 @@
     "Reused FEM15 assignment overlap: denied correctly; rerun complete on independent fictional match",
     "First independent clone rolled back on duplicate source external ID; new unique fictitious ID used",
     "Predecessor harness initially lacked native Auth REFERENCES: reproduced verified legitimate ACL locally",
-    "Independent functional replay omitted docs classification JSON fixture; restored exact PR31 blob; original product PRs contain it"
+    "Independent functional replay omitted docs classification JSON fixture; restored exact PR31 blob; original product PRs contain it",
+    "Independent replay first Chromium: two route.fetch/navigation errors; targeted 2/2 and full final 73/73 passed unchanged; instability recorded, no unsupported causal attribution"
   ],
   "ci": {
     "commit": "c7e987946a693dfd58f86650978f3cc4e9d7d9bf",
@@ -88,9 +89,70 @@
     {
       "path": "work/3a11/build.log",
       "sha256": "6d4f16a619f648d417f77a3c00c50a8d6cbc9164cf2df29442bdfbae515dada0"
+    },
+    {
+      "path": "work/3a11/replay-node.log",
+      "sha256": "4adbfeb6114931a12c58b14185068d1e5d5e38c8ba7d5d69ba51683db57d8232"
+    },
+    {
+      "path": "work/3a11/replay-classification.log",
+      "sha256": "b6e485840ac0b7a260b8b1bf5468cd202d0081cb19032719e0fcc9dd61e752fd"
+    },
+    {
+      "path": "work/3a11/replay-node-final.log",
+      "sha256": "3dc774f520bbadc685dc8e5048bd115490a6f67c84d1cd73312abe0e558b3bac"
+    },
+    {
+      "path": "work/3a11/replay-chromium.log",
+      "sha256": "80524d6389e997c20bfaabbaa803cc4846126e4d0af7c9fc7fe8033111bce490"
+    },
+    {
+      "path": "work/3a11/replay-browser-targeted.log",
+      "sha256": "13b418d243b4509cbe9bef709e5b812b846243e1a9ac445c9b06c7587bad106f"
+    },
+    {
+      "path": "work/3a11/replay-chromium-final.log",
+      "sha256": "61cf0979f88a7b413761ac3badd1528950cfeb611cb34cd22eff04c5c34e262f"
     }
   ],
   "productionMutations": 0,
   "deployments": 0,
-  "merges": 0
+  "merges": 0,
+  "independentFunctionalReplay": {
+    "commit": "df8d16236a2fe9d08c3359b2cfd7ec913c487d25",
+    "node": 229,
+    "chromium": 73,
+    "fail": 0,
+    "skip": 0,
+    "initialBrowserAttempt": {
+      "pass": 71,
+      "fail": 2
+    },
+    "targetedRepeat": {
+      "pass": 2,
+      "fail": 0
+    },
+    "fullFinalRepeat": {
+      "pass": 73,
+      "fail": 0
+    },
+    "auditOnlyNodeTestsAbsent": 18
+  },
+  "auditScripts": [
+    {
+      "path": "scripts/verify-phase3a11-migrations.mjs",
+      "sha256": "67e808f867896a8babd99ed6afca360375c90da6075e98cb6161e776170b9777"
+    },
+    {
+      "path": "scripts/verify-phase3a11-recovery.mjs",
+      "sha256": "206e48a4f0fd156680a8ed94a87287dd93d12297dc61e3b8dbc6bc436b002cfd"
+    },
+    {
+      "path": "scripts/inspect-phase3a11-readonly.sql",
+      "sha256": "da09542b4e0303edcc93017ce2bc25c77ecbc47c30ef00cd1e5de4bb09d059e7"
+    }
+  ],
+  "readOnlyDiagnosticScriptExecutedSuccessfully": true,
+  "historicalRecordedSqlByteIdentical": true,
+  "historicalClassificationFixturePreserved": true
 }

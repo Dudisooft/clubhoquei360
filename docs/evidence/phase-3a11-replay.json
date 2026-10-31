@@ -15,5 +15,29 @@
   "resolutions": "preserve both server/cross-PR fixture logic and importer predecessor exclusions; audited CI conditions",
   "comparedOperationalFiles": 157,
   "differences": [],
-  "replayCommit": "9e0354aace81d4f44080318fc8726d7fadfed271"
+  "replayCommit": "9e0354aace81d4f44080318fc8726d7fadfed271",
+  "replayCommitWithRequiredFixture": "df8d16236a2fe9d08c3359b2cfd7ec913c487d25",
+  "requiredDocumentationFixture": "docs/match-age-group-review-20261027.json",
+  "fixtureSha256": "59a3ae2bb552ec94e4517a38dd8d08a8b840b6b61aea3cde54468ea905fff97e",
+  "additionalAuditFilesNotInReplay": 45,
+  "comparisonMeans": "157 reconstructed operational files match; not an equivalence assertion for documentation, audit tools or entire repository",
+  "nodeFinal": {
+    "pass": 229,
+    "fail": 0,
+    "skip": 0
+  },
+  "chromiumFinal": {
+    "pass": 73,
+    "fail": 0,
+    "skip": 0
+  },
+  "initialBrowserAttempt": {
+    "pass": 71,
+    "fail": 2,
+    "type": "route.fetch ECONNRESET / request during teardown, not a demonstrated permission bypass or data loss"
+  },
+  "targetedRerun": {
+    "pass": 2,
+    "fail": 0
+  }
 }

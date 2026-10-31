@@ -7,30 +7,47 @@
       "recordedVersion": "20261017130942",
       "filenameVersion": "20261017005241",
       "sameVersion": false,
-      "contentEquivalenceVerified": false
+      "contentEquivalenceVerified": true,
+      "recordedSqlPresent": true,
+      "normalizedByteEquivalent": true,
+      "repositorySha256": "5c5ff1cfda8a83c5f81abc57e680e5417249e2021337c87a864349b85c29d9a1",
+      "recordedSqlSha256": "5c5ff1cfda8a83c5f81abc57e680e5417249e2021337c87a864349b85c29d9a1"
     },
     {
       "file": "supabase/migrations/20261017133038_require_session_revision.sql",
       "recordedVersion": "20261017133038",
       "filenameVersion": "20261017133038",
       "sameVersion": true,
-      "contentEquivalenceVerified": false
+      "contentEquivalenceVerified": true,
+      "recordedSqlPresent": true,
+      "normalizedByteEquivalent": true,
+      "repositorySha256": "7785df5ea7c1a1f3db3d2f529a85fee6a38e7636f19554e51d81e2dc08fff6cc",
+      "recordedSqlSha256": "7785df5ea7c1a1f3db3d2f529a85fee6a38e7636f19554e51d81e2dc08fff6cc"
     },
     {
       "file": "supabase/migrations/20261023214042_basic_catalogue_contexts.sql",
       "recordedVersion": "20261024062538",
       "filenameVersion": "20261023214042",
       "sameVersion": false,
-      "contentEquivalenceVerified": false
+      "contentEquivalenceVerified": true,
+      "recordedSqlPresent": true,
+      "normalizedByteEquivalent": true,
+      "repositorySha256": "087e7aa9518158ea8d8d1b1741d3487062b797e67991c5184bd22cf7f3a831b1",
+      "recordedSqlSha256": "087e7aa9518158ea8d8d1b1741d3487062b797e67991c5184bd22cf7f3a831b1"
     },
     {
       "file": "supabase/migrations/20261024105636_advanced_lineup_preparation.sql",
       "recordedVersion": "20261024113012",
       "filenameVersion": "20261024105636",
       "sameVersion": false,
-      "contentEquivalenceVerified": false
+      "contentEquivalenceVerified": true,
+      "recordedSqlPresent": true,
+      "normalizedByteEquivalent": true,
+      "repositorySha256": "8d297dcd45802b891589c337dc8b6d699bcc830784aa57c0005b4b06c546ba4c",
+      "recordedSqlSha256": "8d297dcd45802b891589c337dc8b6d699bcc830784aa57c0005b4b06c546ba4c"
     }
   ],
   "blindDbPushSafe": false,
-  "requirement": "Reconcile applied historical migration aliases using definitions/checksums and existing schema; do not execute old scripts or relabel the ledger automatically."
+  "requirement": "Recorded SQL of all four main migrations is byte-identical to repository SQL. Keep documented three version aliases; execute only the seven new reviewed versions. No automatic ledger changes or blind db push.",
+  "historicalVersionsReconciledReadOnly": true
 }
