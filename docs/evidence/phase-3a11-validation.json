@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-31",
+  "sourceCommit": "c7e987946a693dfd58f86650978f3cc4e9d7d9bf",
+  "branch": "audit/integration-release-3a11",
+  "applicationCodeChanged": false,
+  "node": {
+    "pass": 247,
+    "fail": 0,
+    "skip": 0
+  },
+  "chromium": {
+    "pass": 73,
+    "fail": 0,
+    "skip": 0
+  },
+  "realLocal": {
+    "newApiBlocks": 10,
+    "callupBrowserViewports": [
+      390,
+      820,
+      1440
+    ],
+    "regressionApiBlocks": 9,
+    "regressionBrowserBlocks": 6,
+    "federationFixtureScenarios": {
+      "count": 8,
+      "mode": "prior passing evidence reused; same application code and scenario inputHash, not newly executed A\u2013H"
+    }
+  },
+  "fixtures": "Fictional federation responses; real loopback GoTrue/PostgreSQL/PostgREST/JWT",
+  "initialFailedAttempts": [
+    "Reused FEM15 assignment overlap: denied correctly; rerun complete on independent fictional match",
+    "First independent clone rolled back on duplicate source external ID; new unique fictitious ID used",
+    "Predecessor harness initially lacked native Auth REFERENCES: reproduced verified legitimate ACL locally",
+    "Independent functional replay omitted docs classification JSON fixture; restored exact PR31 blob; original product PRs contain it"
+  ],
+  "ci": {
+    "commit": "c7e987946a693dfd58f86650978f3cc4e9d7d9bf",
+    "run": 41077189934,
+    "conclusion": "success",
+    "newAuditBranchCi": "not yet run; application code unchanged"
+  },
+  "logs": [
+    {
+      "path": "work/3a11/node.log",
+      "sha256": "016f7ab08a56059b9cb0590d458ba6bc61cd9c0b2d526e2386b6bfb9211608b2"
+    },
+    {
+      "path": "work/3a11/chromium.log",
+      "sha256": "29db8028e9f6e49aea6fca42fda081be9a2c07d5a3199dbfa2909d6ac9a42414"
+    },
+    {
+      "path": "work/3a11/new-api.log",
+      "sha256": "f21b880362658fafb1d11f68e7ef4d30bca50610c9ee1eeb40768cd515c22d92"
+    },
+    {
+      "path": "work/3a11/new-browser.log",
+      "sha256": "54b4e1bc82bb8ee706e8d9cd53a3c31d0429da4e93c0b8344b0ff66593d3eedd"
+    },
+    {
+      "path": "work/3a11/regression-api.log",
+      "sha256": "fa990d063ca568248125ba94c54e99511eaac52895a09275f1a8fac4aebf53bd"
+    },
+    {
+      "path": "work/3a11/regression-auth.log",
+      "sha256": "d0bf51304397b98b44ca576dd493ef078b3301c3de4e83a5f3120602a7988714"
+    },
+    {
+      "path": "work/3a11/regression-auth-fresh.log",
+      "sha256": "e58e4c820b3b51182f359c9c73826b8fe46125f24fb5e2f47c1665e435778cb2"
+    },
+    {
+      "path": "work/3a11/regression-federation.log",
+      "sha256": "c777b6e9a9967220ffbf9c89f59937b9fa20719754f42df609136748904fd550"
+    },
+    {
+      "path": "work/3a11/migrations.log",
+      "sha256": "2a957b75b1ddb26525bfd2036d751d3b131e6dc87d670e1624a50b801cb38d72"
+    },
+    {
+      "path": "work/3a11/recovery.log",
+      "sha256": "6bb02a86fd07969204e9337784594693b0df23b62a1f6c8e6fef5cd3a9fb87e1"
+    },
+    {
+      "path": "work/3a11/check.log",
+      "sha256": "dbde3103aa7fe03741916b8f0436486881aa5f0689fb4326ed53296c42274050"
+    },
+    {
+      "path": "work/3a11/build.log",
+      "sha256": "6d4f16a619f648d417f77a3c00c50a8d6cbc9164cf2df29442bdfbae515dada0"
+    }
+  ],
+  "productionMutations": 0,
+  "deployments": 0,
+  "merges": 0
+}

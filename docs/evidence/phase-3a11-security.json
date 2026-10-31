@@ -1,0 +1,117 @@
+{
+  "result": "PASS",
+  "scope": "isolated local metadata, not production",
+  "functions": [
+    {
+      "anon": false,
+      "definer": false,
+      "function": "federation_commit_scoped",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": false
+    },
+    {
+      "anon": false,
+      "definer": true,
+      "function": "callup_catalogue",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": true
+    },
+    {
+      "anon": false,
+      "definer": true,
+      "function": "callup_fixtures",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": true
+    },
+    {
+      "anon": false,
+      "definer": true,
+      "function": "federation_configure_club",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": true
+    },
+    {
+      "anon": false,
+      "definer": true,
+      "function": "federation_request_team_sync",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": true
+    },
+    {
+      "anon": false,
+      "definer": true,
+      "function": "federation_team_sync_status",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": true
+    },
+    {
+      "anon": false,
+      "definer": false,
+      "function": "federation_finish_job",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": false
+    },
+    {
+      "anon": false,
+      "definer": false,
+      "function": "federation_claim_job",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": false
+    },
+    {
+      "anon": false,
+      "definer": false,
+      "function": "federation_note_report_attempt",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": false
+    },
+    {
+      "anon": false,
+      "definer": false,
+      "function": "federation_commit_scoped_report",
+      "settings": [
+        "search_path=\"\""
+      ],
+      "authenticated": false
+    }
+  ],
+  "tables": [
+    {
+      "rls": true,
+      "table": "callup_preferences",
+      "anon_truncate": false,
+      "authenticated_truncate": false
+    },
+    {
+      "rls": true,
+      "table": "federation_sync_changes",
+      "anon_truncate": false,
+      "authenticated_truncate": false
+    },
+    {
+      "rls": true,
+      "table": "federation_sync_scopes",
+      "anon_truncate": false,
+      "authenticated_truncate": false
+    }
+  ],
+  "productionMutations": 0
+}

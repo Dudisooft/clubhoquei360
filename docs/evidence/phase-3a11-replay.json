@@ -1,0 +1,19 @@
+{
+  "base": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "pullRequests": [
+    31,
+    32,
+    33,
+    34
+  ],
+  "strategy": "independent worktree, sequential functional patches, no git merges",
+  "conflicts": [
+    "stats-db helper #31/#32",
+    "#33 importer exclusion in shared helper",
+    "#34 helper and CI workflow branch list"
+  ],
+  "resolutions": "preserve both server/cross-PR fixture logic and importer predecessor exclusions; audited CI conditions",
+  "comparedOperationalFiles": 157,
+  "differences": [],
+  "replayCommit": "9e0354aace81d4f44080318fc8726d7fadfed271"
+}

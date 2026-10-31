@@ -1,0 +1,8 @@
+{
+  "executor": "postgres",
+  "superuser": false,
+  "postgres_auth_references": true,
+  "postgres_auth_select": true,
+  "postgres_auth_usage": true,
+  "auth_owner": "supabase_auth_admin"
+}

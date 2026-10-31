@@ -1,0 +1,71 @@
+[
+  {
+    "source_evidence": {
+      "vic": {
+        "code": "35559",
+        "lineups": 0,
+        "away_score": 1,
+        "fetched_at": "2026-10-31T07:17:02.537+00:00",
+        "home_score": 1,
+        "summary_status": "verified"
+      },
+      "recent_imports": [
+        {
+          "status": "success",
+          "federation": "RFEP",
+          "started_at": "2026-10-31T07:17:01.851402+00:00",
+          "finished_at": "2026-10-31T07:17:03.998+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "RFEP:3575"
+        },
+        {
+          "status": "success",
+          "federation": "RFEP",
+          "started_at": "2026-10-31T06:17:01.90121+00:00",
+          "finished_at": "2026-10-31T06:17:03.333+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "RFEP:3568"
+        },
+        {
+          "status": "success",
+          "federation": "RFEP",
+          "started_at": "2026-10-31T05:17:01.934791+00:00",
+          "finished_at": "2026-10-31T05:17:03.609+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "RFEP:3592"
+        },
+        {
+          "status": "success",
+          "federation": "FECAPA",
+          "started_at": "2026-10-31T04:17:01.990028+00:00",
+          "finished_at": "2026-10-31T04:17:03.955+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "FECAPA:4816"
+        },
+        {
+          "status": "success",
+          "federation": "FECAPA",
+          "started_at": "2026-10-31T03:17:01.847989+00:00",
+          "finished_at": "2026-10-31T03:17:03.758+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "FECAPA:4814"
+        },
+        {
+          "status": "success",
+          "federation": "FECAPA",
+          "started_at": "2026-10-31T02:17:01.804888+00:00",
+          "finished_at": "2026-10-31T02:17:03.617+00:00",
+          "resource_type": "competition",
+          "permission_error": false,
+          "external_resource_id": "FECAPA:4813"
+        }
+      ],
+      "calendar_last_fetched": "2026-10-31T07:17:02.537+00:00"
+    }
+  }
+]

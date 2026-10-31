@@ -1,0 +1,140 @@
+{
+  "date": "2026-10-31",
+  "mode": "BEGIN READ ONLY/ROLLBACK; Edge metadata/source read only",
+  "defaults": [
+    {
+      "role": "anon",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "MAINTAIN"
+    },
+    {
+      "role": "anon",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "REFERENCES"
+    },
+    {
+      "role": "anon",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRIGGER"
+    },
+    {
+      "role": "anon",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRUNCATE"
+    },
+    {
+      "role": "authenticated",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "MAINTAIN"
+    },
+    {
+      "role": "authenticated",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "REFERENCES"
+    },
+    {
+      "role": "authenticated",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRIGGER"
+    },
+    {
+      "role": "authenticated",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRUNCATE"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "DELETE"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "INSERT"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "MAINTAIN"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "REFERENCES"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "SELECT"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRIGGER"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRUNCATE"
+    },
+    {
+      "role": "postgres",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "UPDATE"
+    },
+    {
+      "role": "service_role",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "MAINTAIN"
+    },
+    {
+      "role": "service_role",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "REFERENCES"
+    },
+    {
+      "role": "service_role",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRIGGER"
+    },
+    {
+      "role": "service_role",
+      "owner": "postgres",
+      "schema": "public",
+      "privilege": "TRUNCATE"
+    }
+  ],
+  "backendEventsInsert": false,
+  "latestReport": {
+    "processed": 5,
+    "errors": 5,
+    "target35559PersistenceError": true,
+    "reportFailuresCounter": 0
+  },
+  "deployedEdge": {
+    "slug": "ihc-sync",
+    "version": 3,
+    "verifyJwt": false,
+    "updatedAt": 1792111707958
+  },
+  "productionMutations": 0
+}

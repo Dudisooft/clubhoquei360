@@ -1,0 +1,122 @@
+[
+  {
+    "version": "20261012211904",
+    "name": "initial_club_structure_and_rls"
+  },
+  {
+    "version": "20261012220314",
+    "name": "federation_matches_and_club_schedule_overrides"
+  },
+  {
+    "version": "20261012220343",
+    "name": "restrict_internal_trigger_function_execution"
+  },
+  {
+    "version": "20261012224943",
+    "name": "federation_player_match_and_competition_stats"
+  },
+  {
+    "version": "20261012225051",
+    "name": "federation_stats_integrity_and_notification_mode"
+  },
+  {
+    "version": "20261012225458",
+    "name": "federation_team_rosters_and_import_audit"
+  },
+  {
+    "version": "20261013084614",
+    "name": "federation_staff_read_access"
+  },
+  {
+    "version": "20261013100026",
+    "name": "discipline_review_workflow_v1"
+  },
+  {
+    "version": "20261013212650",
+    "name": "pilot_match_20261024_secure_realtime"
+  },
+  {
+    "version": "20261013214442",
+    "name": "pilot_players_lineups_cards_corrections"
+  },
+  {
+    "version": "20261013214620",
+    "name": "pilot_secure_function_search_path"
+  },
+  {
+    "version": "20261013215032",
+    "name": "pilot_verified_email_operator_onboarding"
+  },
+  {
+    "version": "20261013222706",
+    "name": "federation_match_sources_verified_cache"
+  },
+  {
+    "version": "20261015130726",
+    "name": "harden_fem15_scope_and_roster_history"
+  },
+  {
+    "version": "20261015225634",
+    "name": "ihc_full_club_import"
+  },
+  {
+    "version": "20261015225834",
+    "name": "ihc_fem15_links_and_no_client_grants"
+  },
+  {
+    "version": "20261015225855",
+    "name": "ihc_private_observations_direct_fixtures_only"
+  },
+  {
+    "version": "20261015230023",
+    "name": "ihc_first_team_display_metadata"
+  },
+  {
+    "version": "20261016000320",
+    "name": "platform_superadmin_role_foundation"
+  },
+  {
+    "version": "20261016000501",
+    "name": "platform_admin_read_only_rls"
+  },
+  {
+    "version": "20261016000538",
+    "name": "platform_admin_safe_client_role_check"
+  },
+  {
+    "version": "20261016003217",
+    "name": "structured_official_match_reports"
+  },
+  {
+    "version": "20261016003309",
+    "name": "structured_federation_incident_fields"
+  },
+  {
+    "version": "20261016003817",
+    "name": "published_season_statistics_updater"
+  },
+  {
+    "version": "20261016004034",
+    "name": "catalogue_read_under_existing_club_and_global_rls"
+  },
+  {
+    "version": "20261017130942",
+    "name": "match_statistics"
+  },
+  {
+    "version": "20261017133038",
+    "name": "require_session_revision"
+  },
+  {
+    "version": "20261023213604",
+    "name": "temporary_external_invitations"
+  },
+  {
+    "version": "20261024062538",
+    "name": "basic_catalogue_contexts"
+  },
+  {
+    "version": "20261024113012",
+    "name": "advanced_lineup_preparation"
+  }
+]

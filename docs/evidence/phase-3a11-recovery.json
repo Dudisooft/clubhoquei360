@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "environment": "guarded loopback PostgreSQL; fictional accounts/data only",
+  "failedMigrationAtomicWithOuterTransaction": true,
+  "migrationsAreNotAssumedRerunnable": true,
+  "tablesCompared": 80,
+  "dumpSha256": "ec0aaf39e9a64b02a62548a3a9c88e132feaa2e558560154eb34d96c6ce0356e",
+  "snapshotSha256": "77aea4dd47d9002037d137a21ca178dc75002f52e738447ff08e9b8aed089cc0",
+  "restoredMetadataAndRowsMatch": true,
+  "sourceUnchanged": true,
+  "productionRecoveryValidated": false,
+  "productionMutations": 0
+}

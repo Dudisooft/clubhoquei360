@@ -1,10 +1,30 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 30/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 31/10/2026 UTC. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.10 automatització federativa i convocatòries, només desenvolupament/staging. Sense fusió de PR, desplegament o escriptura productiva.**
+**Fase vigent: 3A.11 — consolidació, preparació de publicació i investigació federativa. Només auditoria/staging. NO FUSIONAR, DESPLEGAR NI MODIFICAR PRODUCCIÓ.**
 
-## Fase vigent · 3A.10 · implementació, staging i CI completats; publicació pendent
+## Fase 3A.11 · primer bloc complet, comprovació independent final en curs
+
+Branca `audit/integration-release-3a11` des de c7e9879. main e009f4d, #31 3cce758, #32 b76afcd, #33 1b83921 i #34 c7e9879 comprovats amb ls-remote/connector; esborranys preservats. #34 apilada sobre audit/production-preflight-vic-3a9 (00db330), no tractar-la com a PR independent de main. Cap canvi funcional a les PR originals. Últim commit verificat de producte c7e9879; checkpoint d'aquesta auditoria via `git log -1` (el commit conté aquest registre).
+
+COMPLETAT I VERIFICAT: reconstrucció funcional independent main→31→32→33→34 sense merges, conflictes helper stats/CI conciliats. 157 fitxers funcionals idèntics a c7. Els 45 fitxers addicionals d'auditoria/runtime/paquet no són funcionalitat desplegada; cal conservar-los com a paquet de validació explícit. Replay worktree `/workspace/work/clubhoquei360-3a11-replay`, branca audit/replay-3a11. Excloure tots els docs va ometre JSON essencial de classificacions del test: restaurat exactament des de PR31, sense modificar producte. Repetició de proves només d'aquest artefacte separat en curs; no declarar-lo complet encara.
+
+Proves sobre conjunt c7: 247 Node/73 Chromium, check/build41 PASS, 10 API nous amb Auth/PostgreSQL/PostgREST reals i federació fictícia, generador/clipboard/preferències dos clubs a390/820/1440 PASS. Regressió 9API i6navegador reals PASS. Primer navegador sobre context antic denegat per solapament; nou FEM15 fictici independent complet PASS sense tocar històrics. A–H evidència anterior reutilitzada explícitament (mateix codi/inputHash), no presentada com a nova recuperació federativa. CI c7 run41077189934 success, no és CI del nou audit.
+
+Migracions: script nou verify-phase3a11-migrations restaura predecessor aplicatiu documentat, Auth natiu fictici, ACL REFERENCES legítima comprovada en lectura a Cloud, postgres NOSUPERUSER; aplica paquet mínim primer +7 migracions en ordre;619files/45taules preexistents preservades,0TRUNCATEclient, paquet idempotent després. Primer harness sense AuthREFERENCES corregit localment sense elevar actor. Esquema actual Cloud taules/columnes/RLS/triggers/constraints/funcions coincideix amb captura3A.6. No és clon complet de plataforma Cloud. verify-phase3a11-recovery prova error/rollback amb transacció externa i backup restaurat en una altra DB local:80conjunts/metadades exactes. Punter privat `work/3a11/checkpoint-private.json`; no copiar secrets a informes.
+
+Producció només BEGIN READ ONLY/ROLLBACK i lectures de metadades/Edge. Preflight actual:49/27 exactes,2defaults entre20,45ownerspostgres,0drift de l'inventari, paquet3A.8 immutable. Bloqueig productiu CONTINUA OBERT. Ledger30versions:3timestamps històrics de main divergents dels noms corresponents; equivalència de SQL no acreditada. NO db push/reexecució/reparació automàtica de ledger. Publicació condicionada a conciliació/revisió i autorització/backup Cloud; pla de passos als informes.
+
+Investigació: CONNECT403 de shell al proxy Envoy abans TLS, política143noinclou portals; no atribuir-lo a federació. Backend Cloud sí executa imports horaris: runRFEP3575de31/10 07:17 conté5errors de persistència, inclòs35559, perquè service_role no téINSERT federation_match_events. Global success/report_failures0 enganyós del legacy; reparació33/34noinstal·lada. Vic0/0oficial, noactarecuperada. API Playoff documentada confirmada com a servei de proveïdor, aplicabilitat FECAPA/RFEP NOconfirmada; canals institucionals i dos esborranys preparats NOENVIATS. Cap bypass/cookiespersonals. Classificacions6senior/4junior/26youth pendents d'aprovació com abans;6UPDATEdesactivats. Causa històrica de3empremtes continua pendent.
+
+Fitxers nous: docs/PHASE_3A11_INTEGRATION_RELEASE_READINESS.md, docs/PHASE_3A11_FEDERATION_ACCESS_RESEARCH.md, evidències phase-3a11-*.json; scripts/verify-phase3a11-migrations.mjs i verify-phase3a11-recovery.mjs. Logs privats work/3a11. Paquet ops/truncate-3a8 sense canvis.
+
+PENDENT immediat: acabar proves del replay separat, afegir resultats exactes al manifest/informe, verificar enllaços/SHA/secrets/diff, desar checkpoint remot d'aquesta branca i revalidar PRdraft/mainintactes. PENDENT extern: intervenció49+2autoritzada, conciliacióledger, backup/recuperacióCloud, aprovacióclassificacions, viafederativaautoritzada i actaVic, prova físicaWhatsApp/iOS. No obrir funcionalitat nova.
+
+REPRESA EXACTA: «CONTINUA CLUBHOQUEI360: llegeix aquest bloc3A.11 i els dos informes, comprova Git i work/3a11. Reutilitza247Node/73Chromium/Auth/migracions si codi/hashes invariants. Acaba la comprovació independent audit/replay-3a11 (JSONdocsclassificació restaurat), actualitza manifest/informe i fes checkpoint remot. NO modificar producció, fusionar PR, desplegar, enviar consultes ni repetir migracions sobre esquema instal·lat.»
+
+## Antecedent · 3A.10 · implementació, staging i CI completats; publicació pendent
 
 30/10/2026. Branca feat/federation-automation-callups-3a10 des de00db330. Checkpoints39241eb i359cded; nou checkpoint final via git log -1. PR34 en esborrany, base audit/production-preflight-vic-3a9: revisió apilada, NO proposta de fusionar tota l’auditoria a main. main e009f4d/#31 3cce758/#32 b76afcd/#33 1b83921 preservats. Cap fusió/desplegament/escriptura productiva. Paquet3A.8 i bloqueig49/27+2defaults intactes; verificació SHA del manifest PASS.
 

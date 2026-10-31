@@ -1,0 +1,36 @@
+{
+  "main": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "cloudLedgerEntries": 30,
+  "mainFiles": [
+    {
+      "file": "supabase/migrations/20261017005241_match_statistics.sql",
+      "recordedVersion": "20261017130942",
+      "filenameVersion": "20261017005241",
+      "sameVersion": false,
+      "contentEquivalenceVerified": false
+    },
+    {
+      "file": "supabase/migrations/20261017133038_require_session_revision.sql",
+      "recordedVersion": "20261017133038",
+      "filenameVersion": "20261017133038",
+      "sameVersion": true,
+      "contentEquivalenceVerified": false
+    },
+    {
+      "file": "supabase/migrations/20261023214042_basic_catalogue_contexts.sql",
+      "recordedVersion": "20261024062538",
+      "filenameVersion": "20261023214042",
+      "sameVersion": false,
+      "contentEquivalenceVerified": false
+    },
+    {
+      "file": "supabase/migrations/20261024105636_advanced_lineup_preparation.sql",
+      "recordedVersion": "20261024113012",
+      "filenameVersion": "20261024105636",
+      "sameVersion": false,
+      "contentEquivalenceVerified": false
+    }
+  ],
+  "blindDbPushSafe": false,
+  "requirement": "Reconcile applied historical migration aliases using definitions/checksums and existing schema; do not execute old scripts or relabel the ledger automatically."
+}

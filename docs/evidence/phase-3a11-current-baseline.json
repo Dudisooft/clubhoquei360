@@ -1,0 +1,14 @@
+{
+  "date": "2026-10-31",
+  "readOnly": true,
+  "comparedTo": "3A6 captured application schema",
+  "matches": {
+    "tables": true,
+    "columns": true,
+    "policies": true,
+    "triggers": true,
+    "constraints": true,
+    "functions": true
+  },
+  "notACompleteSupabasePlatformClone": true
+}

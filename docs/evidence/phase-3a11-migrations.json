@@ -1,0 +1,50 @@
+{
+  "result": "PASS",
+  "predecessor": "Captured public/app_private schema from 3A.6, without production rows; native local Auth and fictional seed",
+  "productionClone": false,
+  "baselineTables": 45,
+  "seedRows": 619,
+  "executor": "postgres NOSUPERUSER",
+  "minimalPackageBeforeMigrations": true,
+  "migrations": [
+    {
+      "file": "20261027170248_match_mode_access.sql",
+      "result": "PASS",
+      "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32"
+    },
+    {
+      "file": "20261027183214_temporary_match_operators.sql",
+      "result": "PASS",
+      "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+    },
+    {
+      "file": "20261028191801_preserve_partial_federation_rosters.sql",
+      "result": "PASS",
+      "sha256": "1fcbe7655e9c7c4d9d9e11db308fff32728e2eb20841f6de516b2459d0234880"
+    },
+    {
+      "file": "20261029040738_revoke_client_truncate.sql",
+      "result": "PASS",
+      "sha256": "a00f2f9ffed479def5a66bf22948c06e39410d7d58ab181c13f50fb3b153771d"
+    },
+    {
+      "file": "20261030142034_federation_automation_callup_preferences.sql",
+      "result": "PASS",
+      "sha256": "f21359a39f474e94348501a968d1b6087cfe70aad5257a95a6342d36295e4199"
+    },
+    {
+      "file": "20261030142117_scoped_federation_jobs.sql",
+      "result": "PASS",
+      "sha256": "d6d3c5ab6e4cb9aaeeaa6eca8748ead6c0469112152019d6d4e5d9b97d0e818b"
+    },
+    {
+      "file": "20261030142337_scoped_federation_commit.sql",
+      "result": "PASS",
+      "sha256": "1d7eabe162fde6700c38e50b8d55c8e0bff085a64874fc78de88845fe664920d"
+    }
+  ],
+  "legacyTruncateMigrationAfterMinimalPackage": "PASS, compatible on reviewed application predecessor, no additional effective client TRUNCATE",
+  "preexistingRowsPreservedAfterEveryMigration": true,
+  "packageIdempotentAfterAllMigrations": true,
+  "productionMutations": 0
+}
