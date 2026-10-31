@@ -1,3 +1,4 @@
+import{fetchOfficialHtml,importRunStatus}from'../federation-sync/transport.ts';
 import{syncOfficialReports}from'./report-sync.ts';
 import{createClient}from'npm:@supabase/supabase-js@2.95.3';
 import manifest from './manifest.json' with {type:'json'};
@@ -10,7 +11,7 @@ Deno.serve(async(req)=>{
   const token=req.headers.get('x-federation-scheduler');if(!token)return json({error:'Scheduler authorization required'},401);
   const auth=await db.rpc('federation_scheduler_authorized',{p_token:token});if(auth.error||auth.data!==true)return json({error:'Unauthorized'},401);
   const body=await req.json();
-  const get=async(fed:string,file:string,params:Record<string,string>)=>{const origin=SOURCES[fed as keyof typeof SOURCES].origin;const r=await fetch(`https://www.server2.sidgad.es/${fed.toLowerCase()}/${file}`,{method:'POST',headers:{Origin:origin,Referer:origin+'/','X-Requested-With':'XMLHttpRequest'},body:new URLSearchParams(params),signal:AbortSignal.timeout(25000)});if(!r.ok)throw Error('Federation HTTP '+r.status);const h=await r.text();if(!h.trim()||h.length>6000000)throw Error('Empty/oversized official response');return h;};
+  const get=fetchOfficialHtml;
   if(body.action==='discover'){const found=[];for(const fed of ['FECAPA','RFEP'] as const)found.push(...discover(await get(fed,`${fed.toLowerCase()}_ls_1.php`,{temp:'41'}),fed));return json({competitions:found,unconfigured:found.filter(c=>!manifest.some(m=>m.id===c.id&&m.federation===c.federation))});}
   let config:any;
   if(body.action==='next'){
@@ -35,10 +36,10 @@ Deno.serve(async(req)=>{
   const standings=await get(config.federation,`${fed}_clasif_idc_${config.id}_1.php`,params);
   const data=parseCompetition(config,calendar,roster,standings),selected=new Map(),reportHtml=new Map<string,string>();
   for(const team of data.teams){const candidates=data.matches.filter(m=>m.match_id&&(m.home_team_id===team.external_team_id||m.away_team_id===team.external_team_id)).sort((a,b)=>(b.date||'').split('/').reverse().join('').localeCompare((a.date||'').split('/').reverse().join('')));if(candidates[0])selected.set(candidates[0].match_id,candidates[0]);}
-  for(const m of selected.values()){try{const h=await get(config.federation,`${fed}_gr_${m.match_id}_1.php`,{idm:'1',idc:m.group_id,idp:m.match_id,tab:'tab_ficha_resumen'});reportHtml.set(m.match_id,h);enrichFromReport(data,m,h);}catch(e){m.report_status='unavailable';m.report_error=String(e.message||e).slice(0,150);}}
+  for(const m of selected.values()){try{const h=await get(config.federation,`${fed}_gr_${m.match_id}_1.php`,{idm:'1',idc:m.group_id,idp:m.match_id,tab:'tab_ficha_resumen'});reportHtml.set(m.match_id,h);enrichFromReport(data,m,h);}catch(e){m.report_summary_status='unavailable';m.report_error=String(e.message||e).slice(0,150);}}
   const result=await db.rpc('federation_commit_ihc',{p_data:data});if(result.error)throw result.error;
   const reportSync=await syncOfficialReports(db,data,get,reportHtml);const totals=await db.rpc('federation_refresh_published_stats');if(totals.error)throw totals.error;
-  const log=await db.from('federation_import_runs').update({status:'success',finished_at:new Date().toISOString(),records_read:data.matches.length+data.teams.reduce((n,t)=>n+t.roster.length,0),records_written:result.data.matches+result.data.roster_entries,details:{...result.data,official_reports:reportSync,season:'2026/27',report_failures:data.matches.filter(m=>m.report_status==='unavailable').length}}).eq('id',run.data.id);if(log.error)throw log.error;
+  const log=await db.from('federation_import_runs').update({status:importRunStatus(data,reportSync),finished_at:new Date().toISOString(),records_read:data.matches.length+[...data.teams,...data.opponents].reduce((n,t)=>n+t.roster.length,0),records_written:result.data.matches+result.data.roster_entries,details:{...result.data,official_reports:reportSync,season:'2026/27',report_failures:data.matches.filter(m=>m.report_summary_status==='unavailable').length}}).eq('id',run.data.id);if(log.error)throw log.error;
   return json({competition:external,...result.data,official_reports:{processed:reportSync.processed,pending:reportSync.pending,errors:reportSync.errors}});
  }catch(e){const error=String(e.message||e).slice(0,500);if(run?.data?.id)await db.from('federation_import_runs').update({status:'failed',finished_at:new Date().toISOString(),error_summary:error}).eq('id',run.data.id);return json({error},500);}
 });
