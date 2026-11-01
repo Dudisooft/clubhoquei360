@@ -1,0 +1,8 @@
+{
+  "result": "PASS",
+  "authenticated": true,
+  "archiveReadable": true,
+  "matchingRestoreReceipts": 3,
+  "restored": true,
+  "production": false
+}

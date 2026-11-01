@@ -8,12 +8,12 @@
   "image": "postgres@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b",
   "network": "none",
   "publishedPorts": 0,
-  "tables": 12,
+  "tables": 13,
   "schemaAndDataExact": true,
   "rlsAndPrivilegesVerified": true,
   "keyRecoveryVerifiedLocally": true,
   "physicalOffsiteCustodyVerified": false,
-  "localBackupPlusRestoreSeconds": 6.378,
+  "localBackupPlusRestoreSeconds": 7.82,
   "timeIsProductionRto": false,
   "checks": [
     {
@@ -29,7 +29,7 @@
       "result": "PASS"
     },
     {
-      "name": "restored RLS distinguishes two fictional clubs, denies missing scope/write/guest/TRUNCATE; FK intact",
+      "name": "restored RLS binds two SQL identities to clubs, denies forged scope/write/guest/TRUNCATE; FK intact",
       "result": "PASS"
     },
     {
@@ -70,6 +70,14 @@
     },
     {
       "name": "overwrite and symlink paths refused",
+      "result": "PASS"
+    },
+    {
+      "name": "partially populated destination with a view is refused before creating roles or objects",
+      "result": "PASS"
+    },
+    {
+      "name": "audit distinguishes an authenticated archive from a successfully restored receipt",
       "result": "PASS"
     },
     {

@@ -114,16 +114,17 @@ def compatible(name):
     return major
 
 SNAPSHOT_SQL = """select jsonb_build_object(
- 'tables',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'name',c.relname,'owner',pg_get_userbyid(c.relowner),'rls',c.relrowsecurity) order by n.nspname,c.relname) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('public','auth','supabase_migrations') and c.relkind='r'),
- 'sequences',(select jsonb_agg(to_jsonb(s)order by schemaname,sequencename)from pg_sequences s where schemaname in('public','auth','supabase_migrations')),
- 'columns',(select jsonb_agg(to_jsonb(c)-'table_catalog'-'udt_catalog' order by table_schema,table_name,ordinal_position)from information_schema.columns c where table_schema in('public','auth','supabase_migrations')),
- 'constraints',(select jsonb_agg(jsonb_build_object('table',conrelid::regclass::text,'name',conname,'def',pg_get_constraintdef(oid))order by conrelid::regclass::text,conname)from pg_constraint where connamespace in('public'::regnamespace,'auth'::regnamespace,'supabase_migrations'::regnamespace)),
- 'indexes',(select jsonb_agg(to_jsonb(i)order by schemaname,tablename,indexname)from pg_indexes i where schemaname in('public','auth','supabase_migrations')),
- 'policies',(select jsonb_agg(to_jsonb(p)order by schemaname,tablename,policyname)from pg_policies p where schemaname='public'),
- 'functions',(select jsonb_agg(jsonb_build_object('name',p.proname,'def',pg_get_functiondef(p.oid),'acl',p.proacl::text)order by p.proname)from pg_proc p where p.pronamespace='public'::regnamespace),
- 'acls',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'table',c.relname,'role',coalesce(g.rolname,'PUBLIC'),'privilege',a.privilege_type,'grantable',a.is_grantable)order by n.nspname,c.relname,g.rolname,a.privilege_type)from pg_class c join pg_namespace n on n.oid=c.relnamespace cross join lateral aclexplode(c.relacl)a left join pg_roles g on g.oid=a.grantee where n.nspname in('public','auth','supabase_migrations')),
- 'defaults',(select jsonb_agg(jsonb_build_object('owner',pg_get_userbyid(d.defaclrole),'schema',n.nspname,'acl',d.defaclacl::text)order by n.nspname)from pg_default_acl d join pg_namespace n on n.oid=d.defaclnamespace where n.nspname in('public','auth','supabase_migrations')),
- 'schema_acls',(select jsonb_agg(jsonb_build_object('schema',nspname,'owner',pg_get_userbyid(nspowner),'acl',nspacl::text)order by nspname)from pg_namespace where nspname in('public','auth','supabase_migrations')),
+ 'tables',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'name',c.relname,'owner',pg_get_userbyid(c.relowner),'rls',c.relrowsecurity) order by n.nspname,c.relname) from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('public','app_private','auth','supabase_migrations') and c.relkind='r'),
+ 'sequences',(select jsonb_agg(to_jsonb(s)order by schemaname,sequencename)from pg_sequences s where schemaname in('public','app_private','auth','supabase_migrations')),
+ 'columns',(select jsonb_agg(to_jsonb(c)-'table_catalog'-'udt_catalog' order by table_schema,table_name,ordinal_position)from information_schema.columns c where table_schema in('public','app_private','auth','supabase_migrations')),
+ 'constraints',(select jsonb_agg(jsonb_build_object('table',conrelid::regclass::text,'name',conname,'def',pg_get_constraintdef(oid))order by conrelid::regclass::text,conname)from pg_constraint where connamespace in(select oid from pg_namespace where nspname in('public','app_private','auth','supabase_migrations'))),
+ 'indexes',(select jsonb_agg(to_jsonb(i)order by schemaname,tablename,indexname)from pg_indexes i where schemaname in('public','app_private','auth','supabase_migrations')),
+ 'policies',(select jsonb_agg(to_jsonb(p)order by schemaname,tablename,policyname)from pg_policies p where schemaname in('public','app_private')),
+ 'triggers',(select jsonb_agg(jsonb_build_object('table',tgrelid::regclass::text,'name',tgname,'def',pg_get_triggerdef(oid))order by tgrelid::regclass::text,tgname)from pg_trigger where not tgisinternal and tgrelid in(select c.oid from pg_class c join pg_namespace n on n.oid=c.relnamespace where n.nspname in('public','app_private','auth','supabase_migrations'))),
+ 'functions',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'name',p.proname,'args',pg_get_function_identity_arguments(p.oid),'owner',pg_get_userbyid(p.proowner),'def',pg_get_functiondef(p.oid),'acl',p.proacl::text)order by n.nspname,p.proname,pg_get_function_identity_arguments(p.oid))from pg_proc p join pg_namespace n on n.oid=p.pronamespace where n.nspname in('public','app_private','auth')),
+ 'acls',(select jsonb_agg(jsonb_build_object('schema',n.nspname,'table',c.relname,'role',coalesce(g.rolname,'PUBLIC'),'privilege',a.privilege_type,'grantable',a.is_grantable)order by n.nspname,c.relname,g.rolname,a.privilege_type)from pg_class c join pg_namespace n on n.oid=c.relnamespace cross join lateral aclexplode(c.relacl)a left join pg_roles g on g.oid=a.grantee where n.nspname in('public','app_private','auth','supabase_migrations')),
+ 'defaults',(select jsonb_agg(jsonb_build_object('owner',pg_get_userbyid(d.defaclrole),'schema',n.nspname,'acl',d.defaclacl::text)order by n.nspname)from pg_default_acl d join pg_namespace n on n.oid=d.defaclnamespace where n.nspname in('public','app_private','auth','supabase_migrations')),
+ 'schema_acls',(select jsonb_agg(jsonb_build_object('schema',nspname,'owner',pg_get_userbyid(nspowner),'acl',nspacl::text)order by nspname)from pg_namespace where nspname in('public','app_private','auth','supabase_migrations')),
  'roles',(select jsonb_agg(jsonb_build_object('name',rolname,'login',rolcanlogin,'superuser',rolsuper,'inherit',rolinherit,'bypassrls',rolbypassrls)order by rolname)from pg_roles where rolname like 'ch360_bk13_%')
 )"""
 
@@ -183,7 +184,7 @@ def backup(c,source,min_free=256*1024*1024,role=None):
     dump=dbtool(source,'pg_dump',args)
     require(dump.startswith(b'PGDMP')and len(dump)<=MAX_BYTES,'invalid or oversized dump')
     require(snapshot(source)==before,'source changed while backing up')
-    meta={'format':1,'purpose':LABEL,'backupId':uuid.uuid4().hex,'createdAt':time.time(),'pgMajor':major,'dumpSha256':hashlib.sha256(dump).hexdigest(),'snapshot':before,'globals':'only the two explicit fictional NOLOGIN roles are supported; no credentials'}
+    meta={'format':1,'purpose':LABEL,'backupId':uuid.uuid4().hex,'createdAt':time.time(),'pgMajor':major,'dumpSha256':hashlib.sha256(dump).hexdigest(),'snapshot':before,'globals':'only the three explicit fictional NOLOGIN roles are supported; no credentials'}
     payload=pack(meta,dump);encrypted=encrypt(c,payload)
     require(shutil.disk_usage(root).free>=len(encrypted)+min_free,'insufficient publication space')
     p=publish(root/('bk-'+meta['backupId']+'.age'),encrypted)
@@ -197,13 +198,27 @@ def verify(c,path,identity=None):
     require(b'TABLE DATA' in listing,'archive data missing')
     return {'result':'PASS','backupId':m['backupId'],'authenticated':True,'archiveReadable':True,'restored':False}
 
+def audit(c,path,identity=None):
+    result=verify(c,path,identity);h=hashlib.sha256(private_file(path).read_bytes()).hexdigest()
+    receipts=[]
+    for p in private_dir(c['audit']).glob('restore-*.json'):
+        r=json.loads(private_file(p).read_text())
+        if r.get('cipherSha256')==h and r.get('restoredMetadataAndRows'):receipts.append(r)
+    result['restored']=bool(receipts);result['matchingRestoreReceipts']=len(receipts)
+    return result
+
 def prepare_target(c,target,meta):
     require(target!='ch360_bk13_src','source cannot be restore destination')
     require(compatible(target)==meta['pgMajor'],'archive PostgreSQL version incompatible')
-    require(sql(target,"select count(*)from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind='r'and n.nspname not like 'pg_%'and n.nspname<>'information_schema'")=='0','restore target is not empty')
+    require(sql(target,"select count(*)from pg_class c join pg_namespace n on n.oid=c.relnamespace where c.relkind in('r','p','v','m','S','f')and n.nspname not like 'pg_%'and n.nspname<>'information_schema'")=='0','restore target is not empty')
+    require(sql(target,"select count(*)from pg_proc where pronamespace='public'::regnamespace")=='0','restore target contains functions')
+    require(sql(target,"select count(*)from pg_namespace where nspname not like 'pg_%'and nspname not in('public','information_schema')")=='0','restore target contains user schemas')
     # Global objects are not in pg_dump. Only these fixed synthetic roles are permitted.
-    require([r['name']for r in meta['snapshot']['roles']]==['ch360_bk13_app','ch360_bk13_guest'],'role manifest refused')
-    sql(target,'create role ch360_bk13_app nologin;create role ch360_bk13_guest nologin;')
+    roles=meta['snapshot']['roles'];names=[r['name']for r in roles]
+    allowed={'ch360_bk13_app','ch360_bk13_club_b','ch360_bk13_guest'}
+    require(names==sorted(set(names)) and set(names).issubset(allowed) and bool(names),'role manifest refused')
+    require(all(not r['login'] and not r['superuser'] and r['inherit'] and not r['bypassrls'] for r in roles),'privileged role attributes refused')
+    sql(target,';'.join('create role '+n+' nologin' for n in names)+';')
 
 def restore(c,path,target,identity=None):
     meta,dump=unpack(decrypt(c,path,identity));prepare_target(c,target,meta)
@@ -251,7 +266,8 @@ def main():
     elif a.command=='escrow-key':out=escrow_key(c)
     elif a.command=='recover-key':out=recover_key(c,a.file,a.output)
     elif a.command=='backup':out=backup(c,a.source)
-    elif a.command in ('verify','audit'):out=verify(c,a.file,a.identity)
+    elif a.command=='verify':out=verify(c,a.file,a.identity)
+    elif a.command=='audit':out=audit(c,a.file,a.identity)
     elif a.command=='restore':out=restore(c,a.file,a.target,a.identity)
     else:out=cleanup(c,days=a.days,keep=a.keep,apply=a.apply)
     print(json.dumps(out))

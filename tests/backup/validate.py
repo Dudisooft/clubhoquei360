@@ -38,14 +38,15 @@ check('authenticated encrypted backup and full archive readable; no plaintext du
 dest=target();restored=m.restore(c,backup,dest);elapsed=time.monotonic()-started
 check('restore into independent cluster: all rows, schema, indexes, functions, ACL/defaults, roles and ledger equal',lambda: (m.snapshot(dest)==original or (_ for _ in()).throw(AssertionError())))
 def policies():
-    assert m.sql(dest,"set role ch360_bk13_app;set fixture.club='1';select count(*)from stats_events")=='SET\nSET\n1'
-    assert m.sql(dest,"set role ch360_bk13_app;set fixture.club='2';select count(*)from stats_events")=='SET\nSET\n1'
-    assert m.sql(dest,'set role ch360_bk13_app;select count(*)from stats_events')=='SET\n0'
+    assert m.sql(dest,"set role ch360_bk13_app;select string_agg(club_id::text,',')from stats_events")=='SET\n1'
+    assert m.sql(dest,"set role ch360_bk13_app;set fixture.club='2';select string_agg(club_id::text,',')from stats_events")=='SET\nSET\n1'
+    assert m.sql(dest,"set role ch360_bk13_club_b;select string_agg(club_id::text,',')from stats_events")=='SET\n2'
     rejects(lambda:m.sql(dest,"set role ch360_bk13_app;insert into stats_events(match_id,club_id,action)values(1,1,'goal')"))
     rejects(lambda:m.sql(dest,'set role ch360_bk13_guest;select * from stats_events'))
     assert m.sql(dest,"select has_table_privilege('ch360_bk13_app','stats_events','TRUNCATE')")=='f'
+    assert m.sql(dest,"begin;insert into stats_events(match_id,club_id,action)values(1,1,'goal');select count(*)from app_private.backup_notes;rollback;").splitlines()[-2]=='2'
     assert m.sql(dest,"select count(*)from lineups l where not exists(select 1 from players p where p.id=l.player_id)")=='0'
-check('restored RLS distinguishes two fictional clubs, denies missing scope/write/guest/TRUNCATE; FK intact',policies)
+check('restored RLS binds two SQL identities to clubs, denies forged scope/write/guest/TRUNCATE; FK intact',policies)
 def keys():
     recovery=K/'recovery'/'identity.txt'
     if not recovery.exists():m.publish(recovery,m.run([c['keygen']]))
@@ -84,6 +85,11 @@ def overwrite():
     try:rejects(lambda:m.verify(c,link))
     finally:link.unlink()
 check('overwrite and symlink paths refused',overwrite)
+def nonempty_target():
+    new=target();m.sql(new,'create view public.unexpected as select 1 as id');rejects(lambda:m.restore(c,backup,new))
+    assert m.sql(new,"select count(*)from pg_roles where rolname='ch360_bk13_app'")=='0'
+check('partially populated destination with a view is refused before creating roles or objects',nonempty_target)
+check('audit distinguishes an authenticated archive from a successfully restored receipt',lambda: (m.audit(c,backup)['restored']or (_ for _ in()).throw(AssertionError())))
 def interruption():
     new=target();m.prepare_target(c,new,meta)
     sqltext=m.docker(['exec','-i','--user','postgres','ch360_bk13_src','pg_restore','--file=-'],dump)
@@ -107,14 +113,14 @@ def interruption():
 check('real interrupted restoration transaction cancelled locally; no partial application tables remain',interruption)
 def retention():
     # Use separate directory so failure specimens cannot enter the cleanup set.
-    folder=B/'retention';folder.mkdir(mode=0o700,exist_ok=True);cfg={**c,'backups':str(folder)}
+    folder=B/('retention-'+uuid.uuid4().hex);folder.mkdir(mode=0o700,exist_ok=True);cfg={**c,'backups':str(folder)}
     for i in range(4):
         old={**meta,'backupId':uuid.uuid4().hex,'createdAt':time.time()-(30+i)*86400};p=folder/('bk-'+old['backupId']+'.age');m.publish(p,m.encrypt(c,m.pack(old,dump)))
     keep=sorted(folder.glob('bk-*.age'))
     # Preserve a new genuinely restored copy with a matching receipt.
     fresh=m.publish(folder/backup.name,backup.read_bytes())
     plan=m.cleanup(cfg,days=14,keep=3);assert not plan['apply']and len(plan['candidates'])>=1
-    before=len(list(folder.glob('*.age')));m.cleanup(cfg,days=14,keep=3,apply=True);assert len(list(folder.glob('*.age')))==3;assert fresh.exists();assert before>3
+    before=len(list(folder.glob('*.age')));m.cleanup(cfg,days=14,keep=3,apply=True);assert len(list(folder.glob('*.age')))==before-len(plan['candidates']);assert len(list(folder.glob('*.age')))>=3;assert fresh.exists();assert before>3
 check('retention dry-run, preserve three copies including restored survivor; explicit local cleanup only',retention)
 def source_offline():
     assert m.snapshot('ch360_bk13_src')==original

@@ -1,0 +1,62 @@
+{
+  "result": "PASS",
+  "date": "2026-11-01",
+  "sourceCheckpoint": "3f721e3a7d784d5d784fabc06c5ed49235e19900",
+  "branch": "feat/encrypted-backups-3a13",
+  "fixtureIntegrationBlocks": 19,
+  "cliSuccessfulCommands": 8,
+  "cliExpectedFailures": 1,
+  "syntaxAndLocalLinksVerified": true,
+  "secretsPatternScan": "PASS",
+  "productionExports": 0,
+  "productionMutations": 0,
+  "planChanges": 0,
+  "deployments": 0,
+  "merges": 0,
+  "files": [
+    {
+      "path": "scripts/backup/manager.py",
+      "sha256": "8c7b6b11bc709f83e0bb932d141c57c882c7ce8df35aecb1302658f6c693066a"
+    },
+    {
+      "path": "scripts/backup/README.md",
+      "sha256": "2dcbd2902f588c1202bfd4db14a01c9300045cca4f9aa79c15f6655b98091f87"
+    },
+    {
+      "path": "tests/backup/fixture.sql",
+      "sha256": "1191d92a850719a6159d22531301be1e5bd74d78fd95485538b0210f1861d3d3"
+    },
+    {
+      "path": "tests/backup/validate.py",
+      "sha256": "9226696cacac97090280c113ab58efd3f4f1d67827cfff8d2d8fb9b489d0304d"
+    },
+    {
+      "path": "tests/backup/cli.py",
+      "sha256": "592a2abf76e7c5bf6872acbb308c1365b0b708e6be6a0af7b498999acfb51a49"
+    },
+    {
+      "path": "docs/PHASE_3A13_ENCRYPTED_BACKUP_VALIDATION.md",
+      "sha256": "ab9b6e1ac23b63b342e94eb7cc3d0f9d53addaee48b51d09dfb5dab4134e5763"
+    },
+    {
+      "path": "docs/PHASE_3A13_SUPABASE_PLAN_COMPARISON.md",
+      "sha256": "6cc70fcb5b1d779bbf89920a24c1d076fc597dc1a81ea6d232775a5c96b9b8f4"
+    },
+    {
+      "path": "docs/evidence/phase-3a13-cli-tests.json",
+      "sha256": "bd692022ce8e34e0ae370c91bcd676ce146618fa2c117c4dd37483ab3333c8b9"
+    },
+    {
+      "path": "docs/evidence/phase-3a13-backup-tests.json",
+      "sha256": "f2c2e3c06023756aadfee6059ed6415eeef6ca96b744109e8337eb5bb7c813d4"
+    },
+    {
+      "path": "docs/evidence/phase-3a13-environment-and-pricing.json",
+      "sha256": "d7b1c91d8bb096946607f3564ab4a815025b7a0571841e86a81de880f30ccd58"
+    },
+    {
+      "path": "docs/evidence/phase-3a13-cli-audit.json",
+      "sha256": "35cca58e9d086d2c89b9a704adc8d1f14e1e282ef55575e6a1c995138ba8536d"
+    }
+  ]
+}

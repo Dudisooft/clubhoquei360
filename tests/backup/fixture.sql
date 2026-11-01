@@ -1,4 +1,5 @@
 create role ch360_bk13_app nologin;
+create role ch360_bk13_club_b nologin;
 create role ch360_bk13_guest nologin;
 create schema auth;create schema supabase_migrations;
 create table public.backup_environment(purpose text primary key);
@@ -28,9 +29,16 @@ insert into supabase_migrations.schema_migrations values('FICTICI001','fictional
 create index stats_match_idx on stats_events(match_id);
 create function public.event_total(mid integer)returns bigint language sql stable security invoker set search_path='' as $$select count(*)from public.stats_events where match_id=mid$$;
 revoke all on function public.event_total(integer)from public;
-grant usage on schema public to ch360_bk13_app;
-grant select on clubs,teams,stats_events to ch360_bk13_app;
+grant usage on schema public to ch360_bk13_app,ch360_bk13_club_b;
+grant select on clubs,teams,stats_events to ch360_bk13_app,ch360_bk13_club_b;
 grant execute on function public.event_total(integer)to ch360_bk13_app;
 alter table stats_events enable row level security;
-create policy own_club on stats_events for select to ch360_bk13_app using(club_id=nullif(current_setting('fixture.club',true),'')::integer);
+create policy own_club on stats_events for select to ch360_bk13_app,ch360_bk13_club_b using(club_id=case current_user when 'ch360_bk13_app' then 1 when 'ch360_bk13_club_b' then 2 end);
 alter default privileges in schema public grant select on tables to ch360_bk13_app;
+
+create schema app_private;
+create table app_private.backup_notes(id integer generated always as identity primary key,event_id integer references public.stats_events(id),note text not null);
+insert into app_private.backup_notes(note)values('DADA PRIVADA FICTÍCIA');
+create function app_private.capture_event()returns trigger language plpgsql security definer set search_path='' as $$begin insert into app_private.backup_notes(event_id,note)values(NEW.id,'AUDITORIA FICTÍCIA');return NEW;end$$;
+revoke all on function app_private.capture_event()from public;
+create trigger fixture_audit after insert on public.stats_events for each row execute function app_private.capture_event();

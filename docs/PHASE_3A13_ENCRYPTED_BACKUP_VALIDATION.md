@@ -4,11 +4,11 @@
 
 ## Resultat i arquitectura
 
-**VERD local:** cicle real PostgreSQL 17.11 → pg_dump custom → paquet xifrat age → autenticació → pg_restore → comparació de dades/esquema/ACL/RLS. Disset blocs de prova passen, inclosa recuperació amb origen aturat i amb clau recuperada d'un escrow xifrat. [Evidència](evidence/phase-3a13-backup-tests.json).
+**VERD local:** cicle real PostgreSQL 17.11 → pg_dump custom → paquet xifrat age → autenticació → pg_restore → comparació de dades/esquema/ACL/RLS. Dinou blocs de prova passen, inclosa recuperació amb origen aturat i amb clau recuperada d'un escrow xifrat. [Evidència](evidence/phase-3a13-backup-tests.json).
 
 Implementació: `scripts/backup/manager.py`, biblioteca Python estàndard i CLI age oficial; cap algorisme criptogràfic implementat de nou. El paquet conté `database.dump` i `manifest.json` dins d'un ZIP sense compressió addicional, **tot xifrat i autenticat**. El manifest associa SHA256 del dump, UUID de còpia, moment, versió PG i snapshot de verificació. El checksum identifica l'arxiu; la detecció criptogràfica de manipulació correspon a age, no a un SHA públic editable.
 
-`pg_dump -Fc` inclou dades, schema, índexs, seqüències, constraints, funcions, RLS i ACL. El fixture també incorpora `auth.users` fictici i `supabase_migrations.schema_migrations` fictici. Els globals no són al dump: el manifest i el restaurador admeten **només dos rols NOLOGIN ficticis explícits**, recreats al clúster de destí; no és un exportador general de tots els rols/pertinences de Supabase Cloud.
+`pg_dump -Fc` inclou dades, schema, índexs, seqüències, constraints, funcions, triggers, RLS i ACL. El fixture també incorpora `auth.users` fictici i `supabase_migrations.schema_migrations` fictici. Els globals no són al dump: el manifest i el restaurador admeten **només els rols NOLOGIN ficticis explícits de la llista permesa**, recreats al clúster de destí; no és un exportador general de tots els rols/pertinences de Supabase Cloud.
 
 L'exportació i la preparació del paquet estan limitades a 128 MiB per sortida/paquet. Es comprova l'espai abans de començar i abans de publicar. El contingut en clar resideix en memòria; no es crea cap fitxer temporal de dump en clar. No és un disseny per a DB arbitràriament grans: per superar el límit caldrà un pipeline revisat, no incrementar-lo cegament. Python/OS poden conservar buffers o fer swap; no s'acredita memòria segura ni xifrat del swap de la màquina.
 
@@ -45,7 +45,7 @@ Els noms `bk-<uuid>.age` no contenen club, persona o partit. Publicació atòmic
 
 Tots els PostgreSQL d'aquesta fase tenen xarxa Docker `none`, zero ports i zero bind mounts del host. Únic transport SQL: socket Unix del contenidor, mitjançant el daemon local fixat a `/var/run/docker.sock`. Es rebutgen selectors Docker externs, noms que no siguin `ch360_bk13_*`, etiqueta no fictícia, imatge diferent, xarxa habilitada, ports o mounts de host.
 
-L'origen també ha de contenir el marcador `clubhoquei360-3a13-fictional`. No hi ha paràmetre d'URL PostgreSQL, claus Supabase ni bypass de producció. El destí ha de ser independent, buit i PG17; no s'accepta l'origen com a destí. La versió del manifest ha de correspondre al servidor. No s'ha aplicat cap privilegi al projecte real; només rols/permisos de prova exigits pel fixture.
+L'origen també ha de contenir el marcador `clubhoquei360-3a13-fictional`. No hi ha paràmetre d'URL PostgreSQL, claus Supabase ni bypass de producció. El destí ha de ser independent, buit i PG17; no s'accepta l'origen com a destí. La versió del manifest ha de correspondre al servidor. Els destins antics de prova creats en aquesta fase s’han retirat després de verificar etiqueta/imatge/aïllament, conservant l’últim restaurat, origen, client i còpies xifrades; no s’ha netejat cap contenidor aliè. No s'ha aplicat cap privilegi al projecte real; només rols/permisos de prova exigits pel fixture.
 
 El paquet es desxifra **completament** i es valida el final autenticat abans de descomprimir/verificar o enviar cap dada a pg_restore. Aquest detall evita consumir sortida parcial de desxifratge no autenticada. pg_restore usa `--exit-on-error --single-transaction`. Un error/timeout mai genera un rebut PASS; el destí queda en quarantena i no es reintenta automàticament. Els rols globals, preparats abans de la transacció del dump, poden quedar presents després d'un error; no es declara buit el clúster complet ni es neteja indiscriminadament.
 
@@ -53,20 +53,20 @@ Un arxiu age garanteix integritat/confidencialitat, no identitat del remitent da
 
 ## Dades i comprovació de cobertura
 
-`tests/backup/fixture.sql`: dos clubs, dos equips, deu jugadors inventats, dos usuaris ficticis sense credencials personals, una competició/partit, alineacions i convocatòries, dues estadístiques, assignació fictícia, rols NOLOGIN, índex, funció i política RLS per club, defaults i dues entrades de ledger fictícies. Dotze taules. **auth.users és un fixture de forma reduïda, no Supabase Auth/GoTrue real.** No s'han copiat actes, persones o UUID productius.
+`tests/backup/fixture.sql`: dos clubs, dos equips, deu jugadors inventats, dos usuaris ficticis sense credencials personals i tres rols SQL de prova, una competició/partit, alineacions i convocatòries, dues estadístiques, assignació fictícia, rols NOLOGIN, índex, funció i política RLS per club, defaults i dues entrades de ledger fictícies. Tretze taules, inclosa una taula privada app_private i un trigger d’auditoria fictici. **auth.users és un fixture de forma reduïda, no Supabase Auth/GoTrue real.** No s'han copiat actes, persones o UUID productius.
 
-Abans/després del dump es compara l'estat del fixture: si canvia, no es publica la còpia. El destí restaurat ha de coincidir en taules/owners/RLS, columnes, índexs, constraints, seqüències, funcions/EXECUTE, polítiques, ACL de taula/esquema/defaults, rols suportats i recomptes/empremtes canòniques de files. pg_dump és consistent, però aquesta comprovació de fixture immutable no és un snapshot exportat compartit amb un importador productiu concurrent. L'adaptació productiva ha de resoldre explícitament aquest punt.
+Abans/després del dump es compara l'estat del fixture: si canvia, no es publica la còpia. El destí restaurat ha de coincidir en taules/owners/RLS, columnes, índexs, constraints, seqüències, triggers, funcions/owners/EXECUTE incloent app_private, polítiques, ACL de taula/esquema/defaults, rols suportats i recomptes/empremtes canòniques de files. pg_dump és consistent, però aquesta comprovació de fixture immutable no és un snapshot exportat compartit amb un importador productiu concurrent. L'adaptació productiva ha de resoldre explícitament aquest punt.
 
-RLS restaurada: rol ordinari veu només estadístiques del club de prova indicat; sense àmbit veu zero, INSERT i guest són denegats, TRUNCATE no concedit. Relacions del fixture i FK restaurades intactes. No s'equipara aquest SET ROLE de PostgreSQL a JWT/Supabase Auth real.
+RLS restaurada: dues identitats SQL ordinàries veuen cadascuna només les estadístiques del seu club de prova; modificar un paràmetre de sessió no canvia aquest vincle. INSERT i guest són denegats, TRUNCATE no concedit. També s'ha exercitat el trigger privat en una transacció fictícia revertida, després de comparar la restauració inicial exacta. Relacions del fixture i FK restaurades intactes. No s'equipara aquest SET ROLE de PostgreSQL a JWT/Supabase Auth real.
 
 ## Proves executades
 
-[17 blocs, tots PASS](evidence/phase-3a13-backup-tests.json):
+[19 blocs, tots PASS](evidence/phase-3a13-backup-tests.json):
 
 1. PostgreSQL 17 i clients reals; origen sense xarxa.
 2. Backup xifrat i catàleg custom llegible, sense dump en clar al disc.
-3. Restauració en un altre clúster, amb dades/esquema/permisos/ledger exactes.
-4. RLS, denegacions i privilegis restaurats.
+3. Restauració en un altre clúster, amb dades/esquema/app_private/triggers/permisos/ledger exactes.
+4. RLS per identitat SQL, intent d’àmbit fals, trigger, denegacions i privilegis restaurats.
 5. Escrow xifrat de clau, recuperació amb identitat separada i nova restauració amb la clau recuperada.
 6. Fitxer truncat/incomplet: autenticació refusada.
 7. Byte de ciphertext alterat: refusat.
@@ -78,10 +78,14 @@ RLS restaurada: rol ordinari veu només estadístiques del club de prova indicat
 13. Manifest autenticat que requereix PG18 davant d'un destí PG17 real: refusat sense DDL. **No és una migració real PG18→17 provada.**
 14. Sobreescriptura i symlink: refusats; còpia original invariant.
 15. Restauració interrompuda real: SQL extret per pg_restore, transacció en destí, cancel·lació del backend abans de COMMIT; zero taules aplicatives parcials. No s'ha executat cap cancel·lació fora del fixture.
-16. Retenció: dry-run, còpies caducades fictícies, conservació de tres incloent una restaurada i eliminació explícita només de les candidates locals.
-17. Origen aturat: el fitxer i la clau permeten verificar i restaurar sense connectar-se a la DB d'origen.
+16. Destí parcial amb una vista: rebutjat abans de crear rols/objectes.
+17. Auditoria: diferencia autenticació d’una còpia i rebut de restauració real coincident.
+18. Retenció: dry-run, còpies caducades fictícies, conservació d’almenys tres incloent una restaurada i de les còpies dins de la retenció i eliminació explícita només de les candidates locals.
+19. Origen aturat: el fitxer i la clau permeten verificar i restaurar sense connectar-se a la DB d'origen.
 
-Incidència del banc de proves: el primer escenari d'origen aturat va intentar comparar després del restart un origen tmpfs ja perdut. La restauració independent havia passat, però el tancament global va fallar. S'ha corregit el test: comprovar invariància abans d'aturar, verificar el destí recuperat contra el manifest i regenerar només el seed fictici després del restart. La bateria final passa completa; no es presenta l'intent fallit com a èxit ni s'ha canviat cap regla de seguretat.
+Incidència del banc de proves: el primer escenari d'origen aturat va intentar comparar després del restart un origen tmpfs ja perdut. La restauració independent havia passat, però el tancament global va fallar. S'ha corregit el test: comprovar invariància abans d'aturar, verificar el destí recuperat contra el manifest i regenerar només el seed fictici després del restart. Una altra iteració del test de retenció assumia que sempre quedaven exactament tres fitxers, ignorant còpies recents vàlides d'execucions anteriors: s'ha aïllat cada mostra i s'ha comprovat que es conserva el mínim i tota la finestra de retenció. El motor no eliminava còpies recents; no s'ha relaxat la política. La bateria final passa completa; no es presenta l'intent fallit com a èxit ni s'ha canviat cap regla de seguretat.
+
+A més, [8 ordres CLI reals i una fallada esperada](evidence/phase-3a13-cli-tests.json) han passat: backup, verify, restore, audit, cleanup dry-run, escrow-key, recover-key, verify amb clau recuperada i fitxer absent. [Auditoria independent del rebut](evidence/phase-3a13-cli-audit.json).
 
 Temps local observat de backup+primera restauració al JSON; **no és RTO productiu**, no inclou una incidència, obtenció d'una còpia remota o reconfiguració Cloud.
 
@@ -91,12 +95,13 @@ Des del repositori, amb Docker local i age verificat disponibles:
 
 ```bash
 python tests/backup/validate.py
+python tests/backup/cli.py
 python scripts/backup/manager.py --config /workspace/private/ch360-keys-3a13/config.json --help
 ```
 
 El banc crea/reutilitza només el marcador i contenidors ficticis de la fase. Per a altres màquines cal preparar/configurar explícitament rutes privades fora de Git, imatge oficial fixada i eines verificades; els binaris/claus/dumps no són al repositori. PostgreSQL usa tmpfs de prova, perdut en aturar: no és emmagatzematge productiu.
 
-Ordres disponibles del gestor: `init-key`, `backup`, `verify`, `audit`, `restore --target`, `escrow-key`, `recover-key --output`, `cleanup`. `verify/audit` comproven autenticació i TOC; **només restore més comparació genera un rebut de recuperació**. El client pg_restore de verificació és un contenidor d'eines buit independent, no necessita l'origen actiu.
+Ordres disponibles del gestor: `init-key`, `backup`, `verify`, `audit`, `restore --target`, `escrow-key`, `recover-key --output`, `cleanup`. `verify` comprova autenticació i TOC; `audit` afegeix si existeix un rebut de restauració amb hash coincident. **Només restore més comparació genera un rebut de recuperació**. El client pg_restore de verificació és un contenidor d'eines buit independent, no necessita l'origen actiu.
 
 `cleanup` és dry-run per defecte. Política preparada: 14 dies, almenys tres còpies, i almenys una supervivent amb rebut de restauració i hash concordant. Només `--apply` elimina candidates autenticades dins de la carpeta privada. No elimina claus, fitxers desconeguts, errors, còpies manipulades o tots els backups. Cap tasca programada creada; no hi ha exports recurrents.
 
@@ -106,6 +111,7 @@ Linux/POSIX i Docker són l'entorn verificat. No es declara suport Windows/iOS n
 
 | Fora del dump/prova actual | Preparació complementària necessària |
 |---|---|
+| Metadades Storage Cloud | no presents al fixture; cal validar-ne esquema/dades i permisos explícitament en el manifest productiu |
 | Objectes físics Storage | inventari i còpia xifrada separada amb verificació de contingut |
 | JWT, API keys, Vault/claus i passwords de rols | custodi segur i procediment de regeneració/recuperació aprovat; mai al manifest públic |
 | Providers Auth, SMTP, redireccions, secrets | inventari de configuració i prova aïllada sense enviaments |

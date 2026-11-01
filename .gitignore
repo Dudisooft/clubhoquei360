@@ -14,3 +14,7 @@ supabase/.temp/
 playwright-report/
 test-results/
 work/
+
+# Local Python backup tooling artifacts
+__pycache__/
+*.pyc
