@@ -1,10 +1,24 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-Actualitzat: 31/10/2026 UTC. Instrucció única: **CONTINUA CLUBHOQUEI360**.
+Actualitzat: 01/11/2026 UTC. **CONTINUA CLUBHOQUEI360**.
 
-**Fase vigent: 3A.12 — auditoria de backups tancada amb bloqueig verificable. NO modificar producció, permisos, configuració o disponibilitat. NO exportar dades reals sense garanties. NO fusionar ni desplegar.**
+**Fase vigent: 3A.13 backups independents ficticis + comparativa informativa. NO producció, exports reals, permisos reals, migracions, cron, fusions o desplegaments.**
 
-## Fase 3A.12 · COMPLETADES totes les comprovacions accessibles de lectura
+## Fase 3A.13 · bloc A validat; documentació final/comparativa en curs
+
+Branca feat/encrypted-backups-3a13 des de3f721e3. main e009f4d iPR31–34 heads3cce758/b76afcd/1b83921/c7e9879 invariants; quatre draft/unmerged per gestióGitHub. Arxiuslocalsnetsalcomençar. Entornhaarrencat, política146enforced, sensebindingssecrets.
+
+Implementació scripts/backup/manager.py, tests/backup/fixture.sql i validate.py. age1.3.2oficialverificatSHA cbe24006683f8eb669266162894b9a522a1af52f2665fbc63a4bb032ed26ac10; PG17.11imatgepinexistent. Backupcustom+manifestenZIPtotageautenticat, dadesenmemòria128MiB, noclarendiscdump. Claus/backupsforaGit a/workspace/private/ch360-{keys,backups}-3a13 0700/0600. D:noexistent, nocòpianúvol. Dockerfixturexarxanone,0ports/hostmounts,sqlUDS,guardaetiqueta/imatge/marcadorfictici,destíbuitindependent. Configclaussecretesnomésforarepo.
+
+17blocsfinalsPASS:backup/restauracióreal12taules/roles/RLS/seqüències/ACL/defaults/funcions/ledger;duesclubsficticis,clauescrowrecuperada irestauració;fitxertruncat/alterat/clauincorrecta/absent/espai/permisos/versió/destí/overwrite/symlink;cancel·laciórealtransacciórestore;retenciódryrun+applylocalconserva3ambcòpiarestaurada;origenaturatrecuperable. SourcePGtmpfsperdutalstop:primerharnesscomparavadesprésirebutjava,corregitcompareabansseedficticiirestorecontraelmanifest,norelaxació. Evidence docs/evidence/phase-3a13-backup-tests.json,logfinal/tmp/ch360-3a13-tests-final2.log. AuthfixtureNOésGoTrue. Custòdiafísicaforad'aquesthostNOprovada. Claus/dumpsNOversionats.
+
+InformeA docs/PHASE_3A13_ENCRYPTED_BACKUP_VALIDATION.md preparat. Falta acabarBcomparativaambfontsoficials(preus25USDPro,10creditscompute,Small~15+PITR7d~100);BCE30/10/2026 1EUR=1,1172USDverificat. No s'ha contractat/rescanviat. No s'ha connectat alDBproductiu.
+
+Pendent immediat: acabar comparativa/READMEreproducció, revisar cobertura/seguretatdelcodi iCLI/proves finals necessàries, guardar evidènciessanejadessenseclaus, manifest,commitremotfinal. Només repetirprovesafectadessicodicanvia. Backup productiu NO EXECUTAT—PENDENTD'AUTORITZACIÓ;49+2i7migracionsproductivesintactes.
+
+Represa: llegirbloc3A.13,informeA i JSONtests,gitstatus; conservar claus/backupsprivatsforarepo, no crear exportsreals. Acabarprimerpendenticheckpointremot; no repetirfases3A.8–12 ni auditargeneralsensecanvi.
+
+## Antecedent · Fase 3A.12 · COMPLETADES totes les comprovacions accessibles de lectura
 
 Branca `audit/production-backup-readiness-3a12` des de `7f01fa7fc0bc345aba7d98ed652d23b48db25094`, últim checkpoint anterior verificat. Checkpoint actual: `git log -1` i SHA del remot d'aquesta branca (el commit conté el registre). main e009f4d, PR31 3cce758, PR32 b76afcd, PR33 1b83921, PR34 c7e9879 confirmats per ls-remote i gestió GitHub: quatre draft/open/unmerged, sense canvis. Informes3A.8/9/11 i paquet mínim recuperats; cap prova funcional repetida perquè el codi no ha canviat.
 
