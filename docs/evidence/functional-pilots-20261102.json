@@ -1,0 +1,44 @@
+{
+  "date": "2026-11-02",
+  "scope": "isolated functional lab",
+  "nodeTests": 272,
+  "nodeFailures": 0,
+  "finalConnectorApiRecheck": 18,
+  "staticCheck": "PASS",
+  "buildFiles": 41,
+  "productionMutations": 0,
+  "productionConnections": 0,
+  "playwright": {
+    "prepared": 5,
+    "blocked": "Chromium Crashpad launch failure",
+    "passed": 0
+  },
+  "browserIntegrated": [
+    "real Noia fixture",
+    "real FEM15 fixture",
+    "local journal action survives reload",
+    "clock 125000ms survives reload paused",
+    "one shared synced action",
+    "coach read-only",
+    "RFEP Vic report 10/10",
+    "exact clipboard preview",
+    "responsive 390/820/1440"
+  ],
+  "sources": {
+    "RFEP": {
+      "fixtures": 182,
+      "competition": "3575",
+      "mode": "live public portal JSON"
+    },
+    "FECAPA": {
+      "fixtures": 300,
+      "competition": "4802",
+      "mode": "official HTML document imported",
+      "nodeRefresh": "HTTP 403; last verified snapshot preserved"
+    }
+  },
+  "statistics": "fictional only",
+  "realMinorNamesStored": false,
+  "crossDeviceSyncVerified": false,
+  "videoEmbeddingVerified": false
+}

@@ -1,0 +1,91 @@
+[
+  {
+    "key": "RFEP:41:3575",
+    "federation": "RFEP",
+    "competition_id": "3575",
+    "season": "41",
+    "competition": "OK LIGA PLATA SUR",
+    "verifiedAt": "2026-11-01T23:56:45.002Z",
+    "expiresAt": 0,
+    "etag": null,
+    "modified": null,
+    "fixtures": [
+      {
+        "id": "RFEP:41:3575::JORNADA 5:3697:3727",
+        "federation": "RFEP",
+        "season": "41",
+        "competition_id": "3575",
+        "official_match_id": "35559",
+        "round_label": "JORNADA 5",
+        "group": "",
+        "date": "24/10/2026",
+        "time": "20:30",
+        "venue": "COMPLEJO DEPORTIVO LES COMES - IGUALADA",
+        "home_team": "SIMAR IGUALADA HC",
+        "away_team": "AUTO VIGATANA PATÍ VIC",
+        "home_id": "3697",
+        "away_id": "3727",
+        "score": [
+          1,
+          1
+        ],
+        "lineup_status": "not_checked",
+        "source_url": "https://www.hockeypatines.fep.es/league/3575"
+      },
+      {
+        "id": "RFEP:41:3575::JORNADA 7:3697:3685",
+        "federation": "RFEP",
+        "season": "41",
+        "competition_id": "3575",
+        "official_match_id": "35574",
+        "round_label": "JORNADA 7",
+        "group": "",
+        "date": "14/11/2026",
+        "time": "20:30",
+        "venue": "COMPLEJO DEPORTIVO LES COMES - IGUALADA",
+        "home_team": "SIMAR IGUALADA HC",
+        "away_team": "CE NOIA FREIXENET",
+        "home_id": "3697",
+        "away_id": "3685",
+        "score": null,
+        "lineup_status": "not_checked",
+        "source_url": "https://www.hockeypatines.fep.es/league/3575"
+      }
+    ],
+    "error": null,
+    "selectionOnly": true
+  },
+  {
+    "key": "FECAPA:41:4802",
+    "federation": "FECAPA",
+    "competition_id": "4802",
+    "season": "41",
+    "competition": "",
+    "verifiedAt": "2026-11-01T23:45:21.491Z",
+    "expiresAt": 0,
+    "fixtures": [
+      {
+        "id": "FECAPA:41:4802:FEM 15 OR:JORNADA 7:12288:12419",
+        "federation": "FECAPA",
+        "season": "41",
+        "competition_id": "4802",
+        "official_match_id": null,
+        "round_label": "JORNADA 7",
+        "group": "FEM 15 OR",
+        "date": "07/11/2026",
+        "time": "16:15",
+        "venue": "",
+        "home_team": "VICIO PHC SANT CUGAT",
+        "away_team": "IGUALADA HC",
+        "home_id": "12288",
+        "away_id": "12419",
+        "score": null,
+        "lineup_status": "not_checked",
+        "source_url": "https://www.hoqueipatins.fecapa.cat/"
+      }
+    ],
+    "error": null,
+    "transport": "official-document-import",
+    "selectionOnly": true
+  }
+]

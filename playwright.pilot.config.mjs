@@ -1,0 +1,2 @@
+import {defineConfig} from '@playwright/test';
+export default defineConfig({testDir:'tests/pilots',workers:1,timeout:40000,reporter:[['list'],['json',{outputFile:'work/pilot-browser-results.json'}]],use:{baseURL:'http://127.0.0.1:4180',browserName:'chromium',launchOptions:{executablePath:process.env.CHROMIUM_PATH||'C:/Program Files/Google/Chrome/Application/chrome.exe',chromiumSandbox:true},trace:'retain-on-failure'}});
