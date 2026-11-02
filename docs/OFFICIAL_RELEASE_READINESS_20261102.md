@@ -2,6 +2,8 @@
 
 **VEREDICTE: AJORNAR LA PUBLICACIÓ.** Hi ha una integració funcional revisable; no una versió productiva completa. Zero fusions, desplegaments, migracions, canvis de permisos o dades productives executats.
 
+[PR #35 en esborrany](https://github.com/Dudisooft/clubhoquei360/pull/35). Codi verificat: 8f9a611c1bfc18cbaf31a878ccb3671c0552b89c. [CI 41439875399 success](https://github.com/Dudisooft/clubhoquei360/actions/runs/41439875399), logs consultats: 233 Node, 78 Chromium, check/build 42 i dos recorreguts conjunts RFEP/FEM15 PASS. Checkout de dependència separat omès expressament perquè les migracions ja són a la branca. Els commits posteriors d'informe/evidències no modifiquen el codi executable. Auth GoTrue real s'ha provat en local, no dins d'aquesta CI.
+
 ## Fonts i integració
 
 Branca `release/official-integration-20261102`, des de `main` e009f4df40d9ed353cb7d865beafed99d736892d. SHA remots comprovats el 02/11:
