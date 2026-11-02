@@ -1,8 +1,9 @@
 import {PGlite} from '@electric-sql/pglite';
 import fs from 'node:fs';
 export const ID={club:'10000000-0000-4000-8000-000000000001',season:'10000000-0000-4000-8000-000000000002',team:'10000000-0000-4000-8000-000000000003',otherTeam:'10000000-0000-4000-8000-000000000004',match:'20000000-0000-4000-8000-000000000001',otherMatch:'20000000-0000-4000-8000-000000000002',player:'30000000-0000-4000-8000-000000000001',goalie:'30000000-0000-4000-8000-000000000002',rival:'30000000-0000-4000-8000-000000000003',principal:'40000000-0000-4000-8000-000000000001',external:'40000000-0000-4000-8000-000000000002',coach:'40000000-0000-4000-8000-000000000003',delegate:'40000000-0000-4000-8000-000000000004',alien:'40000000-0000-4000-8000-000000000005',manager:'40000000-0000-4000-8000-000000000006',secondary:'40000000-0000-4000-8000-000000000007',officialGoal:'50000000-0000-4000-8000-000000000001'};
-export async function createDatabase({skipModes=false}={}){
- const db=new PGlite();
+export async function createDatabase({skipModes=false,dataDir}={}){
+ const db=new PGlite(dataDir);
+ if(dataDir&&(await db.query("select to_regclass('public.local_fixture_ready') ready")).rows[0].ready)return db;
  await db.exec(`
  create role anon;create role authenticated;create role service_role bypassrls;
  create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
@@ -65,6 +66,7 @@ export async function createDatabase({skipModes=false}={}){
 
  for(const [match,team] of [[ID.match,ID.team],[ID.otherMatch,ID.otherTeam]])await db.query('insert into public.stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,$5,$6)',[match,ID.club,ID.season,team,'12419','fictici']);
  await db.query("insert into public.stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);
+ if(dataDir)await db.exec('create table public.local_fixture_ready(ready boolean)');
  return db;
 }
 export async function asUser(db,user,sql,params=[]){await db.exec(`reset role;set role authenticated;select set_config('request.jwt.claim.sub','${ID[user]||user}',false);`);return db.query(sql,params);}

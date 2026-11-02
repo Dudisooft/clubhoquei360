@@ -1,6 +1,7 @@
 import {PilotJournal} from './pilot-journal.js';import {AnalysisClock} from './stats-clock.js';import {ACTIONS,aggregate} from './stats-model.js';import {callupText,copyText} from './callup-model.js';
 const $=id=>document.getElementById(id),journal=new PilotJournal();let calendar=null,match=null,grant=null,key=null,state=null,clock=new AnalysisClock(),generation=0,syncing=false;
 const rosterList=document.createElement('ul');rosterList.id='official-roster';$('report').after(rosterList);
+let authenticatedMode=false;
 function error(e){$('error').textContent=e.message||String(e);}
 async function api(url,options={}){const r=await fetch(url,{...options,headers:{'content-type':'application/json',...(grant?{authorization:'Bearer '+grant.token}:{}),...options.headers}});const d=await r.json();if(!r.ok)throw Error(d.error||'Operació no disponible');return d;}
 function options(el,rows){el.replaceChildren();for(const [value,label]of rows){const o=document.createElement('option');o.value=value;o.textContent=label;el.append(o);}}
@@ -13,7 +14,7 @@ function render(){
  $('totals').textContent=`Equip: passades ${a.passes??'—'} · xuts ${a.shots??'—'} · gols observats ${a.goals??'—'} · assistències ${a.assists??'—'}. Jugador seleccionat: passades ${individual.passes??'—'} · xuts ${individual.shots??'—'} · gols ${individual.goals??'—'}. No inclou ni modifica el marcador federatiu.`;
  $('events').replaceChildren();for(const e of [...rows].reverse().slice(0,30)){const li=document.createElement('li');li.textContent=`${Math.floor(e.match_ms/1000)}s · ${e.side==='home'?'Local':'Visitant'} · ${e.player_id} · ${ACTIONS.find(a=>a.code===e.action)?.label||e.action} · ${e.pending?'desat al dispositiu':'confirmat al servidor local'}`;$('events').append(li);}
  $('record').disabled=!canWrite();for(const id of ['play','pause','adjust'])$(id).disabled=!canWrite();
- $('scope').textContent=grant?`Perfil fictici ${grant.role} · accés limitat a aquest equip i partit · caduca ${new Date(grant.expiresAt).toLocaleTimeString('ca-ES')}.`:'Sense autorització de prova.';
+ $('scope').textContent=grant?`${grant.authenticated?'Accés local autenticat':'Perfil fictici'} ${grant.role} · accés limitat a aquest equip i partit · caduca ${new Date(grant.expiresAt).toLocaleTimeString('ca-ES')}.`:'Sense autorització de prova.';
 }
 function callup(){if(!match)return;let start=null;const parts=match.date.match(/^(\d\d)\/(\d\d)\/(\d{4})$/);
  // Formatting uses the official local labels directly; no UTC conversion guesses.
@@ -30,7 +31,7 @@ async function selectMatch(){
  $('official').href=match.source_url;$('lineups').textContent='Alineacions oficials: no consultades. Els jugadors del registre són ficticis.';
  const scopeId=[match.id,$('team').value,$('role').value].join(':');
  let nextGrant=null;
- try{nextGrant=await api('/api/demo-session',{method:'POST',body:JSON.stringify({match:match.id,team:$('team').value,role:$('role').value})});if(turn!==generation)return;sessionStorage.setItem('ch360-demo-session:'+scopeId,JSON.stringify(nextGrant));}
+ try{nextGrant=authenticatedMode?JSON.parse(sessionStorage.getItem('ch360-demo-session:'+scopeId)||'null'):await api('/api/demo-session',{method:'POST',body:JSON.stringify({match:match.id,team:$('team').value,role:$('role').value})});if(turn!==generation)return;if(nextGrant?.expiresAt<Date.now())nextGrant=null;sessionStorage.setItem('ch360-demo-session:'+scopeId,JSON.stringify(nextGrant));}
  catch(e){if(turn!==generation)return;nextGrant=JSON.parse(sessionStorage.getItem('ch360-demo-session:'+scopeId)||'null');if(!nextGrant||nextGrant.expiresAt<Date.now())nextGrant=null;error(e);}
  if(turn!==generation)return;
  grant=nextGrant;
@@ -67,4 +68,6 @@ for(const id of ['meeting','shirt','clothing','observations'])$(id).oninput=call
 $('copy').onclick=run(async()=>{await copyText($('callup').textContent);$('copy-status').textContent='Copiat. Enganxa’l a WhatsApp quan el vulguis enviar.';});
 $('report').onclick=run(async()=>{const active=match.id;const r=await api('/api/report?match='+encodeURIComponent(active));if(match.id!==active)return;$('lineups').textContent=r.status==='published'?`Acta RFEP publicada i identitats verificades: ${r.sides.home.length} jugadors locals i ${r.sides.away.length} visitants. No s’han copiat noms personals ni s’ha substituït el registre propi.`:'Alineació oficial no verificada. No es fabrica cap convocatòria.';$('official-roster').replaceChildren();if(r.status==='published')for(const side of ['home','away']){const li=document.createElement('li');li.textContent=(side==='home'?match.home_team:match.away_team)+': '+r.sides[side].map(p=>'#'+p.number+(p.position==='goalkeeper'?' (P)':'')).join(' · ');$('official-roster').append(li);}});
 setInterval(()=>{const ms=clock.advance();$('clock').textContent=String(Math.floor(ms/60000)).padStart(2,'0')+':'+String(Math.floor(ms/1000)%60).padStart(2,'0');if(key&&canWrite())journal.clock(key,clock.snapshot()).catch(error);},1000);
-load().catch(error);
+$('login').onclick=run(async()=>{const invitation=$('invitation').value;$('invitation').value='';const g=await api('/api/pilot-session',{method:'POST',body:JSON.stringify({invitation,match:match.id,team:$('team').value})});$('role').value=g.role;sessionStorage.setItem('ch360-demo-session:'+[match.id,$('team').value,g.role].join(':'),JSON.stringify(g));$('auth-status').textContent='Sessió local autenticada. Permisos assignats pel servidor.';await selectMatch();});
+$('logout').onclick=run(async()=>{try{await api('/api/logout',{method:'POST'});}finally{grant=null;for(const k of Object.keys(sessionStorage))if(k.startsWith('ch360-demo-session:'))sessionStorage.removeItem(k);$('auth-status').textContent='Sessió tancada. Les accions locals es conserven.';render();}});
+api('/health').then(h=>{authenticatedMode=h.mode==='LOCAL_AUTHENTICATED_PILOT';$('authentication').hidden=!authenticatedMode;$('role').disabled=authenticatedMode;return load();}).catch(error);

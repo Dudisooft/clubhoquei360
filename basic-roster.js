@@ -1,6 +1,14 @@
 import {IHC_CLUB_ID,ownRosterScope} from './basic-eligibility.js';
 // View adapters over the existing pilot/catalogue identities. No name-based joins.
 export const sideLabel=side=>side==='home'?'Local':'Visitant';
+export function sourceRoster(players,source){
+ const records=source?.official_data?.players;
+ if(!Array.isArray(records))return players;
+ return players.map(p=>{const r=records.find(r=>r.team===p.team&&((r.id===p.id)||(r.federation_player_id&&r.federation_player_id===p.federation_player_id)));if(!r)return p;
+  const verified=source.import_status==='verified'&&source.official_data.report_verified===true&&r.matchVerified===true;
+  return {...p,origin:verified?'Acta '+source.federation+' d’aquest partit':r.origin||p.origin,eligibility:verified?'Consta a l’acta d’aquest partit':r.eligibility||p.eligibility,
+   matchVerified:verified,selection_basis:verified?'current_match_report':r.selection_basis,selectable:verified?true:p.selectable===false?false:r.selectable??p.selectable};});
+}
 export function safeCrest(value){try{const u=new URL(value);return u.protocol==='https:'&&['sidgad.cloud','www.sidgad.cloud'].includes(u.hostname)&&u.pathname.includes('/logos_clubes/')?u.href:null;}catch{return null;}}
 export function kitFor(side,teamKey=null,role='player'){
  const palette=['#b92336','#203f83','#176451','#633d83','#8f451e','#3c536e'];let index=side==='home'?0:1;

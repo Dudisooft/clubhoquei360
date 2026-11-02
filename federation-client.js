@@ -64,6 +64,8 @@ s.running=false;s.timeoutRunning=false;last=performance.now();}
   if($('syncFederation'))$('syncFederation').disabled=role!=='operator'||loading||!source?.federation_match_id;
   document.querySelectorAll('[data-set-piece]').forEach(b=>b.disabled=!play||!s.startersConfirmed);
   document.querySelectorAll('[data-team-foul],[data-team-foul-minus],[data-action],[data-person]').forEach(b=>{if(!play)b.disabled=true;});
+  document.querySelectorAll('[data-event-edit],[data-event-remove]').forEach(b=>b.disabled=!operator);
+  if(match)for(const a of document.querySelectorAll('a[href*="base.html"]'))a.href='./base.html?match='+encodeURIComponent(match);
   for(const n of [1,2])$('period'+n).disabled=!play||!s.startersConfirmed;refreshRecoverButton();
  }
  render=function(){baseRender();for(const side of ['home','away']){$(side+'Score').textContent=Math.max(0,s.events.reduce((n,e)=>n+(e.side===side?(e.kind==='gol'?1:e.kind==='gol_resta'?-1:0):0),0));}controls();};

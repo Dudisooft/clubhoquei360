@@ -1,0 +1,17 @@
+{
+  "checkedAt": "2026-11-02T22:38:54.4796705+01:00",
+  "officialSource": "https://www.hockeypatines.fep.es/",
+  "resource": "/rfep/v1/hp/report/",
+  "match": "35559",
+  "season": "41",
+  "homeTeam": "3697",
+  "awayTeam": "3727",
+  "liveHomePlayers": 10,
+  "liveAwayPlayers": 10,
+  "localRawMatchesLiveRoster": true,
+  "localVicPlayers": 20,
+  "localNoiaHomeCandidates": 10,
+  "localNoiaAwayCandidates": 10,
+  "noiaCandidatesAreOfficialLineup": false,
+  "personalNamesWrittenToEvidence": false
+}

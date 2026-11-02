@@ -1,0 +1,10 @@
+import fs from 'node:fs';import path from 'node:path';
+import {validateAccess} from './lib/pilot-access.mjs';
+if(!process.argv[2])throw Error('Specify the folder printed by prepare-local-pilot.mjs');
+const folder=path.resolve(process.argv[2]);
+const file=path.join(folder,'access.json');
+validateAccess(JSON.parse(fs.readFileSync(file,'utf8')));
+process.env.PILOT_ACCESS_FILE=file;
+process.env.PILOT_DATA_DIR=path.join(folder,'database');
+process.env.PILOT_PORT=process.env.PILOT_PORT||'4184';
+await import('./pilot-demo-server.mjs');

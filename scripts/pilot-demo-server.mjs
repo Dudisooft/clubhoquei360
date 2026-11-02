@@ -2,6 +2,8 @@
 // This process never imports app-client.js or connects to production Supabase.
 import http from 'node:http';import fs from 'node:fs';import path from 'node:path';import {fileURLToPath} from 'node:url';import crypto from 'node:crypto';import {isDeepStrictEqual} from 'node:util';
 import {PGlite} from '@electric-sql/pglite';import {PublicFederation} from './lib/public-federation.mjs';import {ACTIONS} from '../stats-model.js';
+import {validateAccess, invitationGrant} from './lib/pilot-access.mjs';
+const access=process.env.PILOT_ACCESS_FILE?validateAccess(JSON.parse(fs.readFileSync(process.env.PILOT_ACCESS_FILE,'utf8'))):null;
 const root=fileURLToPath(new URL('..',import.meta.url));
 const work=process.env.PILOT_DATA_DIR||path.join(root,'work','functional-demo');fs.mkdirSync(work,{recursive:true});
 const db=new PGlite(path.join(work,'club-statistics'));
@@ -21,7 +23,8 @@ async function route(req,res){
  const origin=`http://${req.headers.host}`;const url=new URL(req.url,origin);
  if(!/^127\.0\.0\.1:\d+$/.test(req.headers.host||''))return json(res,{error:'Host no permès'},403);
  if(req.headers.origin&&req.headers.origin!==origin)return json(res,{error:'Origen no permès'},403);
- if(url.pathname==='/health')return json(res,{mode:'ISOLATED_DEMO',statistics:'fictional',production:false});
+ if(url.pathname==='/health')return json(res,{mode:access?'LOCAL_AUTHENTICATED_PILOT':'ISOLATED_DEMO',statistics:'fictional',production:false});
+ if(url.pathname==='/api/logout'&&req.method==='POST'){grants.delete((req.headers.authorization||'').replace(/^Bearer /,''));return json(res,{signedOut:true});}
  if(url.pathname==='/api/calendar'&&req.method==='GET'){
   const fed=url.searchParams.get('federation')||'RFEP',comp=url.searchParams.get('competition')||'3575';
   const result=await source.calendar(fed,comp,'41');return json(res,result);
@@ -33,10 +36,17 @@ async function route(req,res){
   return json(res,await source.report(f));
  }
  if(url.pathname==='/api/demo-session'&&req.method==='POST'){
+  if(access)return json(res,{error:'Une invitació local és necessària'},403);
   const b=await body(req),f=fixture(b.match);if(!f||!['operator','coach','external'].includes(b.role))return json(res,{error:'Àmbit de prova invàlid'},400);
   if(![f.home_id,f.away_id].includes(b.team))return json(res,{error:'Equip fora del partit'},400);
   const lifetime=Math.min(3600000,Math.max(100,Number(process.env.PILOT_GRANT_MS)||3600000));
   const token=crypto.randomUUID(),grant={match:f.id,club:f.federation+':'+b.team,role:b.role,user:'fictional-'+b.role,expiresAt:Date.now()+lifetime};grants.set(token,grant);return json(res,{token,...grant,fictional:true});
+ }
+ if(url.pathname==='/api/pilot-session'&&req.method==='POST'){
+  if(!access)return json(res,{error:'Mode autenticat no configurat'},403);
+  const b=await body(req),f=fixture(b.match),g=invitationGrant(access,b.invitation,b.match,b.team);
+  if(!f||!g||g.club!==f.federation+':'+b.team||![f.home_id,f.away_id].includes(b.team))return json(res,{error:'Invitació invàlida, caducada o fora del partit'},403);
+  const token=crypto.randomBytes(32).toString('base64url');grants.set(token,g);return json(res,{token,...g,fictional:true,authenticated:true});
  }
  if(url.pathname==='/api/events'&&req.method==='GET'){
   const match=url.searchParams.get('match'),g=authorize(req,match);const r=await db.query('select payload from pilot_demo_events where club=$1 and match=$2 order by created_at,id',[g.club,g.match]);return json(res,r.rows.map(x=>x.payload));

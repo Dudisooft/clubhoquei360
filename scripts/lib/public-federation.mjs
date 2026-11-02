@@ -45,7 +45,7 @@ export function normalizeReport(data,fixture){
  if(!g||String(g.game_id)!==fixture.official_match_id||String(g.season_id)!==fixture.season||String(g.home_team_id)!==fixture.home_id||String(g.away_team_id)!==fixture.away_id)throw Error('Acta no correspon al partit/temporada');
  const sides={};for(const side of ['home','away']){
   const rows=g[side+'_roster'];if(!Array.isArray(rows))throw Error('Acta incompleta');
-  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),number:String(p.player_number),position:p.player_role==='P'?'goalkeeper':'field',starter:p['5i']==='true'||p['5i']===true||p['5i']==='5'};});
+  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),name:clean(p.player_name)||null,number:String(p.player_number),position:p.player_role==='P'?'goalkeeper':'field',starter:p['5i']==='true'||p['5i']===true||p['5i']==='5',goals:/^\d+$/.test(String(p.goals))?Number(p.goals):null,yellow:/^\d+$/.test(String(p.yellow_card))?Number(p.yellow_card):null,blue:/^\d+$/.test(String(p.blue_card))?Number(p.blue_card):null,red:/^\d+$/.test(String(p.red_card))?Number(p.red_card):null};});
   if(new Set(players.map(p=>p.id)).size!==players.length)throw Error('Jugadors duplicats a l’acta');
   sides[side]=players;
  }
@@ -53,7 +53,7 @@ export function normalizeReport(data,fixture){
  return {match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:0,source_url:fixture.source_url,verifiedAt:new Date().toISOString()};
 }
 export class PublicFederation {
- constructor({fetcher=fetch,now=Date.now,ttl=600000,onSnapshot=()=>{},snapshots=[]}={}){this.fetcher=fetcher;this.now=now;this.ttl=ttl;this.onSnapshot=onSnapshot;this.cache=new Map(snapshots.map(x=>[x.key,x]));this.pending=new Map();this.config=null;}
+ constructor({fetcher=fetch,now=Date.now,ttl=600000,onSnapshot=()=>{},snapshots=[],reportSnapshots=[],onReportSnapshot=()=>{}}={}){this.fetcher=fetcher;this.now=now;this.ttl=ttl;this.onSnapshot=onSnapshot;this.cache=new Map(snapshots.map(x=>[x.key,x]));this.reports=new Map(reportSnapshots.map(x=>[x.match_id,x]));this.onReportSnapshot=onReportSnapshot;this.pending=new Map();this.config=null;}
  async request(url,options={}){
   const response=await this.fetcher(url,{...options,redirect:'error',signal:AbortSignal.timeout(20000)});
   if(response.status===304)return {response,text:null};
@@ -82,7 +82,11 @@ export class PublicFederation {
  }
  async report(fixture){
   if(fixture.federation!=='RFEP'||!id(fixture.official_match_id))throw Error('Acta no consultable amb aquest adaptador');
-  return normalizeReport((await this.rfep('report',{id:fixture.official_match_id})).data,fixture);
+  const old=this.reports.get(fixture.id);
+  try{const next=normalizeReport((await this.rfep('report',{id:fixture.official_match_id})).data,fixture);
+   if(next.status!=='published'){if(old?.status==='published'&&old.official_match_id===fixture.official_match_id)return {...old,stale:true,error:'Acta incompleta; dades verificades conservades'};return next;}
+   await this.onReportSnapshot(next);this.reports.set(fixture.id,next);return next;
+  }catch(e){if(old?.status==='published'&&old.official_match_id===fixture.official_match_id)return {...old,stale:true,error:'Font temporalment no disponible; acta verificada conservada'};throw e;}
  }
  async calendar(federation,competition,season='41'){
   if(!PORTALS[federation]||!id(competition)||!id(season))throw Error('Àmbit federatiu invàlid');

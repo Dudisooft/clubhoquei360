@@ -1,4 +1,16 @@
 import test from 'node:test';import assert from 'node:assert/strict';import {callupText,mapsUrl,upcomingFirst,copyText,syncSummary} from '../callup-model.js';
+import fs from 'node:fs';
+
+test('Ramón validation reuses imported FEM15 and SIMAR fixtures without changing official metadata',async()=>{
+ const fixtures=JSON.parse(fs.readFileSync('demo/public-calendar-snapshot.json','utf8')).flatMap(s=>s.fixtures||[]);
+ for(const f of [fixtures.find(f=>f.official_match_id==='35574'),fixtures.find(f=>f.federation==='FECAPA'&&f.date==='07/11/2026'&&[f.home_id,f.away_id].includes('12419'))]){
+  assert.ok(f);const before=structuredClone(f);
+  const text=callupText({...f,dateLabel:f.date,timeLabel:f.time},{meeting:'15:00',shirt:'Equipació de prova',observations:'Validació; no enviar.'});
+  assert.ok(text.includes(f.home_team));assert.ok(text.includes(f.away_team));assert.ok(text.includes(f.time));assert.ok(text.includes('15:00'));
+  if(!f.venue)assert.ok(text.includes('Pendent de confirmar'));
+  const copied=[];await copyText(text,{clipboard:{writeText:async t=>copied.push(t)}});assert.deepEqual(copied,[text]);assert.deepEqual(f,before);
+ }
+});
 
 test('a pending clipboard permission cannot leave any team callup permanently stuck',async()=>{let selected='',removed=false;const document={createElement(){return {value:'',setAttribute(){},style:{},focus(){},select(){selected=this.value;},setSelectionRange(){},remove(){removed=true;}};},body:{append(){}},execCommand:()=>true};await copyText('CONVOCATÒRIA\nEquip fictici',{clipboard:{writeText:()=>new Promise(()=>{})},document,timeoutMs:10});assert.equal(selected,'CONVOCATÒRIA\nEquip fictici');assert.equal(removed,true);});
 const fixture={category:'INFANTIL D',round_label:'JORNADA 2',competition:'INF. OR',group:'Grup A',federation_start_at:'2026-10-03T15:15:00Z',home_team:'CP Congrés B',away_team:'IHC',venue:'Poliesportiu Municipal Camp del Ferro',maps:'https://www.google.com/maps/place/Example'};
