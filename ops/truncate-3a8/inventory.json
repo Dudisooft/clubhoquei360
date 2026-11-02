@@ -1,0 +1,540 @@
+{
+  "inventorySha256": "bb586396e870d7b792763f9a2240c42e816b41976eeaea6d19d110d0f460a29b",
+  "acknowledgement": "reviewed-49:bb586396e870d7b792763f9a2240c42e816b41976eeaea6d19d110d0f460a29b",
+  "expected": [
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "club_match_schedule_history",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "club_match_schedule_history",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "club_match_schedules",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "club_match_schedules",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "club_memberships",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "clubs",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "discipline_reviews",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "discipline_reviews",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "discipline_rule_sets",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "discipline_rule_sets",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_calendar_cache",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_calendar_cache",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_competitions",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_competitions",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_groups",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_groups",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_import_runs",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_import_runs",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_events",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_events",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_lineups",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_lineups",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_sources",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_match_sources",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_matches",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_matches",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_player_competition_stats",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_player_competition_stats",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_players",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_players",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_sync_runs",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_sync_runs",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_team_entries",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_team_entries",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_team_roster",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "federation_team_roster",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_events",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_events",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_matches",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_matches",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_members",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_members",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_operator_state",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_operator_state",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_players",
+      "beneficiary": "anon",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "pilot_players",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "seasons",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantor": "postgres",
+      "table_name": "teams",
+      "beneficiary": "authenticated",
+      "privilege_type": "TRUNCATE"
+    }
+  ],
+  "defaults": [
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "anon"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "authenticated"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "DELETE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "INSERT",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "SELECT",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "UPDATE",
+      "beneficiary": "postgres"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "MAINTAIN",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "REFERENCES",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRIGGER",
+      "beneficiary": "service_role"
+    },
+    {
+      "owner": "postgres",
+      "schema": "public",
+      "grantable": false,
+      "privilege": "TRUNCATE",
+      "beneficiary": "service_role"
+    }
+  ]
+}

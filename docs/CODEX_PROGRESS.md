@@ -1,5 +1,23 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Checkpoint vigent · integració oficial 02/11/2026
+
+**Aquesta entrada substitueix l'estat vigent indicat més avall; la fase 2B i els altres apartats es conserven com a historial. No fusionar, desplegar, migrar ni modificar producció.**
+
+- Objectiu: una sola aplicació original amb les millores compatibles; branca `release/official-integration-20261102` des de main e009f4d. Informe `docs/OFFICIAL_RELEASE_READINESS_20261102.md` i evidències `docs/evidence/release-20261102-*`.
+- Recuperat i verificat: SHA #31 3cce758, #32 b76afcd, #33 1b83921, #34 c7e9879. Diferencials funcionals reproduïts als commits a4a71db, c07f364, 63c780f, 301168a i ca19564, sense fusionar cap PR. Main i branques originals intactes. Altres PR #10/#11/#22/#27 no incorporades: incompatibilitats i condicions detallades a l'informe.
+- Correcció nova: procedència d'alineacions en consulta, errors diferents de dades buides, resum diferent d'acta i candidates separades; 4 proves Node i 5 Chromium noves. Artefacte privat de la mateixa aplicació contra backend local verificat, amb marcador de prova i sense identificador productiu. Paquet ops/truncate-3a8 copiat sense alterar hashes ni executar SQL mutatiu productiu.
+- Proves actuals: 233 Node, 78 Chromium, check/build 42 fitxers PASS; després d'ajustar només la data fictícia de Noia, prova afectada 1 PASS. Integració PGlite/Chromium RFEP futur i FEM15: 2 recorreguts PASS. Auth GoTrue/PostgreSQL/PostgREST reals locals: 9 blocs API i 6 navegador PASS amb 8 comptes ficticis. Dues sessions reals, escriptori 1440 i mòbil 390, veuen una sola acció sense recàrrega via consulta periòdica HTTP; recàrrega preserva dades i acta intacta. No és una prova de WebSocket productiu ni de dispositius físics.
+- Fitxers modificats: match-preview.js, partit-consulta.html, match-provenance.js; tests/match-provenance.test.mjs, tests/browser/match-modes.spec.mjs; scripts/serve-release-staging.mjs; docs/OFFICIAL_RELEASE_READINESS_20261102.md, aquest registre, evidències i paquet ops/truncate-3a8. Cap canvi de taula o permís productiu.
+- Lectures productives: 36 equips/38 inscripcions; Vic 35559 1–1 i alineacions 0/0, RPC match_mode_access absent, backend INSERT federation_match_events denegat; Noia 35574 absent. Preflight exactament 49/27, missing/unexpected=0. Dos defaults postgres pendents; dos defaults administratius supabase_admin fora del paquet. Backup productiu no acreditat. Sis classificacions administratives pendents.
+- Bloqueig de font: branca feat/functional-pilots-20261102 absent al remot; commit comunicat 7baf003b7e44144e8097f81c563fc82f29d3d780 retorna not our ref. Els cinc adjunts són informe/prova/JSON/ref/reflog, no el codi. Vic oficial10+10, candidates Noia i connector JSON182 consten comunicats, no integrats ni verificats aquí. No publicar reflog amb dades personals. Windows C:\Projects\ClubHoquei360 no accessible. S'ha demanat pujar la branca; no repetir aquesta petició en cada represa.
+- Connectors: portals públics accessibles parcialment via visor web; shell CONNECT403 abans de TLS. FECAPA ag vincula SIDGAD Competició i Playoff Llicències. OKMob/Hoqueicat/hockeyapp no acrediten API autoritzada de reutilització. Cap bypass, consulta privada o contacte extern enviat.
+- Pendent prioritari: (1) completar checkpoint remot/PR en esborrany i registrar CI, (2) quan sigui accessible, recuperar codi pilot i integrar només les parts compatibles en l'aplicació original, (3) font oficial Vic/Noia i reconciliació revisable, (4) backup productiu recuperable i aprovacions abans de qualsevol intervenció. No implementar una segona aplicació ni declarar publicables les dependències encara obertes.
+- Entorn: checkout /workspace/work/clubhoquei360-official-release; backend local aïllat reutilitzat a /workspace/work/clubhoquei360-integration-3a6. Logs a work/release ignorat. Els scripts natius i secrets locals no formen part del build ni del repositori. Dades fictícies exclusivament per les proves d'escriptura.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: obre release/official-integration-20261102, llegeix el primer checkpoint de docs/CODEX_PROGRESS.md i docs/OFFICIAL_RELEASE_READINESS_20261102.md, comprova git i la PR/CI; conserva les proves vigents, busca el codi 7baf003 de feat/functional-pilots-20261102 si ja és al remot i continua el primer pendent. No fusionis, despleguis ni modifiquis producció.»
+
+### Historial anterior conservat
+
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.
 
 **Fase vigent: 2B, desplegable de reforços i validació general al Mode Base. Sense fusió, publicació ni canvis de producció en aquesta fase. Els blocs anteriors es conserven com a historial.**

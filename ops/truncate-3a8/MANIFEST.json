@@ -1,0 +1,44 @@
+{
+  "phase": "3A.8",
+  "date": "2026-10-30",
+  "execution": "Prepared for separate human production authorization; no automatic production runner",
+  "files": [
+    {
+      "path": "inventory.json",
+      "sha256": "33841b2705d26427d97ee3872b7c24a96fd0c1bcd302ac400942f6facb8a675f"
+    },
+    {
+      "path": "00_preflight.sql",
+      "sha256": "8d9cf8ee7569087934495f8c975b8dc0d099a47d82e9afe66d8ffbce038f785b"
+    },
+    {
+      "path": "01_revoke_current.sql",
+      "sha256": "1d3a8553d371b18b1f7277ffa5480ba10f037dfa406977b933c9728ee6d223a3"
+    },
+    {
+      "path": "02_revoke_postgres_default.sql",
+      "sha256": "ed63c2fee92a5819f081506dc6f303b2fef6e1d6c3c1c92482b3ca0833c05068"
+    },
+    {
+      "path": "03_verify.sql",
+      "sha256": "b5c8a9654113ae4f019f6abc17677ccb0b2d810c0166cad07fdd5a06c0fdb95e"
+    },
+    {
+      "path": "RUNBOOK.md",
+      "sha256": "59a2d5df62ea99914b66fe726f4b6c2d7bd8404c8fcf2c685c45b7ca27b8529e"
+    }
+  ],
+  "scope": {
+    "currentExplicitClientGrants": 49,
+    "tables": 27,
+    "postgresPublicDefaultEntriesRemoved": 2,
+    "managedOwnersModified": false
+  },
+  "validatedAs": "postgres NOSUPERUSER in isolated PostgreSQL 17.11",
+  "evidence": [
+    "docs/evidence/remediation-3a8-core.json",
+    "docs/evidence/remediation-3a8-final-verification.json",
+    "docs/evidence/remediation-3a8-tests.json"
+  ],
+  "productionApplied": false
+}
