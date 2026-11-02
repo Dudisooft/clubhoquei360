@@ -2,6 +2,16 @@
 
 ## Checkpoint vigent · integració oficial 02/11/2026
 
+### Consolidació definitiva · darrer bloc verificat
+
+- Base recuperada: dcb2d67 de release/official-integration-20261102, PR #35; main i #31–#34 sense canvis. No hi ha accés al portàtil Windows, muntatge privat ni VPN; 7baf003 absent dels objectes dels checkouts accessibles i la branca pilot continua absent del remot. No s'ha recuperat el codi posterior. No repetir la cerca general fins que canviï l'accés o les referències.
+- **Work recuperat:** federation-sync ACTIVE v6, index.ts/parser.ts/fem15.ts descarregats en lectura i idèntics byte a byte a main i a aquesta branca. No reimplementar-los. Historial Git 43d8f44 i 02c32cd; bundles de totes les versions antigues no disponibles. Evidències de hashes i recomptes a docs/evidence/consolidation-20261102-*.json; informe docs/CONSOLIDATION_20261102.md.
+- Persistència real consultada: RFEP35529 20/20/20 (pilot/snapshot/canònics), RFEP35537 19/19/19, FECAPA152027 16/16/16; respectivament11/17/6 imports reeixits. No són fixtures. RFEP35559: resum1–1, canònics0/0 i cap font de pilot vinculada. Les10+10 del laboratori continuen comunicades, no examinades ni copiades a Supabase; origen consulta/cache no resolt sense font original.
+- Registres de plataforma consultats només en lectura, amb recomptes sense dades personals. Cron ihc-sync preexistent actiu al minut17 de cada hora; cap tasca activada/desactivada. No invocar federation-sync per comprovar-lo sota autorització de només lectura: escriu snapshots/cache/registres propis. No llegir/exportar secrets.
+- Proves noves: dues regressions multiequip/multiclub sobre la consulta d'alineacions i la separació cache/candidats/acta. 17 proves afectades PASS i **235 Node complets PASS,0fallades/omissions**. Sense canvis de codi executable, Supabase o migracions; Chromium78 i Auth real locals anteriors continuen vàlids. CI de la PR tornarà a comprovar el conjunt.
+- Fitxers d'aquest bloc: tests/match-provenance.test.mjs, docs/CONSOLIDATION_20261102.md, docs/evidence/consolidation-20261102-*.json, aquest registre. Codi recuperat de la plataforma desat només a work/consolidation ignorat perquè ja és idèntic al versionat. Cap dada personal copiada.
+- Pendents: obtenir accés efectiu a la font del pilot i verificar resposta oficial Vic; després conciliació de la font amb el connector v6 existent en la mateixa aplicació. Continuen bloquejats backup productiu,49+2 permisos i set migracions. No fusionar/desplegar/escriure a producció. Represa: revisar aquest bloc, Git/CI de #35 i només la nova disponibilitat del pilot; no repetir auditories ni connectors ja acreditats.
+
 **Aquesta entrada substitueix l'estat vigent indicat més avall; la fase 2B i els altres apartats es conserven com a historial. No fusionar, desplegar, migrar ni modificar producció.**
 
 - Objectiu: una sola aplicació original amb les millores compatibles; branca `release/official-integration-20261102` des de main e009f4d. Informe `docs/OFFICIAL_RELEASE_READINESS_20261102.md` i evidències `docs/evidence/release-20261102-*`.
