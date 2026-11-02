@@ -55,7 +55,7 @@ Les proves reals locals reutilitzen un predecessor d'esquema auditat amb dades e
 - Preflight mínim actual: 49 concessions exactes, 27 taules, 0 absents, 0 inesperades, propietaris previstos. Continuen obertes. Dos defaults postgres públics requereixen correcció; també hi ha dos defaults del rol gestionat supabase_admin, que el paquet **no modifica**. No confondre aquests dos conjunts.
 - Backup productiu recuperable continua no verificat. Una restauració fictícia anterior no ho substitueix. Classificació administrativa dels sis sèniors pendent, UPDATE desactivats.
 
-La referència comparada és main e009f4d i els informes previs del desplegament. No s'ha pogut inspeccionar íntegrament el CDN publicat ni una sessió productiva autenticada en aquest entorn. No es declara que Pages ja contingui aquesta branca.
+La referència comparada és main e009f4d. La consulta actual de GitHub Actions confirma l'últim Pages build and deployment: [40498968602](https://github.com/Dudisooft/clubhoquei360/actions/runs/40498968602), success, SHA e009f4df40d9ed353cb7d865beafed99d736892d, 27/10/2026 11:49 UTC. No s'ha pogut inspeccionar íntegrament el CDN publicat ni una sessió productiva autenticada en aquest entorn. Pages no ha publicat aquesta branca.
 
 ## Fonts federatives consultades
 
