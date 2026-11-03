@@ -1,5 +1,14 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Checkpoint vigent · sobretaula D: 03/11/2026
+
+- Decisió definitiva del responsable: **sobretaula, D:\ClubHoquei360\Backups**, substitueix el portàtil. Autoritzats inventari de disc/eines, carpeta nova privada, verificació de custòdia i proves fictícies. No tornar a demanar aquestes autoritzacions en reprendre des d'un executor local.
+- Bloqueig tècnic verificat: només hi ha un executor Linux/cloud a /workspace; D: no està muntada, no hi ha PowerShell/Windows, eina d'accés local al PC, VPN ni grants TCP privats. GitHub/repo accessibles no impliquen accés al disc. No s'ha creat cap falsa rutaD: a Linux.
+- Sobretaula: espai/salut D:, carpeta/ACL, eines, SQL/TLS, segon suport/custòdia i restore local **NO VERIFICATS**. No atribuir-hi l'espai/eines/proves del workspace. No s'han repetit proves Linux per presentar-les com a comprovacions Windows.
+- Documentat ops/cloud-backup/DESKTOP_D_PREPARATION.md i actualitzat RUNBOOK. Motor i proves anteriors intactes. Cap fitxer existent del sobretaula eliminat/sobreescrit; cap exportació, canvi Supabase, migració, permisos productius, fusió, desplegament o contractació.
+- Primera tasca pendent: reprendre en un executor amb accés real al sobretaula iD:, comprovar identitat/disc abans de crear res i seguir la guia local; no preparar el portàtil com a alternativa. Si el directori existeix, només inspeccionar-lo abans de qualsevol canvi d'ACL o contingut.
+- Represa exacta: «CONTINUA CLUBHOQUEI360 BACKUP AL SOBRETAULA: recupera ops/cloud-backup-readiness-20261103, llegeix el checkpoint deD: i DESKTOP_D_PREPARATION.md. Comprova que l'executor és el sobretaula i té D:. Continua les comprovacions i proves fictícies autoritzades sense eliminar/sobreescriure res. No exportis/restauris dades reals ni modifiquis Supabase,main o PR#35.»
+
 ## Checkpoint vigent · preparació backup Cloud 03/11/2026
 
 **Fase exclusivament de lectura productiva i simulacre fictici. NO EXPORTAR DADES REALS sense autorització nova. No modificar PR#35, main, permisos, pla, migracions o configuració productiva.**

@@ -2,6 +2,8 @@
 
 03/11/2026. Referència funcional PR#35 **3ba0775**. Es reutilitza sense modificar el motor3A.13. No és una autorització ni un runner productiu. El gestor manager.py continua refusant Cloud i només admet fixtures; no li afegiu una URL real ni marqueu dades reals com a fictícies.
 
+**Destí principal definitiu aprovat:** sobretaula, `D:\ClubHoquei360\Backups`, en substitució del portàtil. La preparació local està autoritzada, però encara no executada: aquest executor Linux no té accés al sobretaula. [Estat i represa local](DESKTOP_D_PREPARATION.md). Aquesta decisió no autoritza cap exportació productiva.
+
 ## Abast i portes obligatòries
 
 1. Autorització humana nova: exportar dades aplicatives, Auth sensible i metadades Storage del projecte acordat; xifrar-les i restaurar-les només en una destinació aïllada. Això no autoritza restaurar producció, modificar permisos, migrar, publicar, enviar correus o canviar el pla.
