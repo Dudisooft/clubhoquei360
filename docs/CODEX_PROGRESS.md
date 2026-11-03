@@ -1,5 +1,15 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Checkpoint vigent · Fase2 eines Windows 03/11/2026
+
+- Responsable identifica **DESKTOP-FHG96HG** i confirma privada la destinació D:\ClubHoquei360\Backups. Acceptar aquesta verificació com a comunicada pel responsable; no substituir-la pels resultats històrics del cloud.
+- L'executor accessible continua sent Linux3d837bbf7dd8, sense eina local Windows/PowerShell, muntatgeD:, VPN o TCP privat. No s'ha instal·lat/executat res al sobretaula. No confondre equip destinatari amb host actual.
+- Fonts oficials contrastades: PostgreSQL Windows → ZIP EDB17.11 sense instal·lador; age/keygen1.3.2Windows releaseFiloSottile. ZIP age x64 descarregat en work/windows-tools ignorat, mode0600/directori0700; SHA256f48d8f8f9ebe903ab5027ed067652f2cc1db94bc206976430133b905dcd8e8c7 coincideix amb digest GitHub. IntegritatZIP i PEamd64 d'age.exe/keygen.exe PASS. No executar-les en Linux ni presentar-ne versions com comprovades al Windows.
+- Pendent PostgreSQL: paquet concret i hash/signatura no recuperats; lectura HTML directa EDB HTTP403, sense atribuir-ne causa ni eludir-la. Sigsum.proof disponible per age, però verificacióSigsum/Authenticode NO executada. No instal·lar més eines per afirmar verificacions inexistents.
+- No s'han generat claus definitives ni nous parells de prova. Proves xifratge/recuperació/restauració Windows pendents d'accés local. Proves Linux anteriors no s'han repetit ni atribuït al sobretaula.
+- Preparat ops/cloud-backup/WINDOWS_TOOLCHAIN_PHASE2_20261103.md i evidència docs/evidence/windows-age-20261103.json. Restaura fictícia viable amb clúster temporal initdb/pg_ctlstart-stop, sense registrar servei; documentat, no executat a Windows. Cap Docker/WSL/servei permanent, elevació, canvi global de PATH, compra, exportació, connexió productiva, canvi Supabase o PR#35.
+- Represa: executar en un entorn amb accés efectiu a DESKTOP-FHG96HG; revisar arquitectura/eines/ACL i paquet verificat, després versions i proves fictícies. Si una dependència exigeix elevació o canvi important, informar abans. No exportar producció ni generar claus productives. No repetir la investigació de fonts oficials o hashes d'age ja documentats.
+
 ## Checkpoint vigent · sobretaula D: 03/11/2026
 
 - Decisió definitiva del responsable: **sobretaula, D:\ClubHoquei360\Backups**, substitueix el portàtil. Autoritzats inventari de disc/eines, carpeta nova privada, verificació de custòdia i proves fictícies. No tornar a demanar aquestes autoritzacions en reprendre des d'un executor local.

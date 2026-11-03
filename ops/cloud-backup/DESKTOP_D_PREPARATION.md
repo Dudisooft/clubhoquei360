@@ -2,6 +2,8 @@
 
 Destinació principal aprovada: **ordinador de sobretaula, D:\ClubHoquei360\Backups**. Substitueix el portàtil. No s'autoritza una exportació productiva ni restaurar dades reals.
 
+Actualització del responsable per a Fase2: equip **DESKTOP-FHG96HG** i destinació privada ja verificada segons la seva comunicació. Les comprovacions no fetes des d'aquest executor que consten més avall són històriques; no neguen aquella verificació local. [Eines Windows i estat Fase2](WINDOWS_TOOLCHAIN_PHASE2_20261103.md).
+
 ## Resultat comprovat en aquesta execució
 
 L'únic executor disponible és Linux al núvol, /workspace. No hi ha muntatgeD:, /mnt/d o /media/d; tampoc un executor Windows/PowerShell, connexió remota al sobretaula, VPN o grants TCP privats configurats. La disponibilitat de GitHub i del repositori no implica accés al disc del sobretaula.
