@@ -6,7 +6,7 @@
 </head>
 <body>
 <header><h1>ClubHoquei360 <span>Mode Base</span></h1><a href="./dashboard.html">Inici i sessió</a></header>
-<main><p><a href="partit.html?mode=base">Canvia de partit</a></p>
+<main><p><a href="./convocatoria.html">Prepara convocatòria per WhatsApp</a></p><p><a href="partit.html?mode=base">Canvia de partit</a></p>
 <section class="panel selection"><label for="match" hidden>Partit</label><select hidden id="match" disabled><option>Carregant partits…</option></select><p id="fixtureNotice" class="muted"></p><button id="activateContext" class="primary wide" hidden>Activa el registre compartit</button><button id="exportLegacy" class="wide" hidden>Descarrega les anotacions de la prova local anterior</button></section>
 <div id="matchHeader" class="match-header">
  <div class="scoreboard panel"><div class="team-identity"><img id="homeCrest" alt="Escut local" hidden><strong id="homeName">Local</strong></div><div><div id="score" class="score" aria-label="Marcador">—</div><span id="modeLabel" class="muted">Registre de partit</span></div><div class="team-identity"><img id="awayCrest" alt="Escut visitant" hidden><strong id="awayName">Visitant</strong></div></div>
@@ -34,5 +34,5 @@
 <nav class="footer-nav"><a href="./avancat.html">Mode Avançat</a><a href="./historial.html">Historial</a></nav>
 </main>
 <dialog id="actionSheet" aria-labelledby="actionTitle"><div class="sheet-handle" aria-hidden="true"></div><h2 id="actionTitle">Selecciona una acció</h2><p id="actionContext" class="muted"></p><div class="sheet-actions"><button data-action="gol" class="goal">Gol</button><button data-action="groga" class="yellow">Targeta groga</button><button data-action="blava" class="blue">Targeta blava</button><button data-action="vermella" class="red">Targeta vermella</button></div><button id="closeSheet" class="wide">Cancel·la</button></dialog>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script type="module" src="./base.js?v=reinforcements1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script type="module" src="./base.js?v=mode-access1"></script>
 </body></html>
