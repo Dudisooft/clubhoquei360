@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-03",
+  "result": "PASS",
+  "postgres": "17.11",
+  "age": "1.3.2",
+  "supabaseCli": "2.121.0",
+  "originalEngineBlocks": 19,
+  "cliSuccessPaths": 8,
+  "cliExpectedFailures": 1,
+  "cloudLayoutChecks": 7,
+  "engineUnchanged": true,
+  "productionExports": 0,
+  "productionMutations": 0,
+  "productionRestoreVerified": false,
+  "schemaModel": "Synthetic Auth/Storage, not copied Cloud schema",
+  "realCloudSqlCredentialConfigured": false,
+  "durableCustodyVerified": false,
+  "estimatedExtraPlatformLicenseCostEur": 0
+}

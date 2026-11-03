@@ -1,5 +1,20 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Checkpoint vigent · preparació backup Cloud 03/11/2026
+
+**Fase exclusivament de lectura productiva i simulacre fictici. NO EXPORTAR DADES REALS sense autorització nova. No modificar PR#35, main, permisos, pla, migracions o configuració productiva.**
+
+- Branca separada ops/cloud-backup-readiness-20261103, base3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2. El worktree release original amb canvis anteriors pendents no s'ha tocat. PR#35 continua en esborrany.
+- Revisats3A.12/3A.13. Motor scripts/backup/manager.py i quatre fitxers de README/fixture/tests copiats de c274b33 byte a byte: hash8c7b6b11bc709f83e0bb932d141c57c882c7ce8df35aecb1302658f6c693066a del motor. Cap reimplementació ni bypass de les seves guardes fictícies.
+- Lectura Cloud actual:PG17.11,24,45MiB; public45,app_private1,ledger1,Auth27,Storage8;0buckets/0objectes;30versions al ledger,set pendents no aplicades. Owners gestionats d'Auth/Storage preservats. Inventari agregat i preflight SQL només lectura, sense noms/hashes/tokens personals.
+- Proves reals locals fictícies:19blocs originals PASS;8camins CLI i1fallada esperada PASS;7comprovacions noves de snapshot compartit/layout Cloud PASS. Inclou coherència sota escriptura concurrent,ACL/RLS/owners,Auth reduït,ledger i seqüència no rebaixada. No és el baseline27/8real ni GoTrue Cloud restaurat.
+- Errors del simulacre:CREATE SCHEMA public contra esquema existent, resolt filtrant només aquella entrada de TOC; components de prova en namespace privat separat, sense canviar el motor. Els primers components xifrats es conserven en quarantena privada. Reexecucions CLI/layout PASS.
+- Preparat: ops/cloud-backup/RUNBOOK.md, preflight.sql, perfil libpq exemple sense secrets; informe docs/PRODUCTION_BACKUP_PREPARATION_20261103.md i evidències cloud-backup-20261103-*.json. Proteccions .gitignore per dumps/age/credencials; cap arxiu real o clau versionats.
+- Bloquejos reals:cap credencial SQL nativa/connexió TCP Cloud autoritzades;destíD:inaccessible;custòdia física independent no acreditada;baseline Supabase17/extensions/Auth/Storage reals a contrastar al destí abans del restore. Configuració Cloud,JWT/SMTP/OAuth/Edge/Vault separada del dump. PlaFree no canviat; cost plataforma addicional necessari0€ amb material existent.
+- Còpia real: NO EXECUTADA. Cap backup productiu recuperable es declara verificat. Cal autorització d'exportació única de dades/esquema,Auth sensible i metadades Storage a destí privat verificat,i restauració només en entorn aïllat. No és permís de modificar producció o publicar.
+- Represa: «CONTINUA CLUBHOQUEI360 BACKUP: recupera ops/cloud-backup-readiness-20261103,llegeix aquest bloc i el runbook,revisa Git i l'autorització pendent. Conserva les proves vàlides del motor intacte. No facis cap export real fins a tenir autorització,destí/custòdia i credencials verificats. No fusionis ni despleguis.»
+
+
 ## Checkpoint vigent · pilot recuperat integrat, 03/11/2026
 
 Aquesta entrada substitueix els bloquejos d'accés al codi descrits més avall; l'historial es conserva. **NO FUSIONAR. NO DESPLEGAR. NO MODIFICAR PRODUCCIÓ.**

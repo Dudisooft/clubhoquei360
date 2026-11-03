@@ -1,0 +1,31 @@
+{
+  "sourceCommit": "c274b33",
+  "files": [
+    {
+      "file": "scripts/backup/manager.py",
+      "sha256": "8c7b6b11bc709f83e0bb932d141c57c882c7ce8df35aecb1302658f6c693066a",
+      "unchangedFromC274b33": true
+    },
+    {
+      "file": "scripts/backup/README.md",
+      "sha256": "2dcbd2902f588c1202bfd4db14a01c9300045cca4f9aa79c15f6655b98091f87",
+      "unchangedFromC274b33": true
+    },
+    {
+      "file": "tests/backup/fixture.sql",
+      "sha256": "1191d92a850719a6159d22531301be1e5bd74d78fd95485538b0210f1861d3d3",
+      "unchangedFromC274b33": true
+    },
+    {
+      "file": "tests/backup/validate.py",
+      "sha256": "9226696cacac97090280c113ab58efd3f4f1d67827cfff8d2d8fb9b489d0304d",
+      "unchangedFromC274b33": true
+    },
+    {
+      "file": "tests/backup/cli.py",
+      "sha256": "592a2abf76e7c5bf6872acbb308c1365b0b708e6be6a0af7b498999acfb51a49",
+      "unchangedFromC274b33": true
+    }
+  ],
+  "reimplemented": false
+}

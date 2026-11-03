@@ -14,3 +14,11 @@ supabase/.temp/
 playwright-report/
 test-results/
 work/
+
+# Backup artifacts and private PostgreSQL profiles never belong in Git.
+__pycache__/
+*.age
+*.dump
+*.pgpass
+.pgpass
+pg_service.conf
