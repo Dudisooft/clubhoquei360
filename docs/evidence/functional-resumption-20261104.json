@@ -1,0 +1,76 @@
+{
+  "date": "2026-11-04 Europe/Madrid",
+  "branch": "fix/real-match-workflows-20261104",
+  "base_pr": 35,
+  "base_sha": "3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2",
+  "main_sha": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "file_sha256": {
+    "basic-roster.js": "71c8efcf432050eea38a5cdc718db084109908490c70e9079c6f17504130b16c",
+    "match-navigation-ui.js": "515f7e17d56571c0cf1e2fc6bae13a3a66fcc4f371ecaa559c91798200b6d751",
+    "match-navigation.js": "edbe094493219842e849483e7cde109767ca199a430818bc2ac066c279b36b75",
+    "match-preview.js": "a02d8a773e9bb63466725a20ad994735d372681b554a91e40665c08deaa0c20f",
+    "partit.html": "2330410729ab26158e0ba5fc169c40edc14256293344b401c852f6916d9e6a7e",
+    "tests/basic.test.mjs": "f98e163b69b020f16c718463d85b3524a617266423c4cebff4847ff3f0d5a695",
+    "tests/browser/match-modes.spec.mjs": "f4d3e2888c9f5e4904901dd565dabf08f309f67e16bc0cda87b0057e5d46c921",
+    "tests/browser/navigation.spec.mjs": "3e254b4c4e90bb7c4fe0fe894aeda8414a6d883226a9e4abb155445890f640bf",
+    "tests/catalogue-lineup-identity.test.mjs": "4bfb4950ecf0488ad9cb9be9c5e1deb7e214f31341315dacaa54f50de7a63759",
+    "tests/navigation.test.mjs": "3a431dc3d8dbcc7b87e2a4c0c07e2cef92a5cbfe0f61b23fabcf59a7d1d39de8",
+    "tests/own-roster-catalogue.test.mjs": "ac073d618e9197d19abe122273c643aea4ba99cbbbcde000d16a4f7b7eaa0cc6"
+  },
+  "local_results": {
+    "node": {
+      "passed": 277,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "passed": 86,
+      "failed": 0,
+      "skipped": 0
+    },
+    "static_files": 43,
+    "build_files": 43,
+    "git_diff_check": "pass"
+  },
+  "test_data": "synthetic players and Auth transport; local PostgreSQL/PGlite; not production Auth validation",
+  "read_only_production_observations": {
+    "35559": {
+      "lineups": [
+        0,
+        0
+      ],
+      "score": [
+        1,
+        1
+      ],
+      "final_report": true
+    },
+    "152043": {
+      "lineups": [
+        8,
+        8
+      ],
+      "score": [
+        3,
+        1
+      ],
+      "final_report": true
+    },
+    "150982": {
+      "lineups": [
+        9,
+        6
+      ],
+      "score": [
+        11,
+        0
+      ],
+      "fetched_date_utc": "2026-11-03"
+    }
+  },
+  "production_mutations": 0,
+  "production_exports": 0,
+  "deployments": 0,
+  "merges": 0,
+  "ci": "pending new pull request"
+}
