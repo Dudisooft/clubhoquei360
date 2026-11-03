@@ -47,3 +47,7 @@ L'executor va quedar no disponible mentre es desava documentació, abans del com
 Zero fusions/desplegaments/migracions/importacions/escriptures productives. La font del pilot ja no és un bloqueig. Continuen pendents: backup productiu recuperable,49concessions TRUNCATE,2defaults postgres,set migracions, revisió i autorització separada del backend/frontend, reconsulta oficial i reconciliació explícita de contextos.
 
 La futura posada en servei requereix actualitzar el bundle de federation-sync amb public-api.ts,parser.ts,fem15.ts i les dependències existents; publicar només HTML no activa el connector nou. Després cal verificar les10+10 realment persistides. Cap pas productiu s'executa des d'aquest informe.
+
+## Correcció de compatibilitat posterior
+
+La revisió del contracte ha reproduït una incompatibilitat: v6 publica external_id i el helper Base recuperat només cercava id/federation_player_id. Corregit amb IDs estables i costat, sense noms. Una acta actual verificada es reconeix; un candidat pendent no amplia elegibilitat. Regressió reproduïda abans/després amb la funció pura i afegida a la suite. La CI final ha de comprovar265Node i83Chromium; les264Node locals anteriors no inclouen aquesta prova nova.

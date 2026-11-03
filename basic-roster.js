@@ -4,7 +4,7 @@ export const sideLabel=side=>side==='home'?'Local':'Visitant';
 export function sourceRoster(players,source){
  const records=source?.official_data?.players;
  if(!Array.isArray(records))return players;
- return players.map(p=>{const r=records.find(r=>r.team===p.team&&((r.id===p.id)||(r.federation_player_id&&r.federation_player_id===p.federation_player_id)));if(!r)return p;
+ return players.map(p=>{const r=records.find(r=>r.team===p.team&&((r.id&&r.id===p.id)||(p.federation_player_id&&String(r.federation_player_id||r.external_id||'')===String(p.federation_player_id))));if(!r)return p;
   const verified=source.import_status==='verified'&&source.official_data.report_verified===true&&r.matchVerified===true;
   return {...p,origin:verified?'Acta '+source.federation+' d’aquest partit':r.origin||p.origin,eligibility:verified?'Consta a l’acta d’aquest partit':r.eligibility||p.eligibility,
    matchVerified:verified,selection_basis:verified?'current_match_report':r.selection_basis,selectable:verified?true:p.selectable===false||r.selectable===false?false:p.selectable};});

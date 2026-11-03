@@ -2,6 +2,7 @@ import test from 'node:test';import assert from 'node:assert/strict';import fs f
 import {navigationTeams} from '../match-navigation.js';
 import {PublicFederation,normalizeReport,readRfepSnapshot,canonicalRfepReport} from '../scripts/lib/public-federation.mjs';
 import {readCatalogueFixture} from '../basic-practice.js';
+import {sourceRoster} from '../basic-roster.js';
 import {copyText} from '../callup-model.js';
 
 test('all 36 catalogued teams stay selectable via 38 entries even without calendars',()=>{
@@ -35,4 +36,12 @@ test('Base reads RFEP catalogue lineups without federation writes or name-based 
 test('pending clipboard permission falls back with exact approved text and cleans its temporary input',async()=>{
  let copied='',removed=false;const document={createElement(){return{value:'',setAttribute(){},style:{},focus(){},select(){copied=this.value;},setSelectionRange(){},remove(){removed=true;}}},body:{append(){}},execCommand:()=>true};
  await copyText('CONVOCATÒRIA\nFICTÍCIA',{clipboard:{writeText:()=>new Promise(()=>{})},document,timeoutMs:5});assert.equal(copied,'CONVOCATÒRIA\nFICTÍCIA');assert.equal(removed,true);
+});
+
+test('the existing v6 external_id contract is recognized by Base without matching names or widening future eligibility',()=>{
+ const player={id:'LOCAL-FICTICI',team:'away',federation_player_id:'200',matchVerified:false,selectable:false};
+ const source={federation:'RFEP',import_status:'verified',official_data:{report_verified:true,players:[{external_id:'200',team:'away',matchVerified:true}]}};
+ assert.equal(sourceRoster([player],source)[0].matchVerified,true);
+ assert.equal(sourceRoster([player],{...source,import_status:'pending'})[0].selectable,false);
+ assert.equal(sourceRoster([player],{...source,official_data:{...source.official_data,players:[{external_id:'999',team:'away',matchVerified:true}]}})[0].matchVerified,false);
 });
