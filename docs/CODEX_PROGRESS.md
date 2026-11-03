@@ -1,5 +1,20 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Checkpoint vigent · pilot recuperat integrat, 03/11/2026
+
+Aquesta entrada substitueix els bloquejos d'accés al codi descrits més avall; l'historial es conserva. **NO FUSIONAR. NO DESPLEGAR. NO MODIFICAR PRODUCCIÓ.**
+
+- Origen recuperat: recovery/functional-pilots-20261102,4970f5ad93bb008809dc3969bcad51437af3b0af, conté7baf003 i els canvis locals posteriors. Destinació PR#35/release/official-integration-20261102,base114b3c0.
+- Integrats selectivament: selector per inscripcions (36equips/38entrades sense amagar equips sense calendari),Base RFEP/FECAPA,context exacte en canviar de mode,porta-retalls amb timeout,adaptador públic recuperat dins federation-sync v6,identitats i caches per àmbit,candidats separats. No s'ha copiat el laboratori o les bases.
+- Preservats #31–#34: rols/RLS/autoritzacions temporals,cua,imports segurs,StatsStore,outbox,sincronització,format oficial WhatsApp i regles de reforços. Migracions/package/lockfile intactes.
+- Proves abans de fallada d'entorn:264Node,83Chromium,check/build43 i6blocs navegador Auth/PostgreSQL/PostgREST real local PASS. La nova repetició de dues sessions queda sense resultat inspeccionable; no comptar-la com PASS. Resultat de CI del commit remot: consultar PR#35.
+- Informe docs/RECOVERED_PILOT_INTEGRATION_20261103.md; evidències docs/evidence/recovered-pilot-20261103-*.json.10+10 de Vic documentades a la recuperació del portàtil; cap resposta personal copiada. Lectura productiva03/11:Vic0/0,Noia35574 absent. Revalidació RFEP bloquejada perCONNECT403 abansTLS.
+- Interrupció: executor no disponible mentre desava l'informe,abans de commit. S'ha reconstruït el patch des dels fitxers autoritatius amb el connector GitHub i CI verifica l'arbre desat. El worktree /workspace/work/clubhoquei360-official-release pot conservar canvis sense commit del mateix bloc; comparar-los amb el nou remot abans de qualsevol operació. No reset/clean. La branca recuperada continua immutable.
+- Desat per API GitHub amb un únic parent114b3c0 i actualització de ref amb expected_sha, sense force ni fusió. gitCLI no tenia credencials disponibles. git log remot/PR#35 dona el nou checkpoint exacte.
+- Pendents per ordre: comprovar CI; reconciliar worktree local amb remot quan l'executor torni; revisar PR; acreditar backup i obtenir autoritzacions abans de qualsevol49+2,migració,EdgeFunction o Pages. No repetir les auditories anteriors sense canvis rellevants.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest primer checkpoint i l'informe del03/11, consulta el head/CI de PR#35, recupera el remot release/official-integration-20261102 i compara els canvis locals pendents sense sobreescriure'ls. Continua el primer pendent independent. No fusionis,despleguis o modifiquis producció.»
+
+
 ## Checkpoint vigent · integració oficial 02/11/2026
 
 ### Consolidació definitiva · darrer bloc verificat

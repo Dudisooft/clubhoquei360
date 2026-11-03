@@ -3,7 +3,7 @@ import {basicState,makeRow,cards,comparison,playerTotals,benchTotals} from './ba
 import {score,fromRow} from './federation-model.js';
 import {BasicStore,syncFederation} from './basic-store.js';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=eligibility1';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel,sourceRoster} from './basic-roster.js?v=eligibility1';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -64,7 +64,7 @@ function renderSummary(){
  const records=ids.map(id=>recordFor(id)||s.active.find(r=>r.payload?.actor===id)?.payload?.details?.player_snapshot||{id,full_name:'Jugador no disponible',team:s.active.find(r=>r.payload?.actor===id)?.team});
  $('playerSummary').innerHTML=['home','away'].map(side=>`<h3>${esc(teamName(side))}</h3>${records.filter(p=>p.team===side).map(p=>`<div class="summary-player"><span>${esc(p.dorsal?'#'+p.dorsal+' · ':'')}${esc(p.full_name)}</span><strong>${esc(countsText(playerTotals(s.events,p.id))||'Sense gols ni targetes')}</strong></div>`).join('')||'<p class="muted">Sense jugadors convocats o identificats.</p>'}`).join('');
  $('benchSummary').innerHTML=['home','away'].map(side=>`<p><strong>Banqueta ${side==='home'?'local':'visitant'}:</strong> ${esc(countsText(benchTotals(s.events,side))||'Sense targetes locals')}</p>`).join('');
- $('comparison').innerHTML=['home','away'].map(side=>`<h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3><table><thead><tr><th>Concepte</th><th>Registre local</th><th>FECAPA</th><th>Estat</th></tr></thead><tbody>${comparison(store?.all()||[],source,side).map(r=>`<tr>${[r.label,r.local,r.official,r.status].map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`).join('');
+ $('comparison').innerHTML=['home','away'].map(side=>`<h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3><table><thead><tr><th>Concepte</th><th>Registre local</th><th>Federació</th><th>Estat</th></tr></thead><tbody>${comparison(store?.all()||[],source,side).map(r=>`<tr>${[r.label,r.local,r.official,r.status].map(v=>`<td>${esc(v)}</td>`).join('')}</tr>`).join('')}</tbody></table>`).join('');
 }
 function render(){
  const s=state(),setup=preparing||!s.confirmed;
@@ -72,6 +72,9 @@ function render(){
  for(const side of ['home','away']){const image=$(side+'Crest'),url=safeCrest(source?.[side+'_crest_url']);image.hidden=!url;if(url)image.src=url;else image.removeAttribute('src');}
  $('score').textContent=`${score(s.events,'home')} – ${score(s.events,'away')}`;
  $('modeLabel').textContent=practiceId?'PROVA COMPARTIDA · històric preservat':'Registre compartit';
+ const advancedLink=document.querySelector('.footer-nav a[href*="avancat.html"]');if(advancedLink&&match)advancedLink.href='./avancat.html?match='+encodeURIComponent(match)+(new URLSearchParams(location.search).get('analysis')==='video'?'&analysis=video':'');
+ const fed=source?.federation||'Federació';document.querySelector('.federation-panel h2').textContent='Contrast amb '+fed;$('sync').textContent='Actualitza amb '+fed;
+ const officialLink=document.querySelector('.federation-panel a');if(officialLink&&source?.federation_url)officialLink.href=source.federation_url;
  $('preparation').hidden=!setup;$('recording').hidden=setup;$('teamTabs').hidden=setup;$('finalSummary').hidden=!s.finished;
  document.querySelectorAll('[data-write]').forEach(b=>b.disabled=busy||!editable());
  $('match').disabled=busy||!!requestedPractice;
@@ -89,7 +92,7 @@ function render(){
  $('status').textContent=!store?(activationNeeded?'Partit del catàleg · cal activar el desament compartit':'Selecciona un partit i inicia sessió si cal.'):`${flash?flash+' · ':''}${practiceId?'PROVA COMPARTIDA':role==='operator'?'Operador':'Només consulta'} · ${s.finished?'Registre local finalitzat':advancedFinished?'Finalitzat al Mode Avançat':setup?'Preparant convocatòries':'Registre obert'} · ${saved}${needsRosterReview()?' · Avís: convocatòria desada preservada; evidència actual incompleta.':''}`;
 }
 function federationText(prefix=''){
- const official=source?.federation==='FECAPA'?source.official_data:null;
+ const official=['FECAPA','RFEP'].includes(source?.federation)?source.official_data:null;
  const date=official?.fetched_at;
  $('federation').textContent=[prefix,date?'Darrera consulta correcta de la font: '+new Date(date).toLocaleString('ca-ES',{timeZone:'Europe/Madrid'}):'Sense consulta correcta acreditada.',official?.official_status?'Estat publicat: «'+official.official_status+'». El tancament formal no és verificable.':'Estat de l’acta desconegut o no disponible.',catalogueId?'Consulta de la importació federativa; no fa una extracció nova al portal.':'La integració existent pot retornar memòria cau de fins a sis hores.', 'Les dades oficials absents es mostren com a «No verificable».'].filter(Boolean).join(' ');
 }
@@ -109,12 +112,12 @@ async function metadata(){
  let enriched;
  try{enriched=await catalogueRoster(db,{players:nextPlayers,source:nextSource,fixture:nextFixture});}
  catch(e){enriched={players:mergeRoster(nextPlayers),notice:'Catàleg addicional no disponible: '+e.message+'. Es conserva la plantilla del partit; elegibilitat de reforços no verificable.'};}
- restrictedSides=enriched.restrictedSides||[];source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
+ restrictedSides=enriched.restrictedSides||[];source=nextSource;players=sourceRoster(enriched.players,nextSource);fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=source?.official_data?.report_verified===true?'Alineacions oficials '+source.federation+' d’aquest partit, separades per equip. Les anotacions pròpies es desen sense modificar l’acta federativa.':source?.official_data?.lineup_status==='not_published'?'Alineació oficial encara no publicada. Candidats de participacions anteriors; no acrediten convocatòria ni elegibilitat futura.':enriched.notice;federationText();
 }
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
  match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
- const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){const provider=await db.from('federation_match_sources').select('federation').eq('match_id',id).maybeSingle();if(provider.error)throw provider.error;if(provider.data?.federation!=='RFEP'){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}}
+ const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){const provider=await db.from('federation_match_sources').select('federation').eq('match_id',id).maybeSingle();if(provider.error)throw provider.error;if(['RFEP','FECAPA'].includes(provider.data?.federation)){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
  draft=new Set(state().participants);preparing=!state().confirmed;activeSide='home';expandedReinforcements.clear();
@@ -247,7 +250,7 @@ async function init(){
  const auth=await db.auth.getUser();if(auth.error)throw auth.error;if(!auth.data.user)throw Error('Inicia sessió des d’«Inici i sessió» i torna a obrir el partit.');uid=auth.data.user.id;
  if(catalogueId){await openCatalogue(catalogueId,!!requestedPractice);return;}
  const operational=await allRows(db,'pilot_matches');let catalogue=[];
- try{catalogue=(await allRows(db,'federation_matches')).filter(m=>{try{return ['hoqueipatins.fecapa.cat','www.hoqueipatins.fecapa.cat'].includes(new URL(m.raw_data?.source_url).hostname);}catch{return false;}});}catch(e){$('fixtureNotice').textContent='Catàleg federatiu no disponible: '+e.message;}
+ try{catalogue=(await allRows(db,'federation_matches')).filter(m=>{try{return ['hoqueipatins.fecapa.cat','www.hoqueipatins.fecapa.cat','hockeypatines.fep.es','www.hockeypatines.fep.es'].includes(new URL(m.raw_data?.source_url).hostname);}catch{return false;}});}catch(e){$('fixtureNotice').textContent='Catàleg federatiu no disponible: '+e.message;}
  const ids=new Set(operational.map(m=>m.id));const matches=[...operational,...catalogue.filter(m=>!ids.has(m.id)).map(m=>({id:m.id,title:m.home_team+' – '+m.away_team+' · catàleg',starts_at:m.federation_start_at,_catalogue:true}))];
  window.basicAvailableMatches=new Map(matches.map(m=>[m.id,m._catalogue]));
  $('match').innerHTML=matches.map(m=>`<option value="${esc(m.id)}">${esc(m.title)}${m.starts_at?' · '+esc(new Date(m.starts_at).toLocaleDateString('ca-ES',{timeZone:'Europe/Madrid'})):''}</option>`).join('');

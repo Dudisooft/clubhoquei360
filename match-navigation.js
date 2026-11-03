@@ -16,3 +16,10 @@ export function matchHref(row,mode,access){
  return null;
 }
 export function filteredRows(rows,{season='',competition='',team=''}){return rows.filter(r=>r.season===season&&r.competition===competition&&r.teams.includes(team));}
+
+// Authorized entries keep teams visible even before any calendar has been loaded.
+export function navigationTeams(data,{season,competition}){
+ const scope=data.competitions.find(c=>c.id===competition&&c.season_id===season);if(!scope)return [];
+ const ids=new Set(data.entries.filter(e=>e.competition_id===competition).map(e=>e.club_team_id));
+ return data.teams.filter(t=>ids.has(t.id));
+}
