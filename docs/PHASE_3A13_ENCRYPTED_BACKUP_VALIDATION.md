@@ -85,7 +85,7 @@ RLS restaurada: dues identitats SQL ordinàries veuen cadascuna només les estad
 
 Incidència del banc de proves: el primer escenari d'origen aturat va intentar comparar després del restart un origen tmpfs ja perdut. La restauració independent havia passat, però el tancament global va fallar. S'ha corregit el test: comprovar invariància abans d'aturar, verificar el destí recuperat contra el manifest i regenerar només el seed fictici després del restart. Una altra iteració del test de retenció assumia que sempre quedaven exactament tres fitxers, ignorant còpies recents vàlides d'execucions anteriors: s'ha aïllat cada mostra i s'ha comprovat que es conserva el mínim i tota la finestra de retenció. El motor no eliminava còpies recents; no s'ha relaxat la política. La bateria final passa completa; no es presenta l'intent fallit com a èxit ni s'ha canviat cap regla de seguretat.
 
-A més, [8 ordres CLI reals i una fallada esperada](evidence/phase-3a13-cli-tests.json) han passat: backup, verify, restore, audit, cleanup dry-run, escrow-key, recover-key, verify amb clau recuperada i fitxer absent. [Auditoria independent del rebut](evidence/phase-3a13-cli-audit.json).
+A més, [8 ordres CLI reals i una fallada esperada](evidence/phase-3a13-cli-tests.json) han passat: backup, verify, restore, audit, cleanup dry-run, escrow-key, recover-key, verify amb clau recuperada i fitxer absent. El rebut d’auditoria independent citat històricament no consta al checkpoint de recuperació; no es considera una evidència disponible. La nova execució CLI queda registrada a l’evidència enllaçada anteriorment.
 
 Temps local observat de backup+primera restauració al JSON; **no és RTO productiu**, no inclou una incidència, obtenció d'una còpia remota o reconfiguració Cloud.
 
