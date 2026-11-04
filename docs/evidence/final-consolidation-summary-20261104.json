@@ -1,0 +1,60 @@
+{
+  "result": "PASS_LOCAL",
+  "date": "2026-11-04",
+  "baseline": {
+    "main": "e009f4df40d9ed353cb7d865beafed99d736892d",
+    "pr35": "3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2",
+    "pr36": "11066ef8c414f2583c3e547af974e22cd454ae17",
+    "backup": "40573bc541548d8bd19b5551cdc0a8b51bf2ffa1"
+  },
+  "tests": {
+    "node": 282,
+    "chromium": 86,
+    "failed": 0,
+    "omitted": 0,
+    "static_build_files": 43,
+    "rfep_future_integration": "PASS",
+    "fem15_temporary_integration": "PASS",
+    "auth_type": "SQL/PGlite fictitious identities; no new Cloud Auth validation"
+  },
+  "backup": {
+    "local_checks": 19,
+    "cloud_layout_checks": 7,
+    "cli_success_paths": 8,
+    "cli_expected_failure": 1,
+    "production_backup": false,
+    "drive_round_trip": "305-byte encrypted fictitious text; hashes and authentication PASS",
+    "drive_quota_verified": false,
+    "desktop_verified_by_this_executor": false
+  },
+  "readonly_cloud": {
+    "public_tables": 45,
+    "truncate_grants": 49,
+    "target_tables": 27,
+    "inventory_missing": 0,
+    "inventory_unexpected": 0,
+    "defaults": 20,
+    "default_differences": 0,
+    "client_truncate_defaults": 2,
+    "vic_lineups": [
+      0,
+      0
+    ],
+    "alpicat_lineups": [
+      8,
+      8
+    ],
+    "ihc_teams": 36,
+    "ihc_entries": 38,
+    "noia_code_35574_rows": 0
+  },
+  "native_evidence": [
+    "final-consolidation-native-security-20261104.json",
+    "final-consolidation-native-migrations-20261104.json"
+  ],
+  "production_writes": 0,
+  "production_exports": 0,
+  "deployments": 0,
+  "merges": 0,
+  "ci": "pending final PR"
+}

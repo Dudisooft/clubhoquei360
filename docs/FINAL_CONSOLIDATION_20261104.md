@@ -54,6 +54,24 @@ Hi ha versions locals antigues dels primers mòduls amb timestamps diferents del
 
 Evidències: final-consolidation-native-security-20261104.json, final-consolidation-native-migrations-20261104.json. Scripts antics d’integració i motor de backup reutilitzats; les diferències del harness es documenten, no es presenten com Cloud real.
 
-## D–E · Continuïtat
+## D · Regressió funcional completada
 
-Pendents en aquest checkpoint: recuperar el head remot de backups40573bc, validar scripts i custòdia amb fixtures; inventari i correcció SQL aïllada; suites completes del conjunt; PR final i pla de publicació/recuperació. NO FUSIONAR. NO DESPLEGAR. NO EXPORTAR NI MODIFICAR PRODUCCIÓ.
+**282 Node /86 Chromium /check/build43 PASS**, zero proves fallides o omeses a la passada final. Primera passada282:281PASS/1FAIL al fixture federation-scoped perquè extreia l’esquema per regex d’un altre test; substituït pel helper compartit,4proves dirigides PASS i suite Node completa repetida282PASS. No s’ha relaxat la precondició de predecessor. Chromium continua vàlid perquè només s’ha corregit aquest import del testNode, sense canviar l’aplicació; la CI tornarà a verificar el checkpoint final.
+
+| Cas | Prova local | Dada real / límit |
+|---|---|---|
+| FEM11–Barberà | Filtratge, reforços bloquejats, selecció/plegament/persistència i mòbil PASS amb fixtures | No es declara validada la pantalla amb el compte real |
+| FEM15 | Permís temporal d’un sol partit, observacions d’equip/jugador, pausa/reload, actes/altre partit denegats, revocació/caducitat PASS | Identitats/Auth ficticis al recorregut actual |
+| Infantil D–Alpicat | 8+8 sintètics, identitats deduplicades, jugadors absents no inventats, controlsBase PASS | En lectura real hi ha8/8; queda validació UI autenticada |
+| Júnior A i sèniors | Base/Avançat segons capacitat de servidor, futurs/consulta/activació explícita PASS | Classificacions administratives i instal·lació pendents |
+| SIMAR–Vic | Preparació dos cincs, porters, estadístiques, vídeo, correccions i recuperació PASS amb fixtures |0/0productiu;10+10recuperats només com evidència del portàtil |
+| SIMAR–Noia futur | Candidats separats d’acta, data/hora, estat pendent i selector PASS | Consulta actual del codi35574 retorna0files; no s’infereix una alineació o un identificador alternatiu |
+| Clubs/convocatòries | Navegació/WhatsApp/preferències/separació/permís i mides390/820/1440 PASS | Catàleg real revalidat36equips/38inscripcions |
+
+Integració conjunta RFEP futur→consulta sense escriptures→activació explícita→estadística→recarrega PASS,1context/1membre/1esdeveniment/0incidències oficials. FEM15→concessió→vídeo equip/jugador→recarrega→denegació oficial/altrepartit→revocació/caducitat PASS,2observacions conservades i0membres externs generals. Aquests recorreguts actuals són PostgreSQL/PGlite+Chromium amb Auth fictici. La validació GoTrue/PostgREST real de fases anteriors queda com a evidència anterior del codi d’Auth no modificat, no una nova prova productiva. No s’ha creat ni modificat cap compte real.
+
+Logs locals:/tmp/ch360-consolidation-node-corrected.log,/tmp/ch360-consolidation-browser-final.log,/tmp/ch360-consolidation-rfep-integration.log,/tmp/ch360-consolidation-fem15-integration.log.
+
+## E · Pendent en aquest checkpoint
+
+Preparar pla manual de publicació/recuperació, manifest de les set migracions i preflight de només lectura. Publicar la branca de candidat amb PR final draft cap a main, conservant35/36com a traçabilitat sense fusionar-les, i comprovar la CI del head. NO FUSIONAR. NO DESPLEGAR. NO EXPORTAR NI MODIFICAR PRODUCCIÓ.
