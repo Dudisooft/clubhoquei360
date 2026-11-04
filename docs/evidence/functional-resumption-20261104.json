@@ -5,17 +5,17 @@
   "base_sha": "3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2",
   "main_sha": "e009f4df40d9ed353cb7d865beafed99d736892d",
   "file_sha256": {
-    "basic-roster.js": "71c8efcf432050eea38a5cdc718db084109908490c70e9079c6f17504130b16c",
+    "basic-roster.js": "458a421514287d5c76582da9c3248e6b342a913236f787e0fa6e985142d3b031",
     "match-navigation-ui.js": "515f7e17d56571c0cf1e2fc6bae13a3a66fcc4f371ecaa559c91798200b6d751",
     "match-navigation.js": "edbe094493219842e849483e7cde109767ca199a430818bc2ac066c279b36b75",
     "match-preview.js": "a02d8a773e9bb63466725a20ad994735d372681b554a91e40665c08deaa0c20f",
     "partit.html": "2330410729ab26158e0ba5fc169c40edc14256293344b401c852f6916d9e6a7e",
-    "tests/basic.test.mjs": "f98e163b69b020f16c718463d85b3524a617266423c4cebff4847ff3f0d5a695",
+    "tests/basic.test.mjs": "f187578ab6a10e40936dd4a4c23955054ad97aa4f1dd4063627ea116f2d63601",
     "tests/browser/match-modes.spec.mjs": "f4d3e2888c9f5e4904901dd565dabf08f309f67e16bc0cda87b0057e5d46c921",
     "tests/browser/navigation.spec.mjs": "3e254b4c4e90bb7c4fe0fe894aeda8414a6d883226a9e4abb155445890f640bf",
     "tests/catalogue-lineup-identity.test.mjs": "4bfb4950ecf0488ad9cb9be9c5e1deb7e214f31341315dacaa54f50de7a63759",
     "tests/navigation.test.mjs": "3a431dc3d8dbcc7b87e2a4c0c07e2cef92a5cbfe0f61b23fabcf59a7d1d39de8",
-    "tests/own-roster-catalogue.test.mjs": "ac073d618e9197d19abe122273c643aea4ba99cbbbcde000d16a4f7b7eaa0cc6"
+    "tests/own-roster-catalogue.test.mjs": "0a572c6b2bdcdfb102384e9d1c3bc10b25d678146fa9ba0f5114efe89e4aa197"
   },
   "local_results": {
     "node": {
@@ -32,7 +32,18 @@
     "build_files": 43,
     "git_diff_check": "pass",
     "cross_pr_rfep_future": "PASS, PostgreSQL/PGlite + Chromium; fictitious Auth",
-    "cross_pr_fem15_temporary": "PASS, PostgreSQL/PGlite + Chromium; fictitious Auth"
+    "cross_pr_fem15_temporary": "PASS, PostgreSQL/PGlite + Chromium; fictitious Auth",
+    "goalkeeper_directed": {
+      "passed": 32,
+      "failed": 0
+    },
+    "final_after_goalkeeper": {
+      "node_passed": 277,
+      "chromium_passed": 86,
+      "failed": 0,
+      "skipped": 0,
+      "check_and_build_files": 43
+    }
   },
   "test_data": "synthetic players and Auth transport; local PostgreSQL/PGlite; not production Auth validation",
   "read_only_production_observations": {
@@ -68,6 +79,11 @@
         0
       ],
       "fetched_date_utc": "2026-11-03"
+    },
+    "catalogue": {
+      "season": "2026/27",
+      "teams": 36,
+      "linked_entries": 38
     }
   },
   "production_mutations": 0,
@@ -75,10 +91,12 @@
   "deployments": 0,
   "merges": 0,
   "ci": {
-    "code_run": 41743324168,
-    "status_at_checkpoint": "in_progress",
-    "final_result": "consult PR checks; no previous CI result reused for changed code"
+    "previous_code_run": 41743324168,
+    "previous_documentation_run": 41743494974,
+    "previous_conclusions": "success",
+    "goalkeeper_followup": "consult current PR checks; previous CI is not evidence for changed code"
   },
-  "code_commit": "8d9737ab24cb9dc04c20e9e1ea65e44fec395909",
-  "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/36"
+  "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/36",
+  "first_functional_commit": "8d9737ab24cb9dc04c20e9e1ea65e44fec395909",
+  "goalkeeper_followup": "current commit containing this evidence; see PR head"
 }
