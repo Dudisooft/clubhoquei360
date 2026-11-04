@@ -2,6 +2,8 @@
 
 ## Checkpoint vigent · consolidació final 04/11/2026
 
+- Tancament verificat: CI [41809621891](https://github.com/Dudisooft/clubhoquei360/actions/runs/41809621891) SUCCESS sobre27434ee, amb282Node/86Chromium i regressions PostgreSQL17/RFEP/FEM15. Els canvis posteriors són només documentals; el rebut històric CLI absent es declara no recuperable.20contenidors exclusivament ficticis aturats; cap servidor local permanent. Consultar el head i checks actuals dePR37 per a la propagació final del remot després d’un error500 transitori deGitHub; no confondre la branca pujada amb el ref dePR fins que coincideixin.
+
 - Branca release/final-consolidation-20261104, worktree /workspace/work/clubhoquei360-final-consolidation, base PR#36/11066ef; inclou #35/3ba0775. main e009f4d. PR35/36 intactes i draft. Branca backups remota avançada a40573bc; el checkout anterior ede1fb0 es preserva.
 - FaseA auditada: v6 productiva coincideix amb main i no té adaptador recuperat; proxy CONNECT403 abansTLS als dos portals; service_role sense SELECT/INSERT events; Vic0/0, Alpicat8/8. Evidència10+10 és verificació del portàtil, no dades personals disponibles ni persistència productiva. Predecessor SQL actual no actualitza is_goalkeeper en conflicte: preparar regressió/correcció aC. Informe docs/FINAL_CONSOLIDATION_20261104.md.
 - FaseB completada fins als límits segurs: recuperats13fitxers del head40573bc; PostgreSQL17.11+age1.3.2,19checks de restore/fallades,7Cloud-layout i8CLI+fallada esperada PASS amb fixtures. Transport Drive real:305bytes ficticis .age, upload/download/hash/desxifratPASS a carpeta existent privada; quota no exposada. D:/claus productives/custòdia física/backup productiu NO verificats ni executats. Cap dada real exportada.
