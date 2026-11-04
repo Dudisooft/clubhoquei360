@@ -30,7 +30,9 @@
     },
     "static_files": 43,
     "build_files": 43,
-    "git_diff_check": "pass"
+    "git_diff_check": "pass",
+    "cross_pr_rfep_future": "PASS, PostgreSQL/PGlite + Chromium; fictitious Auth",
+    "cross_pr_fem15_temporary": "PASS, PostgreSQL/PGlite + Chromium; fictitious Auth"
   },
   "test_data": "synthetic players and Auth transport; local PostgreSQL/PGlite; not production Auth validation",
   "read_only_production_observations": {
@@ -72,5 +74,11 @@
   "production_exports": 0,
   "deployments": 0,
   "merges": 0,
-  "ci": "pending new pull request"
+  "ci": {
+    "code_run": 41743324168,
+    "status_at_checkpoint": "in_progress",
+    "final_result": "consult PR checks; no previous CI result reused for changed code"
+  },
+  "code_commit": "8d9737ab24cb9dc04c20e9e1ea65e44fec395909",
+  "pull_request": "https://github.com/Dudisooft/clubhoquei360/pull/36"
 }
