@@ -1,6 +1,14 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-## Checkpoint vigent · represa funcional 04/11/2026
+## Checkpoint vigent · consolidació final 04/11/2026
+
+- Branca release/final-consolidation-20261104, worktree /workspace/work/clubhoquei360-final-consolidation, base PR#36/11066ef; inclou #35/3ba0775. main e009f4d. PR35/36 intactes i draft. Branca backups remota avançada a40573bc; el checkout anterior ede1fb0 es preserva.
+- FaseA auditada: v6 productiva coincideix amb main i no té adaptador recuperat; proxy CONNECT403 abansTLS als dos portals; service_role sense SELECT/INSERT events; Vic0/0, Alpicat8/8. Evidència10+10 és verificació del portàtil, no dades personals disponibles ni persistència productiva. Predecessor SQL actual no actualitza is_goalkeeper en conflicte: preparar regressió/correcció aC. Informe docs/FINAL_CONSOLIDATION_20261104.md.
+- Següent: B backups (head40573bc), desprésC seguretat/migracions i correcció mínima, D regressió i E PR integrada. No repetir proves antigues com si fossin del nou arbre; CI277/86 de11066ef queda com baseline verificat.
+- Prohibicions: cap exportació/escriptura productiva, permisos/migracions/rols reals, fusió o desplegament. Només fixtures en local.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest checkpoint i l’informe FINAL_CONSOLIDATION_20261104, comprova git i PR35/36, conserva worktrees i continua la primera fase pendent en ordre A→B→C→D→E. No fusionis ni modifiquis producció.»
+
+## Checkpoint anterior · represa funcional 04/11/2026
 
 - Branca independent de backups: `fix/real-match-workflows-20261104`, base PR #35 `3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2`; main verificat `e009f4d`. #35 continua draft, CI anterior 41631191336 success. No s'ha tocat el worktree brut de recuperació ni la branca backup.
 - Implementat: mode explícit sense preselecció, neteja del mode en canviar nivell, preview rebutja mode desconegut, enllaç Avançat en diferit només amb acta verificada finalitzada i resultat/data vàlids, classificació de reforç per evidència positiva i correcció de flag antic conservant UUID/històrics. Cap canvi de servidor/importador/elegibilitat.
