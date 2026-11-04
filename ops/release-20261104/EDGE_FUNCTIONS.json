@@ -1,0 +1,58 @@
+{
+  "date": "2026-11-04",
+  "execution": "deployment requires separate authorization",
+  "deployed_read_only_observation": {
+    "federation-sync": {
+      "version": 6,
+      "bundle_sha256": "66f2d545498e7c116dd468aa92a1df0abee578a5079329d12d3939232576cab6",
+      "source_files_equal_main": [
+        "index.ts",
+        "parser.ts",
+        "fem15.ts"
+      ],
+      "public_api_adapter_present": false
+    },
+    "club-federation-sync": {
+      "deployed": false
+    }
+  },
+  "candidate_sources": {
+    "federation-sync": [
+      {
+        "path": "supabase/functions/federation-sync/fem15.ts",
+        "sha256": "ca4e0a473970669dc4814c9d4800bf1a14f2c8576a3012b3626bebc2a3cd1064"
+      },
+      {
+        "path": "supabase/functions/federation-sync/index.ts",
+        "sha256": "8c750abcc7858a7aa25a0d3ea4f8dbf87b6146f1a55ea1aef6adf55e3b5e75b3"
+      },
+      {
+        "path": "supabase/functions/federation-sync/parser.ts",
+        "sha256": "5bdbf3b50a0229a1e0681659a445c0cf7ae44d19009c2b1bc634d04b50ab1025"
+      },
+      {
+        "path": "supabase/functions/federation-sync/public-api.ts",
+        "sha256": "11ead3d08f801e6b62eb903003c558087656059509be79f4c964638d878c5827"
+      },
+      {
+        "path": "supabase/functions/federation-sync/transport.ts",
+        "sha256": "ca24362dfb412ea0c0eff9b0c0463acf98b027b29ccb44e383ded33029df4b3e"
+      }
+    ],
+    "club-federation-sync": [
+      {
+        "path": "supabase/functions/club-federation-sync/index.ts",
+        "sha256": "47f4580b16773bbec67aece247e94126f59299c834851959b83179c18ee8e5dd"
+      },
+      {
+        "path": "supabase/functions/club-federation-sync/worker.ts",
+        "sha256": "76c6248aa520f8ecd8c940b4e532247938bd9220cab9bba2721f163cf53bc307"
+      }
+    ]
+  },
+  "runtime_dependencies": [
+    "npm:@supabase/supabase-js@2.95.3",
+    "npm:linkedom@0.18.12"
+  ],
+  "scheduler_activation": "not authorized or performed"
+}

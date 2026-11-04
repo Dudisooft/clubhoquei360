@@ -72,6 +72,27 @@ Integració conjunta RFEP futur→consulta sense escriptures→activació explí
 
 Logs locals:/tmp/ch360-consolidation-node-corrected.log,/tmp/ch360-consolidation-browser-final.log,/tmp/ch360-consolidation-rfep-integration.log,/tmp/ch360-consolidation-fem15-integration.log.
 
-## E · Pendent en aquest checkpoint
+## E · Candidat i publicació preparada, no executada
 
-Preparar pla manual de publicació/recuperació, manifest de les set migracions i preflight de només lectura. Publicar la branca de candidat amb PR final draft cap a main, conservant35/36com a traçabilitat sense fusionar-les, i comprovar la CI del head. NO FUSIONAR. NO DESPLEGAR. NO EXPORTAR NI MODIFICAR PRODUCCIÓ.
+La [PR #37](https://github.com/Dudisooft/clubhoquei360/pull/37), branca `release/final-consolidation-20261104`, és el candidat únic cap a `main`. Inclou les PR #35 i #36 per ancestria i conserva els seus heads i estat d’esborrany. No s’ha fusionat cap PR. El commit funcional `36c6f3f709af1a484df89a9e55c4f529cf49f322` ha superat la [CI 41805120577](https://github.com/Dudisooft/clubhoquei360/actions/runs/41805120577), inclòs el pas nou de PostgreSQL 17 natiu. El checkpoint posterior només afegeix el paquet d’operacions i documentació; el resultat de la CI del head final es registra als checks i al cos de la PR, sense generar commits documentals recursius.
+
+El [paquet de publicació](../ops/release-20261104/RUNBOOK.md) conté l’ordre manual, els hashes dels set SQL, un preflight estrictament de lectura i un manifest dels fitxers. L’ordre és: backup real acreditat i autoritzacions → correcció mínima 49+2 → set migracions i metadades aprovades → backend existent → recuperació federativa autoritzada → frontend GitHub Pages → validació gradual. No hi ha cap runner productiu ni activació de planificadors.
+
+El preflight nou s’ha executat només en lectura i retorna `PENDING_49_PLUS_2`: predecessor canònic reconegut, cap objecte actual obligatori absent, cap owner públic imprevist i permisos SELECT/INSERT d’events pendents al backend. Els dos defaults `postgres/public` es mostren separadament dels dos `postgres/storage`. Les vuit taules de Storage són de `supabase_storage_admin`, cap de `postgres`. Els defaults de l’esquema gestionat s’informen però no s’inclouen en les revocacions preparades. No s’ha demostrat cap via destructiva de l’aplicació sobre Storage. La [documentació oficial](https://supabase.com/docs/guides/storage/schema/design) recomana tractar l’esquema com a només lectura SQL i fer les operacions per l’API. Qualsevol deriva requereix revisió de plataforma.
+
+La lectura de cobertura del 04/11 confirma PostgreSQL 17.11, 25.695.923 bytes de base de dades i zero buckets/objectes a les metadades Storage. Cal repetir l’inventari abans del backup real; això no equival a copiar objectes físics ni recuperar configuració Cloud.
+
+L’últim run de GitHub Pages retornat per l’API a `main` és [40498968602](https://github.com/Dudisooft/clubhoquei360/actions/runs/40498968602), satisfactori el 27/10 sobre `e009f4d`. No s’ha desplegat cap canvi. La compilació produeix 43 fitxers web i verifica JS, HTML, CSS i enllaços relatius per al subdirectori. No s’ha canviat la configuració ni creat una web alternativa.
+
+El pla de recuperació separa el rollback del frontend de la recuperació SQL, aplica només privilegis mínims legítims, evita inversions destructives de migracions i exigeix restauració aïllada abans d’exposar el servei. Cal reconciliar les escriptures posteriors al backup i recuperar Auth, Storage, SMTP i secrets separadament. Els simulacres no són garanties de RPO o RTO productiu.
+
+## Veredicte i autoritzacions imprescindibles
+
+**PUBLICACIÓ BLOQUEJADA**, malgrat tenir un candidat integrat i verificat. El backup productiu recuperable no està acreditat; les 49+2 concessions aplicatives continuen presents, les set migracions i el backend no s’han instal·lat, i el Vic continua amb alineacions 0/0.
+
+1. Autoritzar l’exportació productiva xifrada, la custòdia privada D:/Drive i la restauració aïllada, després de verificar quota, claus, host i target compatible.
+2. Autoritzar la intervenció manual 49+2, les set migracions, les metadades aprovades i el backend, amb preflight vigent, backup i verificacions. No tocar Storage gestionat.
+3. Autoritzar la recuperació, reconciliació i importació oficial necessàries, sense fixtures productius ni duplicació del pilot o de les estadístiques.
+4. Només quan se superin totes les portes, autoritzar la fusió del candidat i GitHub Pages. Aquest informe no autoritza cap d’aquestes accions.
+
+Zero exportacions o escriptures productives, migracions, canvis de permisos o comptes reals, fusions o desplegaments en aquesta fase. A Drive només s’ha pujat un fitxer de text fictici xifrat de prova. Les claus i els dumps privats queden fora de Git.

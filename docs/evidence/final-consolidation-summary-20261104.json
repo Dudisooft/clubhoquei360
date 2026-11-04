@@ -46,7 +46,19 @@
     ],
     "ihc_teams": 36,
     "ihc_entries": 38,
-    "noia_code_35574_rows": 0
+    "noia_code_35574_rows": 0,
+    "storage": {
+      "buckets": 0,
+      "objects": 0,
+      "tables": 8,
+      "owners": [
+        "supabase_storage_admin"
+      ],
+      "postgres_owned_tables": 0,
+      "postgres_storage_client_truncate_defaults": 2,
+      "scope": "managed schema excluded from public 49+2 correction; no changes proposed"
+    },
+    "database_bytes": 25695923
   },
   "native_evidence": [
     "final-consolidation-native-security-20261104.json",
@@ -56,5 +68,13 @@
   "production_exports": 0,
   "deployments": 0,
   "merges": 0,
-  "ci": "pending final PR"
+  "ci": {
+    "verified_code_run": 41805120577,
+    "verified_code_conclusion": "success",
+    "final_documentation_checkpoint": "consult current PR37 checks; final result will be recorded in PR body"
+  },
+  "release_pull_request": 37,
+  "code_commit": "36c6f3f709af1a484df89a9e55c4f529cf49f322",
+  "production_preflight": "PENDING_49_PLUS_2",
+  "publication": "BLOCKED: recoverable production backup and explicit interventions pending"
 }

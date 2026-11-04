@@ -86,7 +86,7 @@ Acabar el keeper amb ROLLBACK després dels components i manifest complets. Regi
 9. Comparar hashes/fingerprints privats amb els de la instantània. Provar revocació/club isolation sense correus externs ni comptes productius modificats. Un Auth.users fictici reduït no prova el baseline real Cloud. No provar contrasenyes personals ni enviar notificacions.
 10. Escriure rebut privat només si tota la cobertura passa, provar l'accés amb la clau de recuperació i guardar una segona còpia completa xifrada independent. Sense còpia real restaurada i aquestes garanties, el bloqueig de publicació no es considera resolt.
 
-Els objectes físics Storage no són dades PostgreSQL. Ara hi ha0buckets/0objectes: no cal transferència de fitxers en aquest instant. Si canvia, STOP fins a tenir inventari/checksums i autorització per copiar-los; no donar-los per inclosos enB.
+Els objectes físics Storage no són dades PostgreSQL. La lectura de metadades revalidada04/11retorna0buckets/0objectes; cal repetir aquest inventari abans d’una exportació autoritzada i no extrapolar-lo a fitxers externs. Si canvia, STOP fins a tenir inventari/checksums i autorització per copiar-los; no donar-los per inclosos enB.
 
 ## Cost i evidències
 
