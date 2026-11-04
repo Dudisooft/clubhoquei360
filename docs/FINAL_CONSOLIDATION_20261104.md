@@ -16,6 +16,19 @@ Branca release/final-consolidation-20261104, base11066ef8c414f2583c3e547af974e22
 - Recuperació legítima pendent: garantir backup, revisar permisos/migracions, autoritzar actualització del bundle existent federation-sync amb public-api.ts, confirmar competició3575/temporada41/equips3697/3727/partit35559, consultar acta per una connexió permesa i validar identitats/porters/10+10 abans d’una importació explícitament autoritzada. Reconciliar amb el context existent; no crear un segon pilot ni usar candidats. Si la font continua inaccessible, sol·licitar accés oficial amb la consulta institucional ja preparada, sense enviar-la automàticament.
 - Fonts complementàries: la investigació institucional3A.11 continua aplicable; no s’ha acreditat una API pública reutilitzable d’OKMob/HoqueiPatins i no s’han reutilitzat sessions personals.
 
-## B–E · Continuïtat
+## B · Backups i doble custòdia
+
+Recuperats13fitxers versionats d’ops/cloud-backup-readiness-20261103, head40573bc541548d8bd19b5551cdc0a8b51bf2ffa1, sense fusionar aquesta branca ni perdre #35/#36. Reutilitzat el motor3A.13, sense afegir cap runner productiu.
+
+- Entorn efectiu Linux/cloud, Docker local28.4.0, PostgreSQL17.11 i age1.3.2;14GiB lliures observats al workspace. Aquesta mida NO és l’espaiD:. No hi ha accés verificat al sobretaula. La preparació Windows i el directori privatD: continuen com a comunicats pel responsable.
+- 19comprovacions reals locals de backup/fallada PASS: dump custom, xifrat autenticat sense dump temporal en clar, restauració exacta13taules/esquema/índexs/funcions/RLS/ACL, claus fictícies recuperades, tamper/clau incorrecta/espai/versió/destí rebutjats, interrupció transaccional sense taules parcials, font fora de línia. Evidència phase-3a13-backup-tests.json.
+- 7comprovacions Cloud-layout PASS: components amb snapshot compartit, ledger/owners/ACL/RLS, Auth sintètic i metadadesStorage, escriptura concurrent exclosa de la instantània, seqüències segures i cap port exposat. No són esquemes gestionats Supabase Cloud complets ni Auth real. 8camins CLI més una fallada esperada PASS.
+- Fonts/restores en contenidors etiquetats fixtures, network=none, sense host mounts ni ports. Eines/claus/paquets privats fora de Git. No s’han generat claus productives ni executat pg_dump remot.
+- Drive: carpeta existent ClubHoquei360 i Verificacions/Backups xifrats llegides; shared=false i només owner, sense canvis de permisos. El connector de perfil no exposa quota. La captura històrica13,01/15GB no és una verificació actual. No s’ha contractat capacitat.
+- Prova real de transport amb fitxer estrictament FICTICI .age305bytes a Verificacions: pujada, readback de mida/permís privat, descàrrega binària, SHA256 ciphertext idèntic, age autenticat i SHA256 text idèntic. Cap dada ni clau productiva. Evidència final-consolidation-drive-synthetic-20261104.json. El fitxer de prova queda identificat; no s’ha eliminat/sobreescrit cap fitxer existent. Això NO és un backup PostgreSQL al núvol ni una prova de custòdia física de claus.
+- Doble custòdia preparada:D:\ClubHoquei360\Backups privat → paquet age verificat → Drive privat → descàrrega/verificació/restauració aïllada; claus i escrow fora de tots dos destins, titular/suplent i suport separat. Retenció14dies/almenys3grups complets amb supervivent restaurada, sense activació de tasques o neteja productiva. Cal quota vigent/espai real abans d’exportar.
+- Còpia productiva: NO EXECUTADA. Falten credencial SQL/TLS autoritzada, connexió/host/destíD:/quota i custòdia física verificats, clau productiva recuperable, baseline Supabase compatible complet i autorització explícita d’exportació/restauració aïllada. Secrets, objectes físics Storage, proveïdors Auth i configuracióCloud requereixen recuperació separada.
+
+## C–E · Continuïtat
 
 Pendents en aquest checkpoint: recuperar el head remot de backups40573bc, validar scripts i custòdia amb fixtures; inventari i correcció SQL aïllada; suites completes del conjunt; PR final i pla de publicació/recuperació. NO FUSIONAR. NO DESPLEGAR. NO EXPORTAR NI MODIFICAR PRODUCCIÓ.

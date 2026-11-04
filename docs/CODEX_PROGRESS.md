@@ -4,7 +4,8 @@
 
 - Branca release/final-consolidation-20261104, worktree /workspace/work/clubhoquei360-final-consolidation, base PR#36/11066ef; inclou #35/3ba0775. main e009f4d. PR35/36 intactes i draft. Branca backups remota avançada a40573bc; el checkout anterior ede1fb0 es preserva.
 - FaseA auditada: v6 productiva coincideix amb main i no té adaptador recuperat; proxy CONNECT403 abansTLS als dos portals; service_role sense SELECT/INSERT events; Vic0/0, Alpicat8/8. Evidència10+10 és verificació del portàtil, no dades personals disponibles ni persistència productiva. Predecessor SQL actual no actualitza is_goalkeeper en conflicte: preparar regressió/correcció aC. Informe docs/FINAL_CONSOLIDATION_20261104.md.
-- Següent: B backups (head40573bc), desprésC seguretat/migracions i correcció mínima, D regressió i E PR integrada. No repetir proves antigues com si fossin del nou arbre; CI277/86 de11066ef queda com baseline verificat.
+- FaseB completada fins als límits segurs: recuperats13fitxers del head40573bc; PostgreSQL17.11+age1.3.2,19checks de restore/fallades,7Cloud-layout i8CLI+fallada esperada PASS amb fixtures. Transport Drive real:305bytes ficticis .age, upload/download/hash/desxifratPASS a carpeta existent privada; quota no exposada. D:/claus productives/custòdia física/backup productiu NO verificats ni executats. Cap dada real exportada.
+- Següent: C seguretat/migracions i correcció mínima, D regressió i E PR integrada. No repetir proves antigues com si fossin del nou arbre; CI277/86 de11066ef queda com baseline verificat.
 - Prohibicions: cap exportació/escriptura productiva, permisos/migracions/rols reals, fusió o desplegament. Només fixtures en local.
 - Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest checkpoint i l’informe FINAL_CONSOLIDATION_20261104, comprova git i PR35/36, conserva worktrees i continua la primera fase pendent en ordre A→B→C→D→E. No fusionis ni modifiquis producció.»
 

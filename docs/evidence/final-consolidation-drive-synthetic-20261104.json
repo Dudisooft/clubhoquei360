@@ -1,0 +1,13 @@
+{
+  "cipher_sha256": "a8e9abdb4d04249cbb3a5791d11205ffcf16299f26e4cd1d1e36d44d77298a5f",
+  "plain_sha256": "e5ab08f6e9d22d20dca6193f865349e8b2f7a84a354df988cf75ef0a23aa441e",
+  "bytes": 305,
+  "fixture_only": true,
+  "round_trip": "PASS",
+  "age_authentication": "PASS",
+  "private_owner_only_verified": true,
+  "quota_current": "not exposed by available connector",
+  "drive_file_id": "1O7lUYZv1Z40FBqeNi8oawHibAxH2x8JF",
+  "production_data": false,
+  "physical_desktop_custody_verified": false
+}

@@ -1,0 +1,100 @@
+{
+  "result": "PASS",
+  "fixtureOnly": true,
+  "realPostgreSQL": true,
+  "realSupabaseAuth": false,
+  "postgres": "17.11",
+  "age": "v1.3.2",
+  "image": "postgres@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b",
+  "network": "none",
+  "publishedPorts": 0,
+  "tables": 13,
+  "schemaAndDataExact": true,
+  "rlsAndPrivilegesVerified": true,
+  "keyRecoveryVerifiedLocally": true,
+  "physicalOffsiteCustodyVerified": false,
+  "localBackupPlusRestoreSeconds": 7.629,
+  "timeIsProductionRto": false,
+  "checks": [
+    {
+      "name": "real PostgreSQL 17 and custom archive clients; source private and networkless",
+      "result": "PASS"
+    },
+    {
+      "name": "authenticated encrypted backup and full archive readable; no plaintext dump file",
+      "result": "PASS"
+    },
+    {
+      "name": "restore into independent cluster: all rows, schema, indexes, functions, ACL/defaults, roles and ledger equal",
+      "result": "PASS"
+    },
+    {
+      "name": "restored RLS binds two SQL identities to clubs, denies forged scope/write/guest/TRUNCATE; FK intact",
+      "result": "PASS"
+    },
+    {
+      "name": "encrypted key escrow recovered using separate recovery identity; recovered key decrypts and restores",
+      "result": "PASS"
+    },
+    {
+      "name": "truncated/incomplete age file fails authentication",
+      "result": "PASS"
+    },
+    {
+      "name": "altered ciphertext fails authentication",
+      "result": "PASS"
+    },
+    {
+      "name": "wrong private key fails and produces no restore",
+      "result": "PASS"
+    },
+    {
+      "name": "insufficient disk space guard refuses backup before publication",
+      "result": "PASS"
+    },
+    {
+      "name": "absent backup fails",
+      "result": "PASS"
+    },
+    {
+      "name": "source DB as destination and wrong container are refused before DDL",
+      "result": "PASS"
+    },
+    {
+      "name": "unsafe file permissions and SQL role lacking SELECT fail without backup success",
+      "result": "PASS"
+    },
+    {
+      "name": "authenticated manifest requiring PG18 refused by real PG17 target, no DDL",
+      "result": "PASS"
+    },
+    {
+      "name": "overwrite and symlink paths refused",
+      "result": "PASS"
+    },
+    {
+      "name": "partially populated destination with a view is refused before creating roles or objects",
+      "result": "PASS"
+    },
+    {
+      "name": "audit distinguishes an authenticated archive from a successfully restored receipt",
+      "result": "PASS"
+    },
+    {
+      "name": "real interrupted restoration transaction cancelled locally; no partial application tables remain",
+      "result": "PASS"
+    },
+    {
+      "name": "retention dry-run, preserve three copies including restored survivor; explicit local cleanup only",
+      "result": "PASS"
+    },
+    {
+      "name": "source offline: backup and key suffice to verify and restore on independent cluster",
+      "result": "PASS"
+    }
+  ],
+  "productionConnections": 0,
+  "productionExports": 0,
+  "productionMutations": 0,
+  "scheduledTasksInstalled": 0
+}
