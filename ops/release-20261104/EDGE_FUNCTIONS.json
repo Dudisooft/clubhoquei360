@@ -32,7 +32,7 @@
       },
       {
         "path": "supabase/functions/federation-sync/public-api.ts",
-        "sha256": "714a109c7d73b9d9aedba54184b67629c531a11741503907b1096ab0eeafbc05"
+        "sha256": "a0f8d19a1af2dca12d7e3a2e6a1675511ccbb80c1943004982baad50479c65ea"
       },
       {
         "path": "supabase/functions/federation-sync/read-only.ts",

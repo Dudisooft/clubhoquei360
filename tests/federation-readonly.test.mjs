@@ -99,3 +99,10 @@ test('read consultation obeys PostgreSQL RLS for assigned and unrelated fictitio
   assert.deepEqual((await asOwner(database,'select count(*) as count from pilot_matches')).rows,before);
  }finally{await database.close();}
 });
+
+test('conflicting official code reused across different fixtures is rejected before choosing the first match',()=>{
+ const rows=[{dia_partido:'JORNADA',home_name:'JORNADA FICTÍCIA'},{idp:'35559',home_id:'3697',away_id:'3727',home_name:'LOCAL FICTICI',away_name:'RIVAL FICTICI'}, {idp:'35559',home_id:'3697',away_id:'9999',home_name:'LOCAL FICTICI',away_name:'ALTRE FICTICI'}];assert.throws(()=>normalizeCalendar('RFEP','3575','41',rows),/Codi oficial repetit/);
+});
+test('a single provider player ID cannot certify both sides of an official report',()=>{
+ const data=raw();data.game_data.away_roster[0].player_id=data.game_data.home_roster[0].player_id;assert.throws(()=>normalizeReport(data,fixture),/dos equips/);
+});

@@ -6,7 +6,7 @@ export const PORTALS={RFEP:'https://www.hockeypatines.fep.es',FECAPA:'https://ww
 const id=x=>/^[1-9]\d{0,9}$/.test(String(x));
 const clean=x=>String(x??'').replace(/\s+/g,' ').trim();
 export function normalizeCalendar(federation,competition,season,rows){
- let round='',phase='';const seen=new Map();
+ let round='',phase='';const seen=new Map(),officialIds=new Map();
  for(const row of rows){
   if(federation==='RFEP'&&['FASE','JORNADA','ANOTACION','MODEL_COPA'].includes(row.dia_partido)){
    if(row.dia_partido==='JORNADA')round=clean(row.home_name);if(row.dia_partido==='FASE')phase=clean(row.home_name);continue;
@@ -18,6 +18,8 @@ export function normalizeCalendar(federation,competition,season,rows){
   const result=clean(r.result).match(/^(\d+)\s*[:-]\s*(\d+)$/);
   if(!clean(r.round))throw Error('Jornada no identificada');
   const item={id:key,federation,season:String(season),competition_id:String(competition),official_match_id:matchId,round_label:clean(r.round),group:clean(r.group),date:clean(r.date),time:clean(r.time),venue:clean(r.venue),home_team:clean(r.home_name),away_team:clean(r.away_name),home_id:String(r.home_team_id),away_id:String(r.away_team_id),score:result?result.slice(1).map(Number):null,lineup_status:'not_checked',source_url:federation==='RFEP'?`${PORTALS.RFEP}/league/${competition}`:PORTALS.FECAPA+'/'};
+  if(matchId&&officialIds.has(matchId)&&officialIds.get(matchId)!==item.id)throw Error('Codi oficial repetit per a partits diferents');
+  if(matchId)officialIds.set(matchId,item.id);
   if(seen.has(item.id)&&JSON.stringify(seen.get(item.id))!==JSON.stringify(item))throw Error('Duplicat federatiu contradictori');
   seen.set(item.id,item);
  }
@@ -42,6 +44,7 @@ export function normalizeReport(data,fixture,verifiedAt=new Date().toISOString()
   if(new Set(players.map(p=>p.id)).size!==players.length)throw Error('Jugadors duplicats a l’acta');
   sides[side]=players;
  }
+ const allPlayers=[...sides.home,...sides.away];if(new Set(allPlayers.map(p=>p.id)).size!==allPlayers.length)throw Error('Un jugador no pot pertànyer als dos equips de l’acta');
  const published=Object.values(sides).every(rows=>rows.length>0&&rows.some(p=>p.position==='goalkeeper'));
  return {scope:[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':'),match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:null,source_url:fixture.source_url,verifiedAt};
 }
