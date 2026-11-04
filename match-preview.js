@@ -1,14 +1,16 @@
 import {db} from './app-client.js';
+import {operativeMatchHref} from './match-navigation.js';
 import {readLineupSummary} from './match-provenance.js';
 import {readModeAccess,modeAllowed,activateCatalogue} from './match-mode-access.js';
-const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),catalogue=params.get('catalogue'),mode=params.get('mode')==='base'?'base':'advanced';
-let access;
-const href=id=>'./'+(mode==='base'?'base':'avancat')+'.html?match='+encodeURIComponent(id);
+const $=id=>document.getElementById(id),params=new URLSearchParams(location.search),catalogue=params.get('catalogue'),mode=params.get('mode');
+let access,fixture;
+const href=id=>operativeMatchHref(id,mode,fixture);
 (async()=>{
+ if(!['base','advanced'].includes(mode))throw Error('Selecciona explícitament el mode des del Centre de partit.');
  const auth=await db.auth.getUser();if(auth.error)throw auth.error;if(!auth.data.user)throw Error('Inicia sessió al Dashboard.');
  access=await readModeAccess(db,{catalogue});if(!modeAllowed(access,mode))throw Error(access.read?'Aquest mode no està autoritzat per a la categoria i el teu rol.':'No tens accés al partit sol·licitat.');
  const r=await db.from('federation_matches').select('*').eq('id',catalogue).maybeSingle();if(r.error)throw r.error;if(!r.data)throw Error('El partit no és accessible.');
- const f=r.data;readLineupSummary(db,f).then(summary=>{$('lineupStatus').textContent=summary.text;});$('fixtureTitle').textContent=f.home_team+' – '+f.away_team;
+ const f=r.data;fixture=f;readLineupSummary(db,f).then(summary=>{$('lineupStatus').textContent=summary.text;});$('fixtureTitle').textContent=f.home_team+' – '+f.away_team;
  $('fixtureDetails').textContent=(f.federation_start_at?new Date(f.federation_start_at).toLocaleString('ca-ES',{timeZone:'Europe/Madrid'}):'Data pendent')+' · Mode '+(mode==='base'?'Base':'Avançat')+' · '+(f.home_score!=null&&f.away_score!=null?'Resultat publicat '+f.home_score+'–'+f.away_score:Date.parse(f.federation_start_at)>Date.now()?'Partit futur':'Sense resultat publicat / estat en curs no acreditat');
  $('previewStatus').textContent=access.operational?'El partit té context operatiu. La consulta no el modifica.':'Calendari federatiu disponible. Encara no hi ha context operatiu; el fet de ser futur no impedeix consultar-lo.';
  if(access.operational&&access.operational_read&&(mode!=='advanced'||access.advanced_context_ready!==false)){$('openExisting').href=href(access.operational);$('openExisting').hidden=false;}

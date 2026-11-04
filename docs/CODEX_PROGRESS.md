@@ -1,6 +1,18 @@
 # ClubHoquei360 · Continuïtat de Codex
 
-## Checkpoint vigent · pilot recuperat integrat, 03/11/2026
+## Checkpoint vigent · represa funcional 04/11/2026
+
+- Branca independent de backups: `fix/real-match-workflows-20261104`, base PR #35 `3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2`; main verificat `e009f4d`. #35 continua draft, CI anterior 41631191336 success. No s'ha tocat el worktree brut de recuperació ni la branca backup.
+- Implementat: mode explícit sense preselecció, neteja del mode en canviar nivell, preview rebutja mode desconegut, enllaç Avançat en diferit només amb acta verificada finalitzada i resultat/data vàlids, classificació de reforç per evidència positiva i correcció de flag antic conservant UUID/històrics. Cap canvi de servidor/importador/elegibilitat.
+- Lectura real: Vic 35559 continua 0/0 (1–1, finalitzat); Alpicat 152043 té 8/8 (3–1); Júnior A ja té resultats/alineacions de 28 i 30/10 actualitzats 03/11. No extrapolar els fixtures a resolució productiva ni acta a habitualitat.
+- Proves finals: **277 Node / 86 Chromium PASS, 0 fallades, 0 omissions; check/build43 PASS**. Primera passada 268 Node pass, Chromium 77 pass/9 fail per helper de selecció i fixture de finalització; corregits i repetida la suite completa. Logs /tmp/club-functional-*-final.log. Evidència minimitzada docs/evidence/functional-resumption-20261104.json. Informe docs/FUNCTIONAL_RESUMPTION_20261104.md.
+- Codi desat i pujat: **8d9737ab24cb9dc04c20e9e1ea65e44fec395909**, [PR #36 draft](https://github.com/Dudisooft/clubhoquei360/pull/36), base #35. Integracions locals RFEP futur i FEM15 PASS (PostgreSQL/PGlite, Chromium i identitats/Auth fictícies, no Cloud Auth real), sense dades oficials modificades. [CI 41743324168](https://github.com/Dudisooft/clubhoquei360/actions/runs/41743324168) iniciada; consultar també CI del head documental posterior a la PR.
+- Bloc posterior de porters complet: error reproduït (acta indica porter però catàleg auxiliar no ho indica → field). Corregit en basic-roster.js: preval is_goalkeeper de l’acta i s’actualitza la posició de la vista conservant UUID. 32 dirigides i nova passada completa **277Node/86Chromium/check/build43 PASS**, 0 fallades/omissions, logs /tmp/club-functional-*-keeper-final.log. Nova lectura agregada confirma36equips/38inscripcions2026/27. Evidència regenerada amb hashes del codi final.
+- Últim commit amb CI verificada en aquest checkpoint: **f96c870e94e4dd0be02a5717a64b5be6e9c8fc1d**, run41743494974 success; anterior8d9737a/run41743324168 també success. La correcció posterior de porters i els resultats finals es desen al commit que conté aquesta entrada.
+- Pendent immediat: comprovar CI del head actual de PR#36 (GitHub/PR body registra el resultat final sense repetir commits documentals); després revisió funcional. No repetir proves locals vàlides, els hashes són a l’evidència. Després revisió funcional i validació real autoritzada. Backup/49+2/set migracions continuen bloquejant publicació; cap producció modificada.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest checkpoint, comprova git a /workspace/work/clubhoquei360-real-match-workflows i els logs finals, conserva altres worktrees, continua el primer pendent i actualitza la PR de desenvolupament. No fusionis, despleguis ni modifiquis producció.»
+
+## Checkpoint anterior · pilot recuperat integrat, 03/11/2026
 
 Aquesta entrada substitueix els bloquejos d'accés al codi descrits més avall; l'historial es conserva. **NO FUSIONAR. NO DESPLEGAR. NO MODIFICAR PRODUCCIÓ.**
 
