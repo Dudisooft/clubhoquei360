@@ -1,0 +1,26 @@
+{
+  "result": "PASS",
+  "fixture_only": true,
+  "postgres": "17.11",
+  "explicit_grants": 49,
+  "tables": 27,
+  "defaults_before": 20,
+  "defaults_after": 18,
+  "nosuperuser_owner": true,
+  "legitimate_grants_rows_rls_preserved": true,
+  "idempotence": true,
+  "exact_local_acl_recovery_and_reapplication": true,
+  "ordinary_truncate_denied": true,
+  "future_client_truncate_denied": true,
+  "native_official_report": {
+    "goalkeeper_reconciled": true,
+    "same_lineup_identity": true,
+    "partial_metadata_preserved": true,
+    "missing_backend_event_acl_reproduced_and_repaired": true,
+    "clients_denied": true
+  },
+  "production_operations": 0,
+  "network": "none",
+  "ports": 0,
+  "mounts": 0
+}

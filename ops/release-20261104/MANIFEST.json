@@ -1,0 +1,21 @@
+{
+  "execution": "PREPARATION ONLY; separate production authorization mandatory",
+  "files": [
+    {
+      "path": "MIGRATIONS.json",
+      "sha256": "c6349fb26c18c249026195411606fbbc88ba75380b954a79277a747943dd81b0"
+    },
+    {
+      "path": "PREFLIGHT_READ_ONLY.sql",
+      "sha256": "e96e001403fc0adaf0b279bd471e9c4bf9f91fb549514768490f29bf7c7b58b6"
+    },
+    {
+      "path": "RUNBOOK.md",
+      "sha256": "5fb25b77c46bf6d8a3be88a33bc972ddcd526cff205841268f1fce4eb33e27ac"
+    },
+    {
+      "path": "EDGE_FUNCTIONS.json",
+      "sha256": "cbf3a29c14a7ff30730f2d37ce7c6171008a1e7f5ecc5c564ea6ed15ea762d97"
+    }
+  ]
+}

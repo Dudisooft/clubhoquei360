@@ -143,3 +143,12 @@ for(const legacy of [false,true])test('a saved historical reinforcement remains 
  await toggle.click();await page.locator('#confirmRosters').click();expect(await stored(page)).toEqual(before);await expect(page.locator('#events')).toContainText('Reforç verificat');
  await page.locator('#editRosters').click();await toggle.click();await checked.uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#score')).toHaveText('1 – 0');await expect(page.locator('#events')).toContainText('Reforç verificat');
 });
+
+test('RFEP imported opponent is selectable in Base without a managed-club team or automatic call-up',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=rfep-opponent');
+ const away=page.locator('[data-player="catalog:away:CA1"]');await expect(away).toBeEnabled();await expect(away).not.toBeChecked();
+ await prepare(page,['catalog:home:CP1','catalog:home:CP2','catalog:away:CA1','catalog:away:CA2']);await page.locator('#tabAway').click();
+ await incident(page,'Jugador visitant fictici','Gol');await expect(page.locator('#score')).toHaveText('0 – 1');
+ await page.reload();await expect(page.locator('#score')).toHaveText('0 – 1');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

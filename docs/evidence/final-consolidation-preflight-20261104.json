@@ -1,0 +1,33 @@
+{
+  "security_state": "PENDING_49_PLUS_2",
+  "canonical_predecessor_reviewed": true,
+  "client_truncate_acl": 49,
+  "effective_client_truncate": 49,
+  "client_truncate_defaults": 2,
+  "other_schema_client_defaults": [
+    {
+      "schema": "storage",
+      "creator": "postgres",
+      "privilege": "TRUNCATE",
+      "beneficiary": "anon"
+    },
+    {
+      "schema": "storage",
+      "creator": "postgres",
+      "privilege": "TRUNCATE",
+      "beneficiary": "authenticated"
+    }
+  ],
+  "other_public_owners": 0,
+  "backend_event_select": false,
+  "backend_event_insert": false,
+  "client_canonical_execute": {
+    "anon": false,
+    "authenticated": false
+  },
+  "missing_current_objects": null,
+  "actor_superuser": false,
+  "scope": "public 49+2; managed Storage defaults reported separately",
+  "production_mutations": 0,
+  "canonical_owner": "postgres"
+}

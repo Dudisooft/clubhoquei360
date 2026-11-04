@@ -1,0 +1,64 @@
+{
+  "result": "PASS",
+  "fixture_only": true,
+  "postgres": "17.11",
+  "predecessor_sha256": "00b45a56f9a9f524da007263fd8cbb5ef5d9690a03bfec27a9fab7ac0878f9a7",
+  "predecessor_is_production_backup": false,
+  "synthetic_auth_users": 9,
+  "original_public_tables": 45,
+  "original_rows": 19,
+  "migrations": [
+    {
+      "file": "20261027170248_match_mode_access.sql",
+      "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261027183214_temporary_match_operators.sql",
+      "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261028191801_preserve_partial_federation_rosters.sql",
+      "sha256": "669c3709175b263bab05e84283716dc089c7e4b49baf9491a5284ddc53a32c87",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261029040738_revoke_client_truncate.sql",
+      "sha256": "a00f2f9ffed479def5a66bf22948c06e39410d7d58ab181c13f50fb3b153771d",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261030142034_federation_automation_callup_preferences.sql",
+      "sha256": "f21359a39f474e94348501a968d1b6087cfe70aad5257a95a6342d36295e4199",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261030142117_scoped_federation_jobs.sql",
+      "sha256": "d6d3c5ab6e4cb9aaeeaa6eca8748ead6c0469112152019d6d4e5d9b97d0e818b",
+      "original_rows_preserved": true
+    },
+    {
+      "file": "20261030142337_scoped_federation_commit.sql",
+      "sha256": "1d7eabe162fde6700c38e50b8d55c8e0bff085a64874fc78de88845fe664920d",
+      "original_rows_preserved": true
+    }
+  ],
+  "ledger_repeat_skipped": 7,
+  "blind_duplicate_ddl": "rejected atomically; not all SQL migrations are idempotent",
+  "original_columns_and_rows_preserved": true,
+  "native_custom_archive_restore": true,
+  "restore_destination": "independent fixture database, same isolated cluster",
+  "ordinary_owner_nosuperuser": true,
+  "client_truncate": 0,
+  "official_rpc_client_execute": false,
+  "real_supabase_auth": false,
+  "production_operations": 0,
+  "network": "none",
+  "published_ports": 0,
+  "limitations": [
+    "captured application predecessor, synthetic records; not a full Supabase Cloud clone",
+    "Auth is the local synthetic predecessor; no GoTrue sessions exercised here",
+    "application ownership and postgres Auth USAGE/SELECT/REFERENCES reconstructed from verified metadata; managed platform configuration excluded"
+  ]
+}

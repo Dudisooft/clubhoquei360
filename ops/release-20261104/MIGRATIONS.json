@@ -1,0 +1,67 @@
+{
+  "candidate_branch": "release/final-consolidation-20261104",
+  "pull_request": 37,
+  "base_main": "e009f4df40d9ed353cb7d865beafed99d736892d",
+  "pr35": "3ba0775381faa1aae6b7bb43f1aacf0f778ebfb2",
+  "pr36": "11066ef8c414f2583c3e547af974e22cd454ae17",
+  "code_verified_locally": "36c6f3f709af1a484df89a9e55c4f529cf49f322",
+  "production_project_hint": "oevp…pnvy",
+  "execution": "MANUAL SEPARATE AUTHORIZATION REQUIRED; no production runner",
+  "prerequisite_security_package": "ops/truncate-3a8/MANIFEST.json",
+  "migration_count": 7,
+  "migrations": [
+    {
+      "order": 1,
+      "version": "20261027170248",
+      "path": "supabase/migrations/20261027170248_match_mode_access.sql",
+      "sha256": "1174c5da7a6cd7af18a950183512cb368801f63b88436c0618e935b36a6fbf32"
+    },
+    {
+      "order": 2,
+      "version": "20261027183214",
+      "path": "supabase/migrations/20261027183214_temporary_match_operators.sql",
+      "sha256": "05937730e83df6f71cd5a0383d920cc1db5edce5a57316b3d0d139e9cc967156"
+    },
+    {
+      "order": 3,
+      "version": "20261028191801",
+      "path": "supabase/migrations/20261028191801_preserve_partial_federation_rosters.sql",
+      "sha256": "669c3709175b263bab05e84283716dc089c7e4b49baf9491a5284ddc53a32c87"
+    },
+    {
+      "order": 4,
+      "version": "20261029040738",
+      "path": "supabase/migrations/20261029040738_revoke_client_truncate.sql",
+      "sha256": "a00f2f9ffed479def5a66bf22948c06e39410d7d58ab181c13f50fb3b153771d"
+    },
+    {
+      "order": 5,
+      "version": "20261030142034",
+      "path": "supabase/migrations/20261030142034_federation_automation_callup_preferences.sql",
+      "sha256": "f21359a39f474e94348501a968d1b6087cfe70aad5257a95a6342d36295e4199"
+    },
+    {
+      "order": 6,
+      "version": "20261030142117",
+      "path": "supabase/migrations/20261030142117_scoped_federation_jobs.sql",
+      "sha256": "d6d3c5ab6e4cb9aaeeaa6eca8748ead6c0469112152019d6d4e5d9b97d0e818b"
+    },
+    {
+      "order": 7,
+      "version": "20261030142337",
+      "path": "supabase/migrations/20261030142337_scoped_federation_commit.sql",
+      "sha256": "1d7eabe162fde6700c38e50b8d55c8e0bff085a64874fc78de88845fe664920d"
+    }
+  ],
+  "new_public_tables": [
+    "match_temporary_operators",
+    "match_temporary_operator_audit",
+    "callup_preferences",
+    "federation_sync_scopes",
+    "federation_sync_changes"
+  ],
+  "canonical_body_md5": {
+    "reviewed_predecessor": "a233a99c0b0e60db6cf5f42beef9f76e",
+    "repaired": "df66e4d470de1fa8119f140386a3ac35"
+  }
+}
