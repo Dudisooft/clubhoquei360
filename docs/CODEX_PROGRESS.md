@@ -1,5 +1,16 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Pilot federatiu · issue #38 · 04/11/2026
+
+- Branca `fix/federation-readonly-pilot-20261104`, base exacta PR #37 `aafce19b92f7eedca71a0ba1c5c1401b6b33695d`. `main` i PR #37 no modificats. Worktree `/workspace/work/clubhoquei360-federation-pilot`. Cap AGENTS.md accessible.
+- Implementat: GET autenticat dins `federation-sync`, client anon+JWT de l’usuari/RLS, sense claims/imports/auditories/escriptures. Admet match_id o catalogue UUID exclusius; el catàleg usa `match_mode_access` existent i comprova identitats del calendari abans de consultar l’acta. La versió v6 antiga rebutja GET abans de qualsevol escriptura; cap fallback POST.
+- Una mateixa cache temporal per RFEP/FECAPA: reutilitza parser/transport existents,30s d’acta/10min calendari,100entrades,24h màxim, peticions agrupades i backoff limitat. La consulta es mostra separada a la fitxa i l’Avançat, sense convertir jugadors en convocats ni afegir estadístiques. No hi ha migracions noves.
+- Lectura real:35559 alineacions0/0 i zero fonts operatives vinculades al codi;152043 Alpicat8/8; service_role encara sense SELECT/INSERT events. No s’ha invocat la funció desplegada. Les pàgines inicials FECAPA/RFEP són llegibles amb la ferramenta web; les actes i el trànsit dinàmic no recuperats. Executor continua CONNECT403 abansTLS. OKMob/Hoqueicat/GooglePlay declaren fonts federatives/sincronització, sense API pública reutilitzable ni mecanisme concret verificat; no es pressuposa IA.
+- Verificació:16proves noves Node dirigides PASS, inclosa RLS PostgreSQL/PGlite amb identitats fictícies.5primeres proves Chromium noves PASS. Suite Node anterior298PASS; repetició final sobre el nou arbre en curs. Suite Chromium ampliada i comprovacions finals en curs. Error de sintaxi inicial del test RLS corregit; no era un defecte d’aplicació. Logs `/tmp/ch360-pilot-*.log`.
+- Pendent immediat: completar suites finals Node/Chromium/check/build i recorreguts conjunts; si fallen corregir i repetir l’afectat. Actualitzar informe/evidències, push de branca i PR draft apilada sobre #37, comprovar CI del head. Vegeu `docs/FEDERATION_PILOT_ISSUE38_20261104.md`.
+- Prohibicions vigents: cap escriptura/exportació/importació/migració/permisos productius, fusió o Pages; backup real/49+2/set migracions continuen pendents. El GET nou no resol automàticament la reconciliació del pilot Vic sense vincle.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest checkpoint, comprova Git i els logs de la branca fix/federation-readonly-pilot-20261104, conserva els altres worktrees, acaba la primera verificació pendent i deixa la PR sobre #37 revisable. No modificar producció ni fusionar ni desplegar.»
+
 ## Checkpoint vigent · consolidació final 04/11/2026
 
 - Tancament verificat: CI [41809621891](https://github.com/Dudisooft/clubhoquei360/actions/runs/41809621891) SUCCESS sobre27434ee, amb282Node/86Chromium i regressions PostgreSQL17/RFEP/FEM15. Els canvis posteriors són només documentals; el rebut històric CLI absent es declara no recuperable.20contenidors exclusivament ficticis aturats; cap servidor local permanent. Consultar el head i checks actuals dePR37 per a la propagació final del remot després d’un error500 transitori deGitHub; no confondre la branca pujada amb el ref dePR fins que coincideixin.

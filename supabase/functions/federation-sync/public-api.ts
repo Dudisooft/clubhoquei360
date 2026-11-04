@@ -1,6 +1,7 @@
 // Recovered public portal adapter, shared by federation-sync and local tests.
 import {parseHTML} from 'npm:linkedom@0.18.12';
-import {parseCalendar} from './parser.ts';
+import {parseCalendar,parseMatch} from './parser.ts';
+import {fetchOfficialHtml} from './transport.ts';
 export const PORTALS={RFEP:'https://www.hockeypatines.fep.es',FECAPA:'https://www.hoqueipatins.fecapa.cat'};
 const id=x=>/^[1-9]\d{0,9}$/.test(String(x));
 const clean=x=>String(x??'').replace(/\s+/g,' ').trim();
@@ -32,22 +33,30 @@ export function importLegacyCalendar(html,competition,season='41'){
  if(!id(competition)||!id(season))throw Error('Àmbit federatiu invàlid');
  return normalizeCalendar('FECAPA',competition,season,legacyRows(html));
 }
-export function normalizeReport(data,fixture){
+export function normalizeReport(data,fixture,verifiedAt=new Date().toISOString()){
  const g=data?.game_data;
  if(!g||String(g.game_id)!==fixture.official_match_id||String(g.season_id)!==fixture.season||String(g.home_team_id)!==fixture.home_id||String(g.away_team_id)!==fixture.away_id)throw Error('Acta no correspon al partit/temporada');
  const sides={};for(const side of ['home','away']){
   const rows=g[side+'_roster'];if(!Array.isArray(rows))throw Error('Acta incompleta');
-  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),name:clean(p.player_name)||null,number:String(p.player_number),position:p.player_role==='P'?'goalkeeper':'field',starter:p['5i']==='true'||p['5i']===true||p['5i']==='5',goals:/^\d+$/.test(String(p.goals))?Number(p.goals):null,yellow:/^\d+$/.test(String(p.yellow_card))?Number(p.yellow_card):null,blue:/^\d+$/.test(String(p.blue_card))?Number(p.blue_card):null,red:/^\d+$/.test(String(p.red_card))?Number(p.red_card):null};});
+  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),name:clean(p.player_name)||null,number:String(p.player_number),position:clean(p.player_role).toUpperCase()==='P'?'goalkeeper':'field',starter:p['5i']==='true'||p['5i']===true||p['5i']==='5',goals:/^\d+$/.test(String(p.goals))?Number(p.goals):null,yellow:/^\d+$/.test(String(p.yellow_card))?Number(p.yellow_card):null,blue:/^\d+$/.test(String(p.blue_card))?Number(p.blue_card):null,red:/^\d+$/.test(String(p.red_card))?Number(p.red_card):null};});
   if(new Set(players.map(p=>p.id)).size!==players.length)throw Error('Jugadors duplicats a l’acta');
   sides[side]=players;
  }
  const published=Object.values(sides).every(rows=>rows.length>0&&rows.some(p=>p.position==='goalkeeper'));
- return {scope:[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':'),match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:0,source_url:fixture.source_url,verifiedAt:new Date().toISOString()};
+ return {scope:[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':'),match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:null,source_url:fixture.source_url,verifiedAt};
 }
 export class PublicFederation {
- constructor({fetcher=fetch,now=Date.now,ttl=600000,onSnapshot=()=>{},snapshots=[],reportSnapshots=[],onReportSnapshot=()=>{}}={}){this.fetcher=fetcher;this.now=now;this.ttl=ttl;this.onSnapshot=onSnapshot;this.cache=new Map(snapshots.map(x=>[x.key,x]));this.reports=new Map(reportSnapshots.map(x=>[x.match_id,x]));this.onReportSnapshot=onReportSnapshot;this.pending=new Map();this.config=null;}
+ constructor({fetcher=fetch,now=Date.now,ttl=600000,reportTtl=30000,maxStale=86400000,maxEntries=100,onSnapshot=()=>{},snapshots=[],reportSnapshots=[],onReportSnapshot=()=>{}}={}){
+  this.fetcher=fetcher;this.now=now;this.ttl=ttl;this.reportTtl=Math.max(1,Math.min(reportTtl,600000));this.maxStale=Math.max(0,Math.min(maxStale,86400000));this.maxEntries=Math.max(1,Math.min(maxEntries,200));this.onSnapshot=onSnapshot;
+  this.cache=new Map(snapshots.slice(-this.maxEntries).map(x=>[x.key,x]));this.reports=new Map(reportSnapshots.slice(-this.maxEntries).map(x=>[x.match_id,x]));this.onReportSnapshot=onReportSnapshot;this.pending=new Map();this.reportPending=new Map();this.reportFailures=new Map();this.config=null;this.configPending=null;
+ }
+ remember(map,key,value){map.delete(key);map.set(key,value);while(map.size>this.maxEntries)map.delete(map.keys().next().value);}
+ prune(){
+  for(const map of [this.cache,this.reports])for(const [key,value] of map)if(this.now()-Date.parse(value.verifiedAt)>this.maxStale)map.delete(key);
+  for(const [key,value] of this.reportFailures)if(value.until<=this.now())this.reportFailures.delete(key);
+ }
  async request(url,options={}){
-  const response=await this.fetcher(url,{...options,redirect:'error',signal:AbortSignal.timeout(20000)});
+  const response=await this.fetcher(url,{...options,credentials:'omit',redirect:'error',signal:AbortSignal.timeout(20000)});
   if(response.status===304)return {response,text:null};
   if(!response.ok){const e=Error(`Font no disponible (HTTP ${response.status})`);e.status=response.status;const wait=Number(response.headers.get('retry-after'));e.retryMs=Number.isFinite(wait)&&wait>0?wait*1000:600000;throw e;}
   const reader=response.body?.getReader();let size=0;const chunks=[];
@@ -57,11 +66,14 @@ export class PublicFederation {
  }
  async rfepConfig(){
   if(this.config&&this.config.until>this.now())return this.config.value;
-  const {text}=await this.request(PORTALS.RFEP+'/');
-  const raw=text.match(/const\s+SIDGAD_API_CONFIG\s*=\s*(\{[^;]+\});/)?.[1];
-  let c;try{c=JSON.parse(raw);}catch{throw Error('Configuració pública RFEP no disponible');}
-  if(c.url!=='https://api.sidgad.com'||c.cliente!=='rfep'||c.version!=='v1'||c.idm!=='hp'||typeof c.token!=='string'||c.token.length>500)throw Error('Origen públic RFEP no reconegut');
-  this.config={value:c,until:this.now()+3600000};return c;
+  if(this.configPending)return this.configPending;
+  this.configPending=(async()=>{
+   const {text}=await this.request(PORTALS.RFEP+'/');
+   const raw=text.match(/const\s+SIDGAD_API_CONFIG\s*=\s*(\{[^;]+\});/)?.[1];
+   let c;try{c=JSON.parse(raw);}catch{throw Error('Configuració pública RFEP no disponible');}
+   if(c.url!=='https://api.sidgad.com'||c.cliente!=='rfep'||c.version!=='v1'||c.idm!=='hp'||typeof c.token!=='string'||c.token.length>500)throw Error('Origen públic RFEP no reconegut');
+   this.config={value:c,until:this.now()+3600000};return c;
+  })();try{return await this.configPending;}finally{this.configPending=null;}
  }
  async rfep(resource,params={},headers={}){
   if(!['leagues','calendar','report'].includes(resource))throw Error('Recurs no permès');
@@ -73,14 +85,44 @@ export class PublicFederation {
   if(typeof data?.status==='string')throw Error('La font RFEP no ha publicat aquest recurs');return {...r,data};
  }
  async report(fixture){
-  if(fixture.federation!=='RFEP'||!id(fixture.official_match_id))throw Error('Acta no consultable amb aquest adaptador');
-  const scope=[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':');const candidate=this.reports.get(fixture.id);const old=candidate?.scope===scope?candidate:null;
-  try{const next=normalizeReport((await this.rfep('report',{id:fixture.official_match_id})).data,fixture);
-   if(next.status!=='published'){if(old?.status==='published'&&old.official_match_id===fixture.official_match_id)return {...old,stale:true,error:'Acta incompleta; dades verificades conservades'};return next;}
-   await this.onReportSnapshot(next);this.reports.set(fixture.id,next);return next;
-  }catch(e){if(old?.status==='published'&&old.official_match_id===fixture.official_match_id)return {...old,stale:true,error:'Font temporalment no disponible; acta verificada conservada'};throw e;}
+  this.prune();
+  if(!PORTALS[fixture.federation]||![fixture.official_match_id,fixture.season,fixture.competition_id,fixture.home_id,fixture.away_id].every(id)||fixture.home_id===fixture.away_id)throw Error('Identitat de l’acta incompleta');
+  const scope=[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':');
+  const candidate=this.reports.get(fixture.id),old=candidate?.scope===scope?candidate:null;
+  const usable=()=>old?.status==='published'&&this.now()-Date.parse(old.verifiedAt)<=this.maxStale;
+  if(old?.expiresAt>this.now()&&!old.stale)return {...old,cached:true};
+  const blocked=this.reportFailures.get(scope);
+  if(blocked?.until>this.now()){
+   if(usable())return {...old,cached:true,stale:true,error:blocked.message,retryAt:blocked.until};
+   const error=Error(blocked.message);error.retryMs=blocked.until-this.now();throw error;
+  }
+  if(this.reportPending.has(scope))return this.reportPending.get(scope);
+  if(this.reportPending.size>=this.maxEntries)throw Error('Límit de consultes simultànies; torna-ho a provar més tard');
+  const task=(async()=>{
+   try{
+    let data;
+    if(fixture.federation==='RFEP')data=(await this.rfep('report',{id:fixture.official_match_id})).data;
+    else{
+     const html=await fetchOfficialHtml('FECAPA',`fecapa_gr_${fixture.official_match_id}_1.php`,{idm:'1',idc:fixture.competition_id,idp:fixture.official_match_id,tab:'tab_ficha_resumen'},this.fetcher);
+     const parsed=parseMatch(html,{federation:'FECAPA',federation_match_id:fixture.official_match_id,competition_id:fixture.competition_id,season_id:fixture.season,federation_url:fixture.source_url});
+     if(parsed.home_name!==fixture.home_team||parsed.away_name!==fixture.away_team)throw Error('Acta FECAPA d’un altre equip');
+     data={game_data:{game_id:fixture.official_match_id,season_id:fixture.season,home_team_id:fixture.home_id,away_team_id:fixture.away_id}};
+     for(const side of ['home','away'])data.game_data[side+'_roster']=parsed.players.filter(p=>p.team===side).map(p=>({player_id:p.external_id,player_name:p.name,player_number:p.dorsal,player_role:p.position==='goalkeeper'?'P':'J','5i':p.starter,goals:p.goals,yellow_card:p.yellow,blue_card:p.blue,red_card:p.red}));
+    }
+    const next=normalizeReport(data,fixture,new Date(this.now()).toISOString());
+    if(next.status!=='published')throw Error('Acta encara no publicada o incompleta');
+    next.expiresAt=this.now()+this.reportTtl;next.cached=false;next.stale=false;next.provenance='official_report';
+    await this.onReportSnapshot(next);this.remember(this.reports,fixture.id,next);this.reportFailures.delete(scope);return next;
+   }catch(e){
+    const message='Font no disponible o acta incompleta; dades desades conservades';
+    const until=this.now()+Math.min(3600000,Math.max(this.reportTtl,e.retryMs||60000));this.remember(this.reportFailures,scope,{until,message});
+    if(usable())return {...old,cached:true,stale:true,error:message,retryAt:until};
+    const error=Error(message);error.retryMs=until-this.now();throw error;
+   }finally{this.reportPending.delete(scope);}
+  })();this.reportPending.set(scope,task);return task;
  }
  async calendar(federation,competition,season='41'){
+  this.prune();
   if(!PORTALS[federation]||!id(competition)||!id(season))throw Error('Àmbit federatiu invàlid');
   const key=[federation,season,competition].join(':');const old=this.cache.get(key);
   if(old&&old.expiresAt>this.now())return {...old,cached:true,stale:!!old.error};
@@ -95,7 +137,7 @@ export class PublicFederation {
      if(!comp)throw Error('Competició/temporada no identificada');competitionName=clean(comp.nombre_idc);
      const headers={};if(old?.etag)headers['if-none-match']=old.etag;if(old?.modified)headers['if-modified-since']=old.modified;
      const result=await this.rfep('calendar',{id:competition},headers);response=result.response;
-     if(result.data===null){if(!old)throw Error('304 sense còpia local');const next={...old,verifiedAt:new Date(this.now()).toISOString(),expiresAt:this.now()+this.ttl,error:null};this.cache.set(key,next);await this.onSnapshot(next);return {...next,cached:true,stale:false};}
+     if(result.data===null){if(!old)throw Error('304 sense còpia local');const next={...old,verifiedAt:new Date(this.now()).toISOString(),expiresAt:this.now()+this.ttl,error:null};this.remember(this.cache,key,next);await this.onSnapshot(next);return {...next,cached:true,stale:false};}
      rows=result.data.games;if(!Array.isArray(rows))throw Error('Calendari RFEP incomplet');
     }else{
      const url=`https://www.server2.sidgad.es/fecapa/fecapa_cal_idc_${competition}_1.php`;
@@ -105,11 +147,11 @@ export class PublicFederation {
     const fixtures=normalizeCalendar(federation,competition,season,rows);
     const snapshot={key,federation,competition_id:String(competition),season:String(season),competition:competitionName,verifiedAt:new Date(this.now()).toISOString(),expiresAt:this.now()+this.ttl,etag:response.headers.get('etag'),modified:response.headers.get('last-modified'),fixtures,error:null};
     // Only publish a complete validated snapshot; a failed refresh never erases it.
-    await this.onSnapshot(snapshot);this.cache.set(key,snapshot);return {...snapshot,cached:false,stale:false};
+    await this.onSnapshot(snapshot);this.remember(this.cache,key,snapshot);return {...snapshot,cached:false,stale:false};
    }catch(e){
     if(!old)throw e;
     const stale={...old,error:'La font no s’ha pogut verificar; dades anteriors conservades',expiresAt:this.now()+(e.retryMs||60000)};
-    this.cache.set(key,stale);return {...stale,cached:true,stale:true};
+    this.remember(this.cache,key,stale);return {...stale,cached:true,stale:true};
    }finally{this.pending.delete(key);}
   })();this.pending.set(key,task);return task;
  }

@@ -24,7 +24,7 @@
       },
       {
         "path": "supabase/functions/federation-sync/index.ts",
-        "sha256": "8c750abcc7858a7aa25a0d3ea4f8dbf87b6146f1a55ea1aef6adf55e3b5e75b3"
+        "sha256": "1d4b90638ba65386e01cf2361bd01a604c21bc9199f7b40c3a9ed73aff1c88b8"
       },
       {
         "path": "supabase/functions/federation-sync/parser.ts",
@@ -32,11 +32,15 @@
       },
       {
         "path": "supabase/functions/federation-sync/public-api.ts",
-        "sha256": "11ead3d08f801e6b62eb903003c558087656059509be79f4c964638d878c5827"
+        "sha256": "714a109c7d73b9d9aedba54184b67629c531a11741503907b1096ab0eeafbc05"
+      },
+      {
+        "path": "supabase/functions/federation-sync/read-only.ts",
+        "sha256": "9cd83826e47449fed81cd2517b0fcc6197e07fd4466d935798cb58715310c85a"
       },
       {
         "path": "supabase/functions/federation-sync/transport.ts",
-        "sha256": "ca24362dfb412ea0c0eff9b0c0463acf98b027b29ccb44e383ded33029df4b3e"
+        "sha256": "002261d2e21e73ef6791138073f4ba50e30ba296e5b1cd5b8e6cb0357854db52"
       }
     ],
     "club-federation-sync": [
@@ -54,5 +58,13 @@
     "npm:@supabase/supabase-js@2.95.3",
     "npm:linkedom@0.18.12"
   ],
-  "scheduler_activation": "not authorized or performed"
+  "scheduler_activation": "not authorized or performed",
+  "candidate_read_only_protocol": {
+    "method": "GET",
+    "parameters": "exactly one match_id or catalogue UUID",
+    "authentication": "getUser and caller JWT/RLS; no service_role",
+    "persistence": "none",
+    "automatic_refresh": "not enabled",
+    "old_backend": "GET rejected with405, no POST fallback"
+  }
 }

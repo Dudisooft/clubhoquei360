@@ -10,7 +10,7 @@ export async function fetchOfficialHtml(federation:string,file:string,params:Rec
  const rosterCompetition=file.match(/_stats_1_(\d+)\.php$/)?.[1];
  if(rosterCompetition&&params.idc!==rosterCompetition)throw new OfficialFetchError('identity_ambiguous','Competition request mismatch');
  let response:Response;
- try{response=await fetcher('https://www.server2.sidgad.es/'+fed+'/'+file,{method:'POST',headers:{Origin:origin,Referer:origin+'/','X-Requested-With':'XMLHttpRequest'},credentials:'omit',body:new URLSearchParams(params),signal:AbortSignal.timeout(25000)});}
+ try{response=await fetcher('https://www.server2.sidgad.es/'+fed+'/'+file,{method:'POST',redirect:'error',headers:{Origin:origin,Referer:origin+'/','X-Requested-With':'XMLHttpRequest'},credentials:'omit',body:new URLSearchParams(params),signal:AbortSignal.timeout(25000)});}
  catch(e){const name=e instanceof Error?e.name:'';throw new OfficialFetchError('connection_error',name==='TimeoutError'||name==='AbortError'?'Official request timed out':'Official connection failed');}
  if(!response.ok)throw new OfficialFetchError(response.status===401||response.status===403?'permission_error':'connection_error','Official HTTP '+response.status,response.status);
  let html:string;try{html=await response.text();}catch{throw new OfficialFetchError('connection_error','Official response interrupted');}
