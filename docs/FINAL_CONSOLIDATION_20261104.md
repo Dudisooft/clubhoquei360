@@ -29,6 +29,31 @@ Recuperats13fitxers versionats d’ops/cloud-backup-readiness-20261103, head4057
 - Doble custòdia preparada:D:\ClubHoquei360\Backups privat → paquet age verificat → Drive privat → descàrrega/verificació/restauració aïllada; claus i escrow fora de tots dos destins, titular/suplent i suport separat. Retenció14dies/almenys3grups complets amb supervivent restaurada, sense activació de tasques o neteja productiva. Cal quota vigent/espai real abans d’exportar.
 - Còpia productiva: NO EXECUTADA. Falten credencial SQL/TLS autoritzada, connexió/host/destíD:/quota i custòdia física verificats, clau productiva recuperable, baseline Supabase compatible complet i autorització explícita d’exportació/restauració aïllada. Secrets, objectes físics Storage, proveïdors Auth i configuracióCloud requereixen recuperació separada.
 
-## C–E · Continuïtat
+## C · Seguretat, migracions i correcció implementada
+
+Preflight productiu exclusivament SELECT04/11:49concessions explícites/27taules,0absents,0inesperades i0diferències en els20defaults postgres/public (2TRUNCATE de clients).45taulespublic, totes de postgres;49capacitats efectives de clients,0defaults globals addicionals de clients. postgres NOSUPERUSER/BYPASSRLS, anon/authenticated NOLOGIN/NOSUPERUSER/NOBYPASSRLS. Paquet3A.8 immutable amb manifest verificat; cap execució productiva.
+
+Canvi implementat al fitxer pendent20261028191801_preserve_partial_federation_rosters.sql, que NO consta aplicat a Cloud:
+
+1. S’actualitzen is_goalkeeper/is_captain, nom no buit i player_id resolt sense canviar ID de l’alineació; camps absents conserven valors vàlids.
+2. Una resposta només de participants no esborra l’estat oficial, marcador de report ni incidències/timeline prèviament recuperats quan el nou endpoint declara not_retrieved. No s’esborren files de personal/incidències/alineacions; els resultats de calendari i estadístiques pròpies no es modifiquen.
+3. Identificador de participant/costat absent rebutjat atòmicament. RPC explícitament SECURITY INVOKER/search_path buit, sense EXECUTE per PUBLIC/anon/authenticated; exclusiu service_role. El SELECT/INSERT mínim d’events ja previst per #33 es manté, sense grants d’escriptura a clients.
+4. Precondició de hash del cos SQL: només accepta el predecessor oficial llegit o la versió corregida, i rebutja deriva no revisada. S’afegeixen5regressions específiques; juntament amb3existents,8proves dirigides PASS en PostgreSQL/PGlite.
+
+PostgreSQL17.11 natiu, contenidors nous networknone/noports/nomounts:
+
+- tests/backup/security_rehearsal.py: reconstrucció exacta49+2, propietari no superusuari, preflight d’acknowledgement, revocació mínima, altres ACL/dades/RLS iguals,18defaults legítims preservats, idempotència, recuperació exacta de les ACL originals només al fixture i reaplicació, taules futures sense TRUNCATE de clients. Les proves entren realment a anon/authenticated a través d’un authenticator SQL fictici i validen current_user; no es confon una denegació de SET ROLE amb una denegació sobre la taula.
+- Altre DB buit del mateix clúster: predecessor de l’RPC verificat, porter antic erroni reproduït i corregit, error d’INSERTevents reproduït/reparat, identitats/altrescostats/metadades conservats, repetició sense duplicats i clients sense EXECUTE. Aquest test s’incorpora a CI amb imatge oficial fixada per digest.
+- tests/backup/migration_rehearsal.py: captura SQL privada local de3A.11, SHA25600b45a56f9a9f524da007263fd8cbb5ef5d9690a03bfec27a9fab7ac0878f9a7, Auth fictici i schema aplicatiu conegut. No és un dump productiu ni s’incorpora a Git. S’hi afegeixen19registres public inventats i un usuari fictici als8Auth locals previs.45taules public, amb empremtes de les columnes originals comparades després de cada migració; cap alteració. Backup custom natiu restaurat en un altre DB del clúster i comparat. Auth real/GoTrue no s’exercita en aquest test.
+- La reconstrucció del harness ha requerit reproduir USAGE/SELECT/REFERENCES legítims de postgres sobre Auth, confirmats en lectura a Cloud, i propietat d’objectes aplicatius. No s’han ampliat permisos productius ni convertit l’actor de migració en superusuari. No és una rèplica completa de plataforma (Vault/cron/proveïdors/secrets/Storage físic exclosos).
+- Les migracions DDL NO són totes idempotents: el duplicat d’age_group rebutja una segona execució i reverteix la transacció. El ledger local només omet versions amb hash igual;7omissions de represa comprovades. No es recomana executar SQL dues vegades ni un rollback destructiu. #33 i paquet49+2 sí són repetibles en el fixture.
+
+Ordre preparat: paquet manual49+2 autoritzat → set migracions20261027170248,20261027183214,20261028191801,20261029040738,20261030142034,20261030142117,20261030142337. La quarta és hardening històric més ampli: només admissible com no-op després de la correcció mínima i preflight sense deriva/propietaris imprevistos; davant qualsevol canvi, STOP. Les metadades d’edat revisades es mantenen separades i sense executar UPDATE.
+
+Hi ha versions locals antigues dels primers mòduls amb timestamps diferents dels noms ja publicats: NO utilitzar db push per reaplicar-les. Només les set versions revisades, amb registre/hash/preflight explícits i permisos autoritzats. La llista de30migracions remotes llegida confirma que les set pendents encara no s’han publicat.
+
+Evidències: final-consolidation-native-security-20261104.json, final-consolidation-native-migrations-20261104.json. Scripts antics d’integració i motor de backup reutilitzats; les diferències del harness es documenten, no es presenten com Cloud real.
+
+## D–E · Continuïtat
 
 Pendents en aquest checkpoint: recuperar el head remot de backups40573bc, validar scripts i custòdia amb fixtures; inventari i correcció SQL aïllada; suites completes del conjunt; PR final i pla de publicació/recuperació. NO FUSIONAR. NO DESPLEGAR. NO EXPORTAR NI MODIFICAR PRODUCCIÓ.

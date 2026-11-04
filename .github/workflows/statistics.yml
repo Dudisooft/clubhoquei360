@@ -19,6 +19,10 @@ jobs:
       - run: npm run check
       - run: npm test
       - run: npm run build
+      - name: Native PostgreSQL 17 privilege and official-report regressions
+        run: |
+          docker pull postgres@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b
+          python3 tests/backup/security_rehearsal.py
       - run: npx playwright install --with-deps chromium
       - run: npm run test:browser
         env:
