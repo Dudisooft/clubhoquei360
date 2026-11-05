@@ -2,11 +2,24 @@ import { createClient } from 'npm:@supabase/supabase-js@2.95.3';
 import { parseMatch,parseCalendar,parseStandings } from './parser.ts';
 import {PublicFederation,readRfepSnapshot,canonicalRfepReport} from './public-api.ts';
 const publicRfep=new PublicFederation();
+import {readOfficialMatch} from './read-only.ts';
 import { syncFem15 } from './fem15.ts';
-const cors={'Access-Control-Allow-Origin':'https://dudisooft.github.io','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'POST,OPTIONS'};
-const json=(data:any,status=200)=>new Response(JSON.stringify(data),{status,headers:{...cors,'Content-Type':'application/json'}});
+const cors={'Access-Control-Allow-Origin':'https://dudisooft.github.io','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'GET,POST,OPTIONS'};
+const json=(data:any,status=200)=>new Response(JSON.stringify(data),{status,headers:{...cors,'Content-Type':'application/json','Cache-Control':'private, no-store'}});
 Deno.serve(async(req)=>{
- if(req.method==='OPTIONS')return new Response('ok',{headers:cors});if(req.method!=='POST')return json({error:'POST required'},405);
+ if(req.method==='OPTIONS')return new Response('ok',{headers:cors});if(!['GET','POST'].includes(req.method))return json({error:'POST required'},405);
+ if(req.method==='GET'){
+  try{
+   // GET fails closed on older deployments (405); never reinterpret it as an import.
+   const authorization=req.headers.get('Authorization')||'';
+   if(!/^Bearer \S+$/i.test(authorization))return json({error:'Authentication required'},401);
+   const scoped=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_ANON_KEY')!,{auth:{persistSession:false},global:{headers:{Authorization:authorization}}});
+   const auth=await scoped.auth.getUser(authorization.replace(/^Bearer /i,''));
+   if(auth.error||!auth.data.user)return json({error:'Authentication required'},401);
+   const query=new URL(req.url).searchParams;
+   const result=await readOfficialMatch(scoped,query.get('match_id')||'',publicRfep,{catalogue:query.get('catalogue')});return json(result.body,result.status);
+  }catch{return json({error:'No s’ha pogut verificar la consulta autoritzada'},503);}
+ }
  const db=createClient(Deno.env.get('SUPABASE_URL')!,Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!,{auth:{persistSession:false}});
  try{
   const scheduler=req.headers.get('x-federation-scheduler');let scheduled=false,user:any=null;

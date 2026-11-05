@@ -24,7 +24,7 @@ export function officialPlayers(fixture,report) {
   players.push({id:identity,federation_player_id:p.id,team:side,full_name:p.name,dorsal:p.number,
    position:p.position,starter:p.starter,matchVerified:true,selectable:true,
    selection_basis:'current_match_report',origin:'Acta '+fixture.federation+' d’aquest partit',
-   official_source:fixture.source_url,goals:p.goals??null,yellow:p.yellow??null,blue:p.blue??null,red:p.red??null});
+   official_source:report.source_url||fixture.source_url,calendar_source_url:report.calendar_source_url||fixture.source_url,public_player_id:p.id,license_number:null,goals:p.goals??null,yellow:p.yellow??null,blue:p.blue??null,red:p.red??null});
  }
  return players;
 }
