@@ -6,4 +6,4 @@ const linkedom=pathToFileURL(require.resolve('linkedom')).href;
 const parser=moduleUrl(fs.readFileSync(new URL('../../supabase/functions/federation-sync/parser.ts',import.meta.url),'utf8').replace('npm:linkedom@0.18.12',linkedom));
 const transport=moduleUrl(fs.readFileSync(new URL('../../supabase/functions/federation-sync/transport.ts',import.meta.url),'utf8'));
 const api=await import(moduleUrl(fs.readFileSync(new URL('../../supabase/functions/federation-sync/public-api.ts',import.meta.url),'utf8').replace('npm:linkedom@0.18.12',linkedom).replace('./parser.ts',parser).replace('./transport.ts',transport)));
-export const {PORTALS,normalizeCalendar,normalizeReport,importLegacyCalendar,PublicFederation,readRfepSnapshot,canonicalRfepReport}=api;
+export const {PORTALS,officialReportUrl,normalizeCalendar,normalizeReport,importLegacyCalendar,PublicFederation,readRfepSnapshot,canonicalRfepReport}=api;

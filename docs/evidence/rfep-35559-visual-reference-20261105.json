@@ -1,0 +1,38 @@
+{
+  "source": "https://github.com/Dudisooft/clubhoquei360/issues/38#issuecomment-6645582404",
+  "evidence_type": "Work browser visual inspection reported in issue; not a captured HTTP response",
+  "fixture": {
+    "id": "RFEP:41:3575:35559",
+    "federation": "RFEP",
+    "official_match_id": "35559",
+    "competition_id": "3575",
+    "season": "41",
+    "home_id": "3697",
+    "away_id": "3727",
+    "source_url": "https://www.hockeypatines.fep.es/league/3575"
+  },
+  "expected": {
+    "lineup_sha256": {
+      "home": "2132eace30eef9e27606b222bc32a5937502fa89554db9a3a24d5c43e86650d2",
+      "away": "41b953e64fa3b13cf050668bbe4b4bf19a41e10290b084d7616310edeac9f82b"
+    },
+    "counts": {
+      "home": {
+        "players": 10,
+        "goalkeepers": 2,
+        "starters": 5
+      },
+      "away": {
+        "players": 10,
+        "goalkeepers": 2,
+        "starters": 5
+      }
+    }
+  },
+  "license_evidence": "Nº Licencia blank in the visual report; public player ID is not a license",
+  "incidents": {
+    "reported_count": 5,
+    "transport_contract_verified": false,
+    "event_timeline_status": "not_retrieved"
+  }
+}

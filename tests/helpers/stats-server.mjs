@@ -2,8 +2,10 @@
  * and RLS used in integration tests. NOT a production Auth/Realtime substitute. */
 import http from 'node:http';import fs from 'node:fs';import path from 'node:path';
 import {createDatabase,ID,asUser,asOwner} from './stats-db.mjs';
+import {seedRfepRehearsal} from './rfep-capture-rehearsal.mjs';
 import {seedPreparation} from './preparation-db.mjs';
 const db=await createDatabase(),cwd=path.resolve(new URL('../..',import.meta.url).pathname);let serial=Promise.resolve();
+const rehearsal=await seedRfepRehearsal(db,{har:process.env.CH360_RFEP_HAR,workReference:process.env.CH360_RFEP_WORK_REFERENCE});
 const vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';let vicCalendar=null;
 const token=id=>Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:id,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
 function userOf(req){try{return JSON.parse(Buffer.from((req.headers.authorization||'').replace('Bearer ','').split('.')[1],'base64url')).sub;}catch{return null;}}
@@ -54,7 +56,7 @@ async function api(req,res,url){
 const types={'.html':'text/html','.js':'text/javascript','.css':'text/css','.json':'application/json'};
 const server=http.createServer((req,res)=>{
  const url=new URL(req.url,'http://127.0.0.1:4173');
- if(url.pathname==='/health')return json(res,{fixture:'FICTITIOUS FEM15',database:'PostgreSQL/PGlite'});
+ if(url.pathname==='/health')return json(res,{fixture:rehearsal?'ISOLATED RFEP REHEARSAL':'FICTITIOUS FEM15',database:'PostgreSQL/PGlite',rehearsal});
  if(url.pathname.startsWith('/api/')){serial=serial.then(()=>api(req,res,url)).catch(e=>json(res,{message:e.message},500));return;}
  if(url.pathname==='/__test/reset'){serial=serial.then(async()=>{vicCalendar=null;await db.exec("reset role;delete from stats_event_audit;delete from stats_events;delete from stats_sessions;delete from stats_coverage;delete from stats_access_audit;delete from stats_assignments;");for(const table of ['pilot_preparation_audit','pilot_prepared_lineups','pilot_events','pilot_operator_state','pilot_players','pilot_members'])await db.query('delete from '+table+' where match_id=$1',[vic]);for(const table of ['federation_match_sources','stats_matches','pilot_matches'])await db.query('delete from '+table+' where '+(table==='pilot_matches'?'id':'match_id')+'=$1',[vic]);await db.query("insert into stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);json(res,{ok:true});});return;}
  // Explicit local-only pending-calendar scenario; no production fetch/Auth.
@@ -84,6 +86,6 @@ const server=http.createServer((req,res)=>{
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
  const relative=url.pathname.replace(/^\/clubhoquei360\//,'/').replace(/^\//,'')||'index.html';const filename=path.resolve(cwd,relative);
  if(!filename.startsWith(cwd+'/')||relative.includes('.git')||relative.endsWith('.sql')){res.writeHead(404);res.end();return;}
- try{const data=fs.readFileSync(filename);res.writeHead(200,{'content-type':types[path.extname(filename)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}
+ try{let data=fs.readFileSync(filename);if(rehearsal&&filename.endsWith('.html'))data=Buffer.from(data.toString().replace('<body>','<body><aside id="rehearsalNotice" role="status" style="padding:12px;background:#ffe79c;color:#222">'+rehearsal.banner+'</aside>'));res.writeHead(200,{'content-type':types[path.extname(filename)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}
 });
 server.listen(4173,'127.0.0.1',()=>console.log('Local FEM15 fixture ready. Synthetic accounts only.'));

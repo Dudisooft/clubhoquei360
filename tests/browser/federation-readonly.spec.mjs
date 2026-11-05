@@ -46,3 +46,11 @@ test('two device contexts recover own statistics through HTTP fallback even when
   const after=await (await request.get('/__test/snapshot')).json();expect(after.events).toHaveLength(1);expect(after.official).toEqual(before.official);expect(after.clock).toEqual(before.clock);
  }finally{await a.close();await b.close();}
 });
+test('RFEP report links to the match, retains calendar provenance and labels initial five without creating a timeline',async({page,context})=>{
+ await setup(context);const data=structuredClone(response);data.report.source_url='https://www.hockeypatines.fep.es/?liga=3575&partido=35559';data.report.calendar_source_url='https://www.hockeypatines.fep.es/league/3575';data.report.sides.home[0].starter=true;
+ await context.route(endpoint+'/functions/v1/federation-sync**',r=>r.fulfill({json:data}));await page.goto('/clubhoquei360/avancat.html?match='+ID.match+'&view=stats');await expect(page.locator('#statsContent')).toBeVisible();await page.locator('[data-official-read]').click();
+ await expect(page.getByRole('link',{name:'Obre l’acta al portal oficial'})).toHaveAttribute('href',data.report.source_url);await expect(page.getByRole('link',{name:'Calendari de procedència'})).toHaveAttribute('href',data.report.calendar_source_url);await expect(page.locator('[data-official-preview]')).toContainText('Cinc inicial');await expect(page.locator('[data-official-preview]')).toContainText('Incidències oficials: pendents');
+});
+test('a supplied unsafe provenance URL never becomes a clickable report link',async({page,context})=>{
+ await setup(context);const data=structuredClone(response);data.report.source_url='javascript:alert(1)';data.report.calendar_source_url='https://evil.invalid/calendar';await context.route(endpoint+'/functions/v1/federation-sync**',r=>r.fulfill({json:data}));await page.goto('/clubhoquei360/avancat.html?match='+ID.match+'&view=stats');await expect(page.locator('#statsContent')).toBeVisible();await page.locator('[data-official-read]').click();await expect(page.locator('[data-official-preview]')).toContainText('PORTER FICTICI');await expect(page.locator('[data-official-preview] a')).toHaveCount(0);
+});

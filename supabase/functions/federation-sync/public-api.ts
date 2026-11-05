@@ -35,18 +35,28 @@ export function importLegacyCalendar(html,competition,season='41'){
  if(!id(competition)||!id(season))throw Error('Àmbit federatiu invàlid');
  return normalizeCalendar('FECAPA',competition,season,legacyRows(html));
 }
+export function officialReportUrl(fixture){
+ if(fixture.federation!=='RFEP')return fixture.source_url;
+ if(!id(fixture.competition_id)||!id(fixture.official_match_id))throw Error('Identitat d’enllaç d’acta invàlida');
+ const url=new URL(PORTALS.RFEP+'/');url.search=new URLSearchParams({liga:String(fixture.competition_id),partido:String(fixture.official_match_id)}).toString();return url.href;
+}
+function starterFlag(value){
+ if(value===true||value==='true'||value==='5')return true;
+ if(value===false||value==='false'||value==='0'||value===0||value==='')return false;
+ return null; // Missing/unknown source flags do not certify a starting five.
+}
 export function normalizeReport(data,fixture,verifiedAt=new Date().toISOString()){
  const g=data?.game_data;
  if(!g||String(g.game_id)!==fixture.official_match_id||String(g.season_id)!==fixture.season||String(g.home_team_id)!==fixture.home_id||String(g.away_team_id)!==fixture.away_id)throw Error('Acta no correspon al partit/temporada');
  const sides={};for(const side of ['home','away']){
   const rows=g[side+'_roster'];if(!Array.isArray(rows))throw Error('Acta incompleta');
-  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),name:clean(p.player_name)||null,number:String(p.player_number),position:clean(p.player_role).toUpperCase()==='P'?'goalkeeper':'field',starter:p['5i']==='true'||p['5i']===true||p['5i']==='5',goals:/^\d+$/.test(String(p.goals))?Number(p.goals):null,yellow:/^\d+$/.test(String(p.yellow_card))?Number(p.yellow_card):null,blue:/^\d+$/.test(String(p.blue_card))?Number(p.blue_card):null,red:/^\d+$/.test(String(p.red_card))?Number(p.red_card):null};});
+  const players=rows.map(p=>{if(!id(p.player_id)||!/^\d{1,3}$/.test(String(p.player_number)))throw Error('Identitat de jugador incompleta');return {id:String(p.player_id),public_player_id:String(p.player_id),license_number:null,name:clean(p.player_name)||null,number:String(p.player_number),position:clean(p.player_role).toUpperCase()==='P'?'goalkeeper':'field',starter:starterFlag(p['5i']),goals:/^\d+$/.test(String(p.goals))?Number(p.goals):null,yellow:/^\d+$/.test(String(p.yellow_card))?Number(p.yellow_card):null,blue:/^\d+$/.test(String(p.blue_card))?Number(p.blue_card):null,red:/^\d+$/.test(String(p.red_card))?Number(p.red_card):null};});
   if(new Set(players.map(p=>p.id)).size!==players.length)throw Error('Jugadors duplicats a l’acta');
   sides[side]=players;
  }
  const allPlayers=[...sides.home,...sides.away];if(new Set(allPlayers.map(p=>p.id)).size!==allPlayers.length)throw Error('Un jugador no pot pertànyer als dos equips de l’acta');
  const published=Object.values(sides).every(rows=>rows.length>0&&rows.some(p=>p.position==='goalkeeper'));
- return {scope:[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':'),match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:null,source_url:fixture.source_url,verifiedAt};
+ return {scope:[fixture.federation,fixture.season,fixture.competition_id,fixture.official_match_id,fixture.home_id,fixture.away_id].join(':'),match_id:fixture.id,official_match_id:fixture.official_match_id,status:published?'published':'incomplete',sides,events_count:Array.isArray(g.events)?g.events.length:null,source_url:officialReportUrl(fixture),calendar_source_url:fixture.source_url,event_timeline_status:'not_retrieved',verifiedAt};
 }
 export class PublicFederation {
  constructor({fetcher=fetch,now=Date.now,ttl=600000,reportTtl=30000,maxStale=86400000,maxEntries=100,onSnapshot=()=>{},snapshots=[],reportSnapshots=[],onReportSnapshot=()=>{}}={}){
@@ -171,13 +181,13 @@ export async function readRfepSnapshot(source,api=new PublicFederation()){
  const seen=new Set(),players=[];
  for(const team of ['home','away'])for(const p of report.sides[team]){
   if(!p.name||seen.has(p.id))throw Error('Incomplete or duplicate official participant');seen.add(p.id);
-  players.push({external_id:p.id,team,dorsal:p.number,name:p.name,position:p.position,starter:p.starter,goals:p.goals,yellow:p.yellow,blue:p.blue,red:p.red,matchVerified:true});
+  players.push({external_id:p.id,public_player_id:p.id,license_number:null,team,dorsal:p.number,name:p.name,position:p.position,starter:p.starter,goals:p.goals,yellow:p.yellow,blue:p.blue,red:p.red,matchVerified:true});
  }
  const calendar=cache.fixtures.map(f=>({match_id:f.official_match_id,round:f.round_label,date:f.date,time:f.time,venue:f.venue,home_name:f.home_team,away_name:f.away_team,home_team_id:f.home_id,away_team_id:f.away_id,result:f.score?f.score.join(' - '):null}));
  const prior=source.official_data||{};
- return {calendar,calendar_fetched_at:cache.verifiedAt,snapshot:{...prior,federation:'RFEP',match_id:fixture.official_match_id,competition_id:fixture.competition_id,season_id:fixture.season,home_name:fixture.home_team,away_name:fixture.away_team,home_team_id:fixture.home_id,away_team_id:fixture.away_id,home_score:fixture.score?.[0]??null,away_score:fixture.score?.[1]??null,players,staff:prior.staff||[],incidents:prior.incidents||[],report_verified:true,lineup_status:'published',date:fixture.date,time:fixture.time,round:fixture.round_label,venue:fixture.venue,fetched_at:report.verifiedAt,source_url:fixture.source_url,sections:{players:'official_report',staff:'not_refreshed',incidents:'not_refreshed'},roster_stale:!!report.stale,calendar_stale:!!cache.stale}};
+ return {calendar,calendar_fetched_at:cache.verifiedAt,snapshot:{...prior,federation:'RFEP',match_id:fixture.official_match_id,competition_id:fixture.competition_id,season_id:fixture.season,home_name:fixture.home_team,away_name:fixture.away_team,home_team_id:fixture.home_id,away_team_id:fixture.away_id,home_score:fixture.score?.[0]??null,away_score:fixture.score?.[1]??null,players,staff:prior.staff||[],incidents:prior.incidents||[],report_verified:true,lineup_status:'published',date:fixture.date,time:fixture.time,round:fixture.round_label,venue:fixture.venue,fetched_at:report.verifiedAt,source_url:report.source_url,calendar_source_url:report.calendar_source_url||fixture.source_url,sections:{players:'official_report',staff:'not_refreshed',incidents:'not_refreshed'},roster_stale:!!report.stale,calendar_stale:!!cache.stale}};
 }
 
 export function canonicalRfepReport(snapshot){
- return {players:snapshot.players.map(p=>({...p,side:p.team})),staff:[],incidents:[],home_fouls:null,away_fouls:null,venue:snapshot.venue||null,reported_home_score:null,reported_away_score:null,score_discrepancy:false,report_score_available:false,score_source:'calendar',official_status:null,event_timeline_status:'not_retrieved',fetched_at:snapshot.fetched_at,source_url:snapshot.source_url,report_endpoint:'https://api.sidgad.com/rfep/v1/hp/report/',external_match_id:snapshot.match_id};
+ return {players:snapshot.players.map(p=>({...p,side:p.team})),staff:[],incidents:[],home_fouls:null,away_fouls:null,venue:snapshot.venue||null,reported_home_score:null,reported_away_score:null,score_discrepancy:false,report_score_available:false,score_source:'calendar',official_status:null,event_timeline_status:'not_retrieved',fetched_at:snapshot.fetched_at,source_url:snapshot.source_url,calendar_source_url:snapshot.calendar_source_url||null,report_endpoint:'https://api.sidgad.com/rfep/v1/hp/report/',external_match_id:snapshot.match_id};
 }

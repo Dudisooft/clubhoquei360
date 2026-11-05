@@ -1,5 +1,17 @@
 # ClubHoquei360 · Continuïtat de Codex
 
+## Acta SIMAR–Vic · represa focalitzada · 05/11/2026
+
+- Continuar la mateixa PR #39, branca `fix/federation-readonly-pilot-20261104`, base de represa40725854864b9962d6a515fb0f940e80290f7a93; main/#37 intactes. Llegits issue #38 i comentaris39: evidència visual Work amb20convocats,4porters i2cincs; no adjunta JSON/HAR original. No repetir investigació general.
+- Intent puntual del connector: bloquejat ja a la configuració pública del portal; HEAD de la URL de partit confirma CONNECT403/envoy abansTLS, política147 sense hosts federatius. Eina web tampoc recupera la URL d’acta o report. Cap resposta report capturada, cap token personal o bypass.
+- Corregits `normalizeReport`, `readRfepSnapshot`, `canonicalRfepReport`, adaptador de jugadors i vista: URL RFEP directa `?liga=3575&partido=35559`, calendari conservat a `calendar_source_url`; IDs públics separats de llicència null, dorsals textuals, cinc inicial i flags desconeguts null. Cronologia continua `not_retrieved`; no convertir cinc incidències de Work en una resposta JSON inventada.
+- Preparats verificador HAR privat i assaig amb la mateixa app/PGlite. HAR/JSON amb dades personals fora de Git, ignorats i amb permisos privats; només hashes de rosters/rols/cincs i URL de l’evidència versionats. Rebutja una transcripció com si fos captura. Admet observar variants report/report/ sense canviar transport automàticament.
+- Assaig realment executat: **transcripció manual explícita de Work**, no captura HTTP;20participants/2+2porters/5+5inicials, registre individual i rellotge01:23 recuperats després de reload,1observació i acta local preservada. Banner permanent d’origen manual; `automatic_transport_verified:false`. Fitxers privats a `/workspace/private/ch360-vic-20261105`; no copiar a Git. Dos errors inicials del harness (comptava20en una única llista d’equip i usava un selector de costat incorrecte) corregits i assaig repetit PASS.
+- 22proves Node dirigides PASS. Suites completes311Node/95Chromium en curs, check/build44; comprovar logs `/tmp/ch360-vic-20261105-{node,browser,check,build}.log`. Següent: completar regressions/integracions, documentar resultats, push i CI del head final aPR39, sense commits recursius per registrar CI. Informe focalitzat `docs/RFEP_35559_CAPTURE_AND_REPLAY_20261105.md`.
+- Falta imprescindible: captura HAR/resposta original del portal i contrast real de report?id35559. Després es pot executar el mateix assaig amb `--har`, amb procedència de captura. No presentar la transcripció com prova d’accés automàtic ni com importació productiva.
+- Prohibicions vigents: cap escriptura/importació/migració/permisos Supabase productius, merge o Pages. Aquesta fase no exporta dades productives ni canvia comptes.
+- Represa exacta: «CONTINUA CLUBHOQUEI360: llegeix aquest checkpoint i el document RFEP_35559_CAPTURE_AND_REPLAY_20261105, comprova Git i els logs actuals, conserva fitxers privats fora de Git i continua el primer pendent. Actualitza PR39 draft sense desplegar ni modificar producció.»
+
 ## Pilot federatiu · issue #38 · 04/11/2026
 
 - Branca `fix/federation-readonly-pilot-20261104`, base exacta PR #37 `aafce19b92f7eedca71a0ba1c5c1401b6b33695d`. `main` i PR #37 no modificats. Worktree `/workspace/work/clubhoquei360-federation-pilot`. Cap AGENTS.md accessible.
