@@ -181,7 +181,7 @@ export async function readRfepSnapshot(source,api=new PublicFederation()){
  const seen=new Set(),players=[];
  for(const team of ['home','away'])for(const p of report.sides[team]){
   if(!p.name||seen.has(p.id))throw Error('Incomplete or duplicate official participant');seen.add(p.id);
-  players.push({external_id:p.id,public_player_id:p.id,license_number:null,team,dorsal:p.number,name:p.name,position:p.position,starter:p.starter,goals:p.goals,yellow:p.yellow,blue:p.blue,red:p.red,matchVerified:true});
+  players.push({external_id:p.id,public_player_id:p.id,team,dorsal:p.number,name:p.name,position:p.position,...(p.starter==null?{}:{starter:p.starter}),goals:p.goals,yellow:p.yellow,blue:p.blue,red:p.red,matchVerified:true});
  }
  const calendar=cache.fixtures.map(f=>({match_id:f.official_match_id,round:f.round_label,date:f.date,time:f.time,venue:f.venue,home_name:f.home_team,away_name:f.away_team,home_team_id:f.home_id,away_team_id:f.away_id,result:f.score?f.score.join(' - '):null}));
  const prior=source.official_data||{};

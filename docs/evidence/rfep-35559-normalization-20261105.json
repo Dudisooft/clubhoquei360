@@ -1,0 +1,79 @@
+{
+  "date": "2026-11-05",
+  "timezone": "Europe/Madrid",
+  "reference_issue": "https://github.com/Dudisooft/clubhoquei360/issues/38#issuecomment-6645582404",
+  "reference_pr_comment": "https://github.com/Dudisooft/clubhoquei360/pull/39#issuecomment-6645592672",
+  "transport": {
+    "attempted": "existing report adapter; public config fetch blocked",
+    "proxy_failure": "CONNECT 403 envoy before TLS",
+    "policy_revision": "147",
+    "report_payload_received": false,
+    "official_response_capture_available": false,
+    "private_tokens_recorded": false
+  },
+  "manual_reference_rehearsal": {
+    "result": "PASS",
+    "input_provenance": "manual_Work_reference_NOT_HTTP_capture",
+    "automatic_transport_verified": false,
+    "lineup_sha256": {
+      "home": "2132eace30eef9e27606b222bc32a5937502fa89554db9a3a24d5c43e86650d2",
+      "away": "41b953e64fa3b13cf050668bbe4b4bf19a41e10290b084d7616310edeac9f82b"
+    },
+    "counts": {
+      "home": {
+        "players": 10,
+        "goalkeepers": 2,
+        "starters": 5
+      },
+      "away": {
+        "players": 10,
+        "goalkeepers": 2,
+        "starters": 5
+      }
+    },
+    "individual_events": 1,
+    "reload_persisted": true,
+    "official_preserved": true,
+    "production_writes": 0
+  },
+  "capture_validation": {
+    "actual_official_HAR_executed": false,
+    "synthetic_HAR_tests": "PASS",
+    "manual_transcription_rejected_as_HAR": true,
+    "incident_contract_verified": false,
+    "event_timeline_status": "not_retrieved"
+  },
+  "regression": {
+    "node": {
+      "passed": 311,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "passed": 95,
+      "failed": 0,
+      "skipped": 0
+    },
+    "static_build_files": 44,
+    "RFEP_future_integration": "PASS; fictitious Auth, PostgreSQL/PGlite",
+    "FEM15_integration": "PASS; fictitious Auth, PostgreSQL/PGlite"
+  },
+  "production": {
+    "writes": 0,
+    "imports": 0,
+    "exports": 0,
+    "migrations": 0,
+    "permissions_changed": 0,
+    "merges": 0,
+    "deployments": 0
+  },
+  "code_sha256": {
+    "supabase/functions/federation-sync/public-api.ts": "aaf76f3da9b9451b53d782f9aea05fa8926123aa338ca26771008a721daf4d9b",
+    "official-lineups.js": "6eaad68471756d4c06e9740b9696f706ca598e38362f1c4a7286e68acf873627",
+    "official-source-preview.js": "f4b5eb54b0556c0581a50dd8c50375b97bab27333f4ae0bab2c3951937c48957",
+    "scripts/lib/rfep-report-capture.mjs": "e1432bf33eacd1dcca3b1f0cf8d0894e960ba3489f9c9592f04f9493961dc4f6",
+    "scripts/verify-rfep-report-capture.mjs": "60f3e5e680fcf4e1aa2ac0f0e80be58f46b50617eadc58b497855531e3acb00a",
+    "scripts/verify-rfep-replay-capture.mjs": "9a503864bc5f3851ed6049b9400f6b42f3480064d1c6067ef885de95f03522e4",
+    "tests/helpers/rfep-capture-rehearsal.mjs": "5825b8c678962e8c64bf56c34cab45c432b6289d78811b20e3eaba177a924843"
+  }
+}

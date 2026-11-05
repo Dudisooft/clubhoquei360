@@ -22,7 +22,7 @@ La font pública comunicada és [el detall del partit](https://www.hockeypatines
 - `normalizeReport.source_url` ara apunta a `https://www.hockeypatines.fep.es/?liga=3575&partido=35559`; `calendar_source_url` conserva `https://www.hockeypatines.fep.es/league/3575`.
 - `readRfepSnapshot`, `canonicalRfepReport` i `officialPlayers` propaguen totes dues procedències. Cap canvi de SQL, identitat interna o persistència productiva.
 - La vista mostra enllaços diferenciats d’acta/calendari, valida HTTPS i el domini i rebutja URL no segures. Mostra el cinc inicial només amb flag positiu; un flag absent o desconegut queda null.
-- `player_id` es manté com ID públic (`public_player_id`/`federation_player_id`), mai com llicència. `license_number` queda null perquè el connector no ha recuperat una llicència verificada. Els dorsals es conserven com a text sense omplir zeros inventats.
+- `player_id` es manté com ID públic (`public_player_id`/`federation_player_id`), mai com llicència. `license_number` queda null perquè el connector no ha recuperat una llicència verificada. Els dorsals es conserven com a text sense omplir zeros inventats. El payload persistent omet la llicència no recuperada i el flag de titular desconegut; no envia null per buidar metadades vàlides.
 
 L’enllaç directe és procedència del document; **no soluciona per si sol el bloqueig del transport**. No s’ha canviat report/report/ ni el token públic amb una hipòtesi no contrastada.
 
@@ -42,7 +42,7 @@ El verificador d’un fitxer aportat **no reexecuta la xarxa**: verifica integri
 
 ## Assaig aïllat en diferit
 
-[`scripts/verify-rfep-replay-capture.mjs`](../scripts/verify-rfep-replay-capture.mjs) reutilitza la mateixa `avancat.html`, SDK i servidor de proves existent. Només s’executa en un PGlite nou, amb comptes ficticis, connexions de navegador desviades al127.0.0.1 i la resta de destinacions bloquejades. El servidor acaba en finalitzar; no s’ha creat una altra aplicació o servei permanent.
+[`scripts/verify-rfep-replay-capture.mjs`](../scripts/verify-rfep-replay-capture.mjs) reutilitza la mateixa `avancat.html`, SDK i servidor de proves existent. Només s’executa en un PGlite nou, amb comptes ficticis, connexions de navegador desviades al127.0.0.1 i la resta de destinacions bloquejades. El servidor acaba en finalitzar; no s’ha creat una altra aplicació o servei permanent. L’assaig el dirigeix el harness amb desviació de xarxa; no s’ofereix una URL local per obrir manualment l’app-client productiu fora d’aquest context controlat.
 
 Dos modes explícits i exclusius:
 
@@ -55,7 +55,11 @@ No s’han publicat els noms o els fitxers d’aquest assaig. Els fitxers privat
 
 ## Proves i publicació
 
-Resultats finals de suites i CI: consultar el checkpoint actual i el cos/checks dePR39 després de la passada final. Les proves dirigides del nou contracte i l’assaig manual han passat; no es declara validada cap captura oficial absent. El harness inicial comptava20botons en una llista que mostra un únic equip i usava un selector de costat incorrecte; corregits i assaig repetit PASS.
+**311 Node i95Chromium PASS,0fallades i0omissions; check/build44 PASS.** Les11proves Node noves cobreixen procedència, llicència, IDs/dorsals/cincs, HAR sintètic, variants de ruta, errors, rebuig de transcripció i divergència respecte de la referència. Les2Chromium noves comproven enllaços, cinc inicial i denegació d’URL no segures. La darrera passada Node s’ha repetit després de protegir l’omissió de metadades no recuperades.
+
+Recorreguts RFEP futur i FEM15 PASS amb PostgreSQL/PGlite i Auth fictici. L’assaig privat s’ha repetit amb vídeo iniciat/pausat,2porters per costat,1observació individual i recuperació01:23. La [CI41940133971](https://github.com/Dudisooft/clubhoquei360/actions/runs/41940133971) del codi iniciala347cf2 és satisfactòria; comprovar el resultat del head final als checks/cos dePR39. No es genera un altre commit només per incorporar l’estat CI.
+
+[Evidència final minimitzada](evidence/rfep-35559-normalization-20261105.json). Les proves HAR actuals són sintètiques; no es declara validada cap captura oficial absent. El harness inicial comptava20botons en una llista que mostra un únic equip i usava un selector de costat incorrecte; corregits i assaig repetit PASS.
 
 **Encara no podem certificar el diferit automàtic amb l’acta recuperada pel connector.** Sí que s’ha obert l’assaig local amb els participants comunicats per Work, amb procedència explícita. Falta la resposta/HAR original o una connexió autoritzada que permeti obtenir-la; després, contrastar el contracte real, incidències i possibles diferències de format i executar `--har`.
 
