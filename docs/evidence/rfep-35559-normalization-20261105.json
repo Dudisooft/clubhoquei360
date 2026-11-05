@@ -56,7 +56,8 @@
     },
     "static_build_files": 44,
     "RFEP_future_integration": "PASS; fictitious Auth, PostgreSQL/PGlite",
-    "FEM15_integration": "PASS; fictitious Auth, PostgreSQL/PGlite"
+    "FEM15_integration": "PASS; fictitious Auth, PostgreSQL/PGlite",
+    "source_calendar_link_label": "PASS in the full 95 Chromium rerun; a calendar URL is not labelled as a match detail"
   },
   "production": {
     "writes": 0,
@@ -70,7 +71,7 @@
   "code_sha256": {
     "supabase/functions/federation-sync/public-api.ts": "aaf76f3da9b9451b53d782f9aea05fa8926123aa338ca26771008a721daf4d9b",
     "official-lineups.js": "6eaad68471756d4c06e9740b9696f706ca598e38362f1c4a7286e68acf873627",
-    "official-source-preview.js": "f4b5eb54b0556c0581a50dd8c50375b97bab27333f4ae0bab2c3951937c48957",
+    "official-source-preview.js": "d602570f6e3e579d539efbb59e8fe2ebee23eca4dc7ef17967d2dc4b2c2a8f78",
     "scripts/lib/rfep-report-capture.mjs": "e1432bf33eacd1dcca3b1f0cf8d0894e960ba3489f9c9592f04f9493961dc4f6",
     "scripts/verify-rfep-report-capture.mjs": "60f3e5e680fcf4e1aa2ac0f0e80be58f46b50617eadc58b497855531e3acb00a",
     "scripts/verify-rfep-replay-capture.mjs": "9a503864bc5f3851ed6049b9400f6b42f3480064d1c6067ef885de95f03522e4",

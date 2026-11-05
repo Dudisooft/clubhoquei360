@@ -21,7 +21,7 @@ export function mountOfficialPreview({db,root,getMatch=()=>null,getCatalogue=()=
    if(data.report?.sides){
     for(const [label,raw] of [['Obre l’acta al portal oficial',data.report.source_url],['Calendari de procedència',data.report.calendar_source_url]]){
      try{const url=new URL(raw);if(url.protocol!=='https:'||url.username||url.password||!['www.hockeypatines.fep.es','hockeypatines.fep.es','www.hoqueipatins.fecapa.cat','hoqueipatins.fecapa.cat'].includes(url.hostname))continue;
-      const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent=label;const line=document.createElement('p');line.append(link);output.append(line);
+      const link=document.createElement('a');link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.textContent=label==='Obre l’acta al portal oficial'&&raw===data.report.calendar_source_url?'Obre la font oficial':label;const line=document.createElement('p');line.append(link);output.append(line);
      }catch{}
     }
     const timeline=document.createElement('p');timeline.textContent='Incidències oficials: pendents de recuperar. Els totals no defineixen la cronologia.';output.append(timeline);

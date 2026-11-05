@@ -21,7 +21,7 @@ La font pública comunicada és [el detall del partit](https://www.hockeypatines
 - `normalizeCalendar` conserva la URL del calendari original.
 - `normalizeReport.source_url` ara apunta a `https://www.hockeypatines.fep.es/?liga=3575&partido=35559`; `calendar_source_url` conserva `https://www.hockeypatines.fep.es/league/3575`.
 - `readRfepSnapshot`, `canonicalRfepReport` i `officialPlayers` propaguen totes dues procedències. Cap canvi de SQL, identitat interna o persistència productiva.
-- La vista mostra enllaços diferenciats d’acta/calendari, valida HTTPS i el domini i rebutja URL no segures. Mostra el cinc inicial només amb flag positiu; un flag absent o desconegut queda null.
+- La vista mostra enllaços diferenciats d’acta/calendari, valida HTTPS i el domini i rebutja URL no segures. Si la URL és només la del calendari, s’etiqueta com a font oficial i no com un detall d’acta. Mostra el cinc inicial només amb flag positiu; un flag absent o desconegut queda null.
 - `player_id` es manté com ID públic (`public_player_id`/`federation_player_id`), mai com llicència. `license_number` queda null perquè el connector no ha recuperat una llicència verificada. Els dorsals es conserven com a text sense omplir zeros inventats. El payload persistent omet la llicència no recuperada i el flag de titular desconegut; no envia null per buidar metadades vàlides.
 
 L’enllaç directe és procedència del document; **no soluciona per si sol el bloqueig del transport**. No s’ha canviat report/report/ ni el token públic amb una hipòtesi no contrastada.
@@ -57,7 +57,7 @@ No s’han publicat els noms o els fitxers d’aquest assaig. Els fitxers privat
 
 **311 Node i95Chromium PASS,0fallades i0omissions; check/build44 PASS.** Les11proves Node noves cobreixen procedència, llicència, IDs/dorsals/cincs, HAR sintètic, variants de ruta, errors, rebuig de transcripció i divergència respecte de la referència. Les2Chromium noves comproven enllaços, cinc inicial i denegació d’URL no segures. La darrera passada Node s’ha repetit després de protegir l’omissió de metadades no recuperades.
 
-Recorreguts RFEP futur i FEM15 PASS amb PostgreSQL/PGlite i Auth fictici. L’assaig privat s’ha repetit amb vídeo iniciat/pausat,2porters per costat,1observació individual i recuperació01:23. La [CI41940133971](https://github.com/Dudisooft/clubhoquei360/actions/runs/41940133971) del codi iniciala347cf2 és satisfactòria; comprovar el resultat del head final als checks/cos dePR39. No es genera un altre commit només per incorporar l’estat CI.
+Recorreguts RFEP futur i FEM15 PASS amb PostgreSQL/PGlite i Auth fictici. L’assaig privat s’ha repetit amb vídeo iniciat/pausat,2porters per costat,1observació individual i recuperació01:23. La suite Chromium95 s’ha repetit també després de precisar aquesta etiqueta de calendari, sense fallades. La [CI41941325487](https://github.com/Dudisooft/clubhoquei360/actions/runs/41941325487) sobrebb3525c és satisfactòria amb311Node/95Chromium i PostgreSQL17natiu. La [CI41940133971](https://github.com/Dudisooft/clubhoquei360/actions/runs/41940133971) del codi iniciala347cf2 és satisfactòria; comprovar el resultat del head final als checks/cos dePR39. No es genera un altre commit només per incorporar l’estat CI.
 
 [Evidència final minimitzada](evidence/rfep-35559-normalization-20261105.json). Les proves HAR actuals són sintètiques; no es declara validada cap captura oficial absent. El harness inicial comptava20botons en una llista que mostra un únic equip i usava un selector de costat incorrecte; corregits i assaig repetit PASS.
 
