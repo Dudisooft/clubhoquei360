@@ -1,0 +1,30 @@
+{
+  "date": "2026-10-28",
+  "source_commit": "cf40ed997027da97923d73993699cbdf5c52382e",
+  "local_tests": {
+    "node_pglite": 6,
+    "pass": 6,
+    "fail": 0
+  },
+  "user_reported_participation": 6,
+  "images_examined": false,
+  "administrative_approvals": 0,
+  "updates_disabled": 6,
+  "production_mutations": 0,
+  "catalogue_teams": 36,
+  "catalogue_own_entries": 38,
+  "separate_import_pr": 33,
+  "sha256": {
+    "scripts/review-senior-classifications-3a5.sql": "6a9efd38c3e6e27407d610168ea5fc3563ccecb01f2656c2661045582ced9d27",
+    "tests/senior-review-3a5.test.mjs": "126115c0f6a4fabfa21dabafa60a727e254d49e38c0db28061b3b46b3168b0c3",
+    "docs/match-age-group-review-20261027.json": "59a3ae2bb552ec94e4517a38dd8d08a8b840b6b61aea3cde54468ea905fff97e"
+  },
+  "ci": {
+    "run_id": 40754289438,
+    "job_id": 123048931748,
+    "conclusion": "success",
+    "node": 194,
+    "chromium": 47,
+    "logs_checked": true
+  }
+}

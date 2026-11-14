@@ -1,0 +1,23 @@
+{
+  "result": "PASS",
+  "server": {
+    "commit": "a90b4225840f5216858c0f04ef58353e5a0c1252",
+    "run_id": 40722934357,
+    "job_id": 122938413795,
+    "conclusion": "success",
+    "node": 191,
+    "chromium": 47
+  },
+  "frontend": {
+    "commit": "fec558477d72ae9d7e1d80e7899b5a2b714a714f",
+    "run_id": 40722934022,
+    "job_id": 122938414054,
+    "conclusion": "success",
+    "node": 158,
+    "chromium": 67
+  },
+  "logs_checked": true,
+  "new_federative_classification_confirmed_by_ci": false,
+  "real_auth_new_run": false,
+  "note": "Final subsequent commits record documentation only; CI does not validate external federal sources."
+}

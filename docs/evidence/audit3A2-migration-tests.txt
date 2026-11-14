@@ -1,0 +1,11 @@
+✔ preflight detects missing dependency and partial install; ordered atomic install preserves historical sports rows (2429.583933ms)
+✔ all phase 3A/3A.1 privileged functions use an empty search_path and no anonymous execute; old aliases are private (1442.580376ms)
+✔ classification proposal refuses unreviewed writes, leaves five unsupported senior claims pending and always rolls back (1264.150329ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 5263.926717

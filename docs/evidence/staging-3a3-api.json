@@ -1,0 +1,73 @@
+{
+  "result": "PASS",
+  "environment": "real Supabase GoTrue + PostgreSQL + PostgREST, not PGlite",
+  "accounts": 8,
+  "apiUrl": "http://127.0.0.1:56321",
+  "networkInternal": true,
+  "productionRequests": 0,
+  "versions": {
+    "postgres": "17.11",
+    "auth": "v2.197.0",
+    "postgrest": "PostgREST 16.4"
+  },
+  "images": [
+    {
+      "name": "/ch360_3a3_db",
+      "image": "postgres@sha256:266d3c257594e195b309ae9d1805e54c788f1d7b375f56bf6c367aac6c917e7b",
+      "imageId": "sha256:ab20e934b27ba3ff927c1b4c9ff8cf6c32f315f743efe68dd3441182a87fb085",
+      "stagingLabel": "clubhoquei360-3a3-local"
+    },
+    {
+      "name": "/ch360_3a3_auth",
+      "image": "ghcr.io/supabase/gotrue:v2.197.0",
+      "imageId": "sha256:1181bff5ba4ce440013a63cef9f4cf13024c432d705c9b1fbc9e5b949e852f48",
+      "stagingLabel": "clubhoquei360-3a3-local"
+    },
+    {
+      "name": "/ch360_3a3_rest",
+      "image": "ghcr.io/supabase/postgrest:v16.4",
+      "imageId": "sha256:1ad5f2ea5501150ec9c7953ae9bf04111ced39a53ca01fc0f08af6d0b7ba67be",
+      "stagingLabel": "clubhoquei360-3a3-local"
+    }
+  ],
+  "checks": [
+    {
+      "name": "eight identities authenticate at GoTrue and /user; real auth sessions persisted",
+      "result": "PASS"
+    },
+    {
+      "name": "ordinary senior OK/Tercera and Junior have two modes; lower categories deny ordinary exceptions",
+      "result": "PASS"
+    },
+    {
+      "name": "anonymous and forged JWTs denied; signed user-editable role metadata never grants access",
+      "result": "PASS"
+    },
+    {
+      "name": "only enabled root and club principal grant; cross-club/team and duration escalation denied",
+      "result": "PASS"
+    },
+    {
+      "name": "FEM15 exact grant records team and individual observations, denies other matches/actions/official writes",
+      "result": "PASS"
+    },
+    {
+      "name": "real PostgreSQL concurrency deduplicates one mutation and enforces event/session CAS",
+      "result": "PASS"
+    },
+    {
+      "name": "revocation invalidates new commands with the existing valid Auth token and preserves data/audit",
+      "result": "PASS"
+    },
+    {
+      "name": "expiry during a live Auth session is imposed by server time; observations remain",
+      "result": "PASS"
+    },
+    {
+      "name": "3A.2 note-smuggling denied under real legacy statistician membership and signed JWT",
+      "result": "PASS"
+    }
+  ],
+  "officialPreserved": true,
+  "normalOperationsUseServiceRole": false
+}

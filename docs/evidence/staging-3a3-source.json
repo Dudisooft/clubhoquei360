@@ -1,0 +1,38 @@
+{
+  "server_tested_commit": "4c5fa26c2451bc5d3f2b2beba1534a147191585a",
+  "frontend_tested_commit": "4b869114b76f85399d117c7192b4b429e296246c",
+  "business_migrations_reference": "07504fd6d0f216464115bd026d68ab5467187ea7",
+  "application_runtime_modified": false,
+  "normal_user_tokens_issued_by": "Supabase GoTrue v2.197.0 password grant",
+  "api_results": "staging-3a3-api.json",
+  "browser_results_branch": "fix/match-mode-access/docs/evidence/staging-3a3-browser.json",
+  "restart_results": "staging-3a3-restart.json",
+  "server_files_sha256": {
+    "scripts/staging-runtime.mjs": "1e6dbbade503a4e4ea4624680e58bc800ce4ae83272543364700363f24d49271",
+    "scripts/staging-restart-check.mjs": "af34ebdf2d5ed61e9d3867a2ecb2f2065085d98c94c5c5717570d203fab376f6",
+    "scripts/staging-provision.mjs": "636e5a4cd4d31051610e323dadca3a52f24e53da98f261e767b17ceea55b4299",
+    "scripts/staging-verify.mjs": "3168ee0e8daf9acba9a9f13092798ea8ad762db91171c87f1f6b54e36d76fa7a",
+    "scripts/staging-safety.mjs": "5225c5ffa863cd7c9da07c19206eb77d33f31fd171e6bac3242a3111cb6110a6",
+    "scripts/staging-local.mjs": "a92ef19c54a2a16b2faf3c8ac5d778362397a9c9363358c68af00d4b186a6c94",
+    "scripts/staging-api.mjs": "b847692efd4be137b0a6c7d0f64374d8581a76e0f39d0a2dbe5bd9281687edc0",
+    "tests/staging/policies.sql": "5a355f5fd90987724cd000b4f8b888f882c859a308b14fdd2c8e2512c2558611",
+    "tests/staging/baseline.sql": "e344cfb5320dfae3c2f5d5c139465357f758f1d519b4f9ffd20b7357e38741f5"
+  },
+  "ci": {
+    "server": {
+      "run_id": 40657729410,
+      "node": 191,
+      "chromium": 47,
+      "conclusion": "success",
+      "real_auth_run_in_this_job": false
+    },
+    "frontend": {
+      "run_id": 40657730299,
+      "node": 158,
+      "chromium": 67,
+      "conclusion": "success",
+      "real_auth_run_in_this_job": false
+    }
+  },
+  "real_auth_validation_location": "isolated local Docker, separate from existing PGlite CI tests"
+}

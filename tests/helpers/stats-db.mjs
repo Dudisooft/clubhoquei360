@@ -1,7 +1,7 @@
 import {PGlite} from '@electric-sql/pglite';
 import fs from 'node:fs';
 export const ID={club:'10000000-0000-4000-8000-000000000001',season:'10000000-0000-4000-8000-000000000002',team:'10000000-0000-4000-8000-000000000003',otherTeam:'10000000-0000-4000-8000-000000000004',match:'20000000-0000-4000-8000-000000000001',otherMatch:'20000000-0000-4000-8000-000000000002',player:'30000000-0000-4000-8000-000000000001',goalie:'30000000-0000-4000-8000-000000000002',rival:'30000000-0000-4000-8000-000000000003',principal:'40000000-0000-4000-8000-000000000001',external:'40000000-0000-4000-8000-000000000002',coach:'40000000-0000-4000-8000-000000000003',delegate:'40000000-0000-4000-8000-000000000004',alien:'40000000-0000-4000-8000-000000000005',manager:'40000000-0000-4000-8000-000000000006',secondary:'40000000-0000-4000-8000-000000000007',officialGoal:'50000000-0000-4000-8000-000000000001'};
-export async function createDatabase(){
+export async function createDatabase({skipModes=false}={}){
  const db=new PGlite();
  await db.exec(`
  create role anon;create role authenticated;create role service_role bypassrls;
@@ -54,7 +54,9 @@ export async function createDatabase(){
  await db.query("insert into public.pilot_events(id,match_id,user_id,event_type,team,delta,match_second,payload) values($1,$2,$3,'goal','home',1,10,$4)",[ID.officialGoal,ID.match,ID.delegate,JSON.stringify({kind:'gol',actor:ID.player,half:1,details:{}})]);
  await db.query("insert into public.pilot_operator_state(match_id,revision,state,updated_at) values($1,1,$2,now())",[ID.match,JSON.stringify({sec:50,half:1,finished:true,players:[]})]);
  for(const match of [ID.match,ID.otherMatch])await db.query("insert into public.federation_match_sources(match_id,federation,competition_id,season_id,official_data,import_status,home_name,away_name,last_checked_at,federation_match_id) values($1,'FECAPA','4802','41',$2,'verified','FEM15 fictici','Rival fictici',now(),'FICTICI')",[match,JSON.stringify({home_team_id:'12419',away_team_id:'fictici',home_score:1,away_score:0})]);
- const migrations=new URL('../../supabase/migrations/',import.meta.url);for(const file of fs.readdirSync(migrations).filter(n=>n.endsWith('.sql')).sort())await db.exec(fs.readFileSync(new URL(file,migrations),'utf8'));
+ const migrations=new URL('../../supabase/migrations/',import.meta.url);for(const file of fs.readdirSync(migrations).filter(n=>n.endsWith('.sql')&&(!skipModes||!/^20261027.*(?:match_mode_access|temporary_match_operators)/.test(n))).sort())await db.exec(fs.readFileSync(new URL(file,migrations),'utf8'));
+ // Explicit synthetic sporting metadata; legacy display labels are not authorization.
+ if(!skipModes)await db.exec("update public.teams set age_group='junior',age_group_source='Synthetic fixture, not a federative classification'");
  for(const [match,team] of [[ID.match,ID.team],[ID.otherMatch,ID.otherTeam]])await db.query('insert into public.stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,$5,$6)',[match,ID.club,ID.season,team,'12419','fictici']);
  await db.query("insert into public.stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);
  return db;

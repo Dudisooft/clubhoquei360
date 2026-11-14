@@ -1,0 +1,93 @@
+{
+  "consulted_at": "2026-10-28T16:03:49.882Z",
+  "season": "2026/2027",
+  "independent_senior_classification_verified": 0,
+  "direct_http": {
+    "policy_revision": "140",
+    "observations_current": true,
+    "state": "enforced",
+    "result": "CONNECT 403 Forbidden",
+    "hosts": [
+      "hockeypatines.fep.es",
+      "www.hoqueipatins.fecapa.cat",
+      "www.server2.sidgad.es"
+    ],
+    "workaround_attempted": false
+  },
+  "sources": [
+    {
+      "id": "CAT",
+      "type": "imported_catalogue_read_only",
+      "url": "docs/evidence/senior-catalogue-3a4-20261028.json",
+      "supports": "Six internal identities, eight entries, season 2026/27 and external identifiers; not independent age evidence"
+    },
+    {
+      "id": "RFEP-BASES",
+      "type": "federal_document_hosted_by_other_federation",
+      "publisher": "RFEP Comité Nacional de Hockey sobre Patines",
+      "host": "Federación Madrileña de Patinaje",
+      "url": "https://fmp.es/wp-content/uploads/2026/08/Bases-temp-2026-27-ok.pdf",
+      "index_url": "https://fmp.es/reglamentos-patinaje/",
+      "pages": [
+        4,
+        7,
+        14,
+        22
+      ],
+      "supports": "Age licences, senior teams may include junior players; distinct national competitions. Does not list these six team entries or establish each age_group.",
+      "result": "54-page PDF read through web tool"
+    },
+    {
+      "id": "RFEP-3568",
+      "type": "official_site",
+      "url": "https://www.hockeypatines.fep.es/league/3568",
+      "result": "Only shell rendered with season menu and conflicting default 2016/17 footer; no useful participation/age content",
+      "sufficient": false
+    },
+    {
+      "id": "RFEP-3575",
+      "type": "official_site",
+      "url": "https://www.hockeypatines.fep.es/league/3575",
+      "result": "Only shell rendered with season menu and default 2016/17 footer; not independent proof of 2026/27",
+      "sufficient": false
+    },
+    {
+      "id": "RFEP-3592",
+      "type": "official_search_index_partial",
+      "url": "https://www.hockeypatines.fep.es/league/3592",
+      "result": "Search index showed 2026/27 Supercopa and IGUALADA RIGAT HC; opening rendered only shell",
+      "supports": "Partial corroboration of Rigat participation, not age or first-team identity",
+      "sufficient": false
+    },
+    {
+      "id": "FECAPA-4774",
+      "type": "official_site",
+      "url": "https://www.hoqueipatins.fecapa.cat/league/4774",
+      "result": "Direct CONNECT 403; web tool inaccessible",
+      "sufficient": false
+    },
+    {
+      "id": "FECAPA-4779",
+      "type": "official_site",
+      "url": "https://www.hoqueipatins.fecapa.cat/league/4779",
+      "result": "Direct CONNECT 403; web tool inaccessible",
+      "sufficient": false
+    },
+    {
+      "id": "FECAPA-4781",
+      "type": "official_site",
+      "url": "https://www.hoqueipatins.fecapa.cat/league/4781",
+      "result": "Direct CONNECT 403; web tool inaccessible",
+      "sufficient": false
+    },
+    {
+      "id": "OLD-FCP",
+      "type": "official_prior_season_rejected",
+      "url": "https://www.fcpatinatge.cat/wp-content/uploads/2025/06/Circular01_edatsinscricpcionssorteig-_.pdf",
+      "result": "2025/26; excluded as proof for 2026/27",
+      "sufficient": false
+    }
+  ],
+  "missing_evidence": "For each entry, a readable 2026/27 official inscription/competition document explicitly linking it to senior team category; Rigat first-team confirmation and external ID correspondence also need direct primary review. Readable source or allowlisted official hosts required.",
+  "no_birth_dates_or_personal_players_collected": true
+}

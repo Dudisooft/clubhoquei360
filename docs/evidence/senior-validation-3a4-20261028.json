@@ -1,0 +1,33 @@
+{
+  "result": "PASS",
+  "base_server_commit": "ed3d785382e7d49808bbf169a2fae2df9378f469",
+  "base_frontend_commit": "25cfa84ff331b24485377ea77304044fb379ecde",
+  "production_writes": 0,
+  "catalogue_teams": 36,
+  "catalogue_entries": 38,
+  "duplicate_registration_keys": 0,
+  "six_candidates_have_exactly_one_internal_identity_match": true,
+  "senior_registration_ids_unique": 8,
+  "candidate_counts": {
+    "junior": 4,
+    "youth": 26,
+    "senior": 6
+  },
+  "independent_senior_verified": 0,
+  "senior_disabled": 6,
+  "other_proposals_preserved": 30,
+  "local_command": "node --test tests/match-migration-audit.test.mjs",
+  "local_test_engine": "PGlite isolated, not Auth real",
+  "tests": 3,
+  "pass": 3,
+  "fail": 0,
+  "skip": 0,
+  "new_browser_run": false,
+  "runtime_security_or_migrations_changed": false,
+  "sha256": {
+    "scripts/prepare-reviewed-age-groups.sql": "adce9657db8d40e4b7dbcd9e050286d89327fa91e68fa7cf9e6c4143f5d7cf45",
+    "tests/match-migration-audit.test.mjs": "6b467e2afd59b79c2ae9ec5f64d4f9aa4f190d6bc4cd91125cc1bdd6fcab0aaf",
+    "docs/match-age-group-review-20261027.json": "468d2b343a16ef8e4a92c7072be179b7fea8c5acee5fb9232582e9e4e9203113",
+    "docs/match-security-matrix-20261027.json": "d7091a906e76c8ffb02fd9dc48bc9f04d958e2f00c711e7786b769ae6e5255d2"
+  }
+}
