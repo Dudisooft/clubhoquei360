@@ -54,7 +54,9 @@ export async function createDatabase(){
  await db.query("insert into public.pilot_events(id,match_id,user_id,event_type,team,delta,match_second,payload) values($1,$2,$3,'goal','home',1,10,$4)",[ID.officialGoal,ID.match,ID.delegate,JSON.stringify({kind:'gol',actor:ID.player,half:1,details:{}})]);
  await db.query("insert into public.pilot_operator_state(match_id,revision,state,updated_at) values($1,1,$2,now())",[ID.match,JSON.stringify({sec:50,half:1,finished:true,players:[]})]);
  for(const match of [ID.match,ID.otherMatch])await db.query("insert into public.federation_match_sources(match_id,federation,competition_id,season_id,official_data,import_status,home_name,away_name,last_checked_at,federation_match_id) values($1,'FECAPA','4802','41',$2,'verified','FEM15 fictici','Rival fictici',now(),'FICTICI')",[match,JSON.stringify({home_team_id:'12419',away_team_id:'fictici',home_score:1,away_score:0})]);
- const migrations=new URL('../../supabase/migrations/',import.meta.url);for(const file of fs.readdirSync(migrations).filter(n=>n.endsWith('.sql')).sort())await db.exec(fs.readFileSync(new URL(file,migrations),'utf8'));
+ // The importer has its own full table fixture in ihc-persistence.test.mjs.
+ // This operational fixture intentionally lacks its predecessor schema.
+ const migrations=new URL('../../supabase/migrations/',import.meta.url);for(const file of fs.readdirSync(migrations).filter(n=>n.endsWith('.sql')&&n!=='20261028191801_preserve_partial_federation_rosters.sql').sort())await db.exec(fs.readFileSync(new URL(file,migrations),'utf8'));
  for(const [match,team] of [[ID.match,ID.team],[ID.otherMatch,ID.otherTeam]])await db.query('insert into public.stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,$5,$6)',[match,ID.club,ID.season,team,'12419','fictici']);
  await db.query("insert into public.stats_assignments(match_id,user_id,role,categories,expires_at,granted_by) values($1,$2,'primary','{}',now()+interval '30 days',$3)",[ID.match,ID.principal,ID.manager]);
  return db;

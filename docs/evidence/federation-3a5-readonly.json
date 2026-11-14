@@ -1,0 +1,132 @@
+{
+  "date": "2026-10-28",
+  "method": "Read-only catalogue aggregates and privilege introspection; no names/identities of people exported",
+  "selected_matches": [
+    {
+      "id": "51894d05-c323-f3e1-8534-fa79e062c448",
+      "external_match_id": "35559",
+      "home_team": "SIMAR IGUALADA HC",
+      "away_team": "AUTO VIGATANA PATÍ VIC",
+      "federation": "RFEP",
+      "external_competition_id": "3575",
+      "home_external_id": "3697",
+      "away_external_id": "3727",
+      "report_status": "verified",
+      "home_lineups": 0,
+      "away_lineups": 0,
+      "links": 1
+    },
+    {
+      "id": "6b315828-07c5-3e3c-49f8-48ddac23d544",
+      "external_match_id": null,
+      "home_team": "HC VALLS",
+      "away_team": "IGUALADA HC B",
+      "federation": "FECAPA",
+      "external_competition_id": "4781",
+      "home_external_id": "12065",
+      "away_external_id": "12080",
+      "report_status": null,
+      "home_lineups": 0,
+      "away_lineups": 0,
+      "links": 1
+    },
+    {
+      "id": "633709d7-a7fb-bc3c-761d-645a4f106cfc",
+      "external_match_id": null,
+      "home_team": "IGUALADA HC B",
+      "away_team": "HC VALLS",
+      "federation": "FECAPA",
+      "external_competition_id": "4781",
+      "home_external_id": "12080",
+      "away_external_id": "12065",
+      "report_status": null,
+      "home_lineups": 0,
+      "away_lineups": 0,
+      "links": 1
+    },
+    {
+      "id": "d2ce2dbf-c467-041a-22c6-c10b9593911a",
+      "external_match_id": "151311",
+      "home_team": "IGUALADA HC B",
+      "away_team": "HC VALLS FM LOGISTIC",
+      "federation": "FECAPA",
+      "external_competition_id": "4784",
+      "home_external_id": "12405",
+      "away_external_id": "12067",
+      "report_status": "verified",
+      "home_lineups": 8,
+      "away_lineups": 8,
+      "links": 1
+    },
+    {
+      "id": "b89dd91d-933f-841a-ad43-f03553ca14a5",
+      "external_match_id": "152035",
+      "home_team": "IGUALADA HC D",
+      "away_team": "OXFORD HC SALT A",
+      "federation": "FECAPA",
+      "external_competition_id": "4786",
+      "home_external_id": "12413",
+      "away_external_id": "11781",
+      "report_status": "verified",
+      "home_lineups": 8,
+      "away_lineups": 7,
+      "links": 1
+    },
+    {
+      "id": "8b5cd05a-149e-7e21-73b3-5782994e0d07",
+      "external_match_id": "152043",
+      "home_team": "IGUALADA HC D",
+      "away_team": "HOQUEI CLUB ALPICAT A",
+      "federation": "FECAPA",
+      "external_competition_id": "4786",
+      "home_external_id": "12413",
+      "away_external_id": "12050",
+      "report_status": "verified",
+      "home_lineups": 8,
+      "away_lineups": 8,
+      "links": 1
+    }
+  ],
+  "junior_name_check": [
+    {
+      "home_team": "IGUALADA HC B",
+      "away_team": "SHUM ALEA",
+      "external_competition_id": "4782",
+      "external_match_id": null
+    },
+    {
+      "home_team": "SHUM ALEA",
+      "away_team": "IGUALADA HC B",
+      "external_competition_id": "4782",
+      "external_match_id": "151026"
+    }
+  ],
+  "backend_privileges": {
+    "service_event_insert": false,
+    "service_lineup_insert": true,
+    "ordinary_event_insert": false
+  },
+  "user_screenshots": {
+    "communicated": true,
+    "files_accessible": false,
+    "examined": false,
+    "hashes_created": false
+  },
+  "navigation": {
+    "user_reported": [
+      "competition home",
+      "season",
+      "competition",
+      "group",
+      "team crest",
+      "roster tab",
+      "return to competitions"
+    ],
+    "direct_workspace_connections": "CONNECT 403 from proxy, no federal origin response",
+    "network_policy_revision": "140",
+    "web_tool": "Only shell/menu/control labels observed; dynamic handlers/cookies/tokens not verified",
+    "live_sequence_reproduced": false,
+    "api_documentation_found": false
+  },
+  "no_production_mutations": true
+}
