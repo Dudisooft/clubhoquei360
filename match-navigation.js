@@ -6,8 +6,31 @@ export function navigationRows(data){
  const source=sources.find(s=>s.official_data?.calendar_match_id===f.id||(s.federation===c.federation&&s.competition_id===c.external_competition_id&&s.season_id===f.match_fingerprint?.split(':')[1]&&((f.external_match_id&&s.federation_match_id===f.external_match_id)||(calendarIdentity(s.official_data)&&calendarIdentity(s.official_data)===calendarIdentity({...f.raw_data,round:f.raw_data?.round||f.round_label})))));
  const context=contexts.find(b=>b.catalogue_match_id===f.id&&!b.practice);
  const operational=matches.find(m=>m.id===(context?.pilot_match_id||source?.match_id||f.id));
- return {...f,season:c.season_id,competition:c.id,teams,operational:operational?.id||null,federation:c.federation};
+ return {...f,season:c.season_id,competition:c.id,externalCompetition:c.external_competition_id,teams,operational:operational?.id||null,federation:c.federation};
  }).filter(Boolean).sort((a,b)=>String(a.federation_start_at||'9999').localeCompare(String(b.federation_start_at||'9999'))||a.id.localeCompare(b.id));
 }
-export function matchHref(row,mode){if(row.operational)return './'+(mode==='base'?'base':'avancat')+'.html?match='+encodeURIComponent(row.operational);if(mode==='base'&&row.federation==='FECAPA')return './base.html?catalogue='+encodeURIComponent(row.id);return null;}
+export function matchHref(row,mode){
+ if(mode==='video')return row.operational?'./avancat.html?match='+encodeURIComponent(row.operational)+'&view=stats&analysis=video':null;
+ if(row.operational)return './'+(mode==='base'?'base':'avancat')+'.html?match='+encodeURIComponent(row.operational);
+ if(mode==='base'&&row.federation==='FECAPA')return './base.html?catalogue='+encodeURIComponent(row.id);
+ return null;
+}
+
+const reportPortals=new Map([
+ ['RFEP','https://www.hockeypatines.fep.es/'],
+ ['FECAPA','https://www.hoqueipatins.fecapa.cat/'],
+]);
+
+export function officialReportHref(row){
+ const portal=reportPortals.get(row?.federation);
+ const isOfficialId=value=>/^[1-9]\d{0,9}$/.test(String(value));
+ if(!portal||!isOfficialId(row.externalCompetition)||!isOfficialId(row.external_match_id))return null;
+ return portal+'?'+new URLSearchParams({liga:row.externalCompetition,partido:row.external_match_id});
+}
+
+export function navigationTeams(data,{season,competition}){
+ if(!data.competitions.some(c=>c.id===competition&&c.season_id===season))return [];
+ const ids=new Set(data.entries.filter(entry=>entry.competition_id===competition).map(entry=>entry.club_team_id));
+ return data.teams.filter(team=>ids.has(team.id));
+}
 export function filteredRows(rows,{season='',competition='',team=''}){return rows.filter(r=>r.season===season&&r.competition===competition&&r.teams.includes(team));}
