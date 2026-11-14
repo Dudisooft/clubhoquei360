@@ -1,9 +1,10 @@
 /* Local-only browser fixture: PostgREST-shaped transport over the same PostgreSQL
  * and RLS used in integration tests. NOT a production Auth/Realtime substitute. */
+import {fileURLToPath} from 'node:url';
 import http from 'node:http';import fs from 'node:fs';import path from 'node:path';
 import {createDatabase,ID,asUser,asOwner} from './stats-db.mjs';
 import {seedPreparation} from './preparation-db.mjs';
-const db=await createDatabase(),cwd=path.resolve(new URL('../..',import.meta.url).pathname);let serial=Promise.resolve();
+const db=await createDatabase(),cwd=path.resolve(fileURLToPath(new URL('../..',import.meta.url)));let serial=Promise.resolve();
 const vic='18fa0a6e-e5c6-487e-8315-5bc371e22cb1';let vicCalendar=null;
 const token=id=>Buffer.from(JSON.stringify({alg:'HS256',typ:'JWT'})).toString('base64url')+'.'+Buffer.from(JSON.stringify({sub:id,aud:'authenticated',role:'authenticated',exp:4070908800})).toString('base64url')+'.local-test-only';
 function userOf(req){try{return JSON.parse(Buffer.from((req.headers.authorization||'').replace('Bearer ','').split('.')[1],'base64url')).sub;}catch{return null;}}
@@ -63,7 +64,7 @@ const server=http.createServer((req,res)=>{
  if(url.pathname==='/__test/vic-without-source'){serial=serial.then(async()=>{await asOwner(db,'delete from federation_match_sources where match_id=$1',[vic]);json(res,{ok:true});});return;}
  if(url.pathname==='/__test/snapshot'){serial=serial.then(async()=>json(res,(await asOwner(db,"select jsonb_build_object('official',(select jsonb_agg(to_jsonb(e)) from pilot_events e),'clock',(select jsonb_agg(to_jsonb(s)) from pilot_operator_state s),'events',(select coalesce(jsonb_agg(to_jsonb(e)),'[]') from stats_events e),'sessions',(select coalesce(jsonb_agg(to_jsonb(s)),'[]') from stats_sessions s),'assignments',(select coalesce(jsonb_agg(to_jsonb(a)),'[]') from stats_assignments a),'authUsers',(select count(*) from auth.users)) as state")).rows[0].state));return;}
  const relative=url.pathname.replace(/^\/clubhoquei360\//,'/').replace(/^\//,'')||'index.html';const filename=path.resolve(cwd,relative);
- if(!filename.startsWith(cwd+'/')||relative.includes('.git')||relative.endsWith('.sql')){res.writeHead(404);res.end();return;}
+ if(!filename.startsWith(cwd+path.sep)||relative.includes('.git')||relative.endsWith('.sql')){res.writeHead(404);res.end();return;}
  try{const data=fs.readFileSync(filename);res.writeHead(200,{'content-type':types[path.extname(filename)]||'application/octet-stream'});res.end(data);}catch{res.writeHead(404);res.end();}
 });
 server.listen(4173,'127.0.0.1',()=>console.log('Local FEM15 fixture ready. Synthetic accounts only.'));

@@ -24,3 +24,16 @@ test('video and official portal links reflect the selected fixture',async({page}
 test('Dashboard and both modes enter an empty shared selector without write/import requests',async({page})=>{await setup(page);let writes=0;page.on('request',r=>{if(r.method()!=='GET')writes++});await page.goto('/clubhoquei360/dashboard.html');await page.locator('nav a').filter({hasText:'Partit'}).click();await expect(page.locator('#season')).toHaveValue('');for(const mode of ['base','avancat']){await page.goto('/clubhoquei360/'+mode+'.html');await expect(page).toHaveURL(/partit.html/);await expect(page.locator('#fixture')).toHaveValue('');await expect(page.locator('#openMatch')).toHaveAttribute('aria-disabled','true');}expect(writes).toBe(0);});
 test('four explicit levels, full season, operational distinction, incompatible selections and reload',async({page})=>{await setup(page);await page.goto('/clubhoquei360/partit.html');await page.locator('#season').selectOption('s');await page.locator('#competition').selectOption('c');await page.locator('#team').selectOption('t');await expect(page.locator('#fixture option')).toHaveCount(26);await expect(page.locator('#calendar')).toContainText('Context operatiu disponible');await page.locator('#fixture').selectOption('f0');await expect(page.locator('#openMatch')).toHaveAttribute('href','./avancat.html?match=f0');await page.locator('#fixture').selectOption('f1');await expect(page.locator('#openMatch')).toHaveAttribute('aria-disabled','true');await page.locator('#navigationMode').selectOption('base');await expect(page.locator('#openMatch')).toHaveAttribute('href','./base.html?catalogue=f1');await page.locator('#team').selectOption('t2');await expect(page.locator('#fixture')).toHaveValue('');await expect(page.locator('#fixture option')).toHaveCount(2);await page.locator('#season').selectOption('s2');await expect(page.locator('#team')).toHaveValue('');await expect(page.locator('#fixture')).toHaveValue('');await page.reload();await expect(page.locator('#season')).toHaveValue('');});
 for(const [width,height] of [[390,844],[820,1180],[1440,1000]])test('responsive selector '+width,async({page})=>{await setup(page);await page.setViewportSize({width,height});await page.goto('/clubhoquei360/partit.html');await expect(page.locator('#season')).toBeEnabled();expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);});
+test('search by acta selects the linked team and fixture without opening it',async({page})=>{
+ fixture.federation_matches[0].external_match_id='152043';
+ try{
+  await setup(page);
+  await page.goto('/clubhoquei360/partit.html');
+  await page.locator('#reportCode').fill('152043');
+  await page.locator('#findReport').click();
+  await expect(page.locator('#team')).toHaveValue('t');
+  await expect(page.locator('#fixture')).toHaveValue('f0');
+  await expect(page.locator('#officialReport')).toHaveAttribute('href',/partido=152043$/);
+  await expect(page).toHaveURL(/partit.html$/);
+ }finally{delete fixture.federation_matches[0].external_match_id;}
+});
