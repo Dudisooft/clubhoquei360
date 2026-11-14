@@ -10,7 +10,7 @@ export function kitFor(side,teamKey=null,role='player'){
 export function mergeRoster(players,candidates=[]){
  const out=players.map(p=>({...p,selectable:p.selectable??(p.federation_active!==false),origin:p.origin||'Plantilla del partit',eligibility:p.eligibility||'Elegibilitat no acreditada per la font'}));
  for(const candidate of candidates){const found=out.find(p=>p.team===candidate.team&&((p.federation_player_id&&candidate.federation_player_id&&p.federation_player_id===candidate.federation_player_id)||(p.catalog_player_id&&candidate.catalog_player_id&&p.catalog_player_id===candidate.catalog_player_id)||(p.catalog_lineup_id&&candidate.catalog_lineup_id&&p.catalog_lineup_id===candidate.catalog_lineup_id)||p.id===candidate.id));
-  if(found){if(candidate.scopeChecked)Object.assign(found,{selectable:candidate.selectable,origin:candidate.origin,eligibility:candidate.eligibility,scopeChecked:true});Object.assign(found,{otherTeams:candidate.otherTeams||found.otherTeams,reinforcement:candidate.reinforcement||found.reinforcement});if(candidate.matchVerified){found.eligibility='Consta a l’acta d’aquest partit';found.selectable=true;found.matchVerified=true;}continue;}out.push(candidate);
+  if(found){if(candidate.scopeChecked)Object.assign(found,{selectable:candidate.selectable,origin:candidate.origin,eligibility:candidate.eligibility,scopeChecked:true});Object.assign(found,{otherTeams:candidate.otherTeams||found.otherTeams,reinforcement:candidate.reinforcement||found.reinforcement});if(candidate.selection_basis==='rival_match_history'&&found.selectable===false&&!found.matchVerified){Object.assign(found,{selectable:true,origin:candidate.origin,eligibility:candidate.eligibility,selection_basis:candidate.selection_basis,origin_reference:candidate.origin_reference});}if(candidate.matchVerified){found.eligibility='Consta a l’acta d’aquest partit';found.selectable=true;found.matchVerified=true;}continue;}out.push(candidate);
  }
  return out.sort((a,b)=>a.team.localeCompare(b.team)||Number(!a.selectable)-Number(!b.selectable)||String(a.dorsal??'').localeCompare(String(b.dorsal??''),'ca',{numeric:true})||a.full_name.localeCompare(b.full_name,'ca'));
 }
@@ -24,8 +24,36 @@ export function infantilRosterScope(rows,entryIds,entryMap,teamMap){
  return {primary:own,lower};
 }
 const scoped=async(db,table,key,ids)=>{const out=[];for(let i=0;i<ids.length;i+=60)out.push(...await allRows(db,table,q=>q.in(key,ids.slice(i,i+60))));return out;};
+// Previous verified reports are evidence of past participation, not a current call-up.
+async function rivalHistory(db,fixture,entry,side){
+ const cutoff=Date.parse(fixture.federation_start_at);
+ if(!entry?.external_team_id||!Number.isFinite(cutoff))return [];
+ const links=await allRows(db,'federation_match_teams',q=>q.eq('entry_id',entry.id));
+ const sides=new Map();
+ for(const link of links){
+  if(!['home','away'].includes(link.side))continue;
+  if(sides.has(link.match_id)&&sides.get(link.match_id)!==link.side)sides.set(link.match_id,null);
+  else sides.set(link.match_id,link.side);
+ }
+ const games=await scoped(db,'federation_matches','id',[...sides.keys()].filter(id=>id!==fixture.id&&sides.get(id)));
+ const prior=games.filter(m=>m.raw_data?.report_status==='verified'&&Date.parse(m.federation_start_at)<cutoff&&
+  String(m.raw_data?.[sides.get(m.id)+'_team_id'])===String(entry.external_team_id))
+  .sort((a,b)=>Date.parse(b.federation_start_at)-Date.parse(a.federation_start_at)||a.id.localeCompare(b.id));
+ const matches=new Map(prior.map((m,i)=>[m.id,{m,i}]));
+ const lineups=await scoped(db,'federation_match_lineups','match_id',[...matches.keys()]);
+ return lineups.filter(l=>l.side===sides.get(l.match_id)&&String(l.display_name||'').trim())
+  .sort((a,b)=>matches.get(a.match_id).i-matches.get(b.match_id).i||a.id.localeCompare(b.id))
+  .map(l=>({lineup:l,game:matches.get(l.match_id).m,side}));
+}
+
 export async function catalogueRoster(db,{players,source,fixture}){
- if(!fixture&&source?.federation_match_id){const matches=await allRows(db,'federation_matches',q=>q.eq('external_match_id',source.federation_match_id));fixture=matches.find(m=>{try{const u=new URL(m.raw_data?.source_url);return u.hostname.includes('fecapa.cat')&&u.pathname==='/league/'+source.competition_id;}catch{return false;}});}
+ if(!fixture&&source?.official_data?.calendar_match_id){fixture=(await allRows(db,'federation_matches',q=>q.eq('id',source.official_data.calendar_match_id)))[0];}
+ if(!fixture&&source?.federation_match_id){
+  const matches=await allRows(db,'federation_matches',q=>q.eq('external_match_id',source.federation_match_id));
+  const hosts={FECAPA:['www.hoqueipatins.fecapa.cat','hoqueipatins.fecapa.cat'],RFEP:['www.hockeypatines.fep.es','hockeypatines.fep.es']};
+  const found=matches.filter(m=>{try{const u=new URL(m.raw_data?.source_url);return u.protocol==='https:'&&hosts[source.federation||'FECAPA']?.includes(u.hostname)&&(u.pathname==='/league/'+source.competition_id||u.searchParams.get('liga')===String(source.competition_id));}catch{return false;}});
+  if(found.length===1)fixture=found[0];
+ }
  if(!fixture)return {players:mergeRoster(players),notice:'Plantilla del partit. No s’ha pogut vincular un catàleg addicional verificat.'};
  const links=await allRows(db,'federation_match_teams',q=>q.eq('match_id',fixture.id));
  const direct=await scoped(db,'federation_team_entries','id',[...new Set(links.map(l=>l.entry_id))]);
@@ -35,10 +63,11 @@ export async function catalogueRoster(db,{players,source,fixture}){
  const entryMap=new Map([...entries,...direct].map(e=>[e.id,e]));
  const roster=await scoped(db,'federation_team_roster','entry_id',[...entryMap.keys()]);
  const identities=await scoped(db,'federation_players','id',[...new Set(roster.map(r=>r.player_id).filter(Boolean))]);
- const external=new Map(identities.filter(p=>p.federation==='FECAPA').map(p=>[p.id,p.external_player_id]));
  const official=fixture.raw_data?.report_status==='verified'?await allRows(db,'federation_match_lineups',q=>q.eq('match_id',fixture.id)):[];
  const group=fixture.group_id?(await allRows(db,'federation_groups',q=>q.eq('id',fixture.group_id)))[0]:null;
  const comp=group?(await allRows(db,'federation_competitions',q=>q.eq('id',group.competition_id)))[0]:null;
+ const federation=comp?.federation||source?.federation||'FECAPA';
+ const external=new Map(identities.filter(p=>p.federation===federation).map(p=>[p.id,p.external_player_id]));
  const candidates=[];const restrictedSides=new Set();const teamMap=new Map(peers.map(t=>[t.id,t]));
  for(const side of ['home','away']){
   const entryIds=new Set(links.filter(l=>l.side===side).map(l=>l.entry_id));const directTeam=direct.find(e=>entryIds.has(e.id));
@@ -55,8 +84,43 @@ export async function catalogueRoster(db,{players,source,fixture}){
    candidates.push({id:`catalog:${side}:${id}`,scopeChecked:restricted,selection_basis:verified?'current_match_report':primary?'same_team_history':'unverified_reinforcement',origin_reference:verified?.id||primary?.raw_data?.observed_match_id||null,catalog_player_id:id.startsWith('federation:')?null:id,federation_player_id:external.get(id)||null,team:side,full_name:verified?.display_name||r.display_name,dorsal:verified?.shirt_number??primary?.shirt_number??null,position:r.raw_data?.is_goalkeeper?'goalkeeper':'field',origin:verified?'Acta FECAPA d’aquest partit':primary?(infantil?'Participació documentada amb aquest equip':'Catàleg de l’equip'):'Possible reforç · '+(entryMap.get(r.entry_id)?.display_name||'equip d’origen'),eligibility:verified?'Consta a l’acta d’aquest partit':primary?'Habitual: no certifica la convocatòria actual':'Elegibilitat de reforç no verificable'+(scope?.eligibility?' · Falta: '+scope.eligibility.missing.join(', '):''),matchVerified:!!verified,selectable:(!!verified||!!primary)&&!!external.get(id),reinforcement:!primary,otherTeams,needsImport:true,official_source:fixture.raw_data?.source_url||null});
   }
  }
+ // A rival is the linked external entry, regardless of which side hosts.
+ // Never use historical acts to expand the eligible roster of a club-owned team.
+ const notices=[];
+ const rivalEntries=['home','away'].flatMap(side=>{
+  const ids=[...new Set(links.filter(l=>l.side===side).map(l=>l.entry_id))];
+  const entry=ids.length===1?direct.find(e=>e.id===ids[0]):null;
+  return entry&&!entry.club_team_id&&comp&&entry.competition_id===comp.id?[{side,entry}]:[];
+ });
+ for(const {side,entry} of rivalEntries){
+  if(official.some(l=>l.side===side)||[...players,...candidates].some(p=>p.team===side&&p.matchVerified))continue;
+  try{
+   const history=await rivalHistory(db,fixture,entry,side);
+   const people=await scoped(db,'federation_players','id',[...new Set(history.map(h=>h.lineup.player_id).filter(Boolean))]);
+   const ids=new Map(people.filter(p=>p.federation===federation).map(p=>[p.id,p.external_player_id]));
+   const seen=new Set([...players,...candidates].filter(p=>p.team===side&&p.selectable!==false).map(p=>String(p.federation_player_id||'')));
+   let count=0;
+   for(const {lineup:l,game} of history){
+    const canonical=ids.get(l.player_id), reported=l.raw_data?.external_id;
+    if(canonical&&reported&&String(canonical)!==String(reported))continue;
+    const fid=String(canonical||reported||'');
+    if(!/^[1-9][0-9]*$/.test(fid)||seen.has(fid))continue;
+    seen.add(fid);count++;
+    const candidate={id:'history:'+side+':'+fid,team:side,full_name:l.display_name,dorsal:l.shirt_number??null,
+     position:l.is_goalkeeper?'goalkeeper':'field',federation_player_id:fid,catalog_player_id:l.player_id||null,
+     origin:'Acta anterior del rival',origin_reference:game.external_match_id||game.id,
+     eligibility:'Provisional · marca’l només si és present',selection_basis:'rival_match_history',matchVerified:false,selectable:true,needsImport:true};
+    // Replace an unselectable duplicate from the catalogue, never a current official entry.
+    const at=candidates.findIndex(p=>p.team===side&&!p.matchVerified&&(String(p.federation_player_id||'')===fid||(l.player_id&&p.catalog_player_id===l.player_id)));
+    if(at>=0)candidates.splice(at,1);
+    candidates.push(candidate);
+   }
+   if(count)notices.push(sideLabel(side)+': candidats d’actes anteriors. Comprova qui és present.');
+  }catch{notices.push(sideLabel(side)+': no s’han pogut llegir les actes anteriors. Es conserva la informació disponible.');}
+ }
  const scopedPlayers=players.filter(p=>!restrictedSides.has(p.team)||candidates.some(c=>c.team===p.team&&((c.federation_player_id&&c.federation_player_id===p.federation_player_id)||(c.catalog_player_id&&c.catalog_player_id===p.catalog_player_id)) )||official.some(l=>l.side===p.team&&l.id===p.catalog_lineup_id));
- return {players:mergeRoster(scopedPlayers,candidates),restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: importació FECAPA disponible.'};
+ const rosterPortal=federation==='FECAPA'&&/^[1-9][0-9]{0,9}$/.test(String(comp?.external_competition_id))?'https://www.hoqueipatins.fecapa.cat/?'+new URLSearchParams({liga:comp.external_competition_id,vista:'plantillas'}):null;
+ return {players:mergeRoster(scopedPlayers,candidates),rosterPortal,restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: catàleg federatiu disponible.'+(notices.length?' '+notices.join(' '):'')};
 }
 export async function materializePlayers(db,match,selected,practice=false){
  const pending=selected.filter(p=>p.needsImport);if(practice||!pending.length)return selected;
