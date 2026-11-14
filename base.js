@@ -3,14 +3,14 @@ import {basicState,makeRow,cards,comparison,playerTotals,benchTotals} from './ba
 import {score,fromRow} from './federation-model.js';
 import {BasicStore,syncFederation} from './basic-store.js';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=eligibility1';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=rival-history1';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const requestedPractice=new URLSearchParams(location.search).get('practice');
 let practiceId=requestedPractice,catalogueId=requestedPractice||new URLSearchParams(location.search).get('catalogue'),activationNeeded=false,legacyRows=[];
 let restrictedSides=[];
-let uid,match,store,source,fixture,players=[],role=null,busy=false,advancedFinished=false;
+let uid,match,store,source,fixture,rosterPortal,players=[],role=null,busy=false,advancedFinished=false;
 let activeSide='home',preparing=true,draft=new Set(),sheet=null,flash='',rosterNotice='';
 const expandedReinforcements=new Set();
 const isReinforcement=p=>!!p.reinforcement||p.selection_basis==='unverified_reinforcement'||String(p.origin||'').startsWith('Possible reforç');
@@ -34,7 +34,7 @@ function renderPreparation(){
  $('rosterGrid').innerHTML=['home','away'].map(side=>{
   const list=candidates.filter(p=>p.team===side),reinforcements=list.filter(isReinforcement),regular=list.filter(p=>!isReinforcement(p));
   const expanded=expandedReinforcements.has(side),count=reinforcements.filter(p=>draft.has(p.id)).length;
-  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3><h4>Jugadors de l’equip</h4>${regular.length?regular.map(option).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}<button type="button" class="reinforcement-toggle wide" data-reinforcements="${side}" aria-expanded="${expanded}" aria-controls="reinforcements-${side}"><span>Possibles reforços (${reinforcements.length})</span><span class="muted" data-reinforcement-count="${side}" aria-live="polite">${selectionCount(count)}</span><span aria-hidden="true"> ${expanded?'▴':'▾'}</span></button><div id="reinforcements-${side}" ${expanded?'':'hidden'}>${reinforcements.length?reinforcements.map(option).join(''):'<p class="muted">Cap candidat amb evidència suficient.</p>'}</div></div>`;
+  return `<div><h3>${esc(sideLabel(side))} · ${esc(teamName(side))}</h3><h4>Jugadors de l’equip</h4>${rosterPortal?'<p><a href="'+esc(rosterPortal)+'" target="_blank" rel="noopener noreferrer">Consulta Plantilles al portal FECAPA</a> · Tria l’escut de l’equip.</p>':''}${regular.length?regular.map(option).join(''):'<p class="notice">No hi ha jugadors disponibles a les fonts accessibles. Pots continuar sense un nombre fix de convocats.</p>'}<button type="button" class="reinforcement-toggle wide" data-reinforcements="${side}" aria-expanded="${expanded}" aria-controls="reinforcements-${side}"><span>Possibles reforços (${reinforcements.length})</span><span class="muted" data-reinforcement-count="${side}" aria-live="polite">${selectionCount(count)}</span><span aria-hidden="true"> ${expanded?'▴':'▾'}</span></button><div id="reinforcements-${side}" ${expanded?'':'hidden'}>${reinforcements.length?reinforcements.map(option).join(''):'<p class="muted">Cap candidat amb evidència suficient.</p>'}</div></div>`;
  }).join('');
  $('cancelPreparation').hidden=!state().confirmed;
  $('cancelPreparation').disabled=busy;
@@ -109,11 +109,11 @@ async function metadata(){
  let enriched;
  try{enriched=await catalogueRoster(db,{players:nextPlayers,source:nextSource,fixture:nextFixture});}
  catch(e){enriched={players:mergeRoster(nextPlayers),notice:'Catàleg addicional no disponible: '+e.message+'. Es conserva la plantilla del partit; elegibilitat de reforços no verificable.'};}
- restrictedSides=enriched.restrictedSides||[];source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
+ rosterPortal=enriched.rosterPortal||null;restrictedSides=enriched.restrictedSides||[];source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
 }
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
+ match=id;role=null;store=null;source=null;rosterPortal=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
@@ -122,7 +122,7 @@ async function open(id){
 }
 async function openCatalogue(id,training){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];source=null;legacyRows=[];
+ catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];source=null;rosterPortal=null;legacyRows=[];
  let q=db.from('basic_match_contexts').select('*').eq('catalogue_match_id',id).eq('practice',training);if(training)q=q.eq('owner_id',uid);
  const context=await q.maybeSingle();
  if(context.data){match=context.data.pilot_match_id;const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;activationNeeded=role!=='operator';}
