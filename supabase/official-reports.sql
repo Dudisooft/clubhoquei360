@@ -13,15 +13,34 @@ grant select on public.federation_match_staff to authenticated;
 grant select,insert,update on public.federation_match_staff to service_role;
 create or replace function public.federation_commit_official_report(p_match uuid,p_report jsonb)
 returns jsonb language plpgsql security invoker set search_path='' as $$
-declare m public.federation_matches; fed text; comp uuid; person jsonb; pid uuid; lid uuid; item jsonb; count_players int:=0; count_staff int:=0;
+declare m public.federation_matches; fed text; comp uuid; person jsonb; pid uuid; lid uuid; item jsonb; count_players int:=0; count_staff int:=0; prior_report jsonb; next_report jsonb;
 begin
+ perform pg_advisory_xact_lock(hashtextextended('official-report:'||p_match::text,0));
  select * into strict m from public.federation_matches where id=p_match;
  if not exists(select 1 from public.federation_match_teams where match_id=p_match) then raise exception 'Only direct club fixtures';end if;
  select c.federation,c.id into strict fed,comp from public.federation_competitions c join public.federation_groups g on g.competition_id=c.id where g.id=m.group_id;
- if p_report->>'external_match_id' is distinct from m.external_match_id or jsonb_typeof(p_report->'players') is distinct from 'array' or jsonb_array_length(p_report->'players')=0 then raise exception 'Invalid official report';end if;
- perform pg_advisory_xact_lock(hashtextextended('official-report:'||p_match::text,0));
+ if m.external_match_id is null or p_report->>'external_match_id' is distinct from m.external_match_id
+    or jsonb_typeof(p_report->'players') is distinct from 'array'
+    or jsonb_typeof(p_report->'staff') is distinct from 'array'
+    or jsonb_typeof(p_report->'incidents') is distinct from 'array' then
+  raise exception 'Invalid official report' using errcode='22023';
+ end if;
+ if (select count(distinct player->>'side') from jsonb_array_elements(p_report->'players') player
+     where player->>'side' in ('home','away'))<>2 then
+  raise exception 'Incomplete official lineups' using errcode='22023';
+ end if;
+ if exists (
+  select 1 from jsonb_array_elements(p_report->'players') player
+  group by player->>'side',player->>'external_id' having count(*)>1
+ ) then
+  raise exception 'Duplicate official participant' using errcode='22023';
+ end if;
  for person in select value from jsonb_array_elements(p_report->'players') loop
-  if person->>'external_id' !~ '^[1-9][0-9]*$' or person->>'side' not in ('home','away') then raise exception 'Invalid participant identity';end if;
+  if coalesce(person->>'external_id','') !~ '^[1-9][0-9]*$'
+     or coalesce(person->>'side','') not in ('home','away')
+     or coalesce(btrim(person->>'name'),'')='' then
+   raise exception 'Invalid participant identity' using errcode='22023';
+  end if;
   pid:=null;select id into pid from public.federation_players where federation=fed and external_player_id=person->>'external_id';
   lid:=null;select id into lid from public.federation_match_lineups where match_id=p_match and side=person->>'side' and raw_data->>'external_id'=person->>'external_id' limit 1;
   lid:=coalesce(lid,md5('clubhoquei360:report-lineup:'||p_match::text||':'||(person->>'side')||':'||(person->>'external_id'))::uuid);
@@ -42,7 +61,23 @@ begin
   insert into public.federation_match_events(id,match_id,event_order,event_type,period_label,clock_label,side,player_id,player_name,attribution,raw_data)
   values(md5('clubhoquei360:report-incident:'||p_match::text||':'||(item->>'order')||':'||(item->>'text'))::uuid,p_match,(item->>'order')::integer,item->>'event_type',item->>'period_label',item->>'clock_label',item->>'side',pid,item->>'player_name',case when item->>'player_external_id' is not null then 'verified_individual' else 'unverified' end,item||jsonb_build_object('source_url',p_report->>'source_url','data_layer','public_federation')) on conflict(id) do nothing;
  end loop;
- update public.federation_matches set venue=coalesce(p_report->>'venue',venue),raw_data=raw_data||jsonb_build_object('report_status','verified','report_data',p_report-'players'-'staff','report_fetched_at',p_report->>'fetched_at') where id=p_match;
+ prior_report:=coalesce(nullif(m.raw_data->'report_data','null'::jsonb),'{}'::jsonb);
+ next_report:=jsonb_strip_nulls(p_report-'players'-'staff');
+ if prior_report->>'report_score_available'='true'
+    and (next_report->>'report_score_available' is distinct from 'true'
+    or jsonb_typeof(next_report->'reported_home_score') is distinct from 'number'
+    or jsonb_typeof(next_report->'reported_away_score') is distinct from 'number') then
+  next_report:=next_report-array['report_score_available','reported_home_score','reported_away_score','score_discrepancy','score_source'];
+ end if;
+ if prior_report->>'event_timeline_status'='published_structured'
+    and (next_report->>'event_timeline_status' is distinct from 'published_structured'
+    or jsonb_array_length(p_report->'incidents')=0) then
+  next_report:=next_report-array['event_timeline_status','incidents'];
+ end if;
+ update public.federation_matches
+ set venue=coalesce(p_report->>'venue',venue),
+     raw_data=raw_data||jsonb_strip_nulls(jsonb_build_object('report_status','verified','report_data',prior_report||next_report,'report_fetched_at',p_report->>'fetched_at'))
+ where id=p_match;
  return jsonb_build_object('match_id',p_match,'players',count_players,'staff',count_staff,'incidents',jsonb_array_length(p_report->'incidents'));
 end $$;
 revoke all on function public.federation_commit_official_report(uuid,jsonb) from public,anon,authenticated;
