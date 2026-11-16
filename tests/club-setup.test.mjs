@@ -34,8 +34,10 @@ test('CSV checks scope, previews without writes, commits once and rejects stale 
  await load('secondary','roster',ID.team,rows,plan);
  await assert.rejects(load('secondary','roster',ID.team,rows,plan),{code:'40001'});
  assert.equal((await asOwner(db,'select count(*)::int n from app_private.callup_roster')).rows[0].n,1);
- const teams=[{nom:'Sense partits',categoria:'FEM'}];
- await load('manager','teams',ID.season,teams,await load('manager','teams',ID.season,teams));
+ const teams=[{nom:'Sense partits',categoria:'FEM'},{nom:'Sense partits',categoria:'Aleví'}];
+ const teamPlan=await load('manager','teams',ID.season,teams);
+ assert.deepEqual(teamPlan.map(row=>row.status),['new','new']);
+ await load('manager','teams',ID.season,teams,teamPlan);
  await asOwner(db,'insert into club_memberships values ($1,$2,null,$3)',[ID.manager,ID.club,'general_coordinator']);
  assert.ok((await access('manager')).teams.some(team=>team.team_name==='Sense partits'&&team.operational));
  const clubs=[{nom:'Club CSV'}];

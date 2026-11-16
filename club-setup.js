@@ -21,7 +21,9 @@ function updateScope(preferred){
  $('csvScope').replaceChildren(...targets.map(t=>new Option(t.label,t.id)));
  if(targets.some(t=>t.id===preferred))$('csvScope').value=preferred;
  $('csvScopeLabel').hidden=kind==='clubs';
- $('csvHelp').textContent=kind?'Capçalera CSV · '+csvColumns(kind)+(kind==='roster'?' · Posició: pista o porteria. El dorsal pot quedar buit.':''):'';
+ $('csvHelp').textContent=kind?'Capçalera CSV · '+csvColumns(kind)+(kind==='roster'
+  ?' · Posició: pista o porteria. El dorsal pot quedar buit.'
+  :kind==='teams'?' · Introdueix la categoria de cada equip.':''):'';
 }
 
 export function configureSetup(access){
@@ -30,7 +32,9 @@ export function configureSetup(access){
   clubs:access?.global_admin?[{id:'',label:'Plataforma'}]:[],
   seasons:clubs.map(c=>({id:c.id,label:c.name})),
   teams:(access?.seasons||[]).map(s=>({id:s.id,label:clubs.find(c=>c.id===s.club_id)?.name+' · '+s.label})),
-  roster:(access?.teams||[]).filter(t=>t.roster_import).map(t=>({id:t.id,label:t.club_name+' · '+t.team_name+' · '+t.season_name}))
+  roster:(access?.teams||[]).filter(t=>t.roster_import).map(t=>({
+   id:t.id,label:[t.club_name,t.team_name,t.category,t.season_name].filter(Boolean).join(' · ')
+  }))
  };
  const kinds=Object.keys(scopes).filter(kind=>scopes[kind].length);
  $('clubSetup').hidden=!kinds.length;

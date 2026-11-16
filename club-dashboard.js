@@ -241,7 +241,7 @@ function renderAccess(incoming){
  }
  const previous=$('teamPicker').value||params.get('equip');
  $('teamPicker').replaceChildren(...[...teams.values()].map(t=>new Option(
-  [t.club_name,t.team_name,t.season_name].filter(Boolean).join(' · '),t.id)));
+  [t.club_name,t.team_name,t.category,t.season_name].filter(Boolean).join(' · '),t.id)));
  if(teams.has(previous))$('teamPicker').value=previous;
  $('teamControl').hidden=!teams.size;
  $('accessPanel').hidden=!!teams.size;

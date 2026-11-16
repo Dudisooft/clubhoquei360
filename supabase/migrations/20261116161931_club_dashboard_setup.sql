@@ -2,7 +2,7 @@ create function app_private.club_setup_access()
 returns jsonb language sql stable security definer set search_path='' as $$
  with access as (select auth.uid() uid, app_private.is_platform_superadmin() global_admin),
  teams as (
-  select t.id,t.club_id,t.season_id,t.name team_name,s.label season_name,c.name club_name,
+  select t.id,t.club_id,t.season_id,t.name team_name,t.category,s.label season_name,c.name club_name,
    app_private.callup_can_edit(t.club_id,t.id)
     or app_private.has_team_role(t.id,array['coach','delegate']) operational,
    a.global_admin or app_private.has_club_role(t.club_id,array['admin','general_coordinator'])
@@ -37,7 +37,7 @@ declare
  item jsonb;
  pos integer:=0;
  name text;
- category text;
+ csv_category text;
  dorsal text;
  player_position text;
  starts date;
@@ -76,7 +76,7 @@ begin
  for item in select value from jsonb_array_elements(p_rows) loop
   pos:=pos+1;
   name:=btrim(regexp_replace(coalesce(item->>'nom',''),'[[:space:]]+',' ','g'));
-  category:=nullif(btrim(item->>'categoria'),'');
+  csv_category:=nullif(btrim(item->>'categoria'),'');
   dorsal:=nullif(btrim(item->>'dorsal'),'');
   player_position:=item->>'posicio';
   identity_key:=app_private.club_import_key(name);
@@ -96,8 +96,14 @@ begin
     if starts>=ends then raise exception 'Fila %: la data final ha de ser posterior a la inicial.',pos+1 using errcode='22023'; end if;
     select count(*) into duplicates from public.seasons s where s.club_id=club and app_private.club_import_key(s.label)=identity_key;
    when 'teams' then
-    if length(category)>120 then raise exception 'Fila %: categoria massa llarga.',pos+1 using errcode='22023'; end if;
-    select count(*) into duplicates from public.teams t where t.season_id=p_scope and app_private.club_import_key(t.name)=identity_key;
+    if csv_category is null or length(csv_category)>120 then
+     raise exception 'Fila %: la categoria és obligatòria i té un màxim de 120 caràcters.',pos+1 using errcode='22023';
+    end if;
+    select count(*) into duplicates from public.teams t where t.season_id=p_scope
+     and app_private.club_import_key(t.name)=identity_key
+     and (nullif(btrim(t.category),'') is null
+      or app_private.club_import_key(t.category)=app_private.club_import_key(csv_category));
+    identity_key:=jsonb_build_array(identity_key,app_private.club_import_key(csv_category))::text;
    when 'roster' then
     if (dorsal is not null and dorsal !~ '^[0-9]{1,3}$')
      or coalesce(player_position,'') not in ('pista','porteria') then
@@ -109,14 +115,14 @@ begin
    when duplicates>1 then 'ambiguous' when duplicates=1 then 'existing' else 'new' end;
   seen:=array_append(seen,identity_key);
   plan:=plan||jsonb_build_array(jsonb_build_object('row',pos+1,'name',name,'status',decision,
-   'category',category,'dorsal',dorsal,'position',player_position,
+   'category',csv_category,'dorsal',dorsal,'position',player_position,
    'starts_on',case when p_kind='seasons' then starts end,
    'ends_on',case when p_kind='seasons' then ends end));
   if p_preview is not null and decision='new' then
    case p_kind
     when 'clubs' then insert into public.clubs(name) values(name);
     when 'seasons' then insert into public.seasons(club_id,label,starts_on,ends_on) values(club,name,starts,ends);
-    when 'teams' then insert into public.teams(club_id,season_id,name,category) values(club,p_scope,name,category);
+    when 'teams' then insert into public.teams(club_id,season_id,name,category) values(club,p_scope,name,csv_category);
     when 'roster' then insert into app_private.callup_roster(team_id,full_name,dorsal,position)
      values(p_scope,name,dorsal,case player_position when 'porteria' then 'goalkeeper' else 'field' end);
    end case;
