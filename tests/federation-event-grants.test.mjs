@@ -7,7 +7,7 @@ const procedure = name => readFile(new URL('../ops/federation-event-grants/'+nam
 const counts = async db => (await db.query('select count(*)::int n from public.federation_match_events')).rows[0].n;
 
 test('guarded grant enables idempotent service inserts, preserves fixtures and revokes cleanly', async()=>{
- const db=new PGlite();
+ let db=new PGlite();
  try{
   await db.exec(`
    create role service_role;
@@ -25,6 +25,10 @@ test('guarded grant enables idempotent service inserts, preserves fixtures and r
   await db.exec('set role service_role');
   await assert.rejects(commit(),/permission denied/);
   await db.exec('reset role');
+  assert.equal(await counts(db),0);
+  const backup=await db.dumpDataDir('gzip');
+  await db.close();
+  db=new PGlite({loadDataDir:backup});
   assert.equal(await counts(db),0);
   await db.exec(await procedure('apply'));
   await db.exec('set role service_role');
