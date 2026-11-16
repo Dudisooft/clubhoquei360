@@ -1,5 +1,6 @@
 import {db} from './app-client.js';
 import {safeCrest} from './basic-roster.js';
+import {configureSetup,openSetup} from './club-setup.js';
 import './auth-ui.js';
 
 const $=id=>document.getElementById(id);
@@ -11,6 +12,8 @@ const title=f=>f.home_team+' – '+f.away_team;
 const status=f=>f.published?(f.modified?'Publicada · modificada':'Publicada'):f.revision?'Esborrany':f.can_edit?'Pendent de preparar':'Pendent de publicació';
 const description=p=>[p.dorsal==null?'Sense dorsal':'#'+p.dorsal,p.full_name,p.position==='goalkeeper'?'Porteria':'Jugador/a de pista',p.reinforcement?p.origin_team:null].filter(Boolean).join(' · ');
 let fixtures=[],detail=null,selection=new Set(),sessionVersion=0,working=false,acknowledged=[];
+let access=null;
+let teams=new Map();
 
 function link(f){
  return './dashboard.html?'+new URLSearchParams({vista:'convocatories',partit:f.fixture_id,equip:f.team_id});
@@ -37,7 +40,8 @@ function showGuide(){
  const enabled=$('toggleGuide').getAttribute('aria-pressed')==='true';
  $('guide').hidden=!enabled;
  if(!enabled)return;
- $('guide').textContent=!detail?'Pas 1. Tria un equip a la capçalera i obre la convocatòria del partit.'
+ $('guide').textContent=!teams.size?'Quan tinguis un equip assignat, el podràs triar aquí i obrir les seves convocatòries.'
+  :!detail?'Pas 1. Tria un equip a la capçalera i obre la convocatòria del partit.'
   :!detail.can_edit?'Consulta els convocats. Per preparar el registre del partit, obre el Mode Base quan estigui disponible.'
   :!selection.size?'Pas 2. Marca els jugadors de la plantilla i els reforços que vols convocar.'
   :'Pas 3. Revisa el resum i confirma la publicació. També pots desar un esborrany abans de publicar.';
@@ -67,7 +71,7 @@ function brand(f){
 function renderList(){
  const selected=fixtures.filter(f=>f.team_id===$('teamPicker').value);
  const visible=selected.filter(f=>!f.past||callupPage&&$('showPast').checked);
- brand(selected[0]);
+ brand(selected[0]||teams.get($('teamPicker').value));
  $('pageTitle').textContent=callupPage?'Convocatòries':'Pròxims partits';
  $('tasksPanel').hidden=callupPage;
  $('pastControl').hidden=!callupPage||!selected.some(f=>f.past);
@@ -82,7 +86,7 @@ function renderList(){
   <p class="match-date">${esc(date(f.starts_at))}</p>
   <p><span class="badge">${status(f)}</span></p>
   <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Gestiona':'Consulta'} la convocatòria</a>
- </article>`).join(''):'<p>Cap partit pròxim en els equips als quals tens accés.</p>';
+ </article>`).join(''):'<p>Aquest equip encara no té partits visibles amb el filtre actual.</p>';
  showGuide();
 }
 $('showPast').onchange=renderList;
@@ -140,7 +144,8 @@ function renderDetail(){
   ${missing.length?'<p class="warning">Jugadors de l’última versió que han deixat de ser elegibles: '+esc(missing.map(p=>p.full_name).join(', '))+'.</p>':''}
   <h3>Plantilla</h3>${original}
   <h3>Reforços elegibles</h3>${groups.size?[...groups.values()].map(players=>group(players[0].origin_team,players)).join(''):'<p>Cap reforç elegible.</p>'}
-  ${candidates.length?'':'<p>No hi ha cap jugador a la plantilla interna d’aquest equip.</p>'}
+  ${candidates.length?'':'<p>No hi ha cap jugador a la plantilla interna d’aquest equip.</p>'+
+   (access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
   <div class="actions">${callup?.published?'':'<button type="button" id="saveDraft">▣ Desa l’esborrany</button>'}
   <button type="button" class="primary" id="reviewPublication">→ Revisa i publica</button></div>
  </article>`:''}
@@ -148,6 +153,7 @@ function renderDetail(){
  ${versions.map((v,i)=>`<details><summary>${esc(date(v.published_at))} · ${i===0?'Versió actual':'Versió anterior'}</summary>${playerList(v.players)}</details>`).join('')}</article>`:''}`;
  showGuide();
  if(!canEdit)return;
+ if($('importRoster'))$('importRoster').onclick=()=>openSetup(f.team_id);
  $('editor').onchange=event=>{
   const input=event.target;
   if(!input.matches('input[type="checkbox"]'))return;
@@ -225,32 +231,80 @@ async function save(publish){
  }
 }
 
+function renderAccess(incoming){
+ access=incoming;
+ configureSetup(access);
+ const scoped=access?.teams.filter(team=>team.operational)||[];
+ teams=new Map(scoped.map(team=>[team.id,team]));
+ for(const f of fixtures){
+  if(!teams.has(f.team_id))teams.set(f.team_id,{...f,id:f.team_id});
+ }
+ const previous=$('teamPicker').value||params.get('equip');
+ $('teamPicker').replaceChildren(...[...teams.values()].map(t=>new Option(
+  [t.club_name,t.team_name,t.category,t.season_name].filter(Boolean).join(' · '),t.id)));
+ if(teams.has(previous))$('teamPicker').value=previous;
+ $('teamControl').hidden=!teams.size;
+ $('accessPanel').hidden=!!teams.size;
+ $('overview').hidden=!teams.size||!!detail;
+ $('accessSetup').hidden=$('clubSetup').hidden;
+ $('accessMessage').textContent=access?.global_admin
+  ?'Tens accés a la configuració global. Per obrir o editar convocatòries necessites una afiliació operativa al club o a l’equip.'
+  :!$('clubSetup').hidden?'Pots importar dades dins del teu àmbit. Per operar en convocatòries cal un rol operatiu assignat.'
+  :'El teu compte encara no té cap equip amb accés operatiu. Demana a l’administració del club que comprovi la teva afiliació i el rol assignat.';
+ if(teams.size&&!detail)renderList();
+ else showGuide();
+}
+
+$('setupNav').onclick=$('accessSetup').onclick=()=>{
+ $('clubSetup').open=true;
+ $('clubSetup').scrollIntoView();
+};
+document.addEventListener('club-setup-updated',async event=>{
+ renderAccess(event.detail);
+ if(detail){
+  try{await loadDetail(detail.fixture.fixture_id,detail.fixture.team_id,sessionVersion);}
+  catch{$('workspaceStatus').textContent='Plantilla importada. Torna a obrir la convocatòria per actualitzar-la.';}
+ }
+});
+
 document.addEventListener('club-auth-changed',async event=>{
  const version=++sessionVersion;
  const user=event.detail;
  detail=null;
+ fixtures=[];
+ teams.clear();
+ access=null;
+ configureSetup(null);
  if($('publication').open)$('publication').close('cancel');
  $('teamControl').hidden=true;
  $('workspace').hidden=!user;
  $('detail').hidden=true;
  $('detail').replaceChildren();
- $('overview').hidden=false;
+ $('overview').hidden=true;
+ $('accessPanel').hidden=true;
  $('fixtures').replaceChildren();
  $('tasks').replaceChildren();
  brand(null);
  if(!user)return;
- $('workspaceStatus').textContent='Carregant els partits…';
+ $('workspaceStatus').textContent='Carregant els equips i partits…';
  try{
-  const list=await rpc('read_club_callups',{});
+  const [list,setup]=await Promise.all([
+   rpc('read_club_callups',{}),
+   db.rpc('club_setup_access',{})
+  ]);
   if(version!==sessionVersion)return;
   fixtures=list;
-  const teams=new Map(fixtures.map(f=>[f.team_id,f]));
-  $('teamPicker').replaceChildren(...[...teams.values()].map(f=>new Option(f.club_name+' · '+f.team_name,f.team_id)));
-  if(teams.has(params.get('equip')))$('teamPicker').value=params.get('equip');
-  $('teamControl').hidden=!teams.size;
-  renderList();
+  if(setup.error&&setup.error.code!=='PGRST202')throw setup.error;
+  let accessData=setup.data;
+  if(setup.error?.code==='PGRST202'){
+   const platform=await db.rpc('is_platform_superadmin',{});
+   if(version!==sessionVersion)return;
+   accessData={global_admin:platform.data===true,teams:[]};
+  }
+  renderAccess(accessData);
   if(params.has('partit')&&params.has('equip'))await loadDetail(params.get('partit'),params.get('equip'),version);
-  if(version===sessionVersion)$('workspaceStatus').textContent='';
+  if(version===sessionVersion)$('workspaceStatus').textContent=setup.error&&access?.global_admin
+   ?'La importació CSV s’activarà quan s’apliqui l’actualització de la base de dades.':'';
  }catch(error){
   if(version===sessionVersion)$('workspaceStatus').textContent='No s’han pogut carregar les convocatòries. '+(error.message||'');
  }

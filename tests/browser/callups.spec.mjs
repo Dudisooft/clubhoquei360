@@ -21,6 +21,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  export const db={
   auth:{getUser:async()=>({data:{user:{id:'fictici',email:'coordinador@example.test'}}})},
   async rpc(name,args){
+   if(name==='club_setup_access')return {data:{teams:[]}};
    if(name==='read_club_callups'){
     return {data:args.p_fixture?{fixture,callup,history,candidates,overlaps:['p2'],can_edit:true}:[fixture]};
    }
@@ -66,4 +67,58 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  await expect(page.locator('#detail details').last()).toContainText('Reforç fictici');
  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
  expect(errors).toEqual([]);
+});
+
+test('setup shows the superadministrator next step and previews CSV before commit',async({page})=>{
+ const calls=[];
+ await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({body:'',contentType:'text/javascript'}));
+ await page.route('**/app-client.js',r=>r.fulfill({contentType:'text/javascript',body:`
+ export const db={
+  auth:{getUser:async()=>({data:{user:{id:'fictici',email:'admin@example.test'}}})},
+  async rpc(name,args){
+   if(name==='read_club_callups')return {data:[]};
+   if(name==='club_setup_access')return {data:{global_admin:true,teams:[
+    {id:'equip',team_name:'FEM15 fictici',club_name:'Club fictici',season_name:'2026/27',roster_import:true,operational:false}
+   ]}};
+   await fetch('/csv-test',{method:'POST',body:JSON.stringify(args)});
+   return {data:[{name:'Portera fictícia',status:'new',position:'porteria'},
+    {name:'Portera fictícia',status:'repeated',position:'porteria'}]};
+  }
+ };`}));
+ await page.route('**/csv-test',r=>{
+  calls.push(r.request().postDataJSON());
+  return r.fulfill({body:''});
+ });
+ await page.goto('/clubhoquei360/dashboard.html');
+ await expect(page.locator('#teamPicker')).toBeHidden();
+ await expect(page.locator('#accessMessage')).toContainText('afiliació operativa');
+ await page.locator('#accessSetup').click();
+ await page.locator('#csvKind').selectOption('roster');
+ await page.locator('#csvFile').setInputFiles({
+  name:'plantilla.csv',mimeType:'text/csv',buffer:Buffer.from('nom;dorsal;posicio\nPortera fictícia;1;porteria\nPortera fictícia;1;porteria')
+ });
+ await expect(page.locator('#csvCommit')).toBeDisabled();
+ await page.getByRole('button',{name:'Previsualitza el CSV'}).click();
+ await expect(page.locator('#csvPreview')).toContainText('Repetida al fitxer');
+ expect(calls).toHaveLength(1);
+ expect(calls[0]).not.toHaveProperty('p_preview');
+ await page.locator('#csvCommit').click();
+ await expect(page.locator('#csvStatus')).toHaveText('Files importades: 1.');
+ expect(calls[1].p_preview).toHaveLength(2);
+});
+
+test('an assigned team is selectable even with an empty fixture list',async({page})=>{
+ await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({body:'',contentType:'text/javascript'}));
+ await page.route('**/app-client.js',r=>r.fulfill({contentType:'text/javascript',body:`
+ export const db={
+  auth:{getUser:async()=>({data:{user:{id:'fictici',email:'coord@example.test'}}})},
+  async rpc(name){
+   if(name==='read_club_callups')return {data:[]};
+   return {data:{teams:[{id:'equip',team_name:'Equip sense calendari',club_name:'Club fictici',season_name:'2026/27',operational:true}]}};
+  }
+ };`}));
+ await page.goto('/clubhoquei360/dashboard.html');
+ await expect(page.locator('#teamPicker')).toHaveValue('equip');
+ await expect(page.locator('#fixtures')).toContainText('encara no té partits');
+ await expect(page.locator('#accessPanel')).toBeHidden();
 });
