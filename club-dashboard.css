@@ -19,6 +19,8 @@ h2 { font-size: 1.13rem; }
 button, input, select, .action, nav a { font: inherit; min-height: 44px; }
 button, input, select, .action { border: 1px solid #9cadc3; border-radius: 8px; padding: 8px 12px; background: white; color: inherit; }
 button, select { cursor: pointer; }
+header .actions, header label { min-width: 0; max-width: 100%; }
+header select { color: #14283f; max-width: 100%; }
 button:disabled { cursor: default; opacity: .55; }
 a { color: var(--brand); }
 .action { display: inline-flex; align-items: center; text-decoration: none; }
@@ -53,6 +55,10 @@ summary { cursor: pointer; min-height: 44px; padding-block: 10px; }
 #csvForm label { margin-bottom: 12px; }
 #csvForm select, #csvForm input, #teamPicker { max-width: 100%; }
 #csvPreview { overflow-wrap: anywhere; }
+#callupViews { margin-block: 12px; }
+#callupViews [aria-pressed="true"] { background: var(--brand); color: white; }
+#weekRange { margin-bottom: 0; }
+#editor textarea { display: block; width: min(100%, 36rem); font: inherit; margin: 4px 0 12px; }
 @media (max-width: 640px) {
  .layout, .layout.collapsed { grid-template-columns: minmax(0,1fr); }
  nav { position: sticky; top: 0; z-index: 1; border-bottom: 1px solid var(--line); }

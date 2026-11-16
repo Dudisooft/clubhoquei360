@@ -22,6 +22,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
   auth:{getUser:async()=>({data:{user:{id:'fictici',email:'coordinador@example.test'}}})},
   async rpc(name,args){
    if(name==='club_setup_access')return {data:{teams:[]}};
+   if(name==='read_club_callup_detail')return {error:{code:'PGRST202'}};
    if(name==='read_club_callups'){
     return {data:args.p_fixture?{fixture,callup,history,candidates,overlaps:['p2'],can_edit:true}:[fixture]};
    }
@@ -36,7 +37,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  await expect(page.locator('#toggleNavigation')).toHaveAttribute('aria-expanded','false');
  await page.locator('#toggleNavigation').click();
  await expect(page.locator('#toggleNavigation')).toHaveAttribute('aria-expanded','true');
- await page.getByRole('link',{name:'Gestiona la convocatòria'}).click();
+ await page.getByRole('link',{name:'Preparar convocatòria'}).click();
  await expect(page.locator('#editor')).toBeVisible();
  await page.locator('#toggleGuide').click();
  await expect(page.locator('#guide')).toContainText('Pas 2');
@@ -136,6 +137,7 @@ test('global admin selects another club and previews a role without changing the
   auth:{getUser:async()=>({data:{user:{id:'global',email:'global@example.test'}}})},
   async rpc(name,args){
    if(name==='club_setup_access')return {data:{global_admin:true,clubs:${JSON.stringify(clubs)},teams:${JSON.stringify(teams)}}};
+   if(name==='read_club_callup_detail')return {error:{code:'PGRST202'}};
    if(name==='read_club_callups')return {data:args.p_fixture?{
     fixture,can_edit:true,candidates,callup:{revision:1,players:candidates,published:false},history:[],overlaps:[]
    }:[fixture]};
@@ -147,7 +149,7 @@ test('global admin selects another club and previews a role without changing the
  await page.locator('#clubPicker').selectOption('club2');
  await expect(page.locator('#teamPicker')).toHaveValue('equip2');
  await page.locator('#previewRole').selectOption('coach');
- await page.getByRole('link',{name:'Consulta la convocatòria'}).click();
+ await page.getByRole('link',{name:'Consultar convocatòria'}).click();
  await expect(page.locator('#previewRole')).toHaveValue('coach');
  await expect(page.locator('#editor')).toHaveCount(0);
  await expect(page.locator('#detail')).not.toContainText('Esborrany');
@@ -158,4 +160,45 @@ test('global admin selects another club and previews a role without changing the
  await page.locator('#previewRole').selectOption('');
  await expect(page.locator('#saveDraft')).toBeEnabled();
  expect(calls).toEqual([]);
+});
+
+test('weekly view groups all visible club teams and keeps the date on return',async({page})=>{
+ const week='2030-01-14';
+ const club={id:'club',name:'Club fictici'};
+ const clubs=[club,{id:'other',name:'Un altre club fictici'}];
+ const teams=[
+  {id:'equip-a',club_id:club.id,club_name:club.name,team_name:'Equip A',operational:true},
+  {id:'equip-b',club_id:club.id,club_name:club.name,team_name:'Equip B',operational:true},
+  {id:'equip-c',club_id:'other',club_name:'Un altre club fictici',team_name:'Equip C',operational:true}
+ ];
+ const matches=teams.map((t,i)=>({...fixture,fixture_id:'match-'+i,club_id:t.club_id,team_id:t.id,team_name:t.team_name,
+  starts_at:'2030-01-'+(15+i)+'T09:30:00Z'}));
+ matches[0].published=true;
+ matches[0].published_players=candidates;
+ matches[0].published_staff={coaches:['Tècnica fictícia']};
+ await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({body:'',contentType:'text/javascript'}));
+ await page.route('**/app-client.js',r=>r.fulfill({contentType:'text/javascript',body:`
+ const matches=${JSON.stringify(matches)},candidates=${JSON.stringify(candidates)};
+ export const db={
+  auth:{getUser:async()=>({data:{user:{id:'global',email:'global@example.test'}}})},
+  async rpc(name,args){
+   if(name==='club_setup_access')return {data:{global_admin:true,clubs:${JSON.stringify(clubs)},teams:${JSON.stringify(teams)}}};
+   if(name==='read_club_callup_week')return {data:args.p_monday==='${week}'?matches.filter(f=>f.club_id===args.p_club):[]};
+   if(name==='read_club_callup_detail')return {data:{fixture:matches[0],can_edit:true,candidates,staff_supported:true,
+    callup:{revision:1,published:true,players:candidates,staff:matches[0].published_staff},history:[],overlaps:[]}};
+   return {data:matches};
+  }
+ };`}));
+ await page.goto('/clubhoquei360/dashboard.html?vista=convocatories&setmana='+week);
+ await expect(page.locator('#fixtures')).toContainText('Equip A');
+ await expect(page.locator('#fixtures')).toContainText('Equip B');
+ await expect(page.locator('#fixtures')).not.toContainText('Equip C');
+ await page.getByText('Convocats (2)',{exact:true}).click();
+ await expect(page.getByText('Tècnica fictícia',{exact:false})).toBeVisible();
+ await page.getByRole('link',{name:'Preparar convocatòria'}).first().click();
+ await expect(page.getByLabel('Entrenadors assignats')).toHaveValue('Tècnica fictícia');
+ await page.getByRole('link',{name:'Torna a les convocatòries'}).click();
+ await expect(page.locator('#weeklyView')).toHaveAttribute('aria-pressed','true');
+ await page.locator('#nextWeek').click();
+ await expect(page.locator('#fixtures')).toContainText('Cap partit disponible');
 });

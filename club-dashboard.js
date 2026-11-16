@@ -1,6 +1,8 @@
 import {db} from './app-client.js';
 import {safeCrest} from './basic-roster.js';
 import {configureSetup,openSetup} from './club-setup.js';
+import {groupWeek,mondayOf,offsetDay,weekRange} from './callup-week.js';
+import {scopeCallupFixtures} from './callup-scope.js';
 import './auth-ui.js';
 
 const $=id=>document.getElementById(id);
@@ -17,9 +19,16 @@ let teams=new Map();
 const previewRole=()=>$('previewRole').value;
 const canPreviewEdit=()=>!previewRole()||previewRole()==='coordinator';
 const previewKey='ch360-role-preview';
+const initialWeek=params.get('setmana');
+let weekly=callupPage&&params.has('setmana');
+let weekRequest=0;
+let monday=/^\d{4}-\d{2}-\d{2}$/.test(initialWeek||'')&&
+ Number.isFinite(Date.parse(initialWeek+'T12:00:00Z'))?mondayOf(initialWeek+'T12:00:00Z'):mondayOf(new Date());
 
 function link(f){
- return './dashboard.html?'+new URLSearchParams({vista:'convocatories',partit:f.fixture_id,equip:f.team_id});
+ const query=new URLSearchParams({vista:'convocatories',partit:f.fixture_id,equip:f.team_id});
+ if(weekly)query.set('setmana',monday);
+ return './dashboard.html?'+query;
 }
 function baseLink(f){
  if(f.base_match_id)return './base.html?'+new URLSearchParams({match:f.base_match_id});
@@ -43,8 +52,8 @@ function showGuide(){
  const enabled=$('toggleGuide').getAttribute('aria-pressed')==='true';
  $('guide').hidden=!enabled;
  if(!enabled)return;
- $('guide').textContent=!$('teamPicker').value?'Tria un club amb equips disponibles o revisa’n la configuració.'
-  :!detail?'Pas 1. Tria un equip a la capçalera i obre la convocatòria del partit.'
+ $('guide').textContent=$('teamControl').hidden?'Tria un club amb equips disponibles o revisa’n la configuració.'
+  :!detail?(weekly?'Tria una setmana i obre la convocatòria del partit.':'Tria un equip a la capçalera i obre la convocatòria del partit.')
   :!detail.can_edit?'Consulta els convocats. Per preparar el registre del partit, obre el Mode Base quan estigui disponible.'
   :!selection.size?'Pas 2. Marca els jugadors de la plantilla i els reforços que vols convocar.'
   :'Pas 3. Revisa el resum i confirma la publicació. També pots desar un esborrany abans de publicar.';
@@ -71,34 +80,98 @@ function brand(f){
  if(clubCrest)$('clubCrest').src=clubCrest;
  else $('clubCrest').removeAttribute('src');
 }
+function visibleFixture(f){
+ return canPreviewEdit()?f:{...f,can_edit:false,revision:f.published?f.revision:null};
+}
+function fixtureCard(f,showTeam=false){
+ const team=teams.get(f.team_id);
+ const teamName=[f.team_name,team?.category&&!f.team_name.toLocaleLowerCase('ca').includes(team.category.toLocaleLowerCase('ca'))?team.category:''].filter(Boolean).join(' · ');
+ return `
+ <article>
+  ${showTeam?'<h3>'+esc(teamName)+'</h3>':''}
+  <div class="club-side">${crest(f.home_crest)}<strong>${esc(f.home_team)}</strong></div>
+  <div class="club-side">${crest(f.away_crest)}<strong>${esc(f.away_team)}</strong></div>
+  ${f.competition_name||team?.category?'<p>'+esc(f.competition_name||team.category)+'</p>':''}
+  <p class="match-date">${esc(date(f.starts_at))}</p>
+  <p><span class="badge">${status(f)}</span></p>
+  ${showTeam&&f.published_players?.length?'<details><summary>Convocats ('+f.published_players.length+')</summary>'+
+   playerList(f.published_players)+staffList(f.published_staff)+'</details>':''}
+  <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Preparar':'Consultar'} convocatòria</a>
+ </article>`;
+}
+
+function renderWeek(matches){
+ const days=groupWeek(matches,monday);
+ const pendingTime=matches.filter(f=>!f.starts_at);
+ $('fixtures').innerHTML=(days.length?days.map(day=>`<section><h2>${esc(day.label)}</h2>
+  <div class="cards">${day.matches.map(f=>fixtureCard(f,true)).join('')}</div></section>`).join('')
+  :'<p>Cap partit disponible en aquesta setmana.</p>')+
+  (pendingTime.length?`<details class="panel"><summary>Horaris pendents (${pendingTime.length})</summary>
+   <div class="cards">${pendingTime.map(f=>fixtureCard(f,true)).join('')}</div></details>`:'');
+}
+
+async function loadWeek(scoped,club){
+ const request=++weekRequest;
+ const pickedWeek=monday;
+ const {data,error}=await db.rpc('read_club_callup_week',{p_monday:pickedWeek,p_club:club||null},{get:true});
+ if(request!==weekRequest||!weekly||detail||previewRole())return;
+ if(error||!Array.isArray(data)){
+  $('workspaceStatus').textContent=error?.code==='PGRST202'
+   ?'La vista setmanal completa necessita l’actualització del servidor. Mostrem els partits disponibles.'
+   :'No s’ha pogut actualitzar la setmana. Mostrem els partits disponibles.';
+  return;
+ }
+ renderWeek(scopeCallupFixtures([...data,...scoped.filter(f=>!f.starts_at)],teams,club,$('teamPicker').value));
+}
+
 function renderList(){
- const selected=fixtures.filter(f=>f.team_id===$('teamPicker').value).map(f=>{
-  if(canPreviewEdit())return f;
-  return {...f,can_edit:false,revision:f.published?f.revision:null};
- });
+ weekRequest++;
+ const club=$('clubPicker').value;
+ const selected=scopeCallupFixtures(fixtures,teams,club,$('teamPicker').value).map(visibleFixture);
  const visible=selected.filter(f=>!f.past||callupPage&&$('showPast').checked);
- brand(selected[0]||teams.get($('teamPicker').value));
+ brand(selected[0]||teams.get($('teamPicker').value)||[...teams.values()].find(t=>!club||t.club_id===club));
  $('pageTitle').textContent=callupPage?'Convocatòries':'Pròxims partits';
  $('tasksPanel').hidden=callupPage;
- $('pastControl').hidden=!callupPage||!selected.some(f=>f.past);
+ $('callupViews').hidden=!callupPage||!!previewRole();
+ $('weeklyView').setAttribute('aria-pressed',String(weekly));
+ $('teamView').setAttribute('aria-pressed',String(!weekly));
+ $('weekControls').hidden=!weekly;
+ $('pastControl').hidden=weekly||!callupPage||!selected.some(f=>f.past);
  const pending=selected.filter(f=>!f.past&&(f.can_edit?!f.published:f.published));
  $('tasks').innerHTML=pending.length?pending.map(f=>'<li><a href="'+esc(link(f))+'">'+
   (f.can_edit?(f.revision?'Revisa l’esborrany':'Prepara la convocatòria'):'Consulta la convocatòria')+
   ' · '+esc(title(f))+'</a></li>').join(''):'<li>Cap tasca de convocatòries per a aquest equip.</li>';
- $('fixtures').innerHTML=visible.length?visible.map(f=>`
- <article>
-  <div class="club-side">${crest(f.home_crest)}<strong>${esc(f.home_team)}</strong></div>
-  <div class="club-side">${crest(f.away_crest)}<strong>${esc(f.away_team)}</strong></div>
-  <p class="match-date">${esc(date(f.starts_at))}</p>
-  <p><span class="badge">${status(f)}</span></p>
-  <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Gestiona':'Consulta'} la convocatòria</a>
- </article>`).join(''):'<p>Aquest equip encara no té partits visibles amb el filtre actual.</p>';
+ if(weekly){
+  const scoped=selected;
+  $('weekRange').textContent=weekRange(monday);
+  $('fixtures').classList.remove('cards');
+  renderWeek(scoped);
+  loadWeek(scoped,club).catch(()=>{});
+ }else{
+  $('fixtures').classList.add('cards');
+  $('fixtures').innerHTML=visible.length?visible.map(f=>fixtureCard(f,!$('teamPicker').value)).join(''):'<p>Aquest equip encara no té partits visibles amb el filtre actual.</p>';
+ }
  showGuide();
 }
+function changeWeek(enabled,day=monday){
+ weekly=enabled;
+ monday=day;
+ const url=new URL(location.href);
+ if(weekly)url.searchParams.set('setmana',monday);
+ else url.searchParams.delete('setmana');
+ history.replaceState(null,'',url);
+ renderList();
+}
+$('weeklyView').onclick=()=>changeWeek(true);
+$('teamView').onclick=()=>changeWeek(false);
+$('previousWeek').onclick=()=>changeWeek(true,offsetDay(monday,-7));
+$('nextWeek').onclick=()=>changeWeek(true,offsetDay(monday,7));
+$('currentWeek').onclick=()=>changeWeek(true,mondayOf(new Date()));
 $('showPast').onchange=renderList;
 $('teamPicker').onchange=()=>{
  const url=new URL(location.href);
- url.searchParams.set('equip',$('teamPicker').value);
+ if($('teamPicker').value)url.searchParams.set('equip',$('teamPicker').value);
+ else url.searchParams.delete('equip');
  if(params.has('partit')){
   url.searchParams.delete('partit');
   location.href=url.href;
@@ -118,6 +191,22 @@ function updateSelection(){
 }
 function playerList(players){
  return players.length?'<ul>'+players.map(p=>'<li>'+esc(description(p))+'</li>').join('')+'</ul>':'<p>Cap jugador seleccionat.</p>';
+}
+function staffList(staff){
+ const lines=[['Entrenadors',staff?.coaches],['Delegats',staff?.delegates]]
+  .filter(([,names])=>names?.length);
+ return lines.map(([label,names])=>'<p><strong>'+label+'</strong> · '+esc(names.join(', '))+'</p>').join('');
+}
+function staffInputs(staff){
+ return '<fieldset><legend>Responsables del partit</legend><p>Escriu un nom per línia.</p>'+
+  [['staffCoaches','Entrenadors assignats',staff?.coaches],['staffDelegates','Delegats assignats',staff?.delegates]]
+   .map(([id,label,names])=>'<label>'+label+'<textarea id="'+id+'" rows="2" maxlength="1000">'+
+    esc((names||[]).join('\n'))+'</textarea></label>').join('')+'</fieldset>';
+}
+function selectedStaff(){
+ if(!detail.staff_supported)return null;
+ const names=id=>$(id).value.split(/\r?\n/).map(name=>name.trim()).filter(Boolean);
+ return {coaches:names('staffCoaches'),delegates:names('staffDelegates')};
 }
 function group(label,players){
  return '<fieldset><legend>'+esc(label)+'</legend>'+players.map(p=>`
@@ -140,11 +229,11 @@ function renderDetail(){
  const missing=callup?.players.filter(p=>!candidates.some(c=>c.id===p.id))||[];
  const original=group(f.team_name,candidates.filter(p=>!p.reinforcement));
  $('detail').innerHTML=`
- <p><a href="./dashboard.html?vista=convocatories&amp;equip=${esc(f.team_id)}">← Torna a les convocatòries</a></p>
+ <p><a href="${esc('./dashboard.html?'+new URLSearchParams({vista:'convocatories',equip:f.team_id,...(weekly?{setmana:monday}:{})}))}">← Torna a les convocatòries</a></p>
  <article><h2>${esc(title(f))}</h2><p>${esc(f.team_name)} · ${esc(date(f.starts_at))}</p>
  <span class="badge">${status({...callup,can_edit:canEdit,modified:versions.length>1})}</span>
  ${previewRole()?'':baseLink(f)?'<p><a class="action" href="'+esc(baseLink(f))+'">🏑 Obre el Mode Base</a></p>':'<p>El Mode Base necessita un context operatiu per a aquest partit.</p>'}
- ${callup?.published?'<h3>Convocatòria publicada</h3>'+playerList(callup.players):''}</article>
+ ${callup?.published?'<h3>Convocatòria publicada</h3>'+playerList(callup.players)+staffList(callup.staff):''}</article>
  ${canEdit?`<article id="editor">
   <h2>${callup?.published?'Modifica la convocatòria':'Prepara la convocatòria'}</h2>
   <div class="actions"><button type="button" id="selectAll">✓ Selecciona tots</button><button type="button" id="clearSelection">↺ Neteja la selecció</button><output id="selectedCount" aria-live="polite"></output></div>
@@ -152,13 +241,14 @@ function renderDetail(){
   ${missing.length?'<p class="warning">Jugadors de l’última versió que han deixat de ser elegibles: '+esc(missing.map(p=>p.full_name).join(', '))+'.</p>':''}
   <h3>Plantilla</h3>${original}
   <h3>Reforços elegibles</h3>${groups.size?[...groups.values()].map(players=>group(players[0].origin_team,players)).join(''):'<p>Cap reforç elegible.</p>'}
-  ${candidates.length?'':'<p>No hi ha cap jugador a la plantilla interna d’aquest equip.</p>'+
+  ${detail.staff_supported?staffInputs(callup?.staff):''}
+  ${candidates.length?'':'<p>Encara no hi ha jugadors disponibles per convocar</p>'+
    (!previewRole()&&access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
   <div class="actions">${callup?.published?'':'<button type="button" id="saveDraft">▣ Desa l’esborrany</button>'}
   <button type="button" class="primary" id="reviewPublication">→ Revisa i publica</button></div>
  </article>`:''}
  ${versions.length?`<article><h2>Historial de publicacions</h2>
- ${versions.map((v,i)=>`<details><summary>${esc(date(v.published_at))} · ${i===0?'Versió actual':'Versió anterior'}</summary>${playerList(v.players)}</details>`).join('')}</article>`:''}`;
+ ${versions.map((v,i)=>`<details><summary>${esc(date(v.published_at))} · ${i===0?'Versió actual':'Versió anterior'}</summary>${playerList(v.players)}${staffList(v.staff)}</details>`).join('')}</article>`:''}`;
  showGuide();
  if(!canEdit)return;
  if($('importRoster'))$('importRoster').onclick=()=>openSetup(f.team_id);
@@ -188,6 +278,8 @@ function review(conflicts){
  $('publicationMatch').textContent=title(detail.fixture)+' · '+selection.size+' seleccionats';
  const players=detail.candidates.filter(p=>selection.has(p.id));
  $('publicationPlayers').innerHTML=players.map(p=>'<li>'+esc(description(p))+'</li>').join('');
+ $('publicationStaff').innerHTML=staffList(selectedStaff());
+ $('publicationStaff').hidden=!$('publicationStaff').hasChildNodes();
  $('publicationConflicts').hidden=!conflicts.length;
  $('publicationConflicts').textContent='Hi ha un solapament amb una altra convocatòria publicada · '+players.filter(p=>conflicts.includes(p.id)).map(p=>p.full_name).join(', ');
  $('publication').returnValue='cancel';
@@ -202,7 +294,10 @@ async function rpc(name,args){
  return response.data;
 }
 async function loadDetail(fixtureId,teamId,version){
- const incoming=await rpc('read_club_callups',{p_fixture:fixtureId,p_team:teamId});
+ const args={p_fixture:fixtureId,p_team:teamId};
+ const response=await db.rpc('read_club_callup_detail',args,{get:true});
+ if(response.error&&response.error.code!=='PGRST202')throw response.error;
+ const incoming=response.data||await rpc('read_club_callups',args);
  if(version!==sessionVersion)return;
  detail=incoming;
  selection=new Set((detail.callup?.players||[]).filter(p=>detail.candidates.some(c=>c.id===p.id)).map(p=>p.id));
@@ -218,9 +313,11 @@ async function save(publish){
  $('editor').inert=true;
  $('workspaceStatus').textContent='Desant…';
  try{
-  const saved=await rpc('save_club_callup',{
+  const staff=selectedStaff();
+  const saved=await rpc(staff?'save_club_callup_with_staff':'save_club_callup',{
    p_fixture:f.fixture_id,p_team:f.team_id,p_revision:detail.callup?.revision||0,
-   p_players:[...selection],p_publish:publish,p_acknowledged:publish?acknowledged:[]
+   p_players:[...selection],p_publish:publish,p_acknowledged:publish?acknowledged:[],
+   ...(staff?{p_staff:staff}:{})
   });
   if(version!==sessionVersion)return;
   if(saved.requires_confirmation){
@@ -243,12 +340,13 @@ async function save(publish){
 }
 
 function renderTeamPicker(preferred){
- const visible=[...teams.values()].filter(t=>$('clubControl').hidden||t.club_id===$('clubPicker').value);
- $('teamPicker').replaceChildren(...visible.map(t=>{
+ const visible=[...teams.values()].filter(t=>!$('clubPicker').value||t.club_id===$('clubPicker').value);
+ $('teamPicker').replaceChildren(...(visible.length?[new Option('Tots els equips del club','')]:[]),...visible.map(t=>{
   const category=t.category&&!t.team_name.toLocaleLowerCase('ca').includes(t.category.toLocaleLowerCase('ca'))?t.category:'';
   return new Option([$('clubControl').hidden?t.club_name:'',t.team_name,category,t.season_name].filter(Boolean).join(' · '),t.id);
  }));
  if(visible.some(t=>t.id===preferred))$('teamPicker').value=preferred;
+ else if(preferred!==''&&visible.length===1)$('teamPicker').value=visible[0].id;
  $('teamControl').hidden=!visible.length;
  $('accessPanel').hidden=!!visible.length;
  $('overview').hidden=!visible.length||!!detail;
@@ -261,18 +359,20 @@ function renderAccess(incoming){
  if(access?.global_admin){
   $('previewRole').value=sessionStorage.getItem(previewKey)||'';
  }else $('previewRole').value='';
+ if(previewRole())weekly=false;
  configureSetup(previewRole()?null:access);
  const scoped=access?.teams.filter(team=>team.operational)||[];
  teams=new Map(scoped.map(team=>[team.id,team]));
  for(const f of fixtures){
   if(!teams.has(f.team_id))teams.set(f.team_id,{...f,id:f.team_id});
  }
- const previous=$('teamPicker').value||params.get('equip');
- const clubs=access?.global_admin?access.clubs||[]:[];
+ const previous=$('teamPicker').options.length?$('teamPicker').value:params.get('equip');
+ const clubs=access?.global_admin&&access.clubs?.length?access.clubs:
+  [...new Map([...teams.values()].filter(t=>t.club_id).map(t=>[t.club_id,{id:t.club_id,name:t.club_name}])).values()];
  const club=teams.get(previous)?.club_id||$('clubPicker').value||params.get('club');
  $('clubPicker').replaceChildren(...clubs.map(c=>new Option(c.name,c.id)));
  if(clubs.some(c=>c.id===club))$('clubPicker').value=club;
- $('clubControl').hidden=!clubs.length;
+ $('clubControl').hidden=clubs.length<2&&!access?.global_admin;
  $('rolePanel').hidden=!access?.global_admin;
  $('previewStatus').hidden=!previewRole();
  $('accessSetup').hidden=$('clubSetup').hidden;
@@ -301,6 +401,7 @@ $('previewRole').onchange=()=>{
  if(!access?.global_admin)return;
  if(previewRole())sessionStorage.setItem(previewKey,previewRole());
  else sessionStorage.removeItem(previewKey);
+ if(previewRole()&&weekly)changeWeek(false);
  if($('publication').open)$('publication').close('cancel');
  renderAccess(access);
  if(detail){
@@ -323,6 +424,7 @@ document.addEventListener('club-setup-updated',async event=>{
 
 document.addEventListener('club-auth-changed',async event=>{
  const version=++sessionVersion;
+ weekRequest++;
  const user=event.detail;
  detail=null;
  $('previewRole').value='';

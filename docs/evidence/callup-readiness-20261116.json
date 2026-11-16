@@ -1,0 +1,17 @@
+{
+  "checked_date_utc": "2026-11-16",
+  "source": "Supabase production read-only SQL; no authenticated user impersonation",
+  "teams": 36,
+  "internal_active": 0,
+  "callups": 0,
+  "targets": [
+    {"team": "FEM15", "internal_active": 0, "federation_roster_rows": 15},
+    {"team": "Infantil D", "internal_active": 0, "federation_roster_rows": 44},
+    {"team": "FEM11", "internal_active": 0, "federation_roster_rows": 18}
+  ],
+  "club_setup_access_exists": true,
+  "import_club_csv_exists": true,
+  "edit_includes_platform": false,
+  "weekly_rpc": false,
+  "note": "Federation row counts are not counts of verified regular players. No production data or permissions changed."
+}
