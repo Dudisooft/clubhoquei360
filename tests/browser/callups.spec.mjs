@@ -46,10 +46,16 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  await expect(page.locator('#selectedCount')).toHaveText('2 seleccionats');
  await page.locator('#clearSelection').click();
  await expect(page.locator('#reviewPublication')).toBeDisabled();
- await page.getByLabel(/Portera fictícia/).check();
+ await page.getByRole('checkbox',{name:/Portera fictícia/}).check();
+ await page.getByRole('button',{name:'Substitueix',exact:true}).click();
+ await expect(page.getByRole('checkbox',{name:/Reforç fictici/})).toBeChecked();
+ await expect(page.getByRole('checkbox',{name:/Portera fictícia/})).not.toBeChecked();
+ await page.getByRole('button',{name:'Retira Reforç fictici'}).click();
+ await expect(page.locator('#selectedCount')).toHaveText('0 seleccionats');
+ await page.getByRole('checkbox',{name:/Portera fictícia/}).check();
  await page.locator('#saveDraft').click();
  await expect(page.locator('#workspaceStatus')).toHaveText('Esborrany desat.');
- await page.getByLabel(/Reforç fictici/).check();
+ await page.getByRole('checkbox',{name:/Reforç fictici/}).check();
  await expect(page.locator('#overlapWarning')).toContainText('Reforç fictici');
  await page.locator('#reviewPublication').click();
  await expect(page.locator('#publicationPlayers')).toContainText('Equip d’origen fictici');
@@ -60,7 +66,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  await page.locator('#reviewPublication').click();
  await page.getByRole('button',{name:'Publica la convocatòria'}).click();
  await expect(page.locator('#detail')).toContainText('Historial de publicacions');
- await page.getByLabel(/Reforç fictici/).uncheck();
+ await page.getByRole('checkbox',{name:/Reforç fictici/}).uncheck();
  await page.locator('#reviewPublication').click();
  await page.getByRole('button',{name:'Publica la convocatòria'}).click();
  await expect(page.locator('#detail')).toContainText('Publicada · modificada');

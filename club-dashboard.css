@@ -59,6 +59,8 @@ summary { cursor: pointer; min-height: 44px; padding-block: 10px; }
 #callupViews [aria-pressed="true"] { background: var(--brand); color: white; }
 #weekRange { margin-bottom: 0; }
 #editor textarea { display: block; width: min(100%, 36rem); font: inherit; margin: 4px 0 12px; }
+#replacePlayer label { margin-block: 8px; }
+#replacePlayer select { max-width: 100%; }
 @media (max-width: 640px) {
  .layout, .layout.collapsed { grid-template-columns: minmax(0,1fr); }
  nav { position: sticky; top: 0; z-index: 1; border-bottom: 1px solid var(--line); }

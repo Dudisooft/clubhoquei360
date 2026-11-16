@@ -58,8 +58,8 @@ for(const width of [390,820,1280])test('all-team coordinator prepares own roster
   await page.locator('#teamPicker').selectOption('team-'+i);
   await page.getByRole('link',{name:'Preparar convocatòria'}).click();
   await expect(page.locator('#editor')).not.toContainText('Rival fictici');
-  await expect(page.getByLabel('Porteria fictícia '+teams[i].team_name,{exact:false})).toBeVisible();
-  await page.getByLabel('Porteria fictícia '+teams[i].team_name,{exact:false}).check();
+  await expect(page.getByRole('checkbox',{name:'Porteria fictícia '+teams[i].team_name})).toBeVisible();
+  await page.getByRole('checkbox',{name:'Porteria fictícia '+teams[i].team_name}).check();
   await page.locator('#saveDraft').click();
   await expect(page.locator('#workspaceStatus')).toHaveText('Esborrany desat.');
   await page.reload();

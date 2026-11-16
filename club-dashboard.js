@@ -3,6 +3,7 @@ import {safeCrest} from './basic-roster.js';
 import {configureSetup,openSetup} from './club-setup.js';
 import {groupWeek,mondayOf,offsetDay,weekRange} from './callup-week.js';
 import {scopeCallupFixtures} from './callup-scope.js';
+import {compareCallup} from './callup-review.js';
 import './auth-ui.js';
 
 const $=id=>document.getElementById(id);
@@ -187,7 +188,27 @@ function updateSelection(){
  $('overlapWarning').hidden=!conflicts.length;
  $('overlapWarning').textContent=conflicts.length?'Coincidència d’horari amb una altra convocatòria publicada · '+detail.candidates.filter(p=>conflicts.includes(p.id)).map(p=>p.full_name).join(', '):'';
  $('reviewPublication').disabled=!selection.size||working||!!previewRole();
+ const selected=detail.candidates.filter(p=>selection.has(p.id));
+ const available=detail.candidates.filter(p=>!selection.has(p.id));
+ $('selectionSummary').innerHTML=selected.map(p=>'<li>'+esc(description(p))+
+  ' <button type="button" data-remove="'+esc(p.id)+'" aria-label="'+esc('Retira '+p.full_name)+'">Retira</button></li>').join('');
+ $('replacePlayer').hidden=!selected.length||!available.length;
+ for(const [id,players] of [['outgoingPlayer',selected],['incomingPlayer',available]]){
+  $(id).replaceChildren(...players.map(p=>new Option(description(p),p.id)));
+ }
+ if($('officialDifferences'))$('officialDifferences').textContent=officialDifferences(selected);
  showGuide();
+}
+function officialDifferences(players){
+ const {uncertain,onlyOfficial,onlyInternal,differentShirts}=compareCallup(detail.official_lineup,players);
+ const messages=[];
+ if(uncertain)messages.push('Comparació parcial. Hi ha registres sense una correspondència federativa inequívoca.');
+ else{
+  if(onlyOfficial.length)messages.push('Només a l’acta: '+onlyOfficial.map(p=>p.name).join(', ')+'.');
+  if(onlyInternal.length)messages.push('Només a la convocatòria: '+onlyInternal.map(p=>p.full_name).join(', ')+'.');
+ }
+ if(differentShirts.length)messages.push('Dorsal diferent: '+differentShirts.map(p=>p.full_name).join(', ')+'.');
+ return messages.join(' ')||'La selecció coincideix amb l’acta en les identitats i dorsals comparables.';
 }
 function playerList(players){
  return players.length?'<ul>'+players.map(p=>'<li>'+esc(description(p))+'</li>').join('')+'</ul>':'<p>Cap jugador seleccionat.</p>';
@@ -236,17 +257,30 @@ function renderDetail(){
  ${callup?.published?'<h3>Convocatòria publicada</h3>'+playerList(callup.players)+staffList(callup.staff):''}</article>
  ${canEdit?`<article id="editor">
   <h2>${callup?.published?'Modifica la convocatòria':'Prepara la convocatòria'}</h2>
-  <div class="actions"><button type="button" id="selectAll">✓ Selecciona tots</button><button type="button" id="clearSelection">↺ Neteja la selecció</button><output id="selectedCount" aria-live="polite"></output></div>
+  <div class="actions"><button type="button" id="selectAll">✓ Selecciona tots</button><button type="button" id="clearSelection">↺ Neteja la selecció</button><output id="selectedCount" tabindex="-1" aria-live="polite"></output></div>
+  <ul id="selectionSummary" aria-label="Jugadors seleccionats"></ul>
+  <fieldset id="replacePlayer" hidden>
+   <legend>Substitueix un jugador</legend>
+   <label for="outgoingPlayer">Surt</label><select id="outgoingPlayer"></select>
+   <label for="incomingPlayer">Entra</label><select id="incomingPlayer"></select>
+   <button type="button" id="applyReplacement">Substitueix</button>
+  </fieldset>
   <p id="overlapWarning" class="warning" role="status" hidden></p>
   ${missing.length?'<p class="warning">Jugadors de l’última versió que han deixat de ser elegibles: '+esc(missing.map(p=>p.full_name).join(', '))+'.</p>':''}
   <h3>Plantilla</h3>${original}
   <h3>Reforços elegibles</h3>${groups.size?[...groups.values()].map(players=>group(players[0].origin_team,players)).join(''):'<p>Cap reforç elegible.</p>'}
+  ${Array.isArray(detail.official_lineup)?'<details><summary>Acta federativa de l’equip</summary><ul>'+
+   detail.official_lineup.map(p=>'<li>'+esc([p.dorsal,p.name].filter(Boolean).join(' · '))+'</li>').join('')+
+   '</ul></details><p id="officialDifferences" class="warning" role="status"></p>':
+   detail.official_lineup===null?'<p>Sense una acta federativa verificada comparable per a aquest equip.</p>':''}
   ${detail.staff_supported?staffInputs(callup?.staff):''}
-  ${candidates.length?'':'<p>Encara no hi ha jugadors disponibles per convocar</p>'+
-   (!previewRole()&&access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
+  ${candidates.length?'':'<p>Encara no hi ha jugadors disponibles per convocar</p>'}
+  ${!previewRole()&&access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':''}
   <div class="actions">${callup?.published?'':'<button type="button" id="saveDraft">▣ Desa l’esborrany</button>'}
   <button type="button" class="primary" id="reviewPublication">→ Revisa i publica</button></div>
  </article>`:''}
+ ${canEdit&&detail.draft_history?.length?`<article><h2>Historial d’esborranys</h2>
+ ${detail.draft_history.map(v=>`<details><summary>Revisió ${esc(v.revision)} · ${esc(date(v.saved_at))}</summary>${playerList(v.players)}${staffList(v.staff)}</details>`).join('')}</article>`:''}
  ${versions.length?`<article><h2>Historial de publicacions</h2>
  ${versions.map((v,i)=>`<details><summary>${esc(date(v.published_at))} · ${i===0?'Versió actual':'Versió anterior'}</summary>${playerList(v.players)}${staffList(v.staff)}</details>`).join('')}</article>`:''}`;
  showGuide();
@@ -261,6 +295,19 @@ function renderDetail(){
  };
  $('selectAll').onclick=()=>setSelection(candidates.map(p=>p.id));
  $('clearSelection').onclick=()=>setSelection([]);
+ $('selectionSummary').onclick=event=>{
+  const button=event.target.closest('[data-remove]');
+  if(!button)return;
+  setSelection([...selection].filter(id=>id!==button.dataset.remove));
+  $('selectedCount').focus();
+ };
+ $('applyReplacement').onclick=()=>{
+  const outgoing=$('outgoingPlayer').value;
+  const incoming=$('incomingPlayer').value;
+  if(selection.has(outgoing)&&detail.candidates.some(p=>p.id===incoming)&&!selection.has(incoming)){
+   setSelection([...selection].filter(id=>id!==outgoing).concat(incoming));
+  }
+ };
  if($('saveDraft')){
   $('saveDraft').disabled=!!previewRole();
   $('saveDraft').onclick=()=>save(false);
@@ -280,6 +327,8 @@ function review(conflicts){
  $('publicationPlayers').innerHTML=players.map(p=>'<li>'+esc(description(p))+'</li>').join('');
  $('publicationStaff').innerHTML=staffList(selectedStaff());
  $('publicationStaff').hidden=!$('publicationStaff').hasChildNodes();
+ $('publicationOfficial').textContent=Array.isArray(detail.official_lineup)?officialDifferences(players):'';
+ $('publicationOfficial').hidden=!$('publicationOfficial').textContent;
  $('publicationConflicts').hidden=!conflicts.length;
  $('publicationConflicts').textContent='Hi ha un solapament amb una altra convocatòria publicada · '+players.filter(p=>conflicts.includes(p.id)).map(p=>p.full_name).join(', ');
  $('publication').returnValue='cancel';
