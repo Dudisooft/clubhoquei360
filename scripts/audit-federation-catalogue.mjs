@@ -28,17 +28,20 @@ for (const scope of input) {
 console.log(JSON.stringify({competitions,failures,total:baselineFound.length}));
 const pending=[...baselineFound];
 const rows=[];
+let accessBlocked=false;
 async function worker() {
  for(let item;(item=pending.shift());) {
   const {fixture:f,reconciliation}=item;
   let reportStatus='recoverable';
-  try { const report=await api.report(f); if(report.stale||report.status!=='published')reportStatus='incomplete_or_unpublished'; }
+  if(accessBlocked)reportStatus='not_checked_access_blocked';
+  else try { const report=await api.report(f); if(report.stale||report.status!=='published')reportStatus='incomplete_or_unpublished'; }
   catch(error) {
-   if(error.status===429||['http_access_denied','proxy_reported','portal_origin_rejected'].includes(error.sourceState))pending.length=0;
+   if(error.status===429||['http_access_denied','proxy_reported','portal_origin_rejected'].includes(error.sourceState))accessBlocked=true;
    reportStatus=error.sourceState==='report_pending'?'incomplete_or_unpublished':'inaccessible'; }
-  rows.push({competition:f.competition_id,report:f.official_match_id,date:f.date,round:f.round_label,home:f.home_id,away:f.away_id,score:f.score,reconciliation:reconciliation.status,reportStatus});
+  rows.push({competition:f.competition_id,report:f.official_match_id,date:f.date,round:f.round_label,home:f.home_id,away:f.away_id,score:f.score,groupId:reconciliation.groupId,reconciliation:reconciliation.status,reportStatus});
  }
 }
 await Promise.all([worker(),worker()]);
 rows.sort((a,b)=>a.competition.localeCompare(b.competition)||a.report.localeCompare(b.report));
-await fs.writeFile(outputFile,JSON.stringify({competitions,failures,rows},null,2)+'\n',{flag:'wx'});
+await fs.writeFile(outputFile,JSON.stringify({competitions,failures,accessBlocked,rows},null,2)+'\n',{flag:'wx'});
+if(accessBlocked||failures.length)process.exitCode=1;
