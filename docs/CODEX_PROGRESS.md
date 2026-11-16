@@ -1,3 +1,22 @@
+# Continuïtat vigent — convocatòries de tots els equips
+
+Actualitzat: **16/11/2026 UTC**. Aquesta entrada substitueix l'estat vigent dels antecedents, que es conserven més avall.
+
+- **Objectiu / fase:** completar PR #49 amb selector compacte de tots els equips i convocatòries pròpies; implementació i verificació local acabades, pendent revisió/CI nova i dependències productives.
+- **Branca:** `feat/weekly-callups`; worktree `/workspace/work/clubhoquei360-weekly-callups`. Base main `ca9682aa4c028a09dc6b2b73f7d6eacb84af1ed1`, després de #46/#47/#48. Últim checkpoint remot preexistent verificat: `914f8f3708c512aa884d10f1f474bd5e813f49a3`; el nou checkpoint és el commit que conté aquesta entrada (`git log -1`). Cap checkout antic ni treball d'altres branques s'ha sobreescrit.
+- **Completat:** opció «Tots els equips del club» + equips autoritzats; filtres consistents en vista d'equip i setmana; límit per club també per a coordinadors multiclub; deduplicació partit/equip; advertiment de servidor setmanal pendent; estat buit i importació CSV existent amb equip triat; contrast del selector corregit. Estructura de targetes, escuts i ordre local/visitant conservats. Sense noves migracions, RLS, permisos, imports federatius ni canvis a l'anàlisi de rivals.
+- **Seguretat comprovada amb dades fictícies:** ambdues RPC de desament rebutgen rivals i jugadors sense elegibilitat, fins i tot si hi ha una vinculació errònia entre clubs; entrenador restringit; plantilla i porteria pròpies; persistència d'esborranys.
+- **Producció, només lectura:** 36 equips; 0 jugadors interns actius i 0 convocatòries, igual abans/després. FEM15 / Infantil D / FEM11: interns 0 / 0 / 0; files federatives 15 / 44 / 18, que NO s'han promogut a habituals. `club_setup_access` i importador CSV existeixen. Falta la definició global de `callup_can_edit` aprovada a main i les RPC setmanals de #49. Sense suplantar Auth ni modificar dades.
+- **Proves:** Node complet 167/167; Chromium complet 68/68; després del petit ajust CSS i ampliació de comprovacions, convocatòries 10/10; SQL/scope focalitzat 2/2. Tots PASS, zero omissions finals. Check/build 41 PASS i diff PASS. Logs locals `/tmp/callups-node-final.log`, `/tmp/callups-browser-final.log`, `/tmp/callups-browser-focused-final.log`, `/tmp/callups-focused-final.log`. Captures fictícies `work/callup-all-teams-*.png`, fora de Git. Navegador amb RPC fictícies i SQL PGlite: no és Auth real productiva.
+- **Fitxers:** `club-dashboard.js`, `club-dashboard.css`, `dashboard.html`, `callup-scope.js`; tests de navegador i SQL/scope; `scripts/inspect-callup-readiness.sql`; evidència agregada sense dades personals; informe `docs/COORDINATOR_CALLUPS_ALL_TEAMS_20261116.md`; aquest registre.
+- **CI:** el checkpoint inicial 914f8f3 té CI success [43910114766](https://github.com/Dudisooft/clubhoquei360/actions/runs/43910114766). En crear aquest nou checkpoint, CI nova pendent; consultar el resultat actual de [PR #49](https://github.com/Dudisooft/clubhoquei360/pull/49). No repetir suites locals vàlides si el codi és idèntic.
+- **Pendents ordenats:** 1) verificar CI del nou SHA i revisió de #49; 2) acreditar backup recuperable i autoritzar actuacions productives; 3) verificar ledger i instal·lació autoritzada de `20261116163049_global_callup_access.sql` i `20261116163644_callup_weekly_staff.sql`; 4) completar plantilles internes validades amb el flux existent; 5) prova Auth real de coordinador/entrenador i desament/recàrrega en entorn autoritzat; 6) decidir publicació. Cap fusió ni desplegament efectuats.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: llegeix aquesta entrada i docs/COORDINATOR_CALLUPS_ALL_TEAMS_20261116.md a feat/weekly-callups, verifica Git i CI de PR #49, conserva les proves vàlides i continua la primera tasca pendent. No importis jugadors federatius com a habituals automàticament. No modifiquis producció ni publiquis sense les garanties i autoritzacions indicades.»
+
+---
+
+## Historial anterior conservat (no descriu l'estat vigent)
+
 # ClubHoquei360 · Continuïtat de Codex
 
 Actualitzat: 27/10/2026, Europe/Madrid. Instrucció única de represa: **CONTINUA CLUBHOQUEI360**.

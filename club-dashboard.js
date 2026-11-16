@@ -2,6 +2,7 @@ import {db} from './app-client.js';
 import {safeCrest} from './basic-roster.js';
 import {configureSetup,openSetup} from './club-setup.js';
 import {groupWeek,mondayOf,offsetDay,weekRange} from './callup-week.js';
+import {scopeCallupFixtures} from './callup-scope.js';
 import './auth-ui.js';
 
 const $=id=>document.getElementById(id);
@@ -51,7 +52,7 @@ function showGuide(){
  const enabled=$('toggleGuide').getAttribute('aria-pressed')==='true';
  $('guide').hidden=!enabled;
  if(!enabled)return;
- $('guide').textContent=!$('teamPicker').value?'Tria un club amb equips disponibles o revisa’n la configuració.'
+ $('guide').textContent=$('teamControl').hidden?'Tria un club amb equips disponibles o revisa’n la configuració.'
   :!detail?(weekly?'Tria una setmana i obre la convocatòria del partit.':'Tria un equip a la capçalera i obre la convocatòria del partit.')
   :!detail.can_edit?'Consulta els convocats. Per preparar el registre del partit, obre el Mode Base quan estigui disponible.'
   :!selection.size?'Pas 2. Marca els jugadors de la plantilla i els reforços que vols convocar.'
@@ -90,11 +91,12 @@ function fixtureCard(f,showTeam=false){
   ${showTeam?'<h3>'+esc(teamName)+'</h3>':''}
   <div class="club-side">${crest(f.home_crest)}<strong>${esc(f.home_team)}</strong></div>
   <div class="club-side">${crest(f.away_crest)}<strong>${esc(f.away_team)}</strong></div>
+  ${f.competition_name||team?.category?'<p>'+esc(f.competition_name||team.category)+'</p>':''}
   <p class="match-date">${esc(date(f.starts_at))}</p>
   <p><span class="badge">${status(f)}</span></p>
   ${showTeam&&f.published_players?.length?'<details><summary>Convocats ('+f.published_players.length+')</summary>'+
    playerList(f.published_players)+staffList(f.published_staff)+'</details>':''}
-  <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Gestiona':'Consulta'} la convocatòria</a>
+  <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Preparar':'Consultar'} convocatòria</a>
  </article>`;
 }
 
@@ -113,16 +115,21 @@ async function loadWeek(scoped,club){
  const pickedWeek=monday;
  const {data,error}=await db.rpc('read_club_callup_week',{p_monday:pickedWeek,p_club:club||null},{get:true});
  if(request!==weekRequest||!weekly||detail||previewRole())return;
- if(error?.code==='PGRST202')return;
- if(error||!Array.isArray(data))return;
- renderWeek([...data,...scoped.filter(f=>!f.starts_at)]);
+ if(error||!Array.isArray(data)){
+  $('workspaceStatus').textContent=error?.code==='PGRST202'
+   ?'La vista setmanal completa necessita l’actualització del servidor. Mostrem els partits disponibles.'
+   :'No s’ha pogut actualitzar la setmana. Mostrem els partits disponibles.';
+  return;
+ }
+ renderWeek(scopeCallupFixtures([...data,...scoped.filter(f=>!f.starts_at)],teams,club,$('teamPicker').value));
 }
 
 function renderList(){
  weekRequest++;
- const selected=fixtures.filter(f=>f.team_id===$('teamPicker').value).map(visibleFixture);
+ const club=$('clubPicker').value;
+ const selected=scopeCallupFixtures(fixtures,teams,club,$('teamPicker').value).map(visibleFixture);
  const visible=selected.filter(f=>!f.past||callupPage&&$('showPast').checked);
- brand(selected[0]||teams.get($('teamPicker').value));
+ brand(selected[0]||teams.get($('teamPicker').value)||[...teams.values()].find(t=>!club||t.club_id===club));
  $('pageTitle').textContent=callupPage?'Convocatòries':'Pròxims partits';
  $('tasksPanel').hidden=callupPage;
  $('callupViews').hidden=!callupPage||!!previewRole();
@@ -135,15 +142,14 @@ function renderList(){
   (f.can_edit?(f.revision?'Revisa l’esborrany':'Prepara la convocatòria'):'Consulta la convocatòria')+
   ' · '+esc(title(f))+'</a></li>').join(''):'<li>Cap tasca de convocatòries per a aquest equip.</li>';
  if(weekly){
-  const club=teams.get($('teamPicker').value)?.club_id;
-  const scoped=fixtures.filter(f=>club?f.club_id===club:true).map(visibleFixture);
+  const scoped=selected;
   $('weekRange').textContent=weekRange(monday);
   $('fixtures').classList.remove('cards');
   renderWeek(scoped);
   loadWeek(scoped,club).catch(()=>{});
  }else{
   $('fixtures').classList.add('cards');
-  $('fixtures').innerHTML=visible.length?visible.map(f=>fixtureCard(f)).join(''):'<p>Aquest equip encara no té partits visibles amb el filtre actual.</p>';
+  $('fixtures').innerHTML=visible.length?visible.map(f=>fixtureCard(f,!$('teamPicker').value)).join(''):'<p>Aquest equip encara no té partits visibles amb el filtre actual.</p>';
  }
  showGuide();
 }
@@ -164,7 +170,8 @@ $('currentWeek').onclick=()=>changeWeek(true,mondayOf(new Date()));
 $('showPast').onchange=renderList;
 $('teamPicker').onchange=()=>{
  const url=new URL(location.href);
- url.searchParams.set('equip',$('teamPicker').value);
+ if($('teamPicker').value)url.searchParams.set('equip',$('teamPicker').value);
+ else url.searchParams.delete('equip');
  if(params.has('partit')){
   url.searchParams.delete('partit');
   location.href=url.href;
@@ -235,7 +242,7 @@ function renderDetail(){
   <h3>Plantilla</h3>${original}
   <h3>Reforços elegibles</h3>${groups.size?[...groups.values()].map(players=>group(players[0].origin_team,players)).join(''):'<p>Cap reforç elegible.</p>'}
   ${detail.staff_supported?staffInputs(callup?.staff):''}
-  ${candidates.length?'':'<p>No hi ha cap jugador a la plantilla interna d’aquest equip.</p>'+
+  ${candidates.length?'':'<p>Encara no hi ha jugadors disponibles per convocar</p>'+
    (!previewRole()&&access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
   <div class="actions">${callup?.published?'':'<button type="button" id="saveDraft">▣ Desa l’esborrany</button>'}
   <button type="button" class="primary" id="reviewPublication">→ Revisa i publica</button></div>
@@ -333,12 +340,13 @@ async function save(publish){
 }
 
 function renderTeamPicker(preferred){
- const visible=[...teams.values()].filter(t=>$('clubControl').hidden||t.club_id===$('clubPicker').value);
- $('teamPicker').replaceChildren(...visible.map(t=>{
+ const visible=[...teams.values()].filter(t=>!$('clubPicker').value||t.club_id===$('clubPicker').value);
+ $('teamPicker').replaceChildren(...(visible.length?[new Option('Tots els equips del club','')]:[]),...visible.map(t=>{
   const category=t.category&&!t.team_name.toLocaleLowerCase('ca').includes(t.category.toLocaleLowerCase('ca'))?t.category:'';
   return new Option([$('clubControl').hidden?t.club_name:'',t.team_name,category,t.season_name].filter(Boolean).join(' · '),t.id);
  }));
  if(visible.some(t=>t.id===preferred))$('teamPicker').value=preferred;
+ else if(preferred!==''&&visible.length===1)$('teamPicker').value=visible[0].id;
  $('teamControl').hidden=!visible.length;
  $('accessPanel').hidden=!!visible.length;
  $('overview').hidden=!visible.length||!!detail;
@@ -358,12 +366,13 @@ function renderAccess(incoming){
  for(const f of fixtures){
   if(!teams.has(f.team_id))teams.set(f.team_id,{...f,id:f.team_id});
  }
- const previous=$('teamPicker').value||params.get('equip');
- const clubs=access?.global_admin?access.clubs||[]:[];
+ const previous=$('teamPicker').options.length?$('teamPicker').value:params.get('equip');
+ const clubs=access?.global_admin&&access.clubs?.length?access.clubs:
+  [...new Map([...teams.values()].filter(t=>t.club_id).map(t=>[t.club_id,{id:t.club_id,name:t.club_name}])).values()];
  const club=teams.get(previous)?.club_id||$('clubPicker').value||params.get('club');
  $('clubPicker').replaceChildren(...clubs.map(c=>new Option(c.name,c.id)));
  if(clubs.some(c=>c.id===club))$('clubPicker').value=club;
- $('clubControl').hidden=!clubs.length;
+ $('clubControl').hidden=clubs.length<2&&!access?.global_admin;
  $('rolePanel').hidden=!access?.global_admin;
  $('previewStatus').hidden=!previewRole();
  $('accessSetup').hidden=$('clubSetup').hidden;

@@ -19,6 +19,8 @@ h2 { font-size: 1.13rem; }
 button, input, select, .action, nav a { font: inherit; min-height: 44px; }
 button, input, select, .action { border: 1px solid #9cadc3; border-radius: 8px; padding: 8px 12px; background: white; color: inherit; }
 button, select { cursor: pointer; }
+header .actions, header label { min-width: 0; max-width: 100%; }
+header select { color: #14283f; max-width: 100%; }
 button:disabled { cursor: default; opacity: .55; }
 a { color: var(--brand); }
 .action { display: inline-flex; align-items: center; text-decoration: none; }

@@ -37,7 +37,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  await expect(page.locator('#toggleNavigation')).toHaveAttribute('aria-expanded','false');
  await page.locator('#toggleNavigation').click();
  await expect(page.locator('#toggleNavigation')).toHaveAttribute('aria-expanded','true');
- await page.getByRole('link',{name:'Gestiona la convocatòria'}).click();
+ await page.getByRole('link',{name:'Preparar convocatòria'}).click();
  await expect(page.locator('#editor')).toBeVisible();
  await page.locator('#toggleGuide').click();
  await expect(page.locator('#guide')).toContainText('Pas 2');
@@ -149,7 +149,7 @@ test('global admin selects another club and previews a role without changing the
  await page.locator('#clubPicker').selectOption('club2');
  await expect(page.locator('#teamPicker')).toHaveValue('equip2');
  await page.locator('#previewRole').selectOption('coach');
- await page.getByRole('link',{name:'Consulta la convocatòria'}).click();
+ await page.getByRole('link',{name:'Consultar convocatòria'}).click();
  await expect(page.locator('#previewRole')).toHaveValue('coach');
  await expect(page.locator('#editor')).toHaveCount(0);
  await expect(page.locator('#detail')).not.toContainText('Esborrany');
@@ -195,7 +195,7 @@ test('weekly view groups all visible club teams and keeps the date on return',as
  await expect(page.locator('#fixtures')).not.toContainText('Equip C');
  await page.getByText('Convocats (2)',{exact:true}).click();
  await expect(page.getByText('Tècnica fictícia',{exact:false})).toBeVisible();
- await page.getByRole('link',{name:'Gestiona la convocatòria'}).first().click();
+ await page.getByRole('link',{name:'Preparar convocatòria'}).first().click();
  await expect(page.getByLabel('Entrenadors assignats')).toHaveValue('Tècnica fictícia');
  await page.getByRole('link',{name:'Torna a les convocatòries'}).click();
  await expect(page.locator('#weeklyView')).toHaveAttribute('aria-pressed','true');
