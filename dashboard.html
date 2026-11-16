@@ -66,6 +66,19 @@
     </section>
     <div id="overview">
      <section id="tasksPanel" class="panel"><h2>Tasques pendents</h2><ul id="tasks"></ul></section>
+     <div id="callupViews" class="actions" hidden>
+      <button type="button" id="weeklyView" aria-pressed="false">Setmana · tots els equips amb accés</button>
+      <button type="button" id="teamView" aria-pressed="true">Equip seleccionat</button>
+     </div>
+     <section id="weekControls" class="panel" hidden aria-labelledby="weekTitle">
+      <h2 id="weekTitle">Setmana</h2>
+      <div class="actions">
+       <button type="button" id="previousWeek">Setmana anterior</button>
+       <button type="button" id="currentWeek">Aquesta setmana</button>
+       <button type="button" id="nextWeek">Setmana següent</button>
+      </div>
+      <p id="weekRange" role="status"></p>
+     </section>
      <label id="pastControl" hidden><input id="showPast" type="checkbox"> Mostra les convocatòries anteriors</label>
      <div id="fixtures" class="cards"></div>
     </div>
@@ -92,6 +105,7 @@
  <dialog id="publication"><form method="dialog">
   <h2>Confirma la publicació</h2><p id="publicationMatch"></p>
   <ul id="publicationPlayers"></ul>
+  <div id="publicationStaff" hidden></div>
   <p id="publicationConflicts" class="warning" hidden></p>
   <div class="actions"><button value="cancel" autofocus>Revisa la selecció</button><button class="primary" value="publish">✓ Publica la convocatòria</button></div>
  </form></dialog>
