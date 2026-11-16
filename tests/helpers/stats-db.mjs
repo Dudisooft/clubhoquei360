@@ -7,8 +7,9 @@ export async function createDatabase(){
  create role anon;create role authenticated;create role service_role bypassrls;
  create schema auth;create table auth.users(id uuid primary key);create function auth.uid() returns uuid language sql stable as $$select nullif(current_setting('request.jwt.claim.sub',true),'')::uuid$$;
  grant usage on schema auth to authenticated;grant execute on function auth.uid() to authenticated;
- create schema app_private;create table public.clubs(id uuid primary key,name text);create table public.seasons(id uuid primary key,club_id uuid,label text);
- create table public.teams(id uuid primary key,club_id uuid,season_id uuid,name text);
+ create schema app_private;create table public.clubs(id uuid primary key default gen_random_uuid(),name text);
+ create table public.seasons(id uuid primary key default gen_random_uuid(),club_id uuid,label text,starts_on date,ends_on date);
+ create table public.teams(id uuid primary key default gen_random_uuid(),club_id uuid,season_id uuid,name text,category text);
  create table public.club_memberships(user_id uuid,club_id uuid,team_id uuid,role text);
  create function app_private.has_club_role(p_club uuid,p_roles text[]) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.club_memberships where user_id=auth.uid() and club_id=p_club and role=any(p_roles))$$;
  create function app_private.has_team_role(p_team uuid,p_roles text[]) returns boolean language sql stable security definer set search_path='' as $$select exists(select 1 from public.club_memberships where user_id=auth.uid() and team_id=p_team and role=any(p_roles))$$;
@@ -44,8 +45,8 @@ export async function createDatabase(){
  grant execute on function public.pilot_save_operator_state(uuid,bigint,jsonb) to authenticated;`);
  for(const user of ['principal','external','coach','delegate','alien','manager','secondary'])await db.query('insert into auth.users values ($1)',[ID[user]]);
  await db.query('insert into public.clubs values ($1,$2)',[ID.club,'Club de prova fictici']);
- await db.query('insert into public.seasons values ($1,$2,$3)',[ID.season,ID.club,'2026/27']);
- for(const [id,name] of [[ID.team,'FEM15 · dades fictícies'],[ID.otherTeam,'Un altre equip · fictici']])await db.query('insert into public.teams values ($1,$2,$3,$4)',[id,ID.club,ID.season,name]);
+ await db.query('insert into public.seasons(id,club_id,label) values ($1,$2,$3)',[ID.season,ID.club,'2026/27']);
+ for(const [id,name] of [[ID.team,'FEM15 · dades fictícies'],[ID.otherTeam,'Un altre equip · fictici']])await db.query('insert into public.teams(id,club_id,season_id,name) values ($1,$2,$3,$4)',[id,ID.club,ID.season,name]);
  for(const [id,title] of [[ID.match,'FEM15 IHC – Rival · PROVA FICTÍCIA'],[ID.otherMatch,'Un altre partit · PROVA FICTÍCIA']])await db.query("insert into public.pilot_matches values ($1,$2,'FEM15 fictici','Rival fictici','2026-10-17 12:00Z','finished')",[id,title]);
  for(const [id,team,num,name,pos] of [[ID.player,'home','3','Jugadora fictícia 3','field'],[ID.goalie,'home','1','Portera fictícia 1','goalkeeper'],[ID.rival,'away','7','Rival fictícia 7','field'],...Array.from({length:5},(_,i)=>['30000000-0000-4000-8000-'+String(10+i).padStart(12,'0'),'home',String(4+i),'Jugadora fictícia '+(4+i),'field']),['30000000-0000-4000-8000-000000000020','away','1','Portera rival fictícia 1','goalkeeper'],...Array.from({length:5},(_,i)=>['30000000-0000-4000-8000-'+String(21+i).padStart(12,'0'),'away',String(2+i),'Rival fictícia '+(2+i),'field'])])await db.query('insert into public.pilot_players(id,match_id,team,dorsal,full_name,position,federation_player_id) values ($1,$2,$3,$4,$5,$6,$7)',[id,ID.match,team,num,name,pos,'synthetic-'+team+'-'+num]);
  await db.query('insert into public.pilot_members values ($1,$2,$3)',[ID.match,ID.delegate,'operator']);

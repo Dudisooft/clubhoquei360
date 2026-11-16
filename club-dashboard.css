@@ -50,6 +50,9 @@ fieldset { margin: 12px 0; border: 1px solid var(--line); border-radius: 8px; mi
 dialog { color: inherit; border: 1px solid var(--line); border-radius: 12px; width: min(92vw,560px); max-height: 86vh; }
 dialog::backdrop { background: #07182c90; }
 summary { cursor: pointer; min-height: 44px; padding-block: 10px; }
+#csvForm label { margin-bottom: 12px; }
+#csvForm select, #csvForm input, #teamPicker { max-width: 100%; }
+#csvPreview { overflow-wrap: anywhere; }
 @media (max-width: 640px) {
  .layout, .layout.collapsed { grid-template-columns: minmax(0,1fr); }
  nav { position: sticky; top: 0; z-index: 1; border-bottom: 1px solid var(--line); }

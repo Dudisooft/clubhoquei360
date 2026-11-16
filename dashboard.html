@@ -27,7 +27,7 @@
     <a href="./en-construccio.html?modul=Entrenadors" aria-label="Entrenaments" title="Entrenaments"><span aria-hidden="true">◎</span><span class="nav-label">Entrenaments</span></a>
     <a href="./en-construccio.html?modul=Tasques" aria-label="Tasques" title="Tasques"><span aria-hidden="true">⚑</span><span class="nav-label">Tasques</span></a>
     <a href="./en-construccio.html?modul=Documents" aria-label="Documents" title="Documents"><span aria-hidden="true">▤</span><span class="nav-label">Documents</span></a>
-    <a href="./en-construccio.html?modul=Administracio" aria-label="Administració" title="Administració"><span aria-hidden="true">⚙</span><span class="nav-label">Administració</span></a>
+    <a href="#clubSetup" id="setupNav" hidden aria-label="Configuració del club" title="Configuració del club"><span aria-hidden="true">⚙</span><span class="nav-label">Configuració del club</span></a>
    </div>
   </nav>
   <main>
@@ -46,12 +46,33 @@
     <div class="heading"><h1 id="pageTitle">Pròxims partits</h1><button type="button" id="toggleGuide" aria-pressed="false">ⓘ Mode guiat</button></div>
     <p id="guide" class="panel" hidden></p>
     <p id="workspaceStatus" role="status"></p>
+    <section id="accessPanel" class="panel" hidden aria-labelledby="accessTitle">
+     <h2 id="accessTitle">Accés als equips</h2>
+     <p id="accessMessage"></p>
+     <button id="accessSetup" type="button" hidden>Obre la configuració del club</button>
+    </section>
     <div id="overview">
      <section id="tasksPanel" class="panel"><h2>Tasques pendents</h2><ul id="tasks"></ul></section>
      <label id="pastControl" hidden><input id="showPast" type="checkbox"> Mostra les convocatòries anteriors</label>
      <div id="fixtures" class="cards"></div>
     </div>
     <section id="detail" hidden></section>
+    <details id="clubSetup" class="panel" hidden>
+     <summary>Configuració del club i importació CSV</summary>
+     <p>Utilitza un CSV UTF-8 facilitat o autoritzat pel club. Revisa les coincidències abans de confirmar.</p>
+     <form id="csvForm">
+      <label>Què vols importar? <select id="csvKind"></select></label>
+      <label id="csvScopeLabel">Destinació <select id="csvScope"></select></label>
+      <p id="csvHelp"></p>
+      <label>Fitxer CSV <input id="csvFile" type="file" accept=".csv,text/csv" required></label>
+      <div class="actions">
+       <button type="submit">Previsualitza el CSV</button>
+       <button class="primary" type="button" id="csvCommit" disabled>Confirma la importació</button>
+      </div>
+      <p id="csvStatus" role="status"></p>
+      <ol id="csvPreview"></ol>
+     </form>
+    </details>
    </section>
   </main>
  </div>
