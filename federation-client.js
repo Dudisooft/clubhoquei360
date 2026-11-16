@@ -3,7 +3,7 @@ import {db} from './app-client.js';
 import {mountRoster} from './advanced-roster.js';
 import {fromRow,mergeEvents,score} from './federation-model.js';
 import {competitionOptions,isCalendarOnlySource} from './federation-selection.js';
-import {syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh1';
+import {syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh2';
 /* Federation cache and operator stream are deliberately independent. */
 (async function(){
  if(!new URLSearchParams(location.search).get('match')){location.replace('./partit.html');return;}

@@ -2,7 +2,7 @@ import {db} from './app-client.js';
 import {basicState,makeRow,cards,comparison,playerTotals,benchTotals,provisionalRoster,rivalPlayer} from './basic-model.js?v=manual-rival1';
 import {officialReportHref, federationPortalHref} from './match-navigation.js?v=manual-rival1';
 import {score,fromRow} from './federation-model.js?v=manual-rival1';
-import {BasicStore,syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh1';
+import {BasicStore,syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh2';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
 import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=manual-rival1';
 

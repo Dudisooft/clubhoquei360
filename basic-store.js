@@ -39,7 +39,7 @@ export function federationSyncMessage(status){
  return {
   verified:'S’ha verificat l’acta amb el servidor federatiu i s’ha desat la còpia oficial.',
   team_verified:'S’han desat dades federatives de l’equip. El servei no ha confirmat una actualització específica de l’acta.',
-  cached:'S’ha recuperat la memòria cau. Encara no s’ha fet cap consulta nova a la federació.',
+  cached:'El servidor no ha iniciat cap consulta nova. Es mostren les dades desades disponibles (memòria cau).',
   unchanged:'S’ha consultat la federació. Les dades oficials ja estaven actualitzades.',
   pending:'El servei no disposa d’una acta oficial verificable per a aquest partit.'
  }[status];
