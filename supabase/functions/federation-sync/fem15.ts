@@ -1,5 +1,6 @@
 import { parseHTML } from 'npm:linkedom@0.18.12';
 import { parseCalendar, parseMatch, parseStandings } from './parser.ts';
+import { fetchLegacyHtml } from './legacy-request.ts';
 export const FEM15={federation:'FECAPA',season_id:'41',season_label:'2026/27',competition_id:'4802',team_id:'12419',club_id:'252',name:'IGUALADA HC',competition_name:'FEM 15 OR',url:'https://www.hoqueipatins.fecapa.cat/league/4802'};
 const clean=(e:any)=>String(e?.textContent||'').replace(/\s+/g,' ').trim();
 const numeric=(e:any)=>/^\d+$/.test(clean(e))?Number(clean(e)):null;
@@ -55,7 +56,7 @@ export async function syncFem15(db:any,{actor=null,force=false}:{actor?:string|n
  if(!force&&cache.data?.fetched_at&&Date.now()-Date.parse(cache.data.fetched_at)<6*3600000)return {status:'cached',team_id:FEM15.team_id};
  const run=await db.from('federation_import_runs').insert({federation:'FECAPA',resource_type:'team',external_resource_id:'12419',source_url:FEM15.url,status:'started',details:{competition_id:'4802',season_id:'41'}}).select('id').single();if(run.error)throw run.error;
  try{
-  const fetchHtml=async(file:string,params:Record<string,string>)=>{const r=await fetch('https://www.server2.sidgad.es/fecapa/'+file,{method:'POST',headers:{Origin:'https://www.hoqueipatins.fecapa.cat',Referer:FEM15.url,'X-Requested-With':'XMLHttpRequest'},body:new URLSearchParams(params),signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('Official source HTTP '+r.status);const h=await r.text();if(!h.trim()||h.length>3000000)throw Error('Empty or excessive official response');return h;};
+  const fetchHtml=(file:string,params:Record<string,string>)=>fetchLegacyHtml(FEM15.federation,file,FEM15.url,params);
   const calendar=await fetchHtml('fecapa_cal_idc_4802_1.php',{idc:'4802',site_lang:'ca'});
   const standings=await fetchHtml('fecapa_clasif_idc_4802_1.php',{idc:'4802',site_lang:'ca'});
   const roster=await fetchHtml('fecapa_stats_1_4802.php',{idc:'4802',site_lang:'ca',tipo_stats:'plantillas'});

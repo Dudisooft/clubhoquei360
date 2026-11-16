@@ -1,6 +1,10 @@
 import test from 'node:test';import assert from 'node:assert/strict';import fs from 'node:fs';import ts from 'typescript';
 const root=new URL('../',import.meta.url);const dir=new URL('./fem15-generated/',import.meta.url);fs.mkdirSync(dir,{recursive:true});
-for(const name of ['parser','fem15']){let s=fs.readFileSync(new URL(`supabase/functions/federation-sync/${name}.ts`,root),'utf8').replace('npm:linkedom@0.18.12','linkedom').replace('./parser.ts','./parser.mjs');fs.writeFileSync(new URL(`${name}.mjs`,dir),ts.transpile(s,{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}));}
+for(const name of ['parser','legacy-request','fem15']){
+ const s=fs.readFileSync(new URL(`supabase/functions/federation-sync/${name}.ts`,root),'utf8')
+  .replace('npm:linkedom@0.18.12','linkedom').replace('./parser.ts','./parser.mjs').replace('./legacy-request.ts','./legacy-request.mjs');
+ fs.writeFileSync(new URL(`${name}.mjs`,dir),ts.transpile(s,{module:ts.ModuleKind.ESNext,target:ts.ScriptTarget.ES2022}));
+}
 const{FEM15,buildFem15Dataset,parseFem15Roster}=await import(new URL('fem15.mjs',dir));
 const row=(id,name,team='12419')=>`<tr id="filaplayer_${id}" class="teamid_${team}"><td></td><td>IHC</td><td></td><td></td><td><a id_player="${id}" team_id="${team}">${name}</a></td><td>0</td><td>1</td><td></td><td>0</td></tr>`;
 test('roster selection uses team ID, not a shared Igualada name',()=>{const html=`<table>${row('10','Player IHC')}${row('11','Player other Igualada','11715')}</table>`;const p=parseFem15Roster(html);assert.equal(p.length,1);assert.equal(p[0].external_id,'10');assert.equal(p[0].blue_cards,null);assert.equal(p[0].goals,0);});

@@ -1,6 +1,7 @@
 import { createClient } from 'npm:@supabase/supabase-js@2.95.3';
 import { parseMatch,parseCalendar,parseStandings } from './parser.ts';
 import { syncFem15 } from './fem15.ts';
+import { fetchLegacyHtml } from './legacy-request.ts';
 const cors={'Access-Control-Allow-Origin':'https://dudisooft.github.io','Access-Control-Allow-Headers':'authorization,apikey,content-type,x-client-info','Access-Control-Allow-Methods':'POST,OPTIONS'};
 const json=(data:any,status=200)=>new Response(JSON.stringify(data),{status,headers:{...cors,'Content-Type':'application/json'}});
 Deno.serve(async(req)=>{
@@ -37,10 +38,10 @@ Deno.serve(async(req)=>{
    const fed=source.federation.toLowerCase();const url=`https://www.server2.sidgad.es/${fed}/${fed}_gr_${source.federation_match_id}_1.php`;
    const run=await db.from('federation_sync_runs').insert({match_id:source.match_id,status:'running',source_url:url}).select('id').single();if(run.error)throw run.error;
    try{
-    const fetchHtml=async(u:string,params:Record<string,string>)=>{const r=await fetch(u,{method:'POST',body:new URLSearchParams(params),headers:{'Origin':new URL(source.federation_url).origin,'Referer':source.federation_url,'X-Requested-With':'XMLHttpRequest'},signal:AbortSignal.timeout(20000)});if(!r.ok)throw Error('Official source HTTP '+r.status);const h=await r.text();if(!h.trim())throw Error('Official source returned empty HTML');if(h.length>3000000)throw Error('Response too large');return h;};
-    const html=await fetchHtml(url,{idm:'1',idc:source.competition_id,idp:source.federation_match_id,tab:'tab_ficha_resumen'});
+    const fetchHtml=(file:string,params:Record<string,string>)=>fetchLegacyHtml(source.federation,file,source.federation_url,params);
+    const html=await fetchHtml(`${fed}_gr_${source.federation_match_id}_1.php`,{idm:'1',idc:source.competition_id,idp:source.federation_match_id,tab:'tab_ficha_resumen'});
     const snapshot=parseMatch(html,source);
-    const calendarUrl=`https://www.server2.sidgad.es/${fed}/${fed}_cal_idc_${source.competition_id}_1.php`;
+    const calendarUrl=`${fed}_cal_idc_${source.competition_id}_1.php`;
     const calendarHtml=await fetchHtml(calendarUrl,{idc:source.competition_id,tipo_stats:'',site_lang:fed==='fecapa'?'ca':'es'});
     const calendar=parseCalendar(calendarHtml);const fixture=calendar.find(x=>x.match_id===source.federation_match_id);
     if(!fixture||fixture.home_name!==snapshot.home_name||fixture.away_name!==snapshot.away_name)throw Error('Calendar and official report identity mismatch');
@@ -48,7 +49,7 @@ Deno.serve(async(req)=>{
     const committed=await db.rpc('federation_commit_snapshot',{p_match:source.match_id,p_data:snapshot});if(committed.error)throw committed.error;
     let calendarError=null,standingsError=null;
     const cached=await db.from('federation_calendar_cache').upsert({federation:source.federation,competition_id:source.competition_id,season_id:source.season_id,data:calendar,fetched_at:new Date().toISOString()});if(cached.error)calendarError=cached.error.message;
-    try{const html=await fetchHtml(`https://www.server2.sidgad.es/${fed}/${fed}_clasif_idc_${source.competition_id}_1.php`,{idc:source.competition_id,tipo_stats:'',site_lang:fed==='fecapa'?'ca':'es'});const standings=parseStandings(html);const r=await db.from('federation_calendar_cache').update({standings}).eq('federation',source.federation).eq('competition_id',source.competition_id).eq('season_id',source.season_id);if(r.error)throw r.error;}catch(e){standingsError=String(e.message||e);}
+    try{const html=await fetchHtml(`${fed}_clasif_idc_${source.competition_id}_1.php`,{idc:source.competition_id,tipo_stats:'',site_lang:fed==='fecapa'?'ca':'es'});const standings=parseStandings(html);const r=await db.from('federation_calendar_cache').update({standings}).eq('federation',source.federation).eq('competition_id',source.competition_id).eq('season_id',source.season_id);if(r.error)throw r.error;}catch(e){standingsError=String(e.message||e);}
     await db.from('federation_sync_runs').update({status:'success',finished_at:new Date().toISOString(),counts:{players:snapshot.players.length,calendar_error:calendarError,standings_error:standingsError}}).eq('id',run.data.id);
     results.push({match_id:source.match_id,status:'verified',players:snapshot.players.length,calendar_error:calendarError,standings_error:standingsError});
    }catch(e){const error=String(e.message||e).slice(0,500);await db.from('federation_sync_runs').update({status:'error',error,finished_at:new Date().toISOString()}).eq('id',run.data.id);await db.from('federation_match_sources').update({last_checked_at:new Date().toISOString(),notes:error}).eq('match_id',source.match_id);results.push({match_id:source.match_id,status:'error',error});}
