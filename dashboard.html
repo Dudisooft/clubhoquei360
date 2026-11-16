@@ -12,7 +12,10 @@
    <img id="clubCrest" alt="" hidden>
    <div><strong>ClubHoquei360</strong><span id="clubName"></span></div>
   </div>
-  <label id="teamControl" hidden>Equip <select id="teamPicker"></select></label>
+  <div class="actions">
+   <label id="clubControl" hidden>Club <select id="clubPicker"></select></label>
+   <label id="teamControl" hidden>Equip <select id="teamPicker"></select></label>
+  </div>
  </header>
  <div class="layout" id="layout">
   <nav aria-label="Navegació principal" id="sideNav">
@@ -43,6 +46,16 @@
     <button id="authSignOut" hidden type="button">Tanca sessió</button>
    </section>
    <section id="workspace" hidden>
+    <section class="panel" id="rolePanel" hidden>
+     <label>Vista del compte <select id="previewRole">
+      <option value="">Superadministració global</option>
+      <option value="coordinator">Vista de coordinació</option>
+      <option value="coach">Vista d’entrenador</option>
+      <option value="delegate">Vista de delegat</option>
+      <option value="admin">Vista d’administració del club</option>
+     </select></label>
+     <p id="previewStatus" role="status" hidden>Previsualització del rol a l’equip seleccionat. Pots consultar i provar la selecció. Els canvis no es desen.</p>
+    </section>
     <div class="heading"><h1 id="pageTitle">Pròxims partits</h1><button type="button" id="toggleGuide" aria-pressed="false">ⓘ Mode guiat</button></div>
     <p id="guide" class="panel" hidden></p>
     <p id="workspaceStatus" role="status"></p>

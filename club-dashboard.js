@@ -14,6 +14,9 @@ const description=p=>[p.dorsal==null?'Sense dorsal':'#'+p.dorsal,p.full_name,p.p
 let fixtures=[],detail=null,selection=new Set(),sessionVersion=0,working=false,acknowledged=[];
 let access=null;
 let teams=new Map();
+const previewRole=()=>$('previewRole').value;
+const canPreviewEdit=()=>!previewRole()||previewRole()==='coordinator';
+const previewKey='ch360-role-preview';
 
 function link(f){
  return './dashboard.html?'+new URLSearchParams({vista:'convocatories',partit:f.fixture_id,equip:f.team_id});
@@ -40,7 +43,7 @@ function showGuide(){
  const enabled=$('toggleGuide').getAttribute('aria-pressed')==='true';
  $('guide').hidden=!enabled;
  if(!enabled)return;
- $('guide').textContent=!teams.size?'Quan tinguis un equip assignat, el podràs triar aquí i obrir les seves convocatòries.'
+ $('guide').textContent=!$('teamPicker').value?'Tria un club amb equips disponibles o revisa’n la configuració.'
   :!detail?'Pas 1. Tria un equip a la capçalera i obre la convocatòria del partit.'
   :!detail.can_edit?'Consulta els convocats. Per preparar el registre del partit, obre el Mode Base quan estigui disponible.'
   :!selection.size?'Pas 2. Marca els jugadors de la plantilla i els reforços que vols convocar.'
@@ -69,7 +72,10 @@ function brand(f){
  else $('clubCrest').removeAttribute('src');
 }
 function renderList(){
- const selected=fixtures.filter(f=>f.team_id===$('teamPicker').value);
+ const selected=fixtures.filter(f=>f.team_id===$('teamPicker').value).map(f=>{
+  if(canPreviewEdit())return f;
+  return {...f,can_edit:false,revision:f.published?f.revision:null};
+ });
  const visible=selected.filter(f=>!f.past||callupPage&&$('showPast').checked);
  brand(selected[0]||teams.get($('teamPicker').value));
  $('pageTitle').textContent=callupPage?'Convocatòries':'Pròxims partits';
@@ -107,7 +113,7 @@ function updateSelection(){
  $('selectedCount').textContent=selection.size+' seleccionats';
  $('overlapWarning').hidden=!conflicts.length;
  $('overlapWarning').textContent=conflicts.length?'Coincidència d’horari amb una altra convocatòria publicada · '+detail.candidates.filter(p=>conflicts.includes(p.id)).map(p=>p.full_name).join(', '):'';
- $('reviewPublication').disabled=!selection.size||working;
+ $('reviewPublication').disabled=!selection.size||working||!!previewRole();
  showGuide();
 }
 function playerList(players){
@@ -120,7 +126,9 @@ function group(label,players){
  <small>${p.position==='goalkeeper'?'Porteria':'Jugador/a de pista'}</small></span></label>`).join('')+'</fieldset>';
 }
 function renderDetail(){
- const {fixture:f,callup,candidates,history:versions,can_edit:canEdit}=detail;
+ const {fixture:f,candidates,history:versions}=detail;
+ const callup=canPreviewEdit()||detail.callup?.published?detail.callup:null;
+ const canEdit=detail.can_edit&&canPreviewEdit();
  $('overview').hidden=true;
  $('detail').hidden=false;
  $('pageTitle').textContent='Convocatòria';
@@ -135,7 +143,7 @@ function renderDetail(){
  <p><a href="./dashboard.html?vista=convocatories&amp;equip=${esc(f.team_id)}">← Torna a les convocatòries</a></p>
  <article><h2>${esc(title(f))}</h2><p>${esc(f.team_name)} · ${esc(date(f.starts_at))}</p>
  <span class="badge">${status({...callup,can_edit:canEdit,modified:versions.length>1})}</span>
- ${baseLink(f)?'<p><a class="action" href="'+esc(baseLink(f))+'">🏑 Obre el Mode Base</a></p>':'<p>El Mode Base necessita un context operatiu per a aquest partit.</p>'}
+ ${previewRole()?'':baseLink(f)?'<p><a class="action" href="'+esc(baseLink(f))+'">🏑 Obre el Mode Base</a></p>':'<p>El Mode Base necessita un context operatiu per a aquest partit.</p>'}
  ${callup?.published?'<h3>Convocatòria publicada</h3>'+playerList(callup.players):''}</article>
  ${canEdit?`<article id="editor">
   <h2>${callup?.published?'Modifica la convocatòria':'Prepara la convocatòria'}</h2>
@@ -145,7 +153,7 @@ function renderDetail(){
   <h3>Plantilla</h3>${original}
   <h3>Reforços elegibles</h3>${groups.size?[...groups.values()].map(players=>group(players[0].origin_team,players)).join(''):'<p>Cap reforç elegible.</p>'}
   ${candidates.length?'':'<p>No hi ha cap jugador a la plantilla interna d’aquest equip.</p>'+
-   (access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
+   (!previewRole()&&access?.teams.some(t=>t.id===f.team_id&&t.roster_import)?'<button type="button" id="importRoster">Importa la plantilla CSV</button>':'')}
   <div class="actions">${callup?.published?'':'<button type="button" id="saveDraft">▣ Desa l’esborrany</button>'}
   <button type="button" class="primary" id="reviewPublication">→ Revisa i publica</button></div>
  </article>`:''}
@@ -163,7 +171,10 @@ function renderDetail(){
  };
  $('selectAll').onclick=()=>setSelection(candidates.map(p=>p.id));
  $('clearSelection').onclick=()=>setSelection([]);
- if($('saveDraft'))$('saveDraft').onclick=()=>save(false);
+ if($('saveDraft')){
+  $('saveDraft').disabled=!!previewRole();
+  $('saveDraft').onclick=()=>save(false);
+ }
  $('reviewPublication').onclick=()=>review(detail.overlaps.filter(id=>selection.has(id)));
  updateSelection();
 }
@@ -200,7 +211,7 @@ async function loadDetail(fixtureId,teamId,version){
  renderDetail();
 }
 async function save(publish){
- if(working)return;
+ if(working||previewRole())return;
  working=true;
  const version=sessionVersion;
  const f=detail.fixture;
@@ -231,29 +242,72 @@ async function save(publish){
  }
 }
 
+function renderTeamPicker(preferred){
+ const visible=[...teams.values()].filter(t=>$('clubControl').hidden||t.club_id===$('clubPicker').value);
+ $('teamPicker').replaceChildren(...visible.map(t=>{
+  const category=t.category&&!t.team_name.toLocaleLowerCase('ca').includes(t.category.toLocaleLowerCase('ca'))?t.category:'';
+  return new Option([$('clubControl').hidden?t.club_name:'',t.team_name,category,t.season_name].filter(Boolean).join(' · '),t.id);
+ }));
+ if(visible.some(t=>t.id===preferred))$('teamPicker').value=preferred;
+ $('teamControl').hidden=!visible.length;
+ $('accessPanel').hidden=!!visible.length;
+ $('overview').hidden=!visible.length||!!detail;
+ if(visible.length&&!detail)renderList();
+ else showGuide();
+}
+
 function renderAccess(incoming){
  access=incoming;
- configureSetup(access);
+ if(access?.global_admin){
+  $('previewRole').value=sessionStorage.getItem(previewKey)||'';
+ }else $('previewRole').value='';
+ configureSetup(previewRole()?null:access);
  const scoped=access?.teams.filter(team=>team.operational)||[];
  teams=new Map(scoped.map(team=>[team.id,team]));
  for(const f of fixtures){
   if(!teams.has(f.team_id))teams.set(f.team_id,{...f,id:f.team_id});
  }
  const previous=$('teamPicker').value||params.get('equip');
- $('teamPicker').replaceChildren(...[...teams.values()].map(t=>new Option(
-  [t.club_name,t.team_name,t.category,t.season_name].filter(Boolean).join(' · '),t.id)));
- if(teams.has(previous))$('teamPicker').value=previous;
- $('teamControl').hidden=!teams.size;
- $('accessPanel').hidden=!!teams.size;
- $('overview').hidden=!teams.size||!!detail;
+ const clubs=access?.global_admin?access.clubs||[]:[];
+ const club=teams.get(previous)?.club_id||$('clubPicker').value||params.get('club');
+ $('clubPicker').replaceChildren(...clubs.map(c=>new Option(c.name,c.id)));
+ if(clubs.some(c=>c.id===club))$('clubPicker').value=club;
+ $('clubControl').hidden=!clubs.length;
+ $('rolePanel').hidden=!access?.global_admin;
+ $('previewStatus').hidden=!previewRole();
  $('accessSetup').hidden=$('clubSetup').hidden;
  $('accessMessage').textContent=access?.global_admin
-  ?'Tens accés a la configuració global. Per obrir o editar convocatòries necessites una afiliació operativa al club o a l’equip.'
+  ?'Si el club seleccionat encara no té equips, pots configurar-ne la temporada i importar-los.'
   :!$('clubSetup').hidden?'Pots importar dades dins del teu àmbit. Per operar en convocatòries cal un rol operatiu assignat.'
   :'El teu compte encara no té cap equip amb accés operatiu. Demana a l’administració del club que comprovi la teva afiliació i el rol assignat.';
- if(teams.size&&!detail)renderList();
- else showGuide();
+ renderTeamPicker(previous);
 }
+
+$('clubPicker').onchange=()=>{
+ const url=new URL(location.href);
+ detail=null;
+ $('detail').hidden=true;
+ $('detail').replaceChildren();
+ renderTeamPicker();
+ url.searchParams.delete('partit');
+ url.searchParams.set('club',$('clubPicker').value);
+ if($('teamPicker').value)url.searchParams.set('equip',$('teamPicker').value);
+ else url.searchParams.delete('equip');
+ history.replaceState(null,'',url);
+ if(!params.has('partit'))return;
+ location.href=url;
+};
+$('previewRole').onchange=()=>{
+ if(!access?.global_admin)return;
+ if(previewRole())sessionStorage.setItem(previewKey,previewRole());
+ else sessionStorage.removeItem(previewKey);
+ if($('publication').open)$('publication').close('cancel');
+ renderAccess(access);
+ if(detail){
+  selection=new Set((detail.callup?.players||[]).filter(p=>detail.candidates.some(c=>c.id===p.id)).map(p=>p.id));
+  renderDetail();
+ }
+};
 
 $('setupNav').onclick=$('accessSetup').onclick=()=>{
  $('clubSetup').open=true;
@@ -271,6 +325,9 @@ document.addEventListener('club-auth-changed',async event=>{
  const version=++sessionVersion;
  const user=event.detail;
  detail=null;
+ $('previewRole').value='';
+ $('rolePanel').hidden=true;
+ $('clubControl').hidden=true;
  fixtures=[];
  teams.clear();
  access=null;
