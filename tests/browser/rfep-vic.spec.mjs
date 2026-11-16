@@ -13,6 +13,7 @@ const snapshot=async request=>(await request.get('/__test/snapshot')).json();
 test.beforeEach(async({request})=>{await request.get('/__test/reset');await request.get('/__test/rfep-vic');});
 test('advanced refresh requires a matching confirmation and keeps operator data on cached or failed replies',async({page,context,request})=>{
  await setup(context,'delegate');
+ await page.clock.install();
  const before=await snapshot(request);
  let response={results:[]},calls=0;
  await page.route(endpoint+'/functions/v1/federation-sync',async route=>{
@@ -24,6 +25,8 @@ test('advanced refresh requires a matching confirmation and keeps operator data 
  const button=page.locator('#syncFederation'),status=page.locator('#federationStatus');
  await expect(button).toBeEnabled();
  expect(calls).toBe(0);
+ await page.clock.runFor(900);
+ expect((await snapshot(request)).clock).toEqual(before.clock);
  await button.click();
  await expect(status).toContainText('El servei no ha confirmat cap dada del partit');
  for(const [result,message] of [
