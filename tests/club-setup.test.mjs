@@ -19,7 +19,15 @@ test('CSV checks scope, previews without writes, commits once and rejects stale 
  await asOwner(db,'insert into club_memberships values ($1,$2,$3,$4)',[ID.secondary,ID.club,ID.team,'section_coordinator']);
  const access=async user=>(await asUser(db,user,'select public.club_setup_access() as result')).rows[0].result;
  assert.equal((await access('principal')).global_admin,true);
- assert.equal((await access('principal')).teams.some(team=>team.operational),false);
+ assert.equal((await access('principal')).teams.filter(team=>team.operational).length,2);
+ await asOwner(db,"update pilot_matches set starts_at=now()+interval '1 day' where id=$1",[ID.match]);
+ const list=await asUser(db,'principal','select public.read_club_callups() as result');
+ assert.ok(list.rows[0].result.some(f=>f.fixture_id===ID.match&&f.can_edit));
+ const draft=await asUser(db,'principal',
+  "select public.save_club_callup($1,$2,0,'{}',false) as result",[ID.match,ID.team]);
+ assert.equal(draft.rows[0].result.revision,1);
+ await assert.rejects(asUser(db,'alien',
+  "select public.save_club_callup($1,$2,0,'{}',false)",[ID.match,ID.team]),{code:'42501'});
  assert.deepEqual((await access('alien')).teams,[]);
  assert.deepEqual((await access('secondary')).teams.map(team=>team.id),[ID.team]);
  const load=async (user,kind,scope,rows,preview=null)=>(await asUser(db,user,

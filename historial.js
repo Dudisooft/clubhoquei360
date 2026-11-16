@@ -6,6 +6,7 @@ const fmt=v=>{let n=Math.max(0,Math.round(Number(v)||0));return Math.floor(n/60)
 const num=v=>Number.isFinite(Number(v))?Number(v):0;
 let isPlatformAdmin=false,clubList=[],selectedAdminClub=null;let matches=[],sources=[],members=[],states=[],players=[],allEvents=[],active=[],tab='club',selectedPlayer=null,comparePlayers=[],selectedMatch=null,selectedTeam=null,selectedCategory=null,clubTeams=[],clubEntries=[],clubRoster=[],clubPeople=[],selectedClubTeam=null,selectedFederationPerson=null,clubLoadError='';
 const memberIds=()=>new Set(members.map(m=>m.match_id));
+const hasHistoryMatch=id=>isPlatformAdmin||memberIds().has(id);
 const source=id=>sources.find(x=>x.match_id===id);
 const state=id=>states.find(x=>x.match_id===id)?.state||{};
 const matchTitle=m=>{let f=source(m.id);return f?.home_name&&f?.away_name?f.home_name+' – '+f.away_name:m.title||m.home_team+' – '+m.away_team};
@@ -19,7 +20,7 @@ const score=(id,side)=>{let ev=events(id),f=source(id),official=f?.official_data
 const count=(id,k,side)=>events(id).filter(e=>kind(e)===k&&(!side||e.team===side)).length;
 const playerEventCount=(id,p,k)=>events(id).filter(e=>kind(e)===k&&e.payload?.actor===p).length;
 const filterMatch=m=>catalog.accepts(m,selection())&&(!$('filter').value||[matchTitle(m),...(m._clubTeamIds||[]).map(id=>catalog.teams.find(t=>t.id===id)?.name||'')].join(' ').toLocaleLowerCase('ca').includes($('filter').value.toLocaleLowerCase('ca')));
-const filtered=()=>matches.filter(m=>(m._officialOnly||isPlatformAdmin||memberIds().has(m.id))&&filterMatch(m)).sort((a,b)=>new Date(b.starts_at||0)-new Date(a.starts_at||0));
+const filtered=()=>matches.filter(m=>(m._officialOnly||hasHistoryMatch(m.id))&&filterMatch(m)).sort((a,b)=>new Date(b.starts_at||0)-new Date(a.starts_at||0));
 const btn=(label,action,id)=>'<button class="link" data-action="'+action+'" data-id="'+esc(id)+'">'+esc(label)+'</button>';
 const badge=(v,warning=false)=>'<span class="pill '+(warning?'warn':'good')+'">'+esc(v)+'</span>';
 function effectiveRows(rows){const removed=new Set(rows.filter(e=>e.event_type==='correction'&&e.related_event_id).map(e=>e.related_event_id));return rows.filter(e=>e.event_type!=='correction'&&!removed.has(e.id))}
@@ -95,13 +96,13 @@ function sortableTables(){
  });
 }
 
-function renderLegacy(){if(tab==='club'||tab==='admin')syncFilterMode();const ms=filtered(),m=matches.find(x=>x.id===selectedMatch&&memberIds().has(x.id)),rosters=aggregateRoster(ms);let out='';if(tab==='club')out=renderClub();if(tab==='admin'&&isPlatformAdmin){out='<section><h2>Superadministració · Consulta i diagnòstic</h2><p class="notice">Accés global de lectura. Les dades privades es mantenen segregades per club. Les correccions encara no estan habilitades des d’aquest panell.</p><div class="grid"><div class="metric">Clubs visibles<strong>'+clubList.length+'</strong></div><div class="metric">Equips del club seleccionat<strong>'+clubTeams.length+'</strong></div><div class="metric">Partits pilot visibles<strong>'+matches.length+'</strong></div></div><h3>Seleccionar club</h3><div class="tablewrap"><table><tr><th>Club</th><th>Acció</th></tr>'+clubList.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+btn('Consultar equips','adminclub',c.id)+'</td></tr>').join('')+'</table></div><p class="small muted">La selecció només canvia el context de consulta. No transfereix dades entre clubs ni modifica registres.</p></section>'}if(tab==='resum')out=renderSummary(ms);if(tab==='partits')out=m?renderMatch(m):'<section><h2>Historial de partits</h2>'+renderMatches(ms)+'</section>';if(tab==='equip'&&selectedTeam){const ownMatches=ms.filter(x=>[teamName(x,'home'),teamName(x,'away')].includes(selectedTeam));out='<section><h2>Equip · '+esc(selectedTeam)+'</h2><p class="muted">Partits i jugadors disponibles en l’historial autoritzat del club.</p>'+renderMatches(ownMatches)+'<h3>Plantilla</h3>'+renderPlayerTable(aggregateRoster(ownMatches).filter(p=>p.records.some(r=>teamName(r.match,p.side)===selectedTeam)))+'</section>'}else if(tab==='equip'&&selectedCategory){const categoryMatches=ms.filter(x=>category(x)===selectedCategory);const names=[...new Set(categoryMatches.flatMap(x=>[teamName(x,'home'),teamName(x,'away')]))];out='<section><h2>Categoria · '+esc(selectedCategory)+'</h2><p class="muted">Equips de l’IHC: pendent de sincronització de l’inventari federatiu complet. Es mostren només equips amb partits autoritzats, sense incorporar rivals com a equips propis.</p>'+renderMatches(categoryMatches)+'</section>'}else if(tab==='equip')out=m?'<section><h2>Plantilla · '+esc(matchTitle(m))+'</h2>'+renderPlayerTable(roster(m).map(p=>({key:p.id,name:p.name,num:p.num,side:p.side,records:[{match:m,player:p}]})))+'</section>':'<section><h2>Plantilles dels partits seleccionats</h2>'+renderPlayerTable(rosters)+'</section>';if(tab==='jugadors'){const p=rosters.find(p=>p.key===selectedPlayer)||rosters.find(p=>p.records.some(r=>r.player.id===selectedPlayer));out=p?renderPlayer(p):'<section><h2>Jugadors</h2>'+renderPlayerTable(rosters)+'</section>'}if(tab==='comparar')out=renderComparison(ms);if(tab==='auditoria')out=m?renderAudit(m):'<section><h2>Revisió postpartit</h2><p>Selecciona un partit per consultar el motor de conciliació.</p>'+renderMatches(ms)+'</section>';$('content').innerHTML=out||'<section>No hi ha dades disponibles amb aquests filtres.</section>';$('tabs').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));sortableTables()}
+function renderLegacy(){if(tab==='club'||tab==='admin')syncFilterMode();const ms=filtered(),m=matches.find(x=>x.id===selectedMatch&&hasHistoryMatch(x.id)),rosters=aggregateRoster(ms);let out='';if(tab==='club')out=renderClub();if(tab==='admin'&&isPlatformAdmin){out='<section><h2>Superadministració · Consulta i diagnòstic</h2><p class="notice">Accés global de lectura. Les dades privades es mantenen segregades per club. Les correccions encara no estan habilitades des d’aquest panell.</p><div class="grid"><div class="metric">Clubs visibles<strong>'+clubList.length+'</strong></div><div class="metric">Equips del club seleccionat<strong>'+clubTeams.length+'</strong></div><div class="metric">Partits pilot visibles<strong>'+matches.length+'</strong></div></div><h3>Seleccionar club</h3><div class="tablewrap"><table><tr><th>Club</th><th>Acció</th></tr>'+clubList.map(c=>'<tr><td>'+esc(c.name)+'</td><td>'+btn('Consultar equips','adminclub',c.id)+'</td></tr>').join('')+'</table></div><p class="small muted">La selecció només canvia el context de consulta. No transfereix dades entre clubs ni modifica registres.</p></section>'}if(tab==='resum')out=renderSummary(ms);if(tab==='partits')out=m?renderMatch(m):'<section><h2>Historial de partits</h2>'+renderMatches(ms)+'</section>';if(tab==='equip'&&selectedTeam){const ownMatches=ms.filter(x=>[teamName(x,'home'),teamName(x,'away')].includes(selectedTeam));out='<section><h2>Equip · '+esc(selectedTeam)+'</h2><p class="muted">Partits i jugadors disponibles en l’historial autoritzat del club.</p>'+renderMatches(ownMatches)+'<h3>Plantilla</h3>'+renderPlayerTable(aggregateRoster(ownMatches).filter(p=>p.records.some(r=>teamName(r.match,p.side)===selectedTeam)))+'</section>'}else if(tab==='equip'&&selectedCategory){const categoryMatches=ms.filter(x=>category(x)===selectedCategory);const names=[...new Set(categoryMatches.flatMap(x=>[teamName(x,'home'),teamName(x,'away')]))];out='<section><h2>Categoria · '+esc(selectedCategory)+'</h2><p class="muted">Equips de l’IHC: pendent de sincronització de l’inventari federatiu complet. Es mostren només equips amb partits autoritzats, sense incorporar rivals com a equips propis.</p>'+renderMatches(categoryMatches)+'</section>'}else if(tab==='equip')out=m?'<section><h2>Plantilla · '+esc(matchTitle(m))+'</h2>'+renderPlayerTable(roster(m).map(p=>({key:p.id,name:p.name,num:p.num,side:p.side,records:[{match:m,player:p}]})))+'</section>':'<section><h2>Plantilles dels partits seleccionats</h2>'+renderPlayerTable(rosters)+'</section>';if(tab==='jugadors'){const p=rosters.find(p=>p.key===selectedPlayer)||rosters.find(p=>p.records.some(r=>r.player.id===selectedPlayer));out=p?renderPlayer(p):'<section><h2>Jugadors</h2>'+renderPlayerTable(rosters)+'</section>'}if(tab==='comparar')out=renderComparison(ms);if(tab==='auditoria')out=m?renderAudit(m):'<section><h2>Revisió postpartit</h2><p>Selecciona un partit per consultar el motor de conciliació.</p>'+renderMatches(ms)+'</section>';$('content').innerHTML=out||'<section>No hi ha dades disponibles amb aquests filtres.</section>';$('tabs').querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.tab===tab));sortableTables()}
 function populateLegacy(){
  const clubMode=tab==='club'||tab==='admin';
  const values={
-  season:clubMode?['2026/2027']:[...new Set(matches.filter(m=>memberIds().has(m.id)).map(season))].sort().reverse(),
-  category:clubMode?[...new Set(clubTeams.map(t=>t.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ca')):[...new Set(matches.filter(m=>memberIds().has(m.id)).map(category))].sort(),
-  team:clubMode?clubTeams.filter(t=>!selectedCategory||t.category===selectedCategory).map(t=>({value:t.id,label:t.category+' · '+t.name})): [...new Set(matches.filter(m=>memberIds().has(m.id)).flatMap(m=>[teamName(m,'home'),teamName(m,'away')]))].sort().map(v=>({value:v,label:v}))
+  season:clubMode?['2026/2027']:[...new Set(matches.filter(m=>hasHistoryMatch(m.id)).map(season))].sort().reverse(),
+  category:clubMode?[...new Set(clubTeams.map(t=>t.category).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'ca')):[...new Set(matches.filter(m=>hasHistoryMatch(m.id)).map(category))].sort(),
+  team:clubMode?clubTeams.filter(t=>!selectedCategory||t.category===selectedCategory).map(t=>({value:t.id,label:t.category+' · '+t.name})): [...new Set(matches.filter(m=>hasHistoryMatch(m.id)).flatMap(m=>[teamName(m,'home'),teamName(m,'away')]))].sort().map(v=>({value:v,label:v}))
  };
  for(const id of ['season','category','team']){
   const el=$(id),previous=el.value;
@@ -109,7 +110,7 @@ function populateLegacy(){
   el.innerHTML='<option value="all">'+(id==='team'?'Tots': 'Totes')+'</option>'+options.map(o=>'<option value="'+esc(o.value)+'">'+esc(o.label)+'</option>').join('');
   if(options.some(o=>o.value===previous))el.value=previous;
  }
- $('match').innerHTML='<option value="all">Tots els partits</option>'+matches.filter(m=>memberIds().has(m.id)).map(m=>'<option value="'+esc(m.id)+'">'+esc(matchTitle(m))+'</option>').join('');
+ $('match').innerHTML='<option value="all">Tots els partits</option>'+matches.filter(m=>hasHistoryMatch(m.id)).map(m=>'<option value="'+esc(m.id)+'">'+esc(matchTitle(m))+'</option>').join('');
  $('category').value=clubMode&&selectedCategory||'all';
  $('team').value=clubMode&&selectedClubTeam||'all';
 }
@@ -138,5 +139,61 @@ async function loadClubCatalogLegacy(){
   clubRoster.push(...(rr.data||[]));
  }
 }
-async function init(){let u=await db.auth.getUser();if(!u.data.user){$('status').textContent='Inicia sessió des del Centre de partit per consultar les dades privades.';return}let mr=await db.from('pilot_members').select('match_id,role').eq('user_id',u.data.user.id);if(mr.error)throw mr.error;members=mr.data||[];const adminCheck=await db.rpc('is_platform_superadmin');isPlatformAdmin=adminCheck.data===true;{const clubsResponse=await db.from('clubs').select('id,name,short_name').order('name');if(clubsResponse.error)throw clubsResponse.error;clubList=clubsResponse.data||[];selectedAdminClub=clubList.find(c=>c.short_name==='IHC')?.id||clubList[0]?.id||null;if(isPlatformAdmin){const adminTab=document.createElement('button');adminTab.dataset.tab='admin';adminTab.textContent='Superadministració';$('tabs').appendChild(adminTab)}}const ids=[...memberIds()];if(!ids.length){$('status').textContent='No tens partits autoritzats. Comprovant el catàleg del club…'}const queryIds=isPlatformAdmin?null:ids;const queries=[db.from('pilot_matches').select('id,title,home_team,away_team,starts_at,status').in('id',ids),db.from('federation_match_sources').select('match_id,federation,competition_id,season_id,federation_match_id,federation_url,home_name,away_name,official_data').in('match_id',ids),db.from('pilot_operator_state').select('match_id,state').in('match_id',ids),db.from('pilot_players').select('id,match_id,team,dorsal,full_name,federation_player_id').in('match_id',ids),db.from('pilot_events').select('id,match_id,event_type,team,player_label,payload,related_event_id,match_second,created_at').in('match_id',ids).order('created_at')];const result=await Promise.all(queries);for(let i=0;i<result.length;i++)if(result[i].error)throw result[i].error;[matches,sources,states,players,allEvents]=result.map(r=>r.data||[]);active=effectiveRows(allEvents);await loadClubCatalog();syncFilterMode();wire();let requested=new URLSearchParams(location.search).get('match');if(requested&&(memberIds().has(requested)||matches.some(m=>m.id===requested&&m._officialOnly))){selectedMatch=requested;$('match').value=requested;tab='partits'}$('status').textContent=(isPlatformAdmin?'Superadministrador global · ':'')+ids.length+' partits autoritzats · '+active.length+' incidències vigents · consulta privada';render()}
+async function historyRows(table,columns,key,matchColumn,ids){
+ if(!isPlatformAdmin&&!ids.length)return [];
+ const rows=[];
+ for(let start=0;;start+=500){
+  let query=db.from(table).select(columns).order(key).range(start,start+499);
+  if(!isPlatformAdmin)query=query.in(matchColumn,ids);
+  const {data,error}=await query;
+  if(error)throw error;
+  rows.push(...data);
+  if(data.length<500)return rows;
+ }
+}
+
+async function init(){
+ const {data:{user}}=await db.auth.getUser();
+ if(!user){$('status').textContent='Inicia sessió des del Centre de partit per consultar les dades privades.';return;}
+ const [memberResponse,adminCheck,clubsResponse]=await Promise.all([
+  db.from('pilot_members').select('match_id,role').eq('user_id',user.id),
+  db.rpc('is_platform_superadmin'),
+  db.from('clubs').select('id,name,short_name').order('name')
+ ]);
+ if(memberResponse.error)throw memberResponse.error;
+ if(clubsResponse.error)throw clubsResponse.error;
+ members=memberResponse.data||[];
+ isPlatformAdmin=adminCheck.data===true;
+ clubList=clubsResponse.data||[];
+ selectedAdminClub=clubList.find(c=>c.short_name==='IHC')?.id||clubList[0]?.id||null;
+ if(isPlatformAdmin){
+  const adminTab=document.createElement('button');
+  adminTab.dataset.tab='admin';
+  adminTab.textContent='Superadministració';
+  $('tabs').appendChild(adminTab);
+ }
+ const ids=[...memberIds()];
+ if(!isPlatformAdmin&&!ids.length)$('status').textContent='Comprovant el catàleg del club…';
+ [matches,sources,states,players,allEvents]=await Promise.all([
+  historyRows('pilot_matches','id,title,home_team,away_team,starts_at,status','id','id',ids),
+  historyRows('federation_match_sources','match_id,federation,competition_id,season_id,federation_match_id,federation_url,home_name,away_name,official_data','match_id','match_id',ids),
+  historyRows('pilot_operator_state','match_id,state','match_id','match_id',ids),
+  historyRows('pilot_players','id,match_id,team,dorsal,full_name,federation_player_id','id','match_id',ids),
+  historyRows('pilot_events','id,match_id,event_type,team,player_label,payload,related_event_id,match_second,created_at','id','match_id',ids)
+ ]);
+ const operationalCount=matches.length;
+ allEvents.sort((a,b)=>a.created_at.localeCompare(b.created_at)||a.id.localeCompare(b.id));
+ active=effectiveRows(allEvents);
+ await loadClubCatalog();
+ syncFilterMode();
+ wire();
+ const requested=new URLSearchParams(location.search).get('match');
+ if(requested&&matches.some(m=>m.id===requested&&(m._officialOnly||hasHistoryMatch(m.id)))){
+  selectedMatch=requested;
+  $('match').value=requested;
+  tab='partits';
+ }
+ $('status').textContent=(isPlatformAdmin?'Superadministrador global · ':'')+operationalCount+' partits autoritzats · '+active.length+' incidències vigents · consulta privada';
+ render();
+}
 document.addEventListener('DOMContentLoaded',()=>init().catch(e=>{$('status').textContent='No s’han pogut carregar les dades: '+e.message}));

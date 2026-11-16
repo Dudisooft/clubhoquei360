@@ -91,7 +91,7 @@ test('setup shows the superadministrator next step and previews CSV before commi
  });
  await page.goto('/clubhoquei360/dashboard.html');
  await expect(page.locator('#teamPicker')).toBeHidden();
- await expect(page.locator('#accessMessage')).toContainText('afiliació operativa');
+ await expect(page.locator('#accessMessage')).toContainText('importar-los');
  await page.locator('#accessSetup').click();
  await page.locator('#csvKind').selectOption('roster');
  await page.locator('#csvFile').setInputFiles({
@@ -121,4 +121,41 @@ test('an assigned team is selectable even with an empty fixture list',async({pag
  await expect(page.locator('#teamPicker')).toHaveValue('equip');
  await expect(page.locator('#fixtures')).toContainText('encara no té partits');
  await expect(page.locator('#accessPanel')).toBeHidden();
+});
+
+test('global admin selects another club and previews a role without changing the account',async({page})=>{
+ const clubs=[{id:'club1',name:'Club fictici 1'},{id:'club2',name:'Club fictici 2'}];
+ const teams=clubs.map((c,i)=>({id:'equip'+(i+1),club_id:c.id,club_name:c.name,team_name:'Equip '+(i+1),operational:true}));
+ const match={...fixture,club_id:'club2',team_id:'equip2',team_name:'Equip 2',published:false,revision:1};
+ const calls=[];
+ await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({body:'',contentType:'text/javascript'}));
+ await page.route('**/write-test',r=>{calls.push(r.request().postData());return r.fulfill({body:''});});
+ await page.route('**/app-client.js',r=>r.fulfill({contentType:'text/javascript',body:`
+ const fixture=${JSON.stringify(match)},candidates=${JSON.stringify(candidates)};
+ export const db={
+  auth:{getUser:async()=>({data:{user:{id:'global',email:'global@example.test'}}})},
+  async rpc(name,args){
+   if(name==='club_setup_access')return {data:{global_admin:true,clubs:${JSON.stringify(clubs)},teams:${JSON.stringify(teams)}}};
+   if(name==='read_club_callups')return {data:args.p_fixture?{
+    fixture,can_edit:true,candidates,callup:{revision:1,players:candidates,published:false},history:[],overlaps:[]
+   }:[fixture]};
+   await fetch('/write-test',{method:'POST',body:JSON.stringify(args)});
+   return {data:{revision:2}};
+  }
+ };`}));
+ await page.goto('/clubhoquei360/dashboard.html');
+ await page.locator('#clubPicker').selectOption('club2');
+ await expect(page.locator('#teamPicker')).toHaveValue('equip2');
+ await page.locator('#previewRole').selectOption('coach');
+ await page.getByRole('link',{name:'Consulta la convocatòria'}).click();
+ await expect(page.locator('#previewRole')).toHaveValue('coach');
+ await expect(page.locator('#editor')).toHaveCount(0);
+ await expect(page.locator('#detail')).not.toContainText('Esborrany');
+ await page.locator('#previewRole').selectOption('coordinator');
+ await expect(page.locator('#editor')).toBeVisible();
+ await expect(page.locator('#saveDraft')).toBeDisabled();
+ await expect(page.locator('#reviewPublication')).toBeDisabled();
+ await page.locator('#previewRole').selectOption('');
+ await expect(page.locator('#saveDraft')).toBeEnabled();
+ expect(calls).toEqual([]);
 });
