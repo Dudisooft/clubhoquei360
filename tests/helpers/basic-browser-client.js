@@ -52,6 +52,7 @@ if(mode){
 }
 window.basicFixture={fail:false,syncFail:false,syncStatus:null,syncCalls:0,remoteWrites:0,playerWrites:0,delay:0};
 export const db={rpc:async(name,args)=>{
+ if(name==='read_club_callups')return {data:JSON.parse(localStorage.getItem('synthetic-club-callup')||'[]')};
  if(name!=='basic_open_catalogue_match')return {error:{message:'Unknown fixture RPC'}};
  const id=args.p_practice?'20000000-0000-4000-8000-000000000009':args.p_catalogue;
  const contexts=load('basic_match_contexts')||[];if(!contexts.length){save('basic_match_contexts',[{id:'context',catalogue_match_id:args.p_catalogue,pilot_match_id:id,owner_id:uid,practice:args.p_practice}]);save('pilot_members',[...data.pilot_members,{match_id:id,user_id:uid,role:'operator'}]);save('pilot_matches',[...data.pilot_matches,{id,title:'PROVA FICTÍCIA',starts_at:'2026-10-10T14:45:00Z'}]);}

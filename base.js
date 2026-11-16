@@ -11,6 +11,7 @@ const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;
 const requestedPractice=new URLSearchParams(location.search).get('practice');
 let practiceId=requestedPractice,catalogueId=requestedPractice||new URLSearchParams(location.search).get('catalogue'),activationNeeded=false,legacyRows=[];
 let restrictedSides=[],rivalSides=[],reportRow=null,rivalEdit=null;
+let publishedCallups=[],callupParticipants=new Map();
 let uid,match,store,source,fixture,players=[],role=null,busy=false,advancedFinished=false;
 let activeSide='home',preparing=true,draft=new Set(),sheet=null,flash='',rosterNotice='';
 const expandedReinforcements=new Set();
@@ -26,7 +27,26 @@ const recordFor=id=>rosterPlayers().find(p=>p.id===id)||state().playerRecords.fi
 const eventName=row=>row.payload?.details?.player_snapshot?.full_name||recordFor(row.payload?.actor)?.full_name||row.player_label||'Jugador no disponible';
 const jersey=(p,side)=>{const kit=kitFor(side,source?.official_data?.[side+'_team_id']||teamName(side),p.position==='goalkeeper'?'goalie':'player');return `<span class="jersey" style="--kit-background:${kit.background};--kit-ink:${kit.ink}" aria-label="${p.dorsal?'Dorsal '+esc(p.dorsal):'Dorsal desconegut'}">${esc(p.dorsal??'—')}</span>`;};
 const countsText=totals=>[totals.goals?`${totals.goals} gol${totals.goals===1?'':'s'}`:'',...Object.entries(cards).filter(([k])=>totals[k]).map(([k,label])=>`${totals[k]} ${label.toLowerCase()}`)].filter(Boolean).join(' · ');
-const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null,selection_basis:p.selection_basis||null,origin_reference:p.origin_reference||null,callup_reference:p.callup_reference||null,reinforcement:isReinforcement(p)||state().playerRecords.some(saved=>saved.id===p.id&&isReinforcement(saved))});
+const snapshot=p=>({id:p.id,team:p.team,full_name:p.full_name,dorsal:p.dorsal??null,position:p.position||null,federation_player_id:p.federation_player_id||null,catalog_player_id:p.catalog_player_id||null,catalog_lineup_id:p.catalog_lineup_id||null,origin:p.origin||null,eligibility:p.eligibility||null,selection_basis:p.selection_basis||null,origin_reference:p.origin_reference||null,callup_reference:p.callup_reference||null,reinforcement:isReinforcement(p)||state().playerRecords.some(saved=>saved.id===p.id&&isReinforcement(saved))});
+
+function renderPublishedCallups(){
+ $('publishedCallups').hidden=!publishedCallups.length;
+ $('publishedCallupPlayers').innerHTML=publishedCallups.map(({fixture:f,callup,history})=>`
+ <h3>${esc(f.team_name)}${history.length>1?' · Modificada':''}</h3>
+ <ul>${callup.players.map(p=>'<li>'+esc([p.dorsal==null?'Sense dorsal':'#'+p.dorsal,p.full_name,
+  p.position==='goalkeeper'?'Porteria':'Jugador/a de pista',p.reinforcement?p.origin_team:null].filter(Boolean).join(' · '))+'</li>').join('')}</ul>
+ ${callupParticipants.has(f.side)&&editable()&&preparing?`<button type="button" data-apply-callup="${esc(f.side)}" ${busy?'disabled':''}>Selecciona els convocats</button>`:''}
+ `).join('');
+}
+$('publishedCallupPlayers').onclick=event=>{
+ const side=event.target.dataset.applyCallup;
+ if(!side||!editable()||busy||!preparing)return;
+ const ids=callupParticipants.get(side);
+ if(!ids)return;
+ for(const p of rosterPlayers().filter(p=>p.team===side))draft.delete(p.id);
+ for(const id of ids)draft.add(id);
+ render();
+};
 
 function renderPreparation(){
  $('rosterNotice').textContent=rosterNotice+(needsRosterReview()?' Convocatòria desada preservada: hi ha participants sense evidència actual suficient; revisa’ls sense perdre les incidències.':'');
@@ -98,7 +118,7 @@ function render(){
  for(const side of ['home','away']){const tab=$(side==='home'?'tabHome':'tabAway');tab.setAttribute('aria-selected',String(activeSide===side));tab.tabIndex=activeSide===side?0:-1;tab.disabled=false;}
  $('teamList').setAttribute('aria-labelledby',activeSide==='home'?'tabHome':'tabAway');
  if(s.finished)$('federationDetails').open=true;
- renderPreparation();renderPlayers();renderHistory();renderSummary();
+ renderPublishedCallups();renderPreparation();renderPlayers();renderHistory();renderSummary();
  const saved=store?.pending.length?`${store.pending.flat().length} anotacions pendents de sincronitzar${store.error?' · '+store.error:''}`:'Dades confirmades al servidor';
  $('status').textContent=!store?(flash||(activationNeeded?'Partit del catàleg · cal activar el desament compartit':'Selecciona un partit i inicia sessió si cal.')):`${flash?flash+' · ':''}${practiceId?'PROVA COMPARTIDA':role==='operator'?'Operador':'Només consulta'} · ${s.finished?'Registre local finalitzat':advancedFinished?'Finalitzat al Mode Avançat':setup?'Preparant convocatòries':'Registre obert'} · ${saved}${needsRosterReview()?' · Avís: convocatòria desada preservada; evidència actual incompleta.':''}`;
 }
@@ -106,6 +126,44 @@ function federationText(prefix=''){
  const official=source?.official_data;
  const date=official?.fetched_at&&Number.isFinite(Date.parse(official.fetched_at))?official.fetched_at:null;
  $('federation').textContent=[prefix,date?(catalogueId&&fixture?.raw_data?.report_status!=='verified'?'Darrera lectura de calendari registrada: ':'Darrera consulta correcta de la font: ')+new Date(date).toLocaleString('ca-ES',{timeZone:'Europe/Madrid'}):'Sense consulta correcta acreditada.',official?.official_status?'Estat publicat: «'+official.official_status+'». El tancament formal no és verificable.':'Estat de l’acta desconegut o no disponible.',catalogueId?'Consulta de la importació federativa; no fa una extracció nova al portal.':source?.official_data?.source_kind==='verified_calendar'?'La font vinculada només conté calendari. Consulta les plantilles disponibles o obre el portal.':'La integració existent pot retornar memòria cau de fins a sis hores.', 'Les dades oficials absents es mostren com a «No verificable».'].filter(Boolean).join(' ');
+}
+async function loadClubCallups(fixtureId,enrichedPlayers){
+ publishedCallups=[];
+ callupParticipants=new Map();
+ if(practiceId)return enrichedPlayers;
+ let results;
+ try{
+  const response=await db.rpc('read_club_callups',{p_fixture:fixtureId},{get:true});
+  if(response.error||!Array.isArray(response.data))return enrichedPlayers;
+  results=response.data;
+ }catch{return enrichedPlayers;}
+ publishedCallups=results.filter(item=>item.callup?.published);
+ const merged=[...enrichedPlayers];
+ for(const item of results){
+  const side=item.fixture.side;
+  if(item.fixture.has_report)continue;
+  const published=item.callup?.published?item.callup.players:[];
+  const candidates=new Map(item.candidates.filter(p=>!p.reinforcement).map(p=>[p.id,p]));
+  for(const player of published)candidates.set(player.id,player);
+  const savedIds=new Set(published.map(p=>p.id));
+  const ids=[];
+  for(const p of candidates.values()){
+   const existing=merged.findIndex(candidate=>candidate.team===side&&(candidate.id===p.id||
+    p.catalogue_player_id&&candidate.catalog_player_id===p.catalogue_player_id));
+   const found=merged[existing];
+   const choice={...found,id:found?.id||p.id,team:side,full_name:p.full_name,dorsal:p.dorsal,
+    position:p.position,catalog_player_id:p.catalogue_player_id,origin:p.origin_team,
+    eligibility:savedIds.has(p.id)?'Convocatòria publicada pel coordinador':'Plantilla interna del club',
+    selection_basis:'club_roster',reinforcement:p.reinforcement,selectable:true,needsImport:false};
+   if(existing<0)merged.push(choice);
+   else merged[existing]=choice;
+   if(savedIds.has(p.id))ids.push(choice.id);
+  }
+  if(ids.length)callupParticipants.set(side,ids);
+ }
+ const ownSides=new Set(results.map(item=>item.fixture.side));
+ if(ownSides.size)rivalSides=['home','away'].filter(side=>!ownSides.has(side)&&!restrictedSides.includes(side));
+ return merged;
 }
 async function metadata(){
  let nextSource,nextPlayers,nextFixture,nextFinished;
@@ -134,11 +192,12 @@ async function metadata(){
  rivalSides=enriched.rivalSides??(names.length===1?['home','away'].filter(side=>side!==names[0]&&!restrictedSides.includes(side)):[]);
  nextFixture||=enriched.fixture;
  reportRow={federation:nextSource?.federation,externalCompetition:nextSource?.competition_id||enriched.competitionCode,external_match_id:nextSource?.federation_match_id||nextFixture?.external_match_id};
- source=nextSource;players=enriched.players;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
+ players=await loadClubCallups(catalogueId||match,enriched.players);
+ source=nextSource;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
 }
 async function open(id){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- match=id;role=null;store=null;source=null;players=[];catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
+ match=id;role=null;store=null;source=null;players=[];publishedCallups=[];callupParticipants.clear();catalogueId=null;practiceId=null;activationNeeded=false;legacyRows=[];render();
  const context=await db.from('basic_match_contexts').select('*').eq('pilot_match_id',id).maybeSingle();if(context.data){catalogueId=context.data.catalogue_match_id;practiceId=context.data.practice?catalogueId:null;}
  const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;
  await metadata();const next=new BasicStore(db,localStorage,render);await next.open(match,uid);store=next;
@@ -147,7 +206,7 @@ async function open(id){
 }
 async function openCatalogue(id,training){
  if(store?.pending.length)throw Error('Desa les anotacions pendents abans de canviar de partit.');
- catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];source=null;legacyRows=[];
+ catalogueId=id;practiceId=training?id:null;store=null;role=null;match=id;activationNeeded=true;players=[];publishedCallups=[];callupParticipants.clear();source=null;legacyRows=[];render();
  let q=db.from('basic_match_contexts').select('*').eq('catalogue_match_id',id).eq('practice',training);if(training)q=q.eq('owner_id',uid);
  const context=await q.maybeSingle();
  if(context.data){match=context.data.pilot_match_id;const member=await db.from('pilot_members').select('role').eq('match_id',match).eq('user_id',uid).maybeSingle();if(member.error)throw member.error;role=member.data?.role||null;activationNeeded=role!=='operator';}
