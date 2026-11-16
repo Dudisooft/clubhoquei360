@@ -2,7 +2,7 @@ import {db} from './app-client.js';
 import {basicState,makeRow,cards,comparison,playerTotals,benchTotals,provisionalRoster,rivalPlayer} from './basic-model.js?v=manual-rival1';
 import {officialReportHref, federationPortalHref} from './match-navigation.js?v=manual-rival1';
 import {score,fromRow} from './federation-model.js?v=manual-rival1';
-import {BasicStore,syncFederation} from './basic-store.js?v=manual-rival1';
+import {BasicStore,syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh1';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
 import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=manual-rival1';
 
@@ -220,14 +220,18 @@ async function choose(kind,context){
 async function sync(){
  if(catalogueId){
   await metadata();
-  federationText(fixture?.raw_data?.report_status==='verified'?'Acta verificada disponible al catàleg.':'Catàleg consultat. Encara no hi ha cap acta verificada accessible.');
+  federationText(fixture?.raw_data?.report_status==='verified'?'Catàleg desat rellegit. Hi ha una còpia de l’acta disponible.':'Catàleg consultat. Encara no hi ha cap acta verificada accessible.');
   return;
  }
  if(!officialReportHref(reportRow)||!source?.federation_match_id)throw Error('Falten els codis federatius del partit.');
  if(source.official_data?.source_kind==='verified_calendar')throw Error('El registre federatiu només conté calendari. Consulta el catàleg per veure si s’hi ha incorporat l’acta.');
  federationText('Consultant el servidor federatiu…');
- const result=await syncFederation(db,match,source);await metadata();
- federationText(result==='cached'?'S’ha recuperat la memòria cau; no s’acredita una consulta nova.':'S’ha verificat l’acta amb el servidor federatiu.');
+ const result=await syncFederation(db,match,source),message=federationSyncMessage(result);
+ if(result==='verified'||result==='team_verified'){
+  try{await metadata();}
+  catch{federationText(message+' No s’ha pogut recarregar la vista.');return;}
+ }
+ federationText(message);
 }
 
 function openRivalEditor(side,id){

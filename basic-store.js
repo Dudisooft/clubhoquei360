@@ -18,16 +18,29 @@ export async function syncFederation(db,match,source){
    const body=await context.clone().json().catch(()=>null);
    if(context.status===401)throw Error('Sessió no vàlida. Torna a iniciar sessió.');
    if(context.status===403)throw Error('El servidor ha denegat la consulta federativa (HTTP 403).');
-   throw Error(body?.error||'El servei de sincronització ha respost amb HTTP '+context.status+'.');
+   throw Error(federationError(body?.error)||'El servei de sincronització ha respost amb HTTP '+context.status+'.');
   }
   throw Error('Error de connexió amb el servei de sincronització: '+response.error.message);
  }
- if(response.data?.error)throw Error(response.data.error);
- const result=response.data?.results?.find(item=>item.match_id===match);
- if(!['verified','cached'].includes(result?.status)){
-  const upstream=/Official source HTTP (\d+)/i.exec(result?.error||'');
-  if(upstream)throw Error('La font federativa externa ha respost amb HTTP '+upstream[1]+'.');
-  throw Error(result?.error||'El servei no ha confirmat cap dada del partit.');
- }
- return result.status;
+ if(response.data?.error)throw Error(federationError(response.data.error));
+ const results=Array.isArray(response.data?.results)?response.data.results.filter(item=>item?.match_id===match):[];
+ const result=results.length===1?results[0]:null;
+ if(result?.error)throw Error(federationError(result.error));
+ if(!['verified','cached','unchanged','pending'].includes(result?.status))throw Error('El servei no ha confirmat cap dada del partit.');
+ return result.status==='verified'&&result.team_id?'team_verified':result.status;
+}
+
+function federationError(message){
+ const upstream=/Official source HTTP (\d+)/i.exec(message||'');
+ return upstream?'La font federativa externa ha respost amb HTTP '+upstream[1]+'.':message;
+}
+
+export function federationSyncMessage(status){
+ return {
+  verified:'S’ha verificat l’acta amb el servidor federatiu i s’ha desat la còpia oficial.',
+  team_verified:'S’han desat dades federatives de l’equip. El servei no ha confirmat una actualització específica de l’acta.',
+  cached:'S’ha recuperat la memòria cau. Encara no s’ha fet cap consulta nova a la federació.',
+  unchanged:'S’ha consultat la federació. Les dades oficials ja estaven actualitzades.',
+  pending:'El servei no disposa d’una acta oficial verificable per a aquest partit.'
+ }[status];
 }

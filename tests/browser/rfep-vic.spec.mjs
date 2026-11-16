@@ -11,6 +11,37 @@ async function setup(context,user='manager'){
 }
 const snapshot=async request=>(await request.get('/__test/snapshot')).json();
 test.beforeEach(async({request})=>{await request.get('/__test/reset');await request.get('/__test/rfep-vic');});
+test('advanced refresh requires a matching confirmation and keeps operator data on cached or failed replies',async({page,context,request})=>{
+ await setup(context,'delegate');
+ const before=await snapshot(request);
+ let response={results:[]},calls=0;
+ await page.route(endpoint+'/functions/v1/federation-sync',async route=>{
+  expect(route.request().postDataJSON()).toEqual({match_id:ID.match});
+  calls++;
+  await route.fulfill({json:response});
+ });
+ await page.goto('/clubhoquei360/avancat.html?match='+ID.match);
+ const button=page.locator('#syncFederation'),status=page.locator('#federationStatus');
+ await expect(button).toBeEnabled();
+ expect(calls).toBe(0);
+ await button.click();
+ await expect(status).toContainText('El servei no ha confirmat cap dada del partit');
+ for(const [result,message] of [
+  [{status:'cached'},'memòria cau'],
+  [{status:'verified',team_id:'42'},'dades federatives de l’equip'],
+  [{status:'unchanged'},'ja estaven actualitzades'],
+  [{status:'error',error:'Official source HTTP 403'},'font federativa externa ha respost amb HTTP 403']
+ ]){
+  response={results:[{match_id:ID.match,...result}]};
+  await button.click();
+  await expect(status).toContainText(message);
+ }
+ expect(calls).toBe(5);
+ const after=await snapshot(request);
+ expect(after.official).toEqual(before.official);
+ expect(after.clock).toEqual(before.clock);
+ expect(after.events).toEqual(before.events);
+});
 test('RFEP selector opens calendar-linked existing fixture, records live team statistics and survives reload',async({page,context,request})=>{
  await setup(context);const errors=[];page.on('pageerror',e=>errors.push(e.message));const before=await snapshot(request);
  await page.goto('/clubhoquei360/avancat.html?match='+ID.match);await expect(page.locator('#federationCompetition')).toHaveValue('FECAPA:4802');await expect(page.locator('#federationStatus')).toContainText('FECAPA');
