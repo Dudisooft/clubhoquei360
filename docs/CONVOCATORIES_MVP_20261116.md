@@ -28,4 +28,8 @@ El punt de partida va superar 154 proves automatitzades. Ja existien la preparac
 
 Les verificacions de convocatòries utilitzen comptes i dades fictícies. El pilot amb plantilles, afiliacions i contextos operatius reals queda pendent. La migració s’ha provat a PostgreSQL local i continua pendent de validació amb la configuració i les dades d’un entorn Supabase autoritzat. Les proves del circuit no depenen de consultes externes.
 
-Treball en branca local. Cap push, fusió, desplegament ni escriptura a producció.
+## Revisió abans de publicar
+
+- El candidat és al PR [#46](https://github.com/Dudisooft/clubhoquei360/pull/46). S’han reproduït les 160 proves automatitzades, les 59 de navegador, la comprovació estàtica i la compilació.
+- La consulta de lectura a producció va detectar 18 parelles partit-equip duplicades quan calendari i registre operatiu compartien identificador. La migració revisada retorna 566 parelles, cap duplicat i cap enllaç operatiu ambigu. La nova regressió comprova també que es conserva l’alineació verificada, amb 161 proves automatitzades superades.
+- La migració i les plantilles internes encara no existeixen a producció. La taula d’afiliacions és buida. El pilot requereix validar les assignacions i les plantilles abans de carregar-les. Les comprovacions de producció han estat de lectura.

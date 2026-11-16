@@ -99,4 +99,20 @@ test('club call-ups: team permissions, publication history, conflict windows and
   assert.equal(past.past,true);
   assert.equal(past.modified,true);
  });
+
+ await t.test('a shared catalogue and operational ID yields one fixture and respects its verified lineup',async()=>{
+  await asOwner(db,"insert into pilot_matches(id,title,home_team,away_team,starts_at,status) select id,'Partit fictici',home_team,away_team,federation_start_at,'scheduled' from federation_matches where id=$1",[ids.catalogueMatch]);
+  await asOwner(db,'insert into stats_matches(match_id,club_id,season_id,away_team_id) values($1,$2,$3,$4)',[ids.catalogueMatch,ID.club,ID.season,ID.team]);
+  await asOwner(db,"update federation_matches set raw_data='{}' where id=$1",[ids.catalogueMatch]);
+  await asOwner(db,"insert into federation_match_sources(match_id,federation,official_data,import_status) values($1,'FECAPA','{\"players\":[{\"team\":\"away\"}]}','verified')",[ids.catalogueMatch]);
+
+  const fixtures=(await read('secondary')).filter(f=>f.fixture_id===ids.catalogueMatch&&f.team_id===ID.team);
+  assert.equal(fixtures.length,1);
+  const bundles=await read('delegate',ids.catalogueMatch);
+  assert.equal(bundles.length,1);
+  assert.equal(bundles[0].fixture.base_match_id,ids.catalogueMatch);
+  assert.equal(bundles[0].fixture.has_report,true);
+  assert.deepEqual(bundles[0].candidates,[]);
+  assert.equal(bundles[0].callup.revision,1);
+ });
 });

@@ -53,18 +53,24 @@ revoke all on app_private.callup_roster, app_private.callup_eligibility,
 create view app_private.callup_catalogue_fixtures as
  select distinct m.id fixture_id,t.id team_id,t.club_id,t.season_id,t.name team_name,mt.side,
         m.home_team,m.away_team,m.federation_start_at starts_at,'catalogue'::text kind,
-        coalesce(m.raw_data->>'report_status'='verified',false) and exists(
+        (coalesce(m.raw_data->>'report_status'='verified',false) and exists(
          select 1 from public.federation_match_lineups l where l.match_id=m.id and l.side=mt.side
-        ) has_report,
+        )) or coalesce(shared_source.import_status='verified'
+          and shared_source.official_data->>'source_kind' is distinct from 'verified_calendar'
+          and (shared_source.official_data->'players') @> jsonb_build_array(jsonb_build_object('team',mt.side)),false) has_report,
         coalesce(m.raw_data->>'home_crest',m.raw_data->>'home_crest_url') home_crest,
         coalesce(m.raw_data->>'away_crest',m.raw_data->>'away_crest_url') away_crest,
-        c.federation::text federation,coalesce(b.pilot_match_id,linked.match_id) base_match_id
+        c.federation::text federation,coalesce(shared.match_id,b.pilot_match_id,linked.match_id) base_match_id
  from public.federation_matches m
  join public.federation_match_teams mt on mt.match_id=m.id
  join public.federation_team_entries e on e.id=mt.entry_id
  join public.teams t on t.id=e.club_team_id
  join public.federation_groups g on g.id=m.group_id and g.competition_id=e.competition_id
  join public.federation_competitions c on c.id=g.competition_id and c.club_id=t.club_id and c.season_id=t.season_id
+ left join public.stats_matches shared on shared.match_id=m.id and shared.club_id=t.club_id
+   and shared.season_id=t.season_id
+   and t.id=case mt.side when 'home' then shared.home_team_id else shared.away_team_id end
+ left join public.federation_match_sources shared_source on shared_source.match_id=shared.match_id
  left join public.basic_match_contexts b on b.catalogue_match_id=m.id and not b.practice
  left join lateral (
   select (array_agg(s.match_id))[1] match_id
@@ -94,7 +100,7 @@ create view app_private.callup_fixtures as
  join public.teams t on t.id=sides.team_id and t.club_id=s.club_id and t.season_id=s.season_id
  left join public.federation_match_sources src on src.match_id=m.id
  where not exists(select 1 from public.basic_match_contexts b where b.pilot_match_id=m.id and b.practice)
- and not exists(select 1 from app_private.callup_catalogue_fixtures f where f.base_match_id=m.id and f.team_id=t.id);
+ and not exists(select 1 from app_private.callup_catalogue_fixtures f where m.id in (f.fixture_id,f.base_match_id) and f.team_id=t.id);
 revoke all on app_private.callup_catalogue_fixtures,app_private.callup_fixtures from public,anon,authenticated;
 
 create function app_private.callup_can_edit(p_club uuid,p_team uuid)
