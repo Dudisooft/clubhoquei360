@@ -23,6 +23,7 @@ export async function createDatabase(){
  create table public.federation_groups(id uuid primary key,competition_id uuid);
  create table public.federation_matches(id uuid primary key,group_id uuid,external_match_id text,home_team text,away_team text,federation_start_at timestamptz,home_score int,away_score int,raw_data jsonb,match_fingerprint text,fetched_at timestamptz);
  create table public.federation_match_teams(match_id uuid,entry_id uuid,side text,primary key(match_id,entry_id));
+ create table public.federation_match_lineups(id uuid primary key default gen_random_uuid(),match_id uuid,side text);
  create table public.federation_team_entries(id uuid primary key,club_team_id uuid,competition_id uuid,external_team_id text,raw_data jsonb,source_url text);
  create table public.federation_players(id uuid primary key,federation text,external_player_id text,display_name text);
  create table public.federation_team_roster(id uuid primary key,entry_id uuid,player_id uuid,display_name text,role text,shirt_number text,fetched_at timestamptz,raw_data jsonb);

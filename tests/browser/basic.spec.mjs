@@ -21,6 +21,38 @@ async function incident(page,player,label){
 }
 async function stored(page){return page.evaluate(()=>JSON.parse(localStorage.getItem('synthetic-basic-pilot_events')||'[]'));}
 
+test('Mode Base shows the published call-up and allows a manual team selection without an acta',async({page})=>{
+ await page.addInitScript(()=>{
+  sessionStorage.setItem('synthetic-rival-mode','torrelles');
+  const roster=[{id:'club-4',full_name:'Convocada del club fictícia',dorsal:'4',position:'field'},
+   {id:'club-1',full_name:'Portera de la plantilla fictícia',dorsal:'1',position:'goalkeeper'}];
+  const published={revision:1,published:true,players:[roster[0]]};
+  localStorage.setItem('synthetic-club-callup',JSON.stringify([{
+   fixture:{side:'home',team_name:'Equip local fictici',has_report:false},
+   callup:published,history:[published],candidates:roster
+  }]));
+ });
+ await setup(page);
+ await expect(page.locator('#publishedCallups')).toContainText('Convocada del club fictícia');
+ await expect(page.locator('#publishedCallups')).not.toContainText('Portera de la plantilla');
+ await page.getByRole('button',{name:'Selecciona els convocats'}).click();
+ await expect(page.locator('[data-player="club-4"]')).toBeChecked();
+ await page.locator('[data-player="club-1"]').check();
+ await page.locator('[data-player="club-4"]').uncheck();
+ await page.getByRole('button',{name:'Afegeix un jugador rival'}).click();
+ await page.locator('#rivalDorsal').fill('19');
+ await page.locator('#rivalForm button[type=submit]').click();
+ await expect(page.locator('#rivalEditor')).toBeHidden();
+ await page.locator('#confirmRosters').click();
+ await expect(page.locator('#teamList')).toContainText('Portera de la plantilla fictícia');
+ const participants=(await stored(page)).findLast(row=>row.payload.kind==='basic_participants');
+ expect(participants.payload.details.players.some(p=>p.full_name==='Dorsal 19')).toBe(true);
+ expect(await page.evaluate(()=>window.basicFixture.playerWrites)).toBe(0);
+ await page.reload();
+ await expect(page.locator('#teamList')).toContainText('Portera de la plantilla fictícia');
+ await expect(page.locator('#publishedCallups')).toContainText('Convocada del club fictícia');
+});
+
 test('two-team preparation, tab navigation, shirts, original crests and one-handed action sheet',async({page})=>{
  await page.setViewportSize({width:390,height:844});const errors=[];page.on('pageerror',e=>errors.push(e.message));await setup(page);
  await page.screenshot({path:'work/base-preparation.png',fullPage:true});

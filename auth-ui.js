@@ -4,6 +4,7 @@ async function refresh(){
  const response=await db.auth.getUser();const user=response.data.user;
  $('authForm').hidden=!!user;$('authSignOut').hidden=!user;$('authOpenMatch').hidden=!user;
  $('authState').textContent=user?'Sessió iniciada: '+user.email:'Inicia sessió amb el teu compte autoritzat del club.';
+ document.dispatchEvent(new CustomEvent('club-auth-changed',{detail:user?.id||null}));
 }
 $('authForm').onsubmit=async e=>{
  e.preventDefault();$('authSubmit').disabled=true;$('authState').textContent='Comprovant l’accés…';
