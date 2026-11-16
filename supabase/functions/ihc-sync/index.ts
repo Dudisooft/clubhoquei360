@@ -2,6 +2,7 @@ import{syncOfficialReports}from'./report-sync.ts';
 import{createClient}from'npm:@supabase/supabase-js@2.95.3';
 import manifest from './manifest.json' with {type:'json'};
 import{parseCompetition,enrichFromReport,SOURCES,discover}from'./parse.ts';
+import{fetchLegacyHtml}from'../federation-sync/legacy-request.ts';
 const json=(data:any,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
 Deno.serve(async(req)=>{
  if(req.method!=='POST')return json({error:'POST required'},405);
@@ -10,7 +11,7 @@ Deno.serve(async(req)=>{
   const token=req.headers.get('x-federation-scheduler');if(!token)return json({error:'Scheduler authorization required'},401);
   const auth=await db.rpc('federation_scheduler_authorized',{p_token:token});if(auth.error||auth.data!==true)return json({error:'Unauthorized'},401);
   const body=await req.json();
-  const get=async(fed:string,file:string,params:Record<string,string>)=>{const origin=SOURCES[fed as keyof typeof SOURCES].origin;const r=await fetch(`https://www.server2.sidgad.es/${fed.toLowerCase()}/${file}`,{method:'POST',headers:{Origin:origin,Referer:origin+'/','X-Requested-With':'XMLHttpRequest'},body:new URLSearchParams(params),signal:AbortSignal.timeout(25000)});if(!r.ok)throw Error('Federation HTTP '+r.status);const h=await r.text();if(!h.trim()||h.length>6000000)throw Error('Empty/oversized official response');return h;};
+  const get=(fed:string,file:string,params:Record<string,string>)=>fetchLegacyHtml(fed,file,SOURCES[fed as keyof typeof SOURCES].origin+'/',params,{timeout:25000,maxLength:6000000});
   if(body.action==='discover'){const found=[];for(const fed of ['FECAPA','RFEP'] as const)found.push(...discover(await get(fed,`${fed.toLowerCase()}_ls_1.php`,{temp:'41'}),fed));return json({competitions:found,unconfigured:found.filter(c=>!manifest.some(m=>m.id===c.id&&m.federation===c.federation))});}
   let config:any;
   if(body.action==='next'){
