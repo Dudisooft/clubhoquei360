@@ -25,7 +25,19 @@ export function infantilRosterScope(rows,entryIds,entryMap,teamMap){
 }
 const scoped=async(db,table,key,ids)=>{const out=[];for(let i=0;i<ids.length;i+=60)out.push(...await allRows(db,table,q=>q.in(key,ids.slice(i,i+60))));return out;};
 export async function catalogueRoster(db,{players,source,fixture}){
- if(!fixture&&source?.federation_match_id){const matches=await allRows(db,'federation_matches',q=>q.eq('external_match_id',source.federation_match_id));fixture=matches.find(m=>{try{const u=new URL(m.raw_data?.source_url);return u.hostname.includes('fecapa.cat')&&u.pathname==='/league/'+source.competition_id;}catch{return false;}});}
+ if(!fixture&&source?.official_data?.calendar_match_id){
+  fixture=(await allRows(db,'federation_matches',q=>q.eq('id',source.official_data.calendar_match_id)))[0];
+ }
+ if(!fixture&&source?.federation_match_id){
+  const matches=await allRows(db,'federation_matches',q=>q.eq('external_match_id',source.federation_match_id));
+  const domain={FECAPA:'hoqueipatins.fecapa.cat',RFEP:'hockeypatines.fep.es'}[source.federation||'FECAPA'];
+  const found=matches.filter(m=>{try{
+   const u=new URL(m.raw_data?.source_url);
+   return u.protocol==='https:'&&[domain,'www.'+domain].includes(u.hostname)&&
+    (u.pathname==='/league/'+source.competition_id||u.searchParams.get('liga')===String(source.competition_id));
+  }catch{return false;}});
+  if(found.length===1)fixture=found[0];
+ }
  if(!fixture)return {players:mergeRoster(players),notice:'Plantilla del partit. No s’ha pogut vincular un catàleg addicional verificat.'};
  const links=await allRows(db,'federation_match_teams',q=>q.eq('match_id',fixture.id));
  const direct=await scoped(db,'federation_team_entries','id',[...new Set(links.map(l=>l.entry_id))]);
@@ -35,10 +47,13 @@ export async function catalogueRoster(db,{players,source,fixture}){
  const entryMap=new Map([...entries,...direct].map(e=>[e.id,e]));
  const roster=await scoped(db,'federation_team_roster','entry_id',[...entryMap.keys()]);
  const identities=await scoped(db,'federation_players','id',[...new Set(roster.map(r=>r.player_id).filter(Boolean))]);
- const external=new Map(identities.filter(p=>p.federation==='FECAPA').map(p=>[p.id,p.external_player_id]));
  const official=fixture.raw_data?.report_status==='verified'?await allRows(db,'federation_match_lineups',q=>q.eq('match_id',fixture.id)):[];
  const group=fixture.group_id?(await allRows(db,'federation_groups',q=>q.eq('id',fixture.group_id)))[0]:null;
  const comp=group?(await allRows(db,'federation_competitions',q=>q.eq('id',group.competition_id)))[0]:null;
+ const federation=comp?.federation||source?.federation||'FECAPA';
+ const external=new Map(identities.filter(p=>p.federation===federation).map(p=>[p.id,p.external_player_id]));
+ const ownSides=links.filter(l=>teamRows.some(t=>t.id===direct.find(e=>e.id===l.entry_id)?.club_team_id&&t.club_id===IHC_CLUB_ID)).map(l=>l.side);
+ const rivalSides=ownSides.length?['home','away'].filter(side=>!ownSides.includes(side)):null;
  const candidates=[];const restrictedSides=new Set();const teamMap=new Map(peers.map(t=>[t.id,t]));
  for(const side of ['home','away']){
   const entryIds=new Set(links.filter(l=>l.side===side).map(l=>l.entry_id));const directTeam=direct.find(e=>entryIds.has(e.id));
@@ -52,11 +67,11 @@ export async function catalogueRoster(db,{players,source,fixture}){
   }
   const unique=new Map();for(const r of personRows){const rows=unique.get(r.player_id)||[];rows.push(r);unique.set(r.player_id,rows);}
   for(const [id,rows] of unique){const scope=own?ownRosterScope(rows,entryIds,entryMap,teamMap,{observedIds,targetTeam:ownTeam,season:comp.season_id}):infantil?infantilRosterScope(rows,entryIds,entryMap,teamMap):null;const primary=restricted?scope.primary:rows.find(r=>entryIds.has(r.entry_id)&&r.raw_data?.active_in_latest_roster!==false);const verified=official.find(l=>l.side===side&&l.player_id===id);if(restricted&&!primary&&!scope.lower.length&&!verified)continue;const r=primary||scope?.lower[0]||rows[0];const otherTeams=[...new Set(rows.filter(x=>!entryIds.has(x.entry_id)).map(x=>entryMap.get(x.entry_id)?.display_name).filter(Boolean))];
-   candidates.push({id:`catalog:${side}:${id}`,scopeChecked:restricted,selection_basis:verified?'current_match_report':primary?'same_team_history':'unverified_reinforcement',origin_reference:verified?.id||primary?.raw_data?.observed_match_id||null,catalog_player_id:id.startsWith('federation:')?null:id,federation_player_id:external.get(id)||null,team:side,full_name:verified?.display_name||r.display_name,dorsal:verified?.shirt_number??primary?.shirt_number??null,position:r.raw_data?.is_goalkeeper?'goalkeeper':'field',origin:verified?'Acta FECAPA d’aquest partit':primary?(infantil?'Participació documentada amb aquest equip':'Catàleg de l’equip'):'Possible reforç · '+(entryMap.get(r.entry_id)?.display_name||'equip d’origen'),eligibility:verified?'Consta a l’acta d’aquest partit':primary?'Habitual: no certifica la convocatòria actual':'Elegibilitat de reforç no verificable'+(scope?.eligibility?' · Falta: '+scope.eligibility.missing.join(', '):''),matchVerified:!!verified,selectable:(!!verified||!!primary)&&!!external.get(id),reinforcement:!primary,otherTeams,needsImport:true,official_source:fixture.raw_data?.source_url||null});
+   candidates.push({id:`catalog:${side}:${id}`,scopeChecked:restricted,selection_basis:verified?'current_match_report':primary?'same_team_history':'unverified_reinforcement',origin_reference:verified?.id||primary?.raw_data?.observed_match_id||null,catalog_player_id:id.startsWith('federation:')?null:id,federation_player_id:external.get(id)||null,team:side,full_name:verified?.display_name||r.display_name,dorsal:verified?.shirt_number??primary?.shirt_number??null,position:r.raw_data?.is_goalkeeper?'goalkeeper':'field',origin:verified?'Acta '+federation+' d’aquest partit':primary?(infantil?'Participació documentada amb aquest equip':'Catàleg de l’equip'):'Possible reforç · '+(entryMap.get(r.entry_id)?.display_name||'equip d’origen'),eligibility:verified?'Consta a l’acta d’aquest partit':primary?'Habitual: no certifica la convocatòria actual':'Elegibilitat de reforç no verificable'+(scope?.eligibility?' · Falta: '+scope.eligibility.missing.join(', '):''),matchVerified:!!verified,selectable:(!!verified||!!primary)&&!!external.get(id),reinforcement:!primary,otherTeams,needsImport:true,official_source:fixture.raw_data?.source_url||null});
   }
  }
  const scopedPlayers=players.filter(p=>!restrictedSides.has(p.team)||candidates.some(c=>c.team===p.team&&((c.federation_player_id&&c.federation_player_id===p.federation_player_id)||(c.catalog_player_id&&c.catalog_player_id===p.catalog_player_id)) )||official.some(l=>l.side===p.team&&l.id===p.catalog_lineup_id));
- return {players:mergeRoster(scopedPlayers,candidates),restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: importació FECAPA disponible.'};
+ return {players:mergeRoster(scopedPlayers,candidates),rivalSides,competitionCode:comp?.external_competition_id,fixture,restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: importació FECAPA disponible.'};
 }
 export async function materializePlayers(db,match,selected,practice=false){
  const pending=selected.filter(p=>p.needsImport);if(practice||!pending.length)return selected;

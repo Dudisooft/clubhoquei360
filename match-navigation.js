@@ -21,9 +21,16 @@ const reportPortals=new Map([
  ['FECAPA','https://www.hoqueipatins.fecapa.cat/'],
 ]);
 
+const isOfficialId=value=>/^[1-9]\d{0,9}$/.test(String(value));
+
+export function federationPortalHref(row){
+ const portal=reportPortals.get(row?.federation);
+ if(!portal)return null;
+ return isOfficialId(row.externalCompetition)?portal+'?'+new URLSearchParams({liga:row.externalCompetition}):portal;
+}
+
 export function officialReportHref(row){
  const portal=reportPortals.get(row?.federation);
- const isOfficialId=value=>/^[1-9]\d{0,9}$/.test(String(value));
  if(!portal||!isOfficialId(row.externalCompetition)||!isOfficialId(row.external_match_id))return null;
  return portal+'?'+new URLSearchParams({liga:row.externalCompetition,partido:row.external_match_id});
 }

@@ -83,7 +83,7 @@ test('manual FECAPA refresh, failure, summary for both teams, and local reopenin
  expect(await page.evaluate(()=>window.basicFixture.syncCalls)).toBe(0);await page.locator('#sync').click();await expect(page.locator('#federation')).toContainText('memòria cau');await expect(page.locator('#comparison')).toContainText('Diferència');
  await page.evaluate(()=>window.basicFixture.syncFail=true);await page.locator('#sync').click();await expect(page.locator('#federation')).toContainText('Consulta fallida');await expect(page.locator('#score')).toHaveText('1 – 0');
  await page.locator('#finish').click();await expect(page.locator('#finalSummary')).toBeVisible();await expect(page.locator('#playerSummary')).toContainText('Jugador local fictici');await expect(page.locator('#playerSummary')).toContainText('1 gol');await expect(page.locator('#playerSummary')).toContainText('1 vermella');await expect(page.locator('#benchSummary')).toContainText('Banqueta visitant');
- await expect(page.locator('#bench')).toBeDisabled();await expect(page.locator('#federation')).toContainText('no disponible');await page.locator('#reopen').click();await expect(page.locator('#bench')).toBeEnabled();
+ await expect(page.locator('#bench')).toBeDisabled();await expect(page.locator('#federation')).toContainText('Registre local desat');await page.locator('#reopen').click();await expect(page.locator('#bench')).toBeEnabled();
 });
 
 test('Salt rehearsal persists to a separate shared context and leaves the historical match untouched',async({page})=>{
@@ -142,4 +142,75 @@ for(const legacy of [false,true])test('a saved historical reinforcement remains 
  const checked=page.locator('#reinforcements-home input:checked');await expect(checked).toHaveCount(1);await expect(checked).toBeEnabled();
  await toggle.click();await page.locator('#confirmRosters').click();expect(await stored(page)).toEqual(before);await expect(page.locator('#events')).toContainText('Reforç verificat');
  await page.locator('#editRosters').click();await toggle.click();await checked.uncheck();await page.locator('#confirmRosters').click();await expect(page.locator('#score')).toHaveText('1 – 0');await expect(page.locator('#events')).toContainText('Reforç verificat');
+});
+
+for(const [fixture,side] of [['torrelles','away'],['alpicat','away'],['rfep','home']]){
+ test('manual rival '+fixture+' preserves goals and cards across edits and reopening',async({page})=>{
+  await setup(page,'?match='+fixtureId+'&rival='+fixture);
+  await expect(page.locator('[data-rival-side]')).toHaveCount(1);
+  await page.locator('[data-rival-side='+side+']').click();
+  await page.locator('#rivalDorsal').fill('17');
+  await page.locator('#rivalForm [type=submit]').click();
+  await expect(page.locator('#status')).toContainText('Jugador provisional desat');
+  await expect(page.locator('#rosterGrid')).toContainText('Dorsal 17');
+  await page.locator('#confirmRosters').click();
+  const tab=page.locator('[data-side='+side+']');
+  await tab.click();
+  await incident(page,'Dorsal 17','Gol');
+  await incident(page,'Dorsal 17','Targeta blava');
+  await page.locator('#editRosters').click();
+  await page.getByRole('button',{name:'Edita dorsal 17'}).click();
+  await page.locator('#rivalDorsal').fill('18');
+  await page.locator('#rivalName').fill('Rival fictici');
+  await page.locator('#rivalForm [type=submit]').click();
+  await page.locator('#confirmRosters').click();
+  await page.locator('#finish').click();
+  await page.reload();
+  await expect(page.locator('#playerSummary')).toContainText('Rival fictici');
+  await expect(page.locator('#playerSummary')).toContainText('1 gol · 1 blava');
+  await expect(page.locator('#score')).toHaveText(side==='home'?'1 – 0':'0 – 1');
+  await page.locator('#reopen').click();
+  await tab.click();
+  await expect(page.locator('#teamList')).toContainText('Rival fictici');
+  const rows=await stored(page);
+  const player=rows.find(r=>r.payload.kind==='basic_rival_player').payload.details.player;
+  expect(rows.filter(r=>['gol','blava'].includes(r.payload.kind)).every(r=>r.payload.actor===player.id)).toBe(true);
+  expect(await page.evaluate(()=>window.basicFixture.playerWrites)).toBe(0);
+ });
+}
+test('a viewer cannot open the rival editor',async({page})=>{
+ await page.addInitScript(()=>sessionStorage.setItem('synthetic-rival-mode','viewer'));
+ await setup(page);
+ await expect(page.locator('#status')).toContainText('Només consulta');
+ await expect(page.locator('[data-rival-side]')).toHaveCount(0);
+});
+
+test('calendar-only Torrelles offers a competition link and reports missing lineups without calling sync',async({page})=>{
+ await page.addInitScript(()=>sessionStorage.setItem('synthetic-rival-mode','torrelles'));
+ const catalogue='20000000-0000-4000-8000-000000000002';
+ await setup(page,'?catalogue='+catalogue);
+ await expect(page.locator('#officialLink')).toHaveAttribute('href','https://www.hoqueipatins.fecapa.cat/?liga=4786');
+ await page.locator('#readLineups').click();
+ await expect(page.locator('#federation')).toContainText('Cap plantilla de l’acta accessible');
+ await page.locator('#sync').click();
+ await expect(page.locator('#federation')).toContainText('Encara no hi ha cap acta verificada');
+ expect(await page.evaluate(()=>window.basicFixture.syncCalls)).toBe(0);
+});
+test('official report links and upstream HTTP errors remain distinct from local goals',async({page})=>{
+ await setup(page,'?match='+fixtureId+'&rival=alpicat');
+ await prepare(page);
+ await incident(page,'Jugador local','Gol');
+ await expect(page.locator('#officialLink')).toHaveAttribute('href','https://www.hoqueipatins.fecapa.cat/?liga=4786&partido=152043');
+ await page.evaluate(()=>window.basicFixture.syncStatus='Official source HTTP 403');
+ await page.locator('#sync').click();
+ await expect(page.locator('#federation')).toContainText('La font federativa externa ha respost amb HTTP 403');
+ await expect(page.locator('#score')).toHaveText('1 – 0');
+});
+test('the rival editor is unavailable without an authenticated session',async({page})=>{
+ await page.route('**/app-client.js',r=>r.fulfill({path:path.resolve('tests/helpers/basic-browser-client.js'),contentType:'text/javascript'}));
+ await page.route('https://cdn.jsdelivr.net/**',r=>r.fulfill({body:'',contentType:'text/javascript'}));
+ await page.addInitScript(()=>sessionStorage.setItem('synthetic-rival-mode','anonymous'));
+ await page.goto('/clubhoquei360/base.html?match='+fixtureId);
+ await expect(page.locator('#status')).toContainText('Inicia sessió');
+ await expect(page.locator('[data-rival-side]')).toHaveCount(0);
 });

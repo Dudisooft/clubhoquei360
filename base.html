@@ -2,7 +2,7 @@
 <html lang="ca">
 <head><script>if(typeof URLSearchParams!=='undefined'&&!['match','catalogue','practice'].some(k=>new URLSearchParams(location.search).get(k)))location.replace('./partit.html?mode=base');</script>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>ClubHoquei360 · Mode Base</title><link rel="stylesheet" href="./basic.css?v=reinforcements1">
+<title>ClubHoquei360 · Mode Base</title><link rel="stylesheet" href="./basic.css?v=manual-rival1">
 </head>
 <body>
 <header><h1>ClubHoquei360 <span>Mode Base</span></h1><a href="./dashboard.html">Inici i sessió</a></header>
@@ -30,9 +30,20 @@
  <button id="finish" class="primary wide" data-write>Finalitza i desa el partit</button><button id="reopen" class="wide" hidden>Reobre el registre local</button>
 </section>
 <section id="finalSummary" class="panel" hidden><p class="eyebrow">Resum del partit</p><h2>Gols i targetes</h2><div id="playerSummary"></div><div id="benchSummary"></div></section>
-<section class="panel federation-panel"><div class="section-heading"><h2>Contrast amb FECAPA</h2><button id="sync">Actualitza amb FECAPA</button></div><p id="federation" role="status" class="muted"></p><a href="https://hoqueipatins.fecapa.cat" target="_blank" rel="noopener noreferrer">Obre el portal federatiu</a><p class="muted">La finalització local no tanca l’acta oficial. Les incidències locals es conserven separades de les dades federatives.</p><details id="federationDetails"><summary>Revisa el resultat, les targetes i les diferències</summary><div id="comparison"></div></details></section>
+<section class="panel federation-panel"><div class="section-heading"><h2>Dades federatives</h2><button id="sync">Actualitza amb FECAPA</button></div><p id="federation" role="status" class="muted"></p><button id="readLineups" disabled>Consulta plantilles importades</button> <a id="officialLink" target="_blank" rel="noopener noreferrer" hidden></a><p id="portalHelp" class="muted"></p><p class="muted">La finalització local no tanca l’acta oficial. Les incidències locals es conserven separades de les dades federatives.</p><details id="federationDetails"><summary>Revisa el resultat, les targetes i les diferències</summary><div id="comparison"></div></details></section>
 <nav class="footer-nav"><a href="./avancat.html">Mode Avançat</a><a href="./historial.html">Historial</a></nav>
 </main>
+<dialog id="rivalEditor" aria-labelledby="rivalTitle">
+ <form id="rivalForm">
+  <h2 id="rivalTitle">Jugador rival provisional</h2>
+  <p id="rivalTeam"></p>
+  <label>Dorsal <input id="rivalDorsal" required inputmode="numeric" pattern="[0-9]{1,3}" maxlength="3"></label>
+  <label>Nom (opcional) <input id="rivalName" maxlength="120"></label>
+  <p id="rivalError" role="alert"></p>
+  <button type="submit" class="primary">Desa el jugador</button>
+  <button id="closeRival" type="button">Cancel·la</button>
+ </form>
+</dialog>
 <dialog id="actionSheet" aria-labelledby="actionTitle"><div class="sheet-handle" aria-hidden="true"></div><h2 id="actionTitle">Selecciona una acció</h2><p id="actionContext" class="muted"></p><div class="sheet-actions"><button data-action="gol" class="goal">Gol</button><button data-action="groga" class="yellow">Targeta groga</button><button data-action="blava" class="blue">Targeta blava</button><button data-action="vermella" class="red">Targeta vermella</button></div><button id="closeSheet" class="wide">Cancel·la</button></dialog>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script type="module" src="./base.js?v=reinforcements1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.95.3/dist/umd/supabase.js"></script><script type="module" src="./base.js?v=manual-rival1"></script>
 </body></html>

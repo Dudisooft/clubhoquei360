@@ -1,6 +1,6 @@
 import test from 'node:test';import assert from 'node:assert/strict';
 import {createDatabase,ID,asUser,asOwner} from './helpers/stats-db.mjs';
-import {BasicStore} from '../basic-store.js';import {makeRow,basicState} from '../basic-model.js';import {materializePlayers} from '../basic-roster.js';
+import {BasicStore} from '../basic-store.js';import {makeRow,basicState,rivalPlayer,provisionalRoster} from '../basic-model.js';import {materializePlayers} from '../basic-roster.js';
 const C={comp:'60000000-0000-4000-8000-000000000001',group:'60000000-0000-4000-8000-000000000002',live:'60000000-0000-4000-8000-000000000003',history:'60000000-0000-4000-8000-000000000004',entry:'60000000-0000-4000-8000-000000000005'};
 async function fixture(){const db=await createDatabase();await asOwner(db,"insert into federation_competitions(id,club_id,season_id,federation,external_competition_id) values($1,$2,$3,'FECAPA','4802')",[C.comp,ID.club,ID.season]);await asOwner(db,'insert into federation_groups values($1,$2)',[C.group,C.comp]);for(const [id,raw] of [[C.live,{}],[C.history,{report_status:'verified',report_data:{official_status:'FINALIZAT'}}]])await asOwner(db,"insert into federation_matches(id,group_id,home_team,away_team,federation_start_at,home_score,away_score,raw_data) values($1,$2,'Local fictici','Visitant fictici','2026-10-24 12:00Z',$3,$4,$5)",[id,C.group,id===C.history?8:null,id===C.history?0:null,JSON.stringify(raw)]);await asOwner(db,'insert into federation_team_entries(id,club_team_id,competition_id) values($1,$2,$3)',[C.entry,ID.team,C.comp]);for(const id of [C.live,C.history])await asOwner(db,"insert into federation_match_teams values($1,$2,'home')",[id,C.entry]);return db;}
 const activate=(db,user,id=C.live,practice=false)=>asUser(db,user,'select public.basic_open_catalogue_match($1,$2,$3) as id',[id,ID.match,practice]);
@@ -22,3 +22,31 @@ test('an acta-identified player without an individual federation code is linked 
 test('a verified finalized fixture cannot be activated as live and missing club participation never grants access',async()=>{const db=await fixture();try{await assert.rejects(activate(db,'delegate',C.history,false),/separate rehearsal/);await asOwner(db,'delete from federation_match_teams where match_id=$1',[C.live]);await assert.rejects(activate(db,'delegate'),/Verified club participant/);}finally{await db.close();}});
 
 test('the existing global superadministrator can activate without a reference; a club admin alone cannot',async()=>{const db=await fixture();try{await assert.rejects(asUser(db,'manager','select public.basic_open_catalogue_match($1,null,false)',[C.live]),/operator access/);await asOwner(db,`create or replace function app_private.is_platform_superadmin() returns boolean language sql stable security definer set search_path='' as $$select auth.uid()='${ID.manager}'::uuid$$`);const activated=await asUser(db,'manager','select public.basic_open_catalogue_match($1,null,false) as id',[C.live]);assert.equal(activated.rows[0].id,C.live);const membership=await asUser(db,'manager','select role from pilot_members where match_id=$1',[C.live]);assert.equal(membership.rows[0].role,'operator');}finally{await db.close();}});
+
+
+test('a manual rival uses the operator event stream and can be edited without rewriting goals or player tables',async()=>{
+ const db=await fixture();
+ try{
+  const match=(await activate(db,'delegate',C.history,true)).rows[0].id;
+  const transport=adapter(db,'delegate'), uid=ID.delegate;
+  const first=new BasicStore(transport,storage());
+  await first.open(match,uid);
+  const player=rivalPlayer('away','17','');
+  const row=makeRow({match,uid,kind:'basic_rival_player',details:{player}});
+  assert.equal(row.event_type,'lineup');
+  await first.enqueue([row,makeRow({match,uid,kind:'gol',side:'away',actor:player.id})]);
+  assert.equal(first.pending.length,0,first.error);
+  const second=new BasicStore(transport,storage());
+  await second.open(match,uid);
+  assert.equal(provisionalRoster(second.all())[0].full_name,'Dorsal 17');
+  const updated=rivalPlayer('away','18','Rival fictici',player.id,2);
+  await second.enqueue([makeRow({match,uid,kind:'basic_rival_player',details:{player:updated}})]);
+  assert.equal(second.pending.length,0,second.error);
+  await first.refresh();
+  assert.deepEqual(provisionalRoster(first.all()),[updated]);
+  assert.equal(basicState(first.all()).events.some(event=>event.kind==='basic_rival_player'),false);
+  assert.equal(basicState(first.all()).events.find(event=>event.kind==='gol').actor,player.id);
+  assert.equal((await asOwner(db,'select count(*)::int as n from pilot_players where match_id=$1',[match])).rows[0].n,0);
+  assert.equal((await asUser(db,'external','select id from pilot_events where match_id=$1',[match])).rows.length,0);
+ }finally{await db.close();}
+});
