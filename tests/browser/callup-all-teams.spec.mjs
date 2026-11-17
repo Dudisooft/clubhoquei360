@@ -17,6 +17,7 @@ async function mock(page,{coach=false,weekUnavailable=false}={}){
  const teams=${JSON.stringify(teams)},matches=${JSON.stringify(matches)},coach=${coach},weekUnavailable=${weekUnavailable};
  export const db={auth:{getUser:async()=>({data:{user:{id:'fixture-only',email:'fixture@example.test'}}})},
  async rpc(name,args){
+ if(name==='read_callup_workflow'||name==='read_callup_week_workflow')return {error:{code:'PGRST202'}};
   const allowed=coach?teams.slice(0,1):teams;
   if(name==='club_setup_access')return {data:{teams:allowed,global_admin:false}};
   if(name==='read_club_callup_week')return weekUnavailable?{error:{code:'PGRST202'}}:{data:matches.map(f=>({...f,can_edit:!coach}))};
