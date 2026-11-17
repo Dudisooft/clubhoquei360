@@ -125,7 +125,7 @@ begin
  perform pg_advisory_xact_lock(hashtextextended('club-callup:'||(f->>'club_id'),0));
  result:=app_private.read_club_callups(p_fixture,p_team); saved:=result->'callup';
  if saved is null or not coalesce((saved->>'published')::boolean,false) or (saved->>'revision')::int is distinct from p_revision then
-  raise exception 'La convocatòria ha canviat o no està publicada. Recarrega-la.' using errcode='40001'; end if;
+  raise exception 'La convocatòria ha canviat o no està publicada. Recarrega-la.' using errcode='PT409'; end if;
  insert into app_private.callup_receipts(fixture_id,team_id,revision,reader_id)
  values((saved->>'fixture_id')::uuid,p_team,p_revision,auth.uid()) on conflict do nothing;
  select * into r from app_private.callup_receipts where fixture_id=(saved->>'fixture_id')::uuid and team_id=p_team and revision=p_revision and reader_id=auth.uid();
@@ -147,7 +147,7 @@ begin
   raise exception 'Invalid preferences' using errcode='22023'; end if;
  perform pg_advisory_xact_lock(hashtextextended('callup-pref:'||p_team::text,0));
  select * into r from app_private.callup_preferences where team_id=p_team;
- if p_revision is distinct from coalesce(r.revision,0) then raise exception 'Preferences changed' using errcode='40001'; end if;
+ if p_revision is distinct from coalesce(r.revision,0) then raise exception 'Preferences changed' using errcode='PT409'; end if;
  insert into app_private.callup_preferences(team_id,preferences,revision,updated_by) values(p_team,p_preferences,p_revision+1,auth.uid())
  on conflict(team_id) do update set preferences=excluded.preferences,revision=excluded.revision,updated_by=excluded.updated_by,updated_at=now() returning * into r;
  return jsonb_build_object('preferences',r.preferences,'revision',r.revision);

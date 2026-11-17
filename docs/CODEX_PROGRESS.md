@@ -1,3 +1,23 @@
+# Continuïtat vigent — preparació segura PR #53 (17/11/2026, Europe/Madrid)
+
+Aquesta entrada substitueix l'estat anterior, que es conserva més avall.
+
+- **Objectiu:** verificar desplegament, backup, seguretat i Auth real; no fusionar, desplegar ni modificar producció. Mateixa branca `feat/predictive-callups-delegate`, PR #53 en esborrany; main `83b5468`, remot inicial `f36f328` revalidats.
+- **Correcció demostrada:** dos conflictes de versió RPC retornaven HTTP 500 amb PostgREST real; `acknowledge_callup` i `save_callup_preferences` passen de SQLSTATE 40001 a PT409 (HTTP 409). Migració encara pendent en producció. Proves de regressió ajustades; no canvis d'autorització.
+- **Completat:** 177/177 Node, 73/73 Chromium, check/build 45 i diff PASS. A més 10/10 blocs Auth/API amb GoTrue real + PostgreSQL 17.11 + PostgREST, 6/6 blocs navegador amb Auth real, porta-retalls real i intenció WhatsApp capturada/avortada. Dades esportives fictícies; zero peticions productives des del navegador de staging. No és validació amb comptes reals productius.
+- **Restauració verificada:** pg_dump custom xifrat amb age, restaurat en un PostgreSQL aïllat nou; 67 taules/372 files fictícies. Dades/esquema/RLS/funcions/vistes/privilegis efectius equivalents. Compactació de 15 slots de columnes i omissió de 96 ACL de propietari analitzades i comprovades, sense perdre concessions de clients. Nous logins Auth restaurats i denegació entre clubs via PostgREST PASS. NO s'ha exportat ni restaurat cap backup productiu.
+- **Lectures Cloud:** PG17.11 Frankfurt, 35 versions ledger; set funcions predecessor coincideixen amb main. Workflow nou absent. Inventari TRUNCATE exacte 49/27 i dos defaults postgres pendents; dos defaults gestionats supabase_admin separats. Plantilles internes FEM15/Infantil D/FEM11=0/0/0, actes històriques 6/5/5 i identitats 9/8/8; no són convocats actuals confirmats. Drive visible de backups/verificacions buit; backups gestionats Cloud no consultables amb l'accés disponible.
+- **Fitxers:** migració/test PT409, `.gitignore`, `ops/pr53-staging/*`, motor existent `scripts/backup/manager.py` reutilitzat sense canvis, guardes Node, `docs/PR53_SAFE_DEPLOYMENT_READINESS_20261117.md` i evidència JSON sanejada. Cap dada personal, dump, clau o secret versionat.
+- **Limitacions:** predecessor de staging sintètic, no còpia exacta Cloud; restauració i custòdia només temporals. Unitat D: inaccessible, cap credencial SQL nativa Cloud ni backup productiu acreditat. WhatsApp natiu Android/iPhone i Maps físic reals no verificats.
+- **Entorn i preservació:** disc arrel esgotat. Worktree original preservat a `/workspace/work/clubhoquei360-predictive-callups`; artefactes generats moguts a RAM amb hashes comparats. Continuació activa de la MATEIXA branca a `/dev/shm/c53repo-adfrfi79` (Git compartit, nous commits al remot); `work` privat en RAM i `node_modules` enllaçat, ignorats. Cap recurs antic eliminat. Eines Docker locals temporals, no segon producte. La RAM no és custòdia duradora.
+- **Pendent ordenat:** 1) CI del nou commit i documentar-ne l'enllaç; 2) acreditar destinació duradora/doble custòdia/clau i connexió SQL/TLS autoritzada; 3) autorització específica per exportar backup productiu i restaurar-lo aïlladament; 4) després autorització separada per paquet de privilegis i migració; 5) validació Auth productiva controlada i dos dispositius; 6) autorització expressa de fusió/publicació. No executar etapes productives automàticament.
+- **Checkpoint:** últim codi anterior `f36f328`; el commit que conté aquesta entrada desa eines, correcció i evidències actuals (`git log -1`). CI pendent del push; no repetir proves locals vàlides si el codi no canvia.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: recupera la branca feat/predictive-callups-delegate i llegeix aquesta entrada i docs/PR53_SAFE_DEPLOYMENT_READINESS_20261117.md. Verifica SHA i CI de PR #53, aprofita 177 Node/73 Chromium i 10+6 Auth real/restore fictici ja verificats. Continua només els pendents autoritzats; cap exportació, migració, permís, fusió ni desplegament productiu sense garanties i autorització específica.»
+
+---
+
+## Historial anterior conservat (no és l'estat vigent)
+
 # Continuïtat vigent — prediccions, delegat i WhatsApp (17/11/2026)
 
 Aquesta entrada substitueix l'estat dels antecedents conservats més avall.

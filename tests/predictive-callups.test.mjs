@@ -78,12 +78,12 @@ test('server workflow: exact registration history, own adoption, delegate revisi
  const week=(await asUser(db,'secondary','select public.read_callup_week_workflow($1,$2) data',[monday,ID.club])).rows[0].data;
  assert.equal(week.find(f=>f.fixture_id===fixture).receipt_state,'read');
  await save(1,[callupIds.reserve]);assert.equal((await workflow('secondary')).receipts.length,0);
- await assert.rejects(asUser(db,'delegate','select public.acknowledge_callup($1,$2,1)',[fixture,ID.team]),{code:'40001'});
+ await assert.rejects(asUser(db,'delegate','select public.acknowledge_callup($1,$2,1)',[fixture,ID.team]),{code:'PT409'});
  assert.equal((await asOwner(db,'select count(*)::int n from app_private.callup_receipts')).rows[0].n,1);
  await assert.rejects(asUser(db,'delegate',"select public.save_callup_preferences($1,0,'{\"margin_minutes\":60}')",[ID.team]),{code:'42501'});
  await asUser(db,'secondary',"select public.save_callup_preferences($1,0,'{\"margin_minutes\":60,\"kit\":\"Fictícia\"}')",[ID.team]);
  assert.equal((await workflow('delegate')).preferences.margin_minutes,60);
- await assert.rejects(asUser(db,'secondary',"select public.save_callup_preferences($1,0,'{}')",[ID.team]),{code:'40001'});
+ await assert.rejects(asUser(db,'secondary',"select public.save_callup_preferences($1,0,'{}')",[ID.team]),{code:'PT409'});
  await assert.rejects(asUser(db,'secondary',"select public.save_callup_preferences($1,1,'{\"margin_minutes\":999}')",[ID.team]),{code:'22023'});
  await assert.rejects(asUser(db,'delegate','select * from app_private.callup_receipts'),{code:'42501'});
  const exposed=(await asOwner(db,`select p.proname,p.prosecdef,p.provolatile,has_function_privilege('anon',p.oid,'execute') anonymous_execute
