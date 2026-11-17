@@ -52,7 +52,7 @@ Advisors Cloud de lectura: 5 INFO de RLS sense polítiques, 1 WARN d'extensió a
 - Node complet: **175/175 PASS**, zero omissions. Migracions SQL reals en PGlite sobre predecessor sintètic; **no és Supabase Auth real** ni una còpia de l'esquema productiu.
 - Chromium complet: **73/73 PASS**; després de plegar els ajustos de WhatsApp, **5/5 PASS** repetides. Mòbil 390, tauleta 820 i ordinador 1280; desament, recàrrega, lectura per revisió, preferències, còpia literal i alternativa manual. RPC, clipboard i window.open ficticis.
 - Proves dirigides d'evidència, permisos, rivals, prioritat d'acta i tres equips: PASS. Invocació anònima i DML directe denegats, rols i revisió comprovats, RPC de lectura STABLE verificades als catàlegs SQL.
-- `npm run check`, `npm run build`: 45 fitxers, PASS. `git diff --check`: PASS. CI nova pendent de comprovació al crear la PR; no confondre-la amb les execucions de #49.
+- `npm run check`, `npm run build`: 45 fitxers, PASS. `git diff --check`: PASS. CI [44050425718](https://github.com/Dudisooft/clubhoquei360/actions/runs/44050425718) **success** al codi `32c873e432d1990ac73fa9c8e42ea3e285a8d70f`; logs verificats: 175 Node, 73 Chromium i check/build 45. [PR #53](https://github.com/Dudisooft/clubhoquei360/pull/53) oberta en esborrany. El checkpoint posterior només desa aquests resultats documentals.
 - Errors de desenvolupament corregits: ambigüitat d'una variable SQL, volatilitat de RPC GET i expectatives de textarea de les proves. Cap incident productiu declarat resolt amb un mock.
 - Logs locals: `/tmp/predictive-node-release.log`, `/tmp/predictive-browser-final.log`, `/tmp/predictive-browser-last.log`, `/tmp/predictive-all-focused.log`. Captures sintètiques fora de Git: `work/delegate-callup-*.png`.
 
