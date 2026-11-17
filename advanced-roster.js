@@ -1,3 +1,4 @@
+import {predictRoster,proposalLabel} from './roster-prediction.js';
 /* Match call-up preparation. Season candidates never become match participants
  * until an authorized operator explicitly saves them on the server. */
 export function mountRoster({db,root,getState,getRevision,onSaved,onChange}){
@@ -14,7 +15,7 @@ export function mountRoster({db,root,getState,getRevision,onSaved,onChange}){
    const saved=getState().players.filter(p=>p.side===side),pool=candidates.filter(p=>p.team===side);
    return '<section data-roster-team="'+side+'"><h4>'+esc(context.teamNames[side])+'</h4><p>'+saved.length+' jugadors desats a la convocatòria</p>'+(pool.length?'<details><summary>Tria del catàleg de temporada ('+pool.length+')</summary><div class="roster-candidates">'+pool.map(p=>{
     const added=saved.some(x=>x.federation_player_id===p.federation_player_id);
-    return '<div class="roster-candidate" data-roster-id="'+esc(p.roster_id)+'"><label><input type="checkbox" data-candidate '+(added?'checked disabled':'')+'><span>'+esc(p.full_name)+(added?' · desat':'')+'</span></label><label>Dorsal<input data-shirt inputmode="numeric" maxlength="3" value="'+esc(p.dorsal)+'" aria-label="Dorsal de '+esc(p.full_name)+'"></label><label>Posició<select data-position aria-label="Posició de '+esc(p.full_name)+'"><option value="field">Pista</option><option value="goalkeeper" '+(p.position==='goalkeeper'?'selected':'')+'>Porter</option></select></label></div>';
+    return '<div class="roster-candidate" data-roster-id="'+esc(p.roster_id)+'"><label><input type="checkbox" data-candidate '+(added?'checked disabled':'')+'><span>'+esc(p.full_name)+(p.prediction?' · Provisional · '+esc(p.prediction_label||'Historial verificat'):'')+(added?' · desat':'')+'</span></label><label>Dorsal<input data-shirt inputmode="numeric" maxlength="3" value="'+esc(p.dorsal)+'" aria-label="Dorsal de '+esc(p.full_name)+'"></label><label>Posició<select data-position aria-label="Posició de '+esc(p.full_name)+'"><option value="field">Pista</option><option value="goalkeeper" '+(p.position==='goalkeeper'?'selected':'')+'>Porter</option></select></label></div>';
    }).join('')+'</div><button type="button" data-add-candidates>Afegeix els seleccionats a la convocatòria</button></details>':'<p class="muted">Sense plantilla de temporada importada. Introdueix només jugadors reals coneguts.</p>')+
    '<details><summary>Afegeix un jugador real manualment</summary><div class="roster-manual"><label>Nom i cognoms<input data-manual-name maxlength="120" autocomplete="off"></label><label>Dorsal, si es coneix<input data-manual-shirt inputmode="numeric" maxlength="3"></label><label>Posició<select data-manual-position><option value="field">Pista</option><option value="goalkeeper">Porter</option></select></label><button type="button" data-add-manual>Desa jugador real</button></div></details>'+
    (saved.length?'<details data-edit-callups><summary>Revisa dorsals i porters dels convocats</summary>'+saved.map(p=>'<div class="roster-candidate" data-edit-player="'+esc(p.id)+'"><span>'+esc(p.name)+'</span><label>Dorsal<input data-shirt inputmode="numeric" maxlength="3" value="'+esc(p.num)+'"></label><label>Posició<select data-position><option value="field">Pista</option><option value="goalkeeper" '+(p.goalie?'selected':'')+'>Porter</option></select></label></div>').join('')+'<button type="button" data-save-callups>Desa dorsals i posicions</button></details>':'')+'</section>';
@@ -68,7 +69,11 @@ export function mountRoster({db,root,getState,getRevision,onSaved,onChange}){
    available=false;prepared=false;root.hidden=true;if(!next.enabled)return;
    const result=await db.rpc('pilot_roster_catalogue',{p_match:next.match});if(token!==generation)return;
    if(result.error){root.hidden=false;root.textContent='Preparació no disponible: '+result.error.message;return;}
-   candidates=result.data.candidates||[];prepared=!!result.data.prepared;available=true;draw();onChange();
+   candidates=(result.data.candidates||[]).map(p=>{
+    if(!p.prediction)return p;
+    const predicted=predictRoster(p.evidence).find(x=>x.external_player_id===p.federation_player_id);
+    return {...p,prediction_label:predicted?proposalLabel(predicted)+' · '+predicted.appearances+'/'+predicted.total_reports+' actes · '+predicted.last_seen:'Historial verificat'};
+   });prepared=!!result.data.prepared;available=true;draw();onChange();
   },
   rememberDraft(){if(!context||!available||getState().startersConfirmed)return;try{write('draft',{starterSelections:getState().starterSelections,kits:getState().kits});}catch{message('La selecció provisional no s’ha pogut conservar en aquest navegador.');}},
   restoreDraft(){if(!context||!available||getState().startersConfirmed)return;const draft=read('draft');if(!draft)return;const state=getState();for(const side of ['home','away']){state.starterSelections[side]=(draft.starterSelections?.[side]||[]).filter(id=>state.players.some(p=>p.id===id&&p.side===side));for(const role of ['player','goalie'])if(['first','second'].includes(draft.kits?.[side]?.[role]))state.kits[side][role]=draft.kits[side][role];}},
