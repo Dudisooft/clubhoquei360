@@ -101,17 +101,23 @@
     "FEM15": {
       "verified_reports": 6,
       "historical_ids": 9,
-      "internal_active": 0
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-22T14:00:00+01:00"
     },
     "Infantil D": {
       "verified_reports": 5,
       "historical_ids": 8,
-      "internal_active": 0
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-21T16:30:00+01:00"
     },
     "FEM11": {
       "verified_reports": 5,
       "historical_ids": 8,
-      "internal_active": 0
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-22T12:30:00+01:00"
     }
   },
   "production_acl": {
@@ -127,5 +133,20 @@
     "Sports and map fixtures are fictional",
     "No production backup exported or restored",
     "No real iPhone/Android or WhatsApp app validation"
-  ]
+  ],
+  "ci": {
+    "code_commit": "57969a186fc728bf6480af1a7c1b64c4550b7711",
+    "run": 44071214914,
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/44071214914",
+    "conclusion": "success",
+    "logs_verified": true,
+    "node": 177,
+    "chromium": 73,
+    "static_build_files": 45
+  },
+  "ephemeral_artifacts": {
+    "current_availability": "lost on execution environment restart",
+    "historical_restore_evidence_committed": true,
+    "production_backup": false
+  }
 }

@@ -26,7 +26,7 @@ PASS: coordinador amb tres equips, entrenador restringit, rival exclòs, adopci�
 
 ## Proves de regressió
 
-Checkpoint de codi actual: **177/177 Node, 73/73 Chromium, zero fallades/omissions**, check/build 45 fitxers, diff sense errors. Inclou dues proves noves de bloqueig de destinacions productives i regressions PT409. Les suites generals inclouen PGlite i mocks de navegador; els 10+6 blocs natius detallats a continuació són una evidència addicional diferent. Logs locals ignorats: `work/pr53-staging/node-release.log` i `chromium-release.log`. CI del checkpoint nou: pendent en redactar aquest bloc; actualització al registre de continuïtat després del push.
+Checkpoint de codi actual: **177/177 Node, 73/73 Chromium, zero fallades/omissions**, check/build 45 fitxers, diff sense errors. Inclou dues proves noves de bloqueig de destinacions productives i regressions PT409. Les suites generals inclouen PGlite i mocks de navegador; els 10+6 blocs natius detallats a continuació són una evidència addicional diferent. Logs locals ignorats: `work/pr53-staging/node-release.log` i `chromium-release.log`. CI del codi final `57969a186fc728bf6480af1a7c1b64c4550b7711`: [44071214914](https://github.com/Dudisooft/clubhoquei360/actions/runs/44071214914) **success**; logs comprovats: 177 Node, 73 Chromium i check/build 45. El checkpoint posterior només actualitza documentació i evidència agregada.
 
 ## Staging i restauració realment executats
 
@@ -59,7 +59,7 @@ El motor de backup anterior s'ha reutilitzat sense reescriure'l (hash al README)
 | Infantil D | 5 | 8 | 0 |
 | FEM11 | 5 | 8 | 0 |
 
-Recomptes confirmats de nou el 17/11. No són convocats actuals, ni una garantia que tots siguin elegibles o candidats del pròxim partit. El motor restringeix per inscripció, competició, temporada i data; limita les actes anteriors a dotze. La RPC nova no està instal·lada a Cloud, per tant no s'ha executat com un usuari productiu. La incorporació i el filtratge complet s'han validat amb Auth local i dades fictícies; no s'han creat jugadors reals.
+Recomptes confirmats de nou el 17/11. Una segona consulta restringida a la inscripció/competició del pròxim partit i a les dotze actes anteriors ha retornat també 6/9, 5/8 i 5/8. Propers partits disponibles en aquella lectura: FEM15 22/11 a les 14:00, Infantil D 21/11 a les 16:30, FEM11 22/11 a les 12:30 (Europe/Madrid). No són convocats actuals ni una garantia d’elegibilitat. El motor restringeix per inscripció, competició, temporada i data; limita les actes anteriors a dotze. La RPC nova no està instal·lada a Cloud, per tant no s'ha executat com un usuari productiu. La incorporació i el filtratge complet s'han validat amb Auth local i dades fictícies; no s'han creat jugadors reals.
 
 ## Delegat, WhatsApp i Maps
 
@@ -82,3 +82,7 @@ Recuperació: conservar taules noves/rebuts/convocatòries i aturar funcionalita
 ## Veredicte
 
 **Validació local amb Auth real completada; preparació de publicació BLOQUEJADA.** Bloquejos: backup productiu recuperable no acreditat, concessions/defaults pendents i falta d'autorització de les operacions productives. Cap fusió, desplegament, migració, compte, importació ni permís productiu modificat.
+
+## Punt de recuperació després del reinici de l’entorn
+
+El codi i l’evidència sanejada es van pujar a `57969a1` abans del reinici. S’ha recuperat la mateixa branca des de GitHub sense sobreescriure el worktree original. El disc arrel continua ple; el checkout documental actual és `/dev/shm/ch360-pr53-final`. Els artefactes i claus ficticis en RAM de l’execució anterior ja no hi són. Això no invalida els resultats històrics desats, però impedeix presentar aquell fitxer com una còpia encara disponible o una custòdia duradora. Les eines permeten repetir la prova en un entorn nou; no cal repetir-la només per reobtenir els mateixos resultats. No s’ha treballat amb dades productives.
