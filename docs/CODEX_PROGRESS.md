@@ -1,3 +1,13 @@
+# Pendent vigent — backup productiu autoritzat, executor Windows absent
+
+- L'usuari ha autoritzat l'exportació productiva de només lectura, xifrada i amb restauració aïllada, amb les garanties de custòdia. **No tornar a demanar aquest permís ja concedit.** No autoritza canvis de permisos/migracions, fusió ni publicació.
+- Destí preferent actual: `C:\ClubHoquei360-Backups\Supabase\Production`, portàtil Windows. Substitueix la preferència històrica D: per aquest encàrrec. No s'ha creat ni verificat: executor actual Linux Cloud, sense terminal Windows/remot ni unitats locals del portàtil; cap secret SQL natiu configurat, disc persistent ple. No s'han exportat dades reals.
+- PR #53 encara oberta en esborrany, main `83b5468`, codi `57969a1`, checkpoint documental remot previ `757bfac`; CI documental [44370612438](https://github.com/Dudisooft/clubhoquei360/actions/runs/44370612438) success. Suites anteriors vàlides conservades, no repetides.
+- **Acció mínima única:** executar la instrucció de `ops/cloud-backup/LAPTOP_PRODUCTION_RESUME.md` en un Codex amb terminal local del portàtil Windows. El document identifica l'autorització, el runbook existent i les garanties; no és un runner fictici ni pressuposa credencials disponibles.
+- **Represa:** llegir aquesta entrada i aquella instrucció, preservar canvis locals, verificar recursos reals i completar backup/restauració autoritzats. Només després preparar l'autorització separada de seguretat/migració i publicació. No simular un backup ni escriure dades reals a RAM com a custòdia.
+
+---
+
 # Checkpoint final — PR #53, CI i recuperació
 
 - **Codi recuperable al remot:** `57969a186fc728bf6480af1a7c1b64c4550b7711`, mateixa branca `feat/predictive-callups-delegate`, PR #53 encara oberta en esborrany, mergeable. Main continua `83b5468bd1a78dfaec754ad0f0aea2c498aa70de`.
