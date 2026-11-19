@@ -14,3 +14,10 @@ supabase/.temp/
 playwright-report/
 test-results/
 work/
+
+# Staging may relocate generated artifacts to a private tmpfs symlink.
+/work
+
+/node_modules
+__pycache__/
+*.pyc

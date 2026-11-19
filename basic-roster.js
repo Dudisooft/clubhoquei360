@@ -1,3 +1,4 @@
+import {predictRoster,proposalLabel} from './roster-prediction.js';
 import {IHC_CLUB_ID,ownRosterScope} from './basic-eligibility.js';
 // View adapters over the existing pilot/catalogue identities. No name-based joins.
 export const sideLabel=side=>side==='home'?'Local':'Visitant';
@@ -52,7 +53,7 @@ export async function catalogueRoster(db,{players,source,fixture}){
  const comp=group?(await allRows(db,'federation_competitions',q=>q.eq('id',group.competition_id)))[0]:null;
  const federation=comp?.federation||source?.federation||'FECAPA';
  const external=new Map(identities.filter(p=>p.federation===federation).map(p=>[p.id,p.external_player_id]));
- const ownSides=links.filter(l=>teamRows.some(t=>t.id===direct.find(e=>e.id===l.entry_id)?.club_team_id&&t.club_id===IHC_CLUB_ID)).map(l=>l.side);
+ const ownSides=links.filter(l=>teamRows.some(t=>t.id===direct.find(e=>e.id===l.entry_id)?.club_team_id&&t.club_id===comp?.club_id)).map(l=>l.side);
  const rivalSides=ownSides.length?['home','away'].filter(side=>!ownSides.includes(side)):null;
  const candidates=[];const restrictedSides=new Set();const teamMap=new Map(peers.map(t=>[t.id,t]));
  for(const side of ['home','away']){
@@ -70,8 +71,33 @@ export async function catalogueRoster(db,{players,source,fixture}){
    candidates.push({id:`catalog:${side}:${id}`,scopeChecked:restricted,selection_basis:verified?'current_match_report':primary?'same_team_history':'unverified_reinforcement',origin_reference:verified?.id||primary?.raw_data?.observed_match_id||null,catalog_player_id:id.startsWith('federation:')?null:id,federation_player_id:external.get(id)||null,team:side,full_name:verified?.display_name||r.display_name,dorsal:verified?.shirt_number??primary?.shirt_number??null,position:r.raw_data?.is_goalkeeper?'goalkeeper':'field',origin:verified?'Acta '+federation+' d’aquest partit':primary?(infantil?'Participació documentada amb aquest equip':'Catàleg de l’equip'):'Possible reforç · '+(entryMap.get(r.entry_id)?.display_name||'equip d’origen'),eligibility:verified?'Consta a l’acta d’aquest partit':primary?'Habitual: no certifica la convocatòria actual':'Elegibilitat de reforç no verificable'+(scope?.eligibility?' · Falta: '+scope.eligibility.missing.join(', '):''),matchVerified:!!verified,selectable:(!!verified||!!primary)&&!!external.get(id),reinforcement:!primary,otherTeams,needsImport:true,official_source:fixture.raw_data?.source_url||null});
   }
  }
+ // Shared, server-scoped historical evidence; never becomes an official lineup.
+ const obsoleteHistory=new Set();
+ const managed=links.filter(l=>teamRows.some(t=>t.id===direct.find(e=>e.id===l.entry_id)?.club_team_id&&t.club_id===comp?.club_id)).map(l=>l.side);
+ if(db.rpc&&managed.length)for(const side of ['home','away'].filter(side=>!managed.includes(side))){
+  try{
+   const response=await db.rpc('read_roster_evidence',{p_fixture:fixture.id,p_team:null,p_side:side},{get:true});
+   if(response.error||!response.data?.scope)continue;
+   const predictions=predictRoster(response.data);
+   if(response.data.official_verified)for(const p of players.filter(p=>p.team===side)){
+    const historical=p.selection_basis==='rival_match_history'||/#(?:historical-proposal|provisional-history)=/.test(p.official_source||'');
+    if(historical&&!predictions.some(candidate=>candidate.player_id===p.catalog_player_id||candidate.external_player_id===p.federation_player_id))obsoleteHistory.add(p.id);
+   }
+   if(!predictions.length&&!response.data.official_verified)continue;
+   for(let i=candidates.length-1;i>=0;i--)if(candidates[i].team===side&&!candidates[i].matchVerified)candidates.splice(i,1);
+   for(const p of predictions)if(!candidates.some(c=>c.team===side&&c.catalog_player_id===p.player_id))candidates.push({
+    id:'history:'+side+':'+p.player_id,team:side,full_name:p.full_name,dorsal:p.dorsal,position:p.position,
+    catalog_player_id:p.player_id,federation_player_id:p.external_player_id,
+    selectable:!!p.external_player_id,needsImport:true,matchVerified:p.official,
+    selection_basis:p.official?'current_match_report':'rival_match_history',origin_reference:p.sources[0]?.match_id,
+    origin:(p.official?'Acta actual':'Provisional · '+proposalLabel(p))+' · '+p.appearances+'/'+p.total_reports+' actes · '+(p.last_seen||''),
+    eligibility:'Proposta històrica revisable; no acredita elegibilitat actual',prediction:p,
+    official_source:p.sources[0]?.url? p.sources[0].url+'#historical-proposal='+p.player_id:null
+   });
+  }catch{/* Keep existing valid roster on a failed or unavailable history service. */}
+ }
  const scopedPlayers=players.filter(p=>!restrictedSides.has(p.team)||candidates.some(c=>c.team===p.team&&((c.federation_player_id&&c.federation_player_id===p.federation_player_id)||(c.catalog_player_id&&c.catalog_player_id===p.catalog_player_id)) )||official.some(l=>l.side===p.team&&l.id===p.catalog_lineup_id));
- return {players:mergeRoster(scopedPlayers,candidates),rivalSides,competitionCode:comp?.external_competition_id,fixture,restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: importació FECAPA disponible.'};
+ return {players:mergeRoster(scopedPlayers.map(p=>obsoleteHistory.has(p.id)?{...p,selectable:false,origin:'Proposta anterior substituïda per l’acta actual',eligibility:'Incidències anteriors conservades; revisa la convocatòria'}:p),candidates),rivalSides,competitionCode:comp?.external_competition_id,fixture,restrictedSides:[...restrictedSides],notice:'IHC: jugadors de l’equip per evidència pròpia i possibles reforços separats. Si falta data o acta verificable del mateix equip, no deduïm habitualitat. Normativa 2026/27, anys de naixement i condicions no verificats: cap reforç nou es certifica per la categoria. Infantil: només participació documentada amb l’equip i possibles reforços alevins del club, amb origen visible. La plantilla general de competició no acredita pertinença. Una acta anterior no certifica elegibilitat futura; els reforços sense acta d’aquest partit queden bloquejats. Font: importació FECAPA disponible.'};
 }
 export async function materializePlayers(db,match,selected,practice=false){
  const pending=selected.filter(p=>p.needsImport);if(practice||!pending.length)return selected;

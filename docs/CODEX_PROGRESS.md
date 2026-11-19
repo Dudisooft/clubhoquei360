@@ -1,3 +1,63 @@
+# Pendent vigent — backup productiu autoritzat, executor Windows absent
+
+- L'usuari ha autoritzat l'exportació productiva de només lectura, xifrada i amb restauració aïllada, amb les garanties de custòdia. **No tornar a demanar aquest permís ja concedit.** No autoritza canvis de permisos/migracions, fusió ni publicació.
+- Destí preferent actual: `C:\ClubHoquei360-Backups\Supabase\Production`, portàtil Windows. Substitueix la preferència històrica D: per aquest encàrrec. No s'ha creat ni verificat: executor actual Linux Cloud, sense terminal Windows/remot ni unitats locals del portàtil; cap secret SQL natiu configurat, disc persistent ple. No s'han exportat dades reals.
+- PR #53 encara oberta en esborrany, main `83b5468`, codi `57969a1`, checkpoint documental remot previ `757bfac`; CI documental [44370612438](https://github.com/Dudisooft/clubhoquei360/actions/runs/44370612438) success. Suites anteriors vàlides conservades, no repetides.
+- **Acció mínima única:** executar la instrucció de `ops/cloud-backup/LAPTOP_PRODUCTION_RESUME.md` en un Codex amb terminal local del portàtil Windows. El document identifica l'autorització, el runbook existent i les garanties; no és un runner fictici ni pressuposa credencials disponibles.
+- **Represa:** llegir aquesta entrada i aquella instrucció, preservar canvis locals, verificar recursos reals i completar backup/restauració autoritzats. Només després preparar l'autorització separada de seguretat/migració i publicació. No simular un backup ni escriure dades reals a RAM com a custòdia.
+
+---
+
+# Checkpoint final — PR #53, CI i recuperació
+
+- **Codi recuperable al remot:** `57969a186fc728bf6480af1a7c1b64c4550b7711`, mateixa branca `feat/predictive-callups-delegate`, PR #53 encara oberta en esborrany, mergeable. Main continua `83b5468bd1a78dfaec754ad0f0aea2c498aa70de`.
+- **CI verificada al codi exacte:** [44071214914](https://github.com/Dudisooft/clubhoquei360/actions/runs/44071214914) success; logs 177/177 Node, 73/73 Chromium, check/build 45. No repetir suites amb codi idèntic. El commit documental que conté aquesta entrada no canvia runtime ni scripts de prova.
+- **Proves anteriors recuperades:** 10 blocs Auth/API reals, 6 blocs navegador amb Auth real, restauració xifrada fictícia 67 taules/372 files i nous logins Auth després de restaurar. Evidència sanejada versionada. Cap backup productiu exportat/restaurat.
+- **Reinici:** els fitxers temporals i claus fictícies en RAM de l’execució anterior ja no existeixen. No són una còpia disponible ni custòdia duradora. La prova històrica es conserva com a evidència, no com un backup productiu. Worktree original amb canvis preservat; mateix projecte recuperat del remot a `/dev/shm/ch360-pr53-final` pel disc arrel ple. Cap neteja destructiva ni dades antigues sobreescrites.
+- **Primer pendent real:** acreditar una destinació privada duradora/doble custòdia, custòdia de clau i transport SQL/TLS autoritzat; després autorització específica de backup productiu i restauració aïllada. Continuar segons l’ordre del runbook, no aplicar encara les 49 revocacions/defaults ni la migració PR53. Publicació bloquejada.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: recupera feat/predictive-callups-delegate de GitHub, llegeix aquest checkpoint i docs/PR53_SAFE_DEPLOYMENT_READINESS_20261117.md. CI 44071214914 i proves del codi 57969a1 ja verificades; no les repeteixis si el runtime no canvia. Revisa només els pendents de backup/custòdia/autorització. No exportis dades reals, no modifiquis permisos o migracions productius, no fusionis ni despleguis sense autorització específica.»
+
+---
+
+# Continuïtat vigent — preparació segura PR #53 (17/11/2026, Europe/Madrid)
+
+Aquesta entrada substitueix l'estat anterior, que es conserva més avall.
+
+- **Objectiu:** verificar desplegament, backup, seguretat i Auth real; no fusionar, desplegar ni modificar producció. Mateixa branca `feat/predictive-callups-delegate`, PR #53 en esborrany; main `83b5468`, remot inicial `f36f328` revalidats.
+- **Correcció demostrada:** dos conflictes de versió RPC retornaven HTTP 500 amb PostgREST real; `acknowledge_callup` i `save_callup_preferences` passen de SQLSTATE 40001 a PT409 (HTTP 409). Migració encara pendent en producció. Proves de regressió ajustades; no canvis d'autorització.
+- **Completat:** 177/177 Node, 73/73 Chromium, check/build 45 i diff PASS. A més 10/10 blocs Auth/API amb GoTrue real + PostgreSQL 17.11 + PostgREST, 6/6 blocs navegador amb Auth real, porta-retalls real i intenció WhatsApp capturada/avortada. Dades esportives fictícies; zero peticions productives des del navegador de staging. No és validació amb comptes reals productius.
+- **Restauració verificada:** pg_dump custom xifrat amb age, restaurat en un PostgreSQL aïllat nou; 67 taules/372 files fictícies. Dades/esquema/RLS/funcions/vistes/privilegis efectius equivalents. Compactació de 15 slots de columnes i omissió de 96 ACL de propietari analitzades i comprovades, sense perdre concessions de clients. Nous logins Auth restaurats i denegació entre clubs via PostgREST PASS. NO s'ha exportat ni restaurat cap backup productiu.
+- **Lectures Cloud:** PG17.11 Frankfurt, 35 versions ledger; set funcions predecessor coincideixen amb main. Workflow nou absent. Inventari TRUNCATE exacte 49/27 i dos defaults postgres pendents; dos defaults gestionats supabase_admin separats. Plantilles internes FEM15/Infantil D/FEM11=0/0/0, actes històriques 6/5/5 i identitats 9/8/8; no són convocats actuals confirmats. Drive visible de backups/verificacions buit; backups gestionats Cloud no consultables amb l'accés disponible.
+- **Fitxers:** migració/test PT409, `.gitignore`, `ops/pr53-staging/*`, motor existent `scripts/backup/manager.py` reutilitzat sense canvis, guardes Node, `docs/PR53_SAFE_DEPLOYMENT_READINESS_20261117.md` i evidència JSON sanejada. Cap dada personal, dump, clau o secret versionat.
+- **Limitacions:** predecessor de staging sintètic, no còpia exacta Cloud; restauració i custòdia només temporals. Unitat D: inaccessible, cap credencial SQL nativa Cloud ni backup productiu acreditat. WhatsApp natiu Android/iPhone i Maps físic reals no verificats.
+- **Entorn i preservació:** disc arrel esgotat. Worktree original preservat a `/workspace/work/clubhoquei360-predictive-callups`; artefactes generats moguts a RAM amb hashes comparats. Continuació activa de la MATEIXA branca a `/dev/shm/c53repo-adfrfi79` (Git compartit, nous commits al remot); `work` privat en RAM i `node_modules` enllaçat, ignorats. Cap recurs antic eliminat. Eines Docker locals temporals, no segon producte. La RAM no és custòdia duradora.
+- **Pendent ordenat:** 1) CI completada (vegeu checkpoint final següent); 2) acreditar destinació duradora/doble custòdia/clau i connexió SQL/TLS autoritzada; 3) autorització específica per exportar backup productiu i restaurar-lo aïlladament; 4) després autorització separada per paquet de privilegis i migració; 5) validació Auth productiva controlada i dos dispositius; 6) autorització expressa de fusió/publicació. No executar etapes productives automàticament.
+- **Checkpoint:** últim codi anterior `f36f328`; el commit que conté aquesta entrada desa eines, correcció i evidències actuals (`git log -1`). CI pendent del push; no repetir proves locals vàlides si el codi no canvia.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360: recupera la branca feat/predictive-callups-delegate i llegeix aquesta entrada i docs/PR53_SAFE_DEPLOYMENT_READINESS_20261117.md. Verifica SHA i CI de PR #53, aprofita 177 Node/73 Chromium i 10+6 Auth real/restore fictici ja verificats. Continua només els pendents autoritzats; cap exportació, migració, permís, fusió ni desplegament productiu sense garanties i autorització específica.»
+
+---
+
+## Historial anterior conservat (no és l'estat vigent)
+
+# Continuïtat vigent — prediccions, delegat i WhatsApp (17/11/2026)
+
+Aquesta entrada substitueix l'estat dels antecedents conservats més avall.
+
+- **Objectiu:** circuit complet a la mateixa aplicació. Branca `feat/predictive-callups-delegate`, worktree `/workspace/work/clubhoquei360-predictive-callups`, base `83b5468` (main després de #49/#50/#51/#52). #46/#49 fusionades; #41 oberta en esborrany, no fusionada ni incorporada íntegrament.
+- **Bloc verificat:** motor determinista compartit; evidència d'actes i historial intern limitada per club/equip/inscripció/competició/temporada; propostes pròpies amb incorporació explícita i revisió de posició; rivals provisionals Base/Avançat reutilitzant el desament existent; acta actual prioritària, incidències preservades. Servidor de lectura per revisió i preferències per equip, amb autorització i RPC GET STABLE. Migració nova `20261117081634_predictive_callup_delegate.sql`, només provada localment.
+- **Interfície completada i verificada:** `callup-workflow.js`, canvis de dashboard/CSS i proves Chromium; lectura del delegat, exactitud de WhatsApp, controls plegables, porta-retalls i alternativa manual. Bloc d’interfície desat en el checkpoint posterior al servidor.
+- **Proves:** Node complet 175/175 PASS (`/tmp/predictive-node-release.log`); Chromium complet 73/73 PASS (`/tmp/predictive-browser-final.log`); després de simplificar WhatsApp, 5/5 repetides PASS (`/tmp/predictive-browser-last.log`). Dirigides motor/SQL/equips 6/6 PASS. Check/build 45 PASS. Proves amb dades fictícies, PGlite i RPC de navegador fictícies; NO Auth real. Captures sintètiques `work/delegate-callup-*.png`, fora de Git.
+- **Lectura real:** 36 equips, 0 jugadors interns actius i 0 convocatòries. FEM15 6 actes/9 identitats; Infantil D 5/8; FEM11 5/8. No són plantilles actuals confirmades. Accés global, setmana i revisió manual ja instal·lats en producció; nova RPC de workflow absent. Zero imports, migracions, permisos, comptes o dades productives modificats.
+- **Fitxers del bloc servidor:** `roster-prediction.js`, `callup-message.js`, `basic-roster.js`, `advanced-roster.js`, migració i tests `predictive-*.test.mjs`. Informe complet `docs/PREDICTIVE_CALLUPS_DELEGATE_20261117.md`, SQL de diagnòstic i evidència agregada desats amb el bloc d’interfície.
+- **Pendents, per ordre:** revisió de la PR #53 en esborrany (CI completada); revisar migració i avisos existents, acreditar backup recuperable i Auth real en staging abans d'una intervenció productiva autoritzada. No fusionar ni desplegar.
+- **CI completada:** [44050425718](https://github.com/Dudisooft/clubhoquei360/actions/runs/44050425718) success al codi `32c873e432d1990ac73fa9c8e42ea3e285a8d70f`. Logs comprovats: 175 Node, 73 Chromium, check/build 45. [PR #53](https://github.com/Dudisooft/clubhoquei360/pull/53) oberta en esborrany, sense conflictes.
+- **Punt de recuperació:** servidor i motor `a650fdf`, interfície `32c873e`, ja al remot; el checkpoint posterior desa tota la interfície, proves i documentació (`git log -1`). No hi ha altres canvis locals pendents. No repetir suites vàlides si el codi és idèntic.
+- **Represa exacta:** «CONTINUA CLUBHOQUEI360 a feat/predictive-callups-delegate: llegeix aquesta entrada, revisa Git i PR #53; CI del codi 32c873e ja verificada. Continua només els pendents autoritzats i conserva el checkpoint documental. No repeteixis proves vàlides. No executis migracions ni imports productius, no fusionis ni despleguis sense les garanties i autoritzacions pendents.»
+
+---
+
+## Historial anterior (conservat, sense vigència)
+
 # Continuïtat vigent — convocatòries de tots els equips
 
 Actualitzat: **16/11/2026 UTC**. Aquesta entrada substitueix l'estat vigent dels antecedents, que es conserven més avall.

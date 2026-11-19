@@ -1,0 +1,152 @@
+{
+  "date": "2026-11-17",
+  "production_mutations": 0,
+  "main": "83b5468bd1a78dfaec754ad0f0aea2c498aa70de",
+  "initial_pr_head": "f36f328f5ebe0d3512674b82fddacb957929ba63",
+  "auth_api": {
+    "environment": "local isolated PostgreSQL + Supabase GoTrue + PostgREST",
+    "auth": "real password sessions, no user JWT fabrication",
+    "checks": [
+      {
+        "name": "six actual GoTrue password sessions and authenticated /user",
+        "status": "PASS"
+      },
+      {
+        "name": "coordinator three teams, coach one, superadministrator four",
+        "status": "PASS"
+      },
+      {
+        "name": "GET RPC, three category histories and no automatic internal writes",
+        "status": "PASS"
+      },
+      {
+        "name": "ordinary/foreign/anonymous denied, coach cannot access another team",
+        "status": "PASS"
+      },
+      {
+        "name": "own proposal reviewed once; rival and coach incorporation denied",
+        "status": "PASS"
+      },
+      {
+        "name": "save draft, new HTTP read/recovery, delegate cannot acknowledge draft",
+        "status": "PASS"
+      },
+      {
+        "name": "publish and acknowledge with real delegate; retry is idempotent",
+        "status": "PASS"
+      },
+      {
+        "name": "new publication resets reading; stale acknowledgment rejected; history retained",
+        "status": "PASS"
+      },
+      {
+        "name": "team preferences authorization, compare-and-swap and recovery",
+        "status": "PASS"
+      },
+      {
+        "name": "official DML/private tables unavailable; own published statistics unchanged",
+        "status": "PASS"
+      }
+    ],
+    "count": 10
+  },
+  "browser": {
+    "auth": "real GoTrue sessions; no RPC mocks",
+    "checks": [
+      {
+        "name": "real coordinator reviews FEM11 suggestion, saves draft, reloads and publishes",
+        "status": "PASS"
+      },
+      {
+        "name": "real coordinator modifies FEM15 and publishes a new version",
+        "status": "PASS"
+      },
+      {
+        "name": "real delegate acknowledges, reloads and copies actual clipboard on mobile",
+        "status": "PASS"
+      },
+      {
+        "name": "publication after reading is pending again; desktop has no overflow",
+        "status": "PASS"
+      },
+      {
+        "name": "real coach is read-only and denied an unassigned team",
+        "status": "PASS"
+      },
+      {
+        "name": "real foreign-club account denied the own-club match",
+        "status": "PASS"
+      }
+    ],
+    "whatsapp": "real browser popup attempted; external navigation aborted to prevent any send",
+    "clipboard": "actual Chromium clipboard",
+    "production_requests": 0
+  },
+  "restore": {
+    "production": false,
+    "source": "real local Auth + synthetic sports",
+    "restored": true,
+    "tables": 67,
+    "rows": 372,
+    "logical_schema_data_rls_effective_acls_functions_views_equal": true,
+    "column_slot_changes": 15,
+    "owner_acl_entries_omitted": 96,
+    "cipher_sha256": "e309b4b9aaeb510e74d370df77c5bef85337aaddf8f89c485cb92e4f8a611012",
+    "postgres": "17.11",
+    "key_custody": "private ephemeral RAM; not production custody",
+    "restored_auth_login": true,
+    "restored_postgrest_rls": true
+  },
+  "production_rosters": {
+    "FEM15": {
+      "verified_reports": 6,
+      "historical_ids": 9,
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-22T14:00:00+01:00"
+    },
+    "Infantil D": {
+      "verified_reports": 5,
+      "historical_ids": 8,
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-21T16:30:00+01:00"
+    },
+    "FEM11": {
+      "verified_reports": 5,
+      "historical_ids": 8,
+      "internal_active": 0,
+      "exact_next_registration_history_confirmed": true,
+      "next_match_available_at_read_20261117": "2026-11-22T12:30:00+01:00"
+    }
+  },
+  "production_acl": {
+    "explicit_truncate_grants": 49,
+    "tables": 27,
+    "unexpected_inventory_tuples": 0,
+    "missing_inventory_tuples": 0,
+    "pending_postgres_defaults": 2,
+    "managed_supabase_admin_defaults_separate": 2
+  },
+  "coverage_limits": [
+    "Synthetic predecessor, not a production schema clone",
+    "Sports and map fixtures are fictional",
+    "No production backup exported or restored",
+    "No real iPhone/Android or WhatsApp app validation"
+  ],
+  "ci": {
+    "code_commit": "57969a186fc728bf6480af1a7c1b64c4550b7711",
+    "run": 44071214914,
+    "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/44071214914",
+    "conclusion": "success",
+    "logs_verified": true,
+    "node": 177,
+    "chromium": 73,
+    "static_build_files": 45
+  },
+  "ephemeral_artifacts": {
+    "current_availability": "lost on execution environment restart",
+    "historical_restore_evidence_committed": true,
+    "production_backup": false
+  }
+}
