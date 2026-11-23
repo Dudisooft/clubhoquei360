@@ -9,6 +9,7 @@ export async function seedPreparation(db){
  await asOwner(db,"insert into stats_matches(match_id,club_id,season_id,home_team_id,home_external_team_id,away_external_team_id) values($1,$2,$3,$4,'3697','3727') on conflict(match_id) do nothing",[PREP.match,ID.club,ID.season,ID.team]);
  await asOwner(db,"insert into pilot_members values($1,$2,'operator') on conflict do nothing",[PREP.match,ID.manager]);
  await asOwner(db,"insert into federation_team_entries(id,club_team_id,competition_id,external_team_id,raw_data,source_url) values($1,$2,$3,'3697',$4,'https://hockeypatines.fep.es/league/3575') on conflict(id) do nothing",[PREP.entry,ID.team,PREP.competition,JSON.stringify({season_id:'41',verification:'official'})]);
+ await asOwner(db,"insert into federation_match_teams values($1,$2,'home') on conflict do nothing",[PREP.calendar,PREP.entry]);
  for(let i=0;i<5;i++){
   const person='71000000-0000-4000-8000-'+String(i+1).padStart(12,'0'),roster='72000000-0000-4000-8000-'+String(i+1).padStart(12,'0');
   await asOwner(db,"insert into federation_players values($1,'RFEP',$2,$3) on conflict(id) do nothing",[person,String(90001+i),'Jugador FICTICI '+(i+1)]);

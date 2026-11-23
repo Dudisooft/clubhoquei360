@@ -1,0 +1,15 @@
+{
+  "queried": "2026-11-02",
+  "source": "GitHub Actions GET actions/runs?branch=main",
+  "latestSuccessfulPagesDeployment": {
+    "id": 40498968602,
+    "name": "pages build and deployment",
+    "sha": "e009f4df40d9ed353cb7d865beafed99d736892d",
+    "status": "completed",
+    "conclusion": "success",
+    "event": "dynamic",
+    "at": "2026-10-27T11:49:41Z"
+  },
+  "releaseDeployed": false,
+  "pagesCdnInspection": "Unavailable from current web tool; deployment metadata verified instead"
+}

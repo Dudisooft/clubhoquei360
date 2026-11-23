@@ -21,3 +21,10 @@ work/
 /node_modules
 __pycache__/
 *.pyc
+# Local Python verification artifacts
+__pycache__/
+*.pyc
+
+# Raw HTTP captures can contain player data and ephemeral portal tokens
+*.har
+*.har.json

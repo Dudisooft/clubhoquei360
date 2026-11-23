@@ -246,3 +246,11 @@ test('the rival editor is unavailable without an authenticated session',async({p
  await expect(page.locator('#status')).toContainText('Inicia sessió');
  await expect(page.locator('[data-rival-side]')).toHaveCount(0);
 });
+test('RFEP imported opponent is selectable in Base without a managed-club team or automatic call-up',async({page})=>{
+ await page.setViewportSize({width:390,height:844});await setup(page,'?match='+fixtureId+'&fixture=rfep-opponent');
+ const away=page.locator('[data-player="catalog:away:CA1"]');await expect(away).toBeEnabled();await expect(away).not.toBeChecked();
+ await prepare(page,['catalog:home:CP1','catalog:home:CP2','catalog:away:CA1','catalog:away:CA2']);await page.locator('#tabAway').click();
+ await incident(page,'Jugador visitant fictici','Gol');await expect(page.locator('#score')).toHaveText('0 – 1');
+ await page.reload();await expect(page.locator('#score')).toHaveText('0 – 1');
+ expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);
+});

@@ -9,7 +9,7 @@ test('advanced uses the existing preparation RPC for verified historic rival pro
  const entry=crypto.randomUUID(),person=crypto.randomUUID(),past=crypto.randomUUID();
  await asOwner(db,'alter table federation_match_lineups add column is_goalkeeper boolean');
  await asOwner(db,"insert into federation_team_entries(id,competition_id,external_team_id) values($1,$2,'3727')",[entry,PREP.competition]);
- await asOwner(db,"insert into federation_match_teams values($1,$2,'home'),($1,$3,'away')",[PREP.calendar,PREP.entry,entry]);
+ await asOwner(db,"insert into federation_match_teams values($1,$2,'home'),($1,$3,'away') on conflict (match_id,entry_id) do nothing",[PREP.calendar,PREP.entry,entry]);
  await asOwner(db,"insert into federation_players values($1,'RFEP','33333','Porter rival FICTICI')",[person]);
  await asOwner(db,"insert into federation_matches(id,group_id,external_match_id,federation_start_at,raw_data) values($1,$2,'PAST-FIXTURE','2026-10-01T10:00Z','{\"report_status\":\"verified\",\"away_team_id\":\"3727\"}')",[past,PREP.group]);
  await asOwner(db,"insert into federation_match_teams values($1,$2,'away')",[past,entry]);

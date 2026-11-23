@@ -1,0 +1,15 @@
+# TEMPLATE ONLY. Store the completed file outside Git, mode0600, on approved host.
+# Obtain the exact direct/session-pooler host and user from Dashboard > Connect.
+# Never use transaction pooler6543 for the snapshot keeper.
+[ch360_backup_source]
+host=REPLACE_WITH_VERIFIED_DIRECT_OR_SESSION_POOLER_HOST
+port=5432
+dbname=postgres
+user=REPLACE_WITH_VERIFIED_EXISTING_DATABASE_USER
+sslmode=verify-full
+sslrootcert=REPLACE_WITH_VERIFIED_CA_FILE
+application_name=ch360_authorized_readonly_backup
+options=-c default_transaction_read_only=on
+
+# Restoration is a different profile: only an isolated local target is allowed.
+# No password is placed here. PGPASSFILE is private and not versioned.
