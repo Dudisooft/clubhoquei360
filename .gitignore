@@ -14,3 +14,17 @@ supabase/.temp/
 playwright-report/
 test-results/
 work/
+
+# Staging may relocate generated artifacts to a private tmpfs symlink.
+/work
+
+/node_modules
+__pycache__/
+*.pyc
+# Local Python verification artifacts
+__pycache__/
+*.pyc
+
+# Raw HTTP captures can contain player data and ephemeral portal tokens
+*.har
+*.har.json

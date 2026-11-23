@@ -1,0 +1,96 @@
+{
+  "date": "2026-11-04",
+  "timezone": "Europe/Madrid",
+  "base_pr": 37,
+  "issue": 38,
+  "base_sha": "aafce19b92f7eedca71a0ba1c5c1401b6b33695d",
+  "production_read_only": {
+    "matches": [
+      {
+        "away_team": "AUTO VIGATANA PATÍ VIC",
+        "home_team": "SIMAR IGUALADA HC",
+        "away_score": 1,
+        "fetched_at": "2026-11-03T23:17:02.674+00:00",
+        "home_score": 1,
+        "goalkeepers": 0,
+        "away_lineups": 0,
+        "home_lineups": 0,
+        "report_status": "verified",
+        "external_match_id": "35559"
+      },
+      {
+        "away_team": "HOQUEI CLUB ALPICAT A",
+        "home_team": "IGUALADA HC D",
+        "away_score": 1,
+        "fetched_at": "2026-11-04T07:17:03.38+00:00",
+        "home_score": 3,
+        "goalkeepers": 3,
+        "away_lineups": 8,
+        "home_lineups": 8,
+        "report_status": "verified",
+        "external_match_id": "152043"
+      }
+    ],
+    "linked_vic_sources": 0,
+    "backend_events_insert": false,
+    "backend_events_select": false
+  },
+  "federation_access": {
+    "executor": "CONNECT 403 envoy before TLS; policy147 does not allow federation hosts",
+    "web_reader": {
+      "RFEP_root": "readable dynamic shell",
+      "RFEP_league_3575": "readable dynamic shell",
+      "FECAPA_root": "readable season/category/return controls",
+      "match_35559": "not recovered",
+      "FECAPA_report_152043": "not recovered"
+    },
+    "interactive_navigation_or_network_capture": false
+  },
+  "data_origin": {
+    "vic_10_plus_10": "prior laptop consultation evidence; original response unavailable here",
+    "new_provider_and_browser_fixtures": "synthetic only"
+  },
+  "production_writes": 0,
+  "production_imports": 0,
+  "production_exports": 0,
+  "migrations_applied": 0,
+  "merges": 0,
+  "deployments": 0,
+  "validation": {
+    "node": {
+      "passed": 300,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "passed": 93,
+      "failed": 0,
+      "skipped": 0
+    },
+    "static_build_files": 44,
+    "rfep_future_integration": "PASS; PostgreSQL/PGlite+Chromium, fictitious Auth",
+    "FEM15_integration": "PASS; PostgreSQL/PGlite+Chromium, fictitious Auth",
+    "two_context_recovery": "PASS over periodic HTTP, not production Realtime",
+    "production_auth_validation": "not performed",
+    "new_unit_tests": 18,
+    "new_browser_tests": 7
+  },
+  "source_rls_metadata": {
+    "read_only_verified": true,
+    "policies": [
+      "Members can read federation match sources",
+      "platform_admin_read_federation_match_sources",
+      "stats_source_reference_read"
+    ],
+    "no_privilege_changes": true
+  },
+  "code_sha256": {
+    "official-source-preview.js": "796e7d59d0a095d7ee0cc1c530e26e40a6d575a0b0de0d9cffb614de90b5a9b5",
+    "federation-client.js": "6a927e23cabb6daad6ad43c2fdbf7c5f57ab60e9820bc655d92cf720aa159b3c",
+    "match-preview.js": "2ed045df371674e031a7fc8bf67536db2abc592a17d6288df9563c0fd29da0e8",
+    "supabase/functions/federation-sync/index.ts": "1d4b90638ba65386e01cf2361bd01a604c21bc9199f7b40c3a9ed73aff1c88b8",
+    "supabase/functions/federation-sync/read-only.ts": "9cd83826e47449fed81cd2517b0fcc6197e07fd4466d935798cb58715310c85a",
+    "supabase/functions/federation-sync/public-api.ts": "a0f8d19a1af2dca12d7e3a2e6a1675511ccbb80c1943004982baad50479c65ea",
+    "supabase/functions/federation-sync/transport.ts": "002261d2e21e73ef6791138073f4ba50e30ba296e5b1cd5b8e6cb0357854db52"
+  }
+}

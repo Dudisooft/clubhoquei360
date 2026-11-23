@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="ca">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ClubHoquei360 · Convocatòries</title>
+</head>
+<body>
+<p><a href="./dashboard.html?vista=convocatories">Obre les convocatòries del club</a></p>
+<script>
+const old=new URLSearchParams(location.search);
+const current=new URLSearchParams({vista:'convocatories'});
+for(const [before,after] of [['team','equip'],['catalogue','partit'],['club','club']]){
+ if(old.get(before))current.set(after,old.get(before));
+}
+location.replace('./dashboard.html?'+current);
+</script>
+</body>
+</html>

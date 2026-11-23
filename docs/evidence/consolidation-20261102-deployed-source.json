@@ -1,0 +1,25 @@
+{
+  "version": 6,
+  "status": "ACTIVE",
+  "bundleSha256": "66f2d545498e7c116dd468aa92a1df0abee578a5079329d12d3939232576cab6",
+  "files": [
+    {
+      "file": "index.ts",
+      "deployedSha256": "f6c9cb10ea188bbc2fe467afb7e9986c30f79379f47d75031f8a097ca4fb8ecf",
+      "equalsRelease": true,
+      "equalsMain": true
+    },
+    {
+      "file": "parser.ts",
+      "deployedSha256": "5bdbf3b50a0229a1e0681659a445c0cf7ae44d19009c2b1bc634d04b50ab1025",
+      "equalsRelease": true,
+      "equalsMain": true
+    },
+    {
+      "file": "fem15.ts",
+      "deployedSha256": "ca4e0a473970669dc4814c9d4800bf1a14f2c8576a3012b3626bebc2a3cd1064",
+      "equalsRelease": true,
+      "equalsMain": true
+    }
+  ]
+}

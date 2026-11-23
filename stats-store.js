@@ -17,7 +17,7 @@ export class StatsStore {
     const generation=this.generation,match=this.match;
     const permission=await this.db.rpc('stats_access',{p_match:match});if(permission.error)throw permission.error;
     if(generation!==this.generation)return;
-    this.access=permission.data||{};
+    this.access=permission.data||{};this.accessReceivedAt=Date.now();
     if(!this.access.read){this.events=[];this.official=[];this.coverage=[];this.assignments=[];this.onChange();return;}
     const query=table=>this.all(table,'*',q=>q.eq('match_id',match));
     const results=await Promise.all([query('stats_events'),query('pilot_events'),query('stats_assignments'),query('stats_coverage'),this.db.from('stats_matches').select('*').eq('match_id',match).single()]);
@@ -40,7 +40,7 @@ export class StatsStore {
         const item=this.pending[0];if(item.blocked)break;
         let response;try{response=await this.db.rpc('stats_write_event',{p_event:item.event,p_expected:item.expected});}catch(e){this.error=e.message;break;}
         if(generation!==this.generation)return;
-        if(response.error){this.error=response.error.message;item.error=this.error;
+        if(response.error){this.error=response.error.message;item.error=this.error;if(response.error.code==='42501'){try{await this.refresh();}catch{this.access={...this.access,read:false};}}
           // Network failures can retry on reconnect. Scope/revision/validation
           // errors require review and must never be mistaken for an ACK.
           if(response.error.code&&response.error.code!=='PGRST000')item.blocked=true;
@@ -59,7 +59,7 @@ export class StatsStore {
   localClock(){try{return JSON.parse(this.storage.getItem(this.key('clock'))||'null');}catch{return null;}}
   async saveSession(state){
     const generation=this.generation,match=this.match;this.saveLocalClock(state);
-    const response=await this.db.rpc('stats_save_session',{p_match:match,p_expected:this.session?.revision||0,p_state:state});if(response.error)throw response.error;
+    const response=await this.db.rpc('stats_save_session',{p_match:match,p_expected:this.session?.revision||0,p_state:state});if(response.error){if(response.error.code==='42501'){try{await this.refresh();}catch{this.access={...this.access,read:false};}}throw response.error;}
     if(generation!==this.generation)return null;
     this.session=Array.isArray(response.data)?response.data[0]:response.data;this.saveLocalClock(state);return this.session;
   }

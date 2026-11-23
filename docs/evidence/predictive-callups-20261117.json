@@ -1,0 +1,17 @@
+{
+  "date_utc": "2026-11-17",
+  "source": "Supabase production, read-only transactions; aggregate counts only",
+  "teams": 36,
+  "internal_active": 0,
+  "saved_callups": 0,
+  "global_access_installed": true,
+  "weekly_view_installed": true,
+  "manual_review_installed": true,
+  "new_workflow_installed": false,
+  "linked_verified_history": [
+    {"team": "FEM15", "reports": 6, "identities": 9, "internal_active": 0},
+    {"team": "Infantil D", "reports": 5, "identities": 8, "internal_active": 0},
+    {"team": "FEM11", "reports": 5, "identities": 8, "internal_active": 0}
+  ],
+  "limitation": "These are historical identities, not verified current rosters or eligible reinforcements. The new RPC has not been installed or tested with production Auth."
+}

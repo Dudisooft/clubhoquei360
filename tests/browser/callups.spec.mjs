@@ -21,6 +21,7 @@ test('mobile coordinator selects, reviews, acknowledges an overlap and republish
  export const db={
   auth:{getUser:async()=>({data:{user:{id:'fictici',email:'coordinador@example.test'}}})},
   async rpc(name,args){
+ if(name==='read_callup_workflow'||name==='read_callup_week_workflow')return {error:{code:'PGRST202'}};
    if(name==='club_setup_access')return {data:{teams:[]}};
    if(name==='read_club_callup_detail')return {error:{code:'PGRST202'}};
    if(name==='read_club_callups'){
@@ -83,6 +84,7 @@ test('setup shows the superadministrator next step and previews CSV before commi
  export const db={
   auth:{getUser:async()=>({data:{user:{id:'fictici',email:'admin@example.test'}}})},
   async rpc(name,args){
+ if(name==='read_callup_workflow'||name==='read_callup_week_workflow')return {error:{code:'PGRST202'}};
    if(name==='read_club_callups')return {data:[]};
    if(name==='club_setup_access')return {data:{global_admin:true,teams:[
     {id:'equip',team_name:'FEM15 fictici',club_name:'Club fictici',season_name:'2026/27',roster_import:true,operational:false}
@@ -142,6 +144,7 @@ test('global admin selects another club and previews a role without changing the
  export const db={
   auth:{getUser:async()=>({data:{user:{id:'global',email:'global@example.test'}}})},
   async rpc(name,args){
+ if(name==='read_callup_workflow'||name==='read_callup_week_workflow')return {error:{code:'PGRST202'}};
    if(name==='club_setup_access')return {data:{global_admin:true,clubs:${JSON.stringify(clubs)},teams:${JSON.stringify(teams)}}};
    if(name==='read_club_callup_detail')return {error:{code:'PGRST202'}};
    if(name==='read_club_callups')return {data:args.p_fixture?{
@@ -188,6 +191,7 @@ test('weekly view groups all visible club teams and keeps the date on return',as
  export const db={
   auth:{getUser:async()=>({data:{user:{id:'global',email:'global@example.test'}}})},
   async rpc(name,args){
+ if(name==='read_callup_workflow'||name==='read_callup_week_workflow')return {error:{code:'PGRST202'}};
    if(name==='club_setup_access')return {data:{global_admin:true,clubs:${JSON.stringify(clubs)},teams:${JSON.stringify(teams)}}};
    if(name==='read_club_callup_week')return {data:args.p_monday==='${week}'?matches.filter(f=>f.club_id===args.p_club):[]};
    if(name==='read_club_callup_detail')return {data:{fixture:matches[0],can_edit:true,candidates,staff_supported:true,

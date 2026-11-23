@@ -50,6 +50,16 @@ if(mode){
   data.federation_matches=[];data.pilot_players=[];
  }
 }
+const testFixture=new URLSearchParams(location.search).get('fixture');
+if(testFixture==='rfep-opponent')sessionStorage.setItem('synthetic-rfep-opponent','1');
+if(sessionStorage.getItem('synthetic-rfep-opponent')==='1'){
+ source.federation='RFEP';source.competition_id='3575';source.federation_url='https://hockeypatines.fep.es/league/3575';
+ for(const c of data.federation_competitions){c.federation='RFEP';c.external_competition_id='3575';}
+ for(const p of data.federation_players)p.federation='RFEP';
+ data.federation_team_entries.find(e=>e.id==='EA').club_team_id=null;
+ for(const f of data.federation_matches)f.raw_data.source_url=source.federation_url;
+ data.pilot_players=[];data.federation_match_lineups=[];
+}
 window.basicFixture={fail:false,syncFail:false,syncStatus:null,syncCalls:0,remoteWrites:0,playerWrites:0,delay:0};
 export const db={rpc:async(name,args)=>{
  if(name==='read_club_callups')return {data:JSON.parse(localStorage.getItem('synthetic-club-callup')||'[]')};

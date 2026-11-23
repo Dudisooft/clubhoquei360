@@ -1,0 +1,23 @@
+{
+  "commit": "8f9a611c1bfc18cbaf31a878ccb3671c0552b89c",
+  "run": 41439875399,
+  "job": 125258761365,
+  "url": "https://github.com/Dudisooft/clubhoquei360/actions/runs/41439875399",
+  "conclusion": "success",
+  "node": {
+    "passed": 233,
+    "failed": 0,
+    "skipped": 0
+  },
+  "chromium": {
+    "passed": 78,
+    "failed": 0,
+    "skipped": 0
+  },
+  "buildFiles": 42,
+  "crossPrRfepFuture": "PASS",
+  "crossPrFem15": "PASS",
+  "serverDependencyCheckout": "skipped intentionally: migrations already integrated",
+  "realAuthNotRunInGithubCi": "Real GoTrue evidence is local only; CI cross-PR tests use PGlite and fixture identities",
+  "subsequentCommits": "Documentation/evidence only; runtime tree unchanged"
+}

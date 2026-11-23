@@ -1,0 +1,53 @@
+{
+  "date": "2026-11-02",
+  "node": {
+    "passed": 233,
+    "failed": 0,
+    "skipped": 0
+  },
+  "chromium": {
+    "passed": 78,
+    "failed": 0,
+    "skipped": 0
+  },
+  "noiaDateTargetedAfterFullSuite": {
+    "passed": 1
+  },
+  "check": "PASS",
+  "buildFiles": 42,
+  "crossPr": [
+    "RFEP future PASS",
+    "FEM15 PASS"
+  ],
+  "syntheticFixtureTestsNotProductionValidation": true,
+  "logs": [
+    {
+      "name": "node-full.log",
+      "sha256": "117a8f9f1b668a571478341b90afb9377d21c92e83e6ff705511cda452bbb89e"
+    },
+    {
+      "name": "browser-full.log",
+      "sha256": "a16cb0ff27e55cbe89eac1cc13494b91b4ab2a510fe20df08c1d61ab24204720"
+    },
+    {
+      "name": "check.log",
+      "sha256": "6a61247414cd87cf02437480392643831f5fff1bf353862dadd6a9b5eaadd589"
+    },
+    {
+      "name": "build.log",
+      "sha256": "19c818b0c92823d792ba09b2a623fdfa0510c687c0c1232d327aadb79c378572"
+    },
+    {
+      "name": "cross-mode.log",
+      "sha256": "d4e1f3e4a6a671548400e0fb0691f25f558f3d7f9b6544493efa74746f33889c"
+    },
+    {
+      "name": "cross-temporary.log",
+      "sha256": "7b99b004a2e4f8008a7cf78f48281e4a963f9ae16c239719b1b45119245db3db"
+    },
+    {
+      "name": "noia-date.log",
+      "sha256": "52cf7fa768a051c08753180447d152976f75789ba4fe377492bdbf87a554a0c0"
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+{
+  "date": "2026-11-02",
+  "files": [
+    {
+      "name": "functional-pilots-20261102 (1)",
+      "size": 41,
+      "sha256": "74805bac7ff7fef8298aae113da771db8a36aa4c896ee3c52c09df220c5a7e48"
+    },
+    {
+      "name": "functional-pilots-20261102",
+      "size": 317,
+      "sha256": "fe301210ca4f77c088ba6a6edfa70c151bd6aa9b5c177e0db45b996b3924a6f3"
+    },
+    {
+      "name": "functional.spec.mjs",
+      "size": 2436,
+      "sha256": "de8cbb3fff70adb98bdb40901fcc4520f127be004db868049504925ea05e1a13"
+    },
+    {
+      "name": "functional-pilots-20261102.json",
+      "size": 1171,
+      "sha256": "3c199f165e3c6378f41a1b397426959ee4bd8a7f94aa1573aef9fd3b73cdb17c"
+    },
+    {
+      "name": "FUNCTIONAL_PILOTS_20261102.md",
+      "size": 3100,
+      "sha256": "5bb18b059f339c66956f318319c36ba8e2db4fd0f2a5e6d3e62e481b5636bc03"
+    }
+  ],
+  "reportedCommit": "7baf003b7e44144e8097f81c563fc82f29d3d780",
+  "commitAvailableFromRemote": false,
+  "sourceBranchAdvertised": false,
+  "sourceCodePatchOrBundleProvided": false,
+  "reportedScope": "isolated functional lab",
+  "reportedNodePass": 272,
+  "reportedPlaywrightPass": 0,
+  "reportedVicOfficialLineups": [
+    10,
+    10
+  ],
+  "reportedNoiaCode": "35574",
+  "reportedFem15Team": "12419",
+  "reportedCrossDeviceSyncVerified": false,
+  "reportedProductionMutations": 0,
+  "notAProductionDeploymentOrIndependentReexecution": true,
+  "personalReflogDataCopied": false
+}

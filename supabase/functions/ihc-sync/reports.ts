@@ -13,7 +13,7 @@ export function parseOfficialReport(html:string,match:any){
    }else if(c.length>=7&&/^(E1|E2|D|A|M|F)$/.test(clean(c[1]))&&clean(c[3]))staff.push({side,role:clean(c[1]),name:clean(c[3]),external_id:null,yellow:number(c[4]),blue:number(c[5]),red:number(c[6])});
   }
  });
- if(!players.length)throw Error('No report participants');if(new Set(players.map(p=>p.side+':'+p.external_id)).size!==players.length)throw Error('Duplicate official participant');
+ if(!players.length)throw Error('No report participants');for(const side of ['home','away'])if(!players.some(p=>p.side===side))throw Error('Incomplete official report roster for '+side);if(new Set(players.map(p=>p.side+':'+p.external_id)).size!==players.length)throw Error('Duplicate official participant');
  const scores=[number(d.querySelector('#home_score')),number(d.querySelector('#away_score'))];const scoreDiscrepancy=scores.every(s=>s!==null)&&(scores[0]!==match.home_score||scores[1]!==match.away_score);
  const incidents=d.querySelector('#game_report_inicidencias');const incidentRows=[...(incidents?.querySelectorAll('tr')||[])].map((r,i)=>{
   const link=r.querySelector('a[id_player]'),team=link?.getAttribute('team_id');const side=team===match.home_team_id?'home':team===match.away_team_id?'away':null;

@@ -1,0 +1,38 @@
+{
+  "date": "2026-11-03",
+  "sourceCommit": "4970f5ad93bb008809dc3969bcad51437af3b0af",
+  "destinationBase": "114b3c0300140c87e4205e25e91c2d0d13efe6e3",
+  "localBeforeExecutorFailure": {
+    "node": {
+      "passed": 264,
+      "failed": 0,
+      "skipped": 0
+    },
+    "chromium": {
+      "passed": 83,
+      "failed": 0
+    },
+    "staticCheck": "PASS",
+    "staticBuildFiles": 43,
+    "nativeGoTruePostgresPostgrestBrowser": {
+      "blocksPassed": 6,
+      "fictitiousAccounts": 8,
+      "productionRequests": 0
+    },
+    "latestTwoSessionRerun": "Interrupted before result could be inspected; previous two-session evidence remains separately valid"
+  },
+  "production": {
+    "mutations": 0,
+    "deployments": 0,
+    "migrations": 0,
+    "vicHomeLineups": 0,
+    "vicAwayLineups": 0,
+    "rfepLiveRevalidation": "Blocked by CONNECT 403 from environment proxy before TLS"
+  },
+  "executorInterruption": {
+    "during": "Documentation/checkpoint save, after completed local suites",
+    "recoveryMethod": "Rebuild the same reviewed transformations from source/base through GitHub connector; CI must verify saved tree",
+    "localWorktreeReconciliationRequired": true
+  },
+  "ci": "Pending for the saved commit; final result to be linked in PR #35"
+}

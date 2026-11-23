@@ -70,3 +70,8 @@ summary { cursor: pointer; min-height: 44px; padding-block: 10px; }
  header select, input { max-width: 100%; }
  .heading { align-items: start; }
 }
+
+.message-fields { display: grid; grid-template-columns: repeat(auto-fit,minmax(min(100%,240px),1fr)); gap: 10px; }
+#callupWorkflow input:not([type=checkbox]), #callupWorkflow textarea { display: block; width: 100%; font: inherit; }
+#callupWorkflow textarea { min-height: 320px; }
+#callupWorkflow button, #callupWorkflow a { margin: 6px 6px 6px 0; }

@@ -2,6 +2,7 @@ import {db} from './app-client.js';
 import {safeCrest} from './basic-roster.js';
 import {configureSetup,openSetup} from './club-setup.js';
 import {groupWeek,mondayOf,offsetDay,weekRange} from './callup-week.js';
+import {mountCallupWorkflow} from './callup-workflow.js';
 import {scopeCallupFixtures} from './callup-scope.js';
 import {compareCallup} from './callup-review.js';
 import './auth-ui.js';
@@ -93,8 +94,8 @@ function fixtureCard(f,showTeam=false){
   <div class="club-side">${crest(f.home_crest)}<strong>${esc(f.home_team)}</strong></div>
   <div class="club-side">${crest(f.away_crest)}<strong>${esc(f.away_team)}</strong></div>
   ${f.competition_name||team?.category?'<p>'+esc(f.competition_name||team.category)+'</p>':''}
-  <p class="match-date">${esc(date(f.starts_at))}</p>
-  <p><span class="badge">${status(f)}</span></p>
+  <p class="match-date">${esc(date(f.starts_at))}${f.provisional?' · Provisional':''}</p>${f.round?'<p>Jornada '+esc(String(f.round).replace(/^JORNADA\s*/i,''))+'</p>':''}
+  <p><span class="badge">${status(f)}</span></p>${f.receipt_state?'<p>'+(f.receipt_state==='read'?'Llegida pel delegat':'Pendent de lectura')+'</p>':''}
   ${showTeam&&f.published_players?.length?'<details><summary>Convocats ('+f.published_players.length+')</summary>'+
    playerList(f.published_players)+staffList(f.published_staff)+'</details>':''}
   <a class="action primary" href="${esc(link(f))}">☷ ${f.can_edit?'Preparar':'Consultar'} convocatòria</a>
@@ -114,7 +115,9 @@ function renderWeek(matches){
 async function loadWeek(scoped,club){
  const request=++weekRequest;
  const pickedWeek=monday;
- const {data,error}=await db.rpc('read_club_callup_week',{p_monday:pickedWeek,p_club:club||null},{get:true});
+ let response=await db.rpc('read_callup_week_workflow',{p_monday:pickedWeek,p_club:club||null},{get:true});
+ if(response.error?.code==='PGRST202')response=await db.rpc('read_club_callup_week',{p_monday:pickedWeek,p_club:club||null},{get:true});
+ const {data,error}=response;
  if(request!==weekRequest||!weekly||detail||previewRole())return;
  if(error||!Array.isArray(data)){
   $('workspaceStatus').textContent=error?.code==='PGRST202'
@@ -125,7 +128,40 @@ async function loadWeek(scoped,club){
  renderWeek(scopeCallupFixtures([...data,...scoped.filter(f=>!f.starts_at)],teams,club,$('teamPicker').value));
 }
 
+let syncTeam='';
+async function showFederationSync(){
+ const team=$('teamPicker').value;
+ const button=$('requestFederationSync'),status=$('federationSyncStatus');
+ const active=callupPage&&team&&!previewRole();
+ button.hidden=!active;status.hidden=!active;
+ if(!active){syncTeam='';return;}
+ if(team===syncTeam)return;
+ syncTeam=team;status.textContent='';
+ try{
+  const {data,error}=await db.rpc('federation_team_sync_status',{p_team:team},{get:true});
+  if(syncTeam!==team)return;
+  status.textContent=error?'Estat de sincronització no disponible.':data?.length?data.map(item=>{
+   const label={success:'Actualitzat',partial:'Dades pendents',failed:'Error de la font',unchanged:'Sense canvis'}[item.status]||'Pendent';
+   const next=item.next_due?' · Propera: '+new Date(item.next_due).toLocaleString('ca-ES'):'';
+   return item.federation+' · '+label+next;
+  }).join(' / '):'Connexió federativa pendent de configurar.';
+ }catch{if(syncTeam===team)status.textContent='Estat de sincronització no disponible.';}
+}
+$('requestFederationSync').onclick=async()=>{
+ const team=syncTeam;
+ if(!team)return;
+ const button=$('requestFederationSync'),status=$('federationSyncStatus');
+ button.disabled=true;
+ try{
+  const {data,error}=await db.rpc('federation_request_team_sync',{p_team:team});
+  if(error)throw error;
+  if(syncTeam===team)status.textContent=data.queued?'Actualització sol·licitada.':data.configured?'Actualització ja planificada o en espera de la font.':'Connexió federativa pendent de configurar.';
+ }catch{if(syncTeam===team)status.textContent='No s’ha pogut sol·licitar l’actualització.';}
+ finally{button.disabled=false;}
+};
+
 function renderList(){
+ void showFederationSync();
  weekRequest++;
  const club=$('clubPicker').value;
  const selected=scopeCallupFixtures(fixtures,teams,club,$('teamPicker').value).map(visibleFixture);
@@ -283,6 +319,10 @@ function renderDetail(){
  ${detail.draft_history.map(v=>`<details><summary>Revisió ${esc(v.revision)} · ${esc(date(v.saved_at))}</summary>${playerList(v.players)}${staffList(v.staff)}</details>`).join('')}</article>`:''}
  ${versions.length?`<article><h2>Historial de publicacions</h2>
  ${versions.map((v,i)=>`<details><summary>${esc(date(v.published_at))} · ${i===0?'Versió actual':'Versió anterior'}</summary>${playerList(v.players)}${staffList(v.staff)}</details>`).join('')}</article>`:''}`;
+ const workflowVersion=sessionVersion;
+ const workflow=document.createElement('section');workflow.id='callupWorkflow';$('detail').append(workflow);
+ mountCallupWorkflow({root:workflow,db,detail,canEdit,canImport:!!access?.teams.some(t=>t.id===f.team_id&&t.roster_import),disabled:!!previewRole(),
+  onReload:()=>workflowVersion===sessionVersion?loadDetail(f.fixture_id,f.team_id,workflowVersion):Promise.resolve()});
  showGuide();
  if(!canEdit)return;
  if($('importRoster'))$('importRoster').onclick=()=>openSetup(f.team_id);
@@ -344,7 +384,9 @@ async function rpc(name,args){
 }
 async function loadDetail(fixtureId,teamId,version){
  const args={p_fixture:fixtureId,p_team:teamId};
- const response=await db.rpc('read_club_callup_detail',args,{get:true});
+ let response=await db.rpc('read_callup_workflow',args,{get:true});
+ if(!response.error&&!response.data?.workflow_supported)response={error:{code:'PGRST202'}};
+ if(response.error?.code==='PGRST202')response=await db.rpc('read_club_callup_detail',args,{get:true});
  if(response.error&&response.error.code!=='PGRST202')throw response.error;
  const incoming=response.data||await rpc('read_club_callups',args);
  if(version!==sessionVersion)return;

@@ -4,7 +4,7 @@ import {officialReportHref, federationPortalHref} from './match-navigation.js?v=
 import {score,fromRow} from './federation-model.js?v=manual-rival1';
 import {BasicStore,syncFederation,federationSyncMessage} from './basic-store.js?v=federation-refresh2';
 import {PracticeStore,readCatalogueFixture} from './basic-practice.js?v=4';
-import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel} from './basic-roster.js?v=manual-rival1';
+import {allRows,catalogueRoster,mergeRoster,materializePlayers,safeCrest,kitFor,sideLabel,sourceRoster} from './basic-roster.js?v=manual-rival1';
 
 const $=id=>document.getElementById(id);
 const esc=value=>String(value??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -97,6 +97,9 @@ function render(){
  for(const side of ['home','away']){const image=$(side+'Crest'),url=safeCrest(source?.[side+'_crest_url']);image.hidden=!url;if(url)image.src=url;else image.removeAttribute('src');}
  $('score').textContent=`${score(s.events,'home')} – ${score(s.events,'away')}`;
  $('modeLabel').textContent=practiceId?'PROVA COMPARTIDA · històric preservat':'Registre compartit';
+ const advancedLink=document.querySelector('.footer-nav a[href*="avancat.html"]');if(advancedLink&&match)advancedLink.href='./avancat.html?match='+encodeURIComponent(match)+(new URLSearchParams(location.search).get('analysis')==='video'?'&analysis=video':'');
+ const fed=source?.federation||'Federació';document.querySelector('.federation-panel h2').textContent='Contrast amb '+fed;$('sync').textContent='Actualitza amb '+fed;
+ const officialLink=document.querySelector('.federation-panel a');if(officialLink&&source?.federation_url)officialLink.href=source.federation_url;
  $('preparation').hidden=!setup;$('recording').hidden=setup;$('teamTabs').hidden=setup;$('finalSummary').hidden=!s.finished;
  document.querySelectorAll('[data-write]').forEach(b=>b.disabled=busy||!editable());
  $('match').disabled=busy||!!requestedPractice;
@@ -192,7 +195,7 @@ async function metadata(){
  rivalSides=enriched.rivalSides??(names.length===1?['home','away'].filter(side=>side!==names[0]&&!restrictedSides.includes(side)):[]);
  nextFixture||=enriched.fixture;
  reportRow={federation:nextSource?.federation,externalCompetition:nextSource?.competition_id||enriched.competitionCode,external_match_id:nextSource?.federation_match_id||nextFixture?.external_match_id};
- players=await loadClubCallups(catalogueId||match,enriched.players);
+ players=await loadClubCallups(catalogueId||match,sourceRoster(enriched.players,nextSource));
  source=nextSource;fixture=nextFixture;advancedFinished=nextFinished;rosterNotice=enriched.notice;federationText();
 }
 async function open(id){
@@ -387,7 +390,7 @@ async function init(){
  const auth=await db.auth.getUser();if(auth.error)throw auth.error;if(!auth.data.user)throw Error('Inicia sessió des d’«Inici i sessió» i torna a obrir el partit.');uid=auth.data.user.id;
  if(catalogueId){await openCatalogue(catalogueId,!!requestedPractice);return;}
  const operational=await allRows(db,'pilot_matches');let catalogue=[];
- try{catalogue=(await allRows(db,'federation_matches')).filter(m=>{try{return ['hoqueipatins.fecapa.cat','www.hoqueipatins.fecapa.cat'].includes(new URL(m.raw_data?.source_url).hostname);}catch{return false;}});}catch(e){$('fixtureNotice').textContent='Catàleg federatiu no disponible: '+e.message;}
+ try{catalogue=(await allRows(db,'federation_matches')).filter(m=>{try{return ['hoqueipatins.fecapa.cat','www.hoqueipatins.fecapa.cat','hockeypatines.fep.es','www.hockeypatines.fep.es'].includes(new URL(m.raw_data?.source_url).hostname);}catch{return false;}});}catch(e){$('fixtureNotice').textContent='Catàleg federatiu no disponible: '+e.message;}
  const ids=new Set(operational.map(m=>m.id));const matches=[...operational,...catalogue.filter(m=>!ids.has(m.id)).map(m=>({id:m.id,title:m.home_team+' – '+m.away_team+' · catàleg',starts_at:m.federation_start_at,_catalogue:true}))];
  window.basicAvailableMatches=new Map(matches.map(m=>[m.id,m._catalogue]));
  $('match').innerHTML=matches.map(m=>`<option value="${esc(m.id)}">${esc(m.title)}${m.starts_at?' · '+esc(new Date(m.starts_at).toLocaleDateString('ca-ES',{timeZone:'Europe/Madrid'})):''}</option>`).join('');

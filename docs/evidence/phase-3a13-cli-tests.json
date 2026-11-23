@@ -1,0 +1,44 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "command": "backup",
+      "result": "PASS"
+    },
+    {
+      "command": "verify",
+      "result": "PASS"
+    },
+    {
+      "command": "restore",
+      "result": "PASS"
+    },
+    {
+      "command": "audit",
+      "result": "PASS"
+    },
+    {
+      "command": "cleanup",
+      "result": "PASS"
+    },
+    {
+      "command": "escrow-key",
+      "result": "PASS"
+    },
+    {
+      "command": "recover-key",
+      "result": "PASS"
+    },
+    {
+      "command": "verify",
+      "result": "PASS"
+    },
+    {
+      "command": "verify absent",
+      "result": "EXPECTED FAILURE"
+    }
+  ],
+  "fixtureOnly": true,
+  "productionExports": 0,
+  "productionMutations": 0
+}

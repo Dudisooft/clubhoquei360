@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "realAuth": true,
+  "realPostgreSQL": true,
+  "sessions": 2,
+  "widths": [
+    1440,
+    390
+  ],
+  "mechanism": "HTTP periodic recovery on local backend; production WebSocket not exercised",
+  "secondSessionNoManualReloadBeforeVisibility": true,
+  "reloadPreserved": true,
+  "duplicates": 0,
+  "officialPreserved": true,
+  "productionRequests": 0
+}

@@ -1,0 +1,40 @@
+{
+  "result": "PASS",
+  "date": "2026-11-03",
+  "checks": [
+    {
+      "name": "three encrypted components authenticate before restore and share one snapshot/group",
+      "result": "PASS"
+    },
+    {
+      "name": "application, private schema, migration ledger, Auth rows, owners, ACLs and RLS match the pre-writer snapshot",
+      "result": "PASS"
+    },
+    {
+      "name": "concurrent synthetic changes are absent from both restored component sets",
+      "result": "PASS"
+    },
+    {
+      "name": "sequence high-water mark remains safe despite concurrent source insert",
+      "result": "PASS"
+    },
+    {
+      "name": "Storage metadata is covered and physically empty objects remain distinguishable",
+      "result": "PASS"
+    },
+    {
+      "name": "RLS still separates the two fictitious clubs after the split restore",
+      "result": "PASS"
+    },
+    {
+      "name": "source and restore have network none, no host mount and no published port",
+      "result": "PASS"
+    }
+  ],
+  "postgresMajor": 17,
+  "productionConnections": 0,
+  "productionExports": 0,
+  "sourceData": "synthetic reduced Auth/Storage schemas, not Supabase Cloud schema",
+  "coverageLimit": "No claim of real Cloud Auth baseline compatibility or real backup restoration",
+  "sequenceSnapshotLimit": "Sequence state is a non-MVCC high-water mark, not an exact timestamp value"
+}
