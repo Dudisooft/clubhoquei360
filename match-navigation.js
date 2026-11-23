@@ -30,6 +30,7 @@ export function officialReportHref(row){
 }
 
 export function matchHref(row,mode,access){
+ if(mode==='video')return access?.operational_read&&access.advanced&&access.operational?'./avancat.html?match='+encodeURIComponent(access.operational)+'&view=stats&analysis=video':null;
  if(access?.read!==true||!(mode==='base'?access.base===true:mode==='advanced'&&access.advanced===true))return null;
  if(access.operational_read&&access.operational&&(mode!=='advanced'||access.advanced_context_ready!==false))return operativeMatchHref(access.operational,mode,row);
  if(['FECAPA','RFEP'].includes(row.federation))return './partit-consulta.html?catalogue='+encodeURIComponent(row.id)+'&mode='+mode;
