@@ -128,7 +128,40 @@ async function loadWeek(scoped,club){
  renderWeek(scopeCallupFixtures([...data,...scoped.filter(f=>!f.starts_at)],teams,club,$('teamPicker').value));
 }
 
+let syncTeam='';
+async function showFederationSync(){
+ const team=$('teamPicker').value;
+ const button=$('requestFederationSync'),status=$('federationSyncStatus');
+ const active=callupPage&&team&&!previewRole();
+ button.hidden=!active;status.hidden=!active;
+ if(!active){syncTeam='';return;}
+ if(team===syncTeam)return;
+ syncTeam=team;status.textContent='';
+ try{
+  const {data,error}=await db.rpc('federation_team_sync_status',{p_team:team},{get:true});
+  if(syncTeam!==team)return;
+  status.textContent=error?'Estat de sincronització no disponible.':data?.length?data.map(item=>{
+   const label={success:'Actualitzat',partial:'Dades pendents',failed:'Error de la font',unchanged:'Sense canvis'}[item.status]||'Pendent';
+   const next=item.next_due?' · Propera: '+new Date(item.next_due).toLocaleString('ca-ES'):'';
+   return item.federation+' · '+label+next;
+  }).join(' / '):'Connexió federativa pendent de configurar.';
+ }catch{if(syncTeam===team)status.textContent='Estat de sincronització no disponible.';}
+}
+$('requestFederationSync').onclick=async()=>{
+ const team=syncTeam;
+ if(!team)return;
+ const button=$('requestFederationSync'),status=$('federationSyncStatus');
+ button.disabled=true;
+ try{
+  const {data,error}=await db.rpc('federation_request_team_sync',{p_team:team});
+  if(error)throw error;
+  if(syncTeam===team)status.textContent=data.queued?'Actualització sol·licitada.':data.configured?'Actualització ja planificada o en espera de la font.':'Connexió federativa pendent de configurar.';
+ }catch{if(syncTeam===team)status.textContent='No s’ha pogut sol·licitar l’actualització.';}
+ finally{button.disabled=false;}
+};
+
 function renderList(){
+ void showFederationSync();
  weekRequest++;
  const club=$('clubPicker').value;
  const selected=scopeCallupFixtures(fixtures,teams,club,$('teamPicker').value).map(visibleFixture);

@@ -37,7 +37,7 @@
     {
       "order": 5,
       "version": "20261030142034",
-      "path": "supabase/migrations/20261030142034_federation_automation_callup_preferences.sql",
+      "path": "supabase/migrations/20261030142034_federation_team_authorization.sql",
       "sha256": "f21359a39f474e94348501a968d1b6087cfe70aad5257a95a6342d36295e4199"
     },
     {

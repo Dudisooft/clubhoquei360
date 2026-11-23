@@ -3,7 +3,7 @@ import {navigationTeams} from '../match-navigation.js';
 import {PublicFederation,normalizeReport,readRfepSnapshot,canonicalRfepReport} from '../scripts/lib/public-federation.mjs';
 import {readCatalogueFixture} from '../basic-practice.js';
 import {sourceRoster} from '../basic-roster.js';
-import {copyText} from '../callup-model.js';
+import {copyText} from './helpers/legacy-callup-model.mjs';
 
 test('all 36 catalogued teams stay selectable via 38 entries even without calendars',()=>{
  const inventory=JSON.parse(fs.readFileSync('docs/match-age-group-review-20261027.json')).teams;
